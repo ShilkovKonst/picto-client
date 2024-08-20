@@ -1,0 +1,1 @@
+export const BASE_URL = "https://15.188.137.249:8080/api/gateway"
