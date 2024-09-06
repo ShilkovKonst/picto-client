@@ -1,7 +1,7 @@
-import Question from "@/_components/dashboard/questions/Question";
+import React from "react";
 import { getAllByQuestionId } from "@/_helpers/categoryApiHelper";
 import { getOneById } from "@/_helpers/questionApiHelper";
-import React from "react";
+import Question from "./Question";
 
 const page = async ({ params }) => {
   const question = await getOneById(params.id);

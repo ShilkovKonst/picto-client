@@ -1,29 +1,30 @@
-"use client";
+"use client"
 import React from "react";
-import EntityHead from "../_entityHead";
 import { Accordion } from "flowbite-react";
 import Link from "next/link";
+import EntityHead from "@/_components/dashboard/_entityHead";
 
-const Question = ({ question, categories }) => {
+const Tag = ({ tag }) => {
+  console.log(tag)
   return (
     <>
       <table className="table w-full">
-        {question && <EntityHead entity={question} entityName="questions" />}
+        {tag && <EntityHead entity={tag} entityName="tags" />}
       </table>
       <Accordion collapseAll alwaysOpen>
-        {categories && (
+        {tag?.pictograms && (
           <Accordion.Panel>
-            <Accordion.Title>Catégories associées</Accordion.Title>
+            <Accordion.Title>Pictogrammes associés</Accordion.Title>
             <Accordion.Content>
               <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
-                {categories?.length > 0 &&
-                  categories?.map((c, i) => (
+                {tag?.pictograms?.length > 0 &&
+                  tag?.pictograms?.map((p, i) => (
                     <li key={i}>
                       <Link
-                        href={`/dashboard/questions/${c?.id}`}
+                        href={`/dashboard/pictograms/${p?.id}`}
                         className="text-cyan-600 hover:underline dark:text-cyan-500"
                       >
-                        {c?.title}
+                        {p?.title}
                       </Link>
                     </li>
                   ))}
@@ -36,4 +37,4 @@ const Question = ({ question, categories }) => {
   );
 };
 
-export default Question;
+export default Tag;

@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import React from "react";
-import DashboardContentItem from "./dashboardContentItem";
+import DashboardContentItem from "./__dashboardContentItem";
 import HomeIcon from "../../icons/homeIcon";
 import PatientsIcon from "../../icons/patientsIcon";
 import QuestionsIcon from "../../icons/questionsIcon";

@@ -48,7 +48,7 @@ const EntityFormCatFields = ({ category, form, setForm, handleChange }) => {
       removeQuestion(question.id);
     }
   };
-console.log()
+  
   return (
     <>
       <div className="mt-5">

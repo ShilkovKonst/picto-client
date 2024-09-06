@@ -6,49 +6,49 @@ const FormConjFields = ({ form, isIrregular, handleChange }) => {
     {
       present: [
         {
-          present_first_person_singular: form.present_first_person_singular,
+          firstSingular: form.irregular.conjugations[0].firstSingular,
         },
         {
-          present_second_person_singular: form.present_second_person_singular,
+          secondSingular: form.irregular.conjugations[0].secondSingular,
         },
         {
-          present_third_person_singular: form.present_third_person_singular,
+          thirdSingular: form.irregular.conjugations[0].thirdSingular,
         },
         {
-          present_first_person_plurial: form.present_first_person_plurial,
+          firstPlurial: form.irregular.conjugations[0].firstPlurial,
         },
         {
-          present_second_person_plurial: form.present_second_person_plurial,
+          secondPlurial: form.irregular.conjugations[0].secondPlurial,
         },
         {
-          present_third_person_plurial: form.present_third_person_plurial,
+          thirdPlurial: form.irregular.conjugations[0].thirdPlurial,
         },
       ],
     },
     {
       futur: [
         {
-          futur_first_person_singular: form.futur_first_person_singular,
+          firstSingular: form.irregular.conjugations[1].firstSingular,
         },
         {
-          futur_second_person_singular: form.futur_second_person_singular,
+          secondSingular: form.irregular.conjugations[1].secondSingular,
         },
         {
-          futur_third_person_singular: form.futur_third_person_singular,
+          thirdSingular: form.irregular.conjugations[1].thirdSingular,
         },
         {
-          futur_first_person_plurial: form.futur_first_person_plurial,
+          firstPlurial: form.irregular.conjugations[1].firstPlurial,
         },
         {
-          futur_second_person_plurial: form.futur_second_person_plurial,
+          secondPlurial: form.irregular.conjugations[1].secondPlurial,
         },
         {
-          futur_third_person_plurial: form.futur_third_person_plurial,
+          thirdPlurial: form.irregular.conjugations[1].thirdPlurial,
         },
       ],
     },
   ];
-
+  console.log(form.irregular.conjugations[0])
   return (
     <div className={`lg:flex lg:justify-between`}>
       {conjugations.map((tense, i) => (
@@ -61,27 +61,27 @@ const FormConjFields = ({ form, isIrregular, handleChange }) => {
           {tense[Object.keys(tense)[0]].map((item, j) => (
             <TextInput
               key={j}
-              id={item.key}
+              id={Object.keys(item)[0]}
               placeholder={
-                Object.keys(item)[0].includes("first_person_singular")
+                Object.keys(item)[0] == ("firstSingular")
                   ? "Je / J'"
-                  : Object.keys(item)[0].includes("second_person_singular")
+                  : Object.keys(item)[0] == "secondSingular"
                   ? "Tu"
-                  : Object.keys(item)[0].includes("third_person_singular")
+                  : Object.keys(item)[0] == "thirdSingular"
                   ? "Il / Elle / On"
-                  : Object.keys(item)[0].includes("first_person_plurial")
+                  : Object.keys(item)[0] == "firstPlurial"
                   ? "Nous"
-                  : Object.keys(item)[0].includes("second_person_plurial")
+                  : Object.keys(item)[0] == "secondPlurial"
                   ? "Vous"
-                  : Object.keys(item)[0].includes("third_person_plurial")
+                  : Object.keys(item)[0] == "thirdPlurial"
                   ? "Ils / Elles"
                   : ""
               }
               type="text"
               sizing="sm"
               name={Object.keys(item)[0]}
-              onChange={handleChange}
-              value={item.value}
+              onChange={(e) => handleChange(e, Object.keys(tense)[0] == "present" ? "present" : "futur")}
+              value={Object.keys(tense)[0] == "present" ? form.irregular.conjugations[0][Object.keys(item)[0]] : form.irregular.conjugations[1][Object.keys(item)[0]]}
               required={isIrregular}
             />
           ))}

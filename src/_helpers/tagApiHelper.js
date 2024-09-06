@@ -19,7 +19,6 @@ export const getAll = async () => {
     );
     if (res.ok) {
       const body = await res.json();
-      console.log(body);
       return body;
     }
   } catch (error) {

@@ -7,7 +7,7 @@ const EntityFormImage = ({ entity, entityName, form, setForm, pathname }) => {
   const handleFileChange = (e) => {
     setForm({
       ...form,
-      imageFile: e?.target?.files[0] ?? null,
+      imageFileReq: e?.target?.files[0] ?? null,
     });
   };
   

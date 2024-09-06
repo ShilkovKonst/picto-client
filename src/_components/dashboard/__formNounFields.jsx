@@ -38,7 +38,7 @@ const FormNounFields = ({
                     name="tags"
                     value={t.id}
                     onChange={(e) => handleRadioChange(e, nounTag, setNounTag)}                    
-                    checked={form?.tags?.includes(t.id.toString())}
+                    checked={form?.tags?.includes(t?.id?.toString())}
                     required
                   />
                   <Label htmlFor={t.id}>{t.title}</Label>
@@ -55,7 +55,7 @@ const FormNounFields = ({
           <Checkbox
             id={"irregulier"}
             value={irregularId(tags)}                 
-            checked={form?.tags?.includes(irregularId(tags).toString())}
+            checked={form?.tags?.includes(irregularId(tags)?.toString())}
             onChange={(e) => {
               setIsIrregular((prev) => !prev);
               return handleCheckboxChange(e);
@@ -70,7 +70,7 @@ const FormNounFields = ({
             placeholder="Pluriel"
             name="plurial"
             onChange={handleChange}
-            value={form.plurial}
+            value={form.irregular.plurial}
             required={isIrregular}
           />
         )}

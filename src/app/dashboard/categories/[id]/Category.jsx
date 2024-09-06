@@ -1,23 +1,24 @@
-import { Accordion } from 'flowbite-react'
-import Link from 'next/link'
-import Image from 'next/image'
-import React from 'react'
-import EntityHead from './_entityHead'
+"use client";
+import { Accordion } from "flowbite-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import EntityHead from "@/_components/dashboard/_entityHead";
 
-const Entity = ({entity, entityName, categories}) => {
-  return (    
+const Category = ({ category, questions, subcategories, supercategory }) => {
+  return (
     <>
       <table className="table w-full">
-      {entity && <EntityHead entity={entity} entityName={entityName} />}
+        {category && <EntityHead entity={category} entityName="categories" />}
         <tbody className="flex flex-col gap-2">
-          {(entityName == "categories" || entityName == "pictograms") && (
+          {category && (
             <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-center text-sm sm:text-base p-2 border-b">
               <th className="text-start w-[40%] lg:w-[20%]">Image</th>
               <td className="text-start w-[45%] lg:w-[30%]">
-                {imageSrc.length > 0 && (
+                {category?.media?.imageFileRes && (
                   <Image
                     className="h-14 w-14 md:h-16 md:w-16"
-                    src={imageSrc}
+                    src={`data:${category?.media?.imageFileRes.type};base64,${category?.media?.imageFileRes.imageBase64}`}
                     alt={category?.media?.imageName}
                     width={60}
                     height={60}
@@ -102,7 +103,7 @@ const Entity = ({entity, entityName, categories}) => {
         )}
       </Accordion>
     </>
-  )
-}
+  );
+};
 
-export default Entity
+export default Category;

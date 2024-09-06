@@ -24,6 +24,20 @@ const FormVerbFields = ({
       }));
   }, [verbTag]);
 
+  const handleConjugationChange = (e, tense) => {
+    setForm({
+      ...form,
+      irregular: {
+        ...form.irregular,
+        conjugations: form.irregular.conjugations.map((conjugation) =>
+          conjugation.tense === tense
+            ? { ...conjugation, [e.target.name]: e.target.value }
+            : conjugation
+        ),
+      },
+    });
+  };
+
   return (
     <>
       <div className={`lg:flex lg:justify-between`}>
@@ -42,7 +56,7 @@ const FormVerbFields = ({
                       onChange={(e) =>
                         handleRadioChange(e, verbTag, setVerbTag)
                       }
-                      checked={form?.tags?.includes(t.id.toString())}
+                      checked={form?.tags?.includes(t.id.toString()) ?? false}
                       required
                     />
                     <Label htmlFor={t.id}>{t.title}</Label>
@@ -59,7 +73,9 @@ const FormVerbFields = ({
             <Checkbox
               id={"irregulier"}
               value={irregularId(tags)}
-              checked={form?.tags?.includes(irregularId(tags).toString())}
+              checked={
+                form?.tags?.includes(irregularId(tags)?.toString()) ?? false
+              }
               onChange={(e) => {
                 setIsIrregular((prev) => !prev);
                 return handleCheckboxChange(e);
@@ -68,13 +84,13 @@ const FormVerbFields = ({
           </div>
           {isIrregular && (
             <TextInput
-              id="past_participle"
+              id="pastParticiple"
               type="text"
               sizing="sm"
               placeholder="Participe passe"
-              name="past_participle"
+              name="pastParticiple"
               onChange={handleChange}
-              value={form.past_participle}
+              value={form.irregular.pastParticiple}
               required
             />
           )}
@@ -83,7 +99,7 @@ const FormVerbFields = ({
       {isIrregular && (
         <FormConjFields
           form={form}
-          handleChange={handleChange}
+          handleChange={handleConjugationChange}
           isIrregular={isIrregular}
         />
       )}

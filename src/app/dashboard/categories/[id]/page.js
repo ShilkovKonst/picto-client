@@ -1,10 +1,10 @@
-import Category from "@/_components/dashboard/categories/Category";
 import {
   getAllBySupercategory,
   getOneById,
 } from "@/_helpers/categoryApiHelper";
-import { getAllByCategoryId } from "@/_helpers/questionApiHelper";
 import React from "react";
+import { getAllByCategoryId } from "@/_helpers/questionApiHelper";
+import Category from "./Category";
 
 const page = async ({ params }) => {
   const category = await getOneById(params.id);
@@ -13,7 +13,6 @@ const page = async ({ params }) => {
   const supercategory = category.supercategory
     ? await getOneById(category.supercategory)
     : null;
-    
   return (
     <Category
       category={category ?? null}

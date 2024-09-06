@@ -1,6 +1,7 @@
 export const types = [
   "verbe",
   "nom",
+  "nombre", 
   "adjectif",
   "invariable",
   "interrogatif",

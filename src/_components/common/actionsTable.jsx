@@ -17,7 +17,7 @@ const ActionsTable = ({ entity, entityName }) => {
       <div className="flex flex-row items-center justify-evenly gap-5">
         <Link
           href={`/dashboard/${entityName}/${entity.id}/update`}
-          className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-5 md:h-10 w-10 rounded-3xl font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group"
+          className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group"
         >
           <UpdateIcon />
           <div className="hidden group-hover:block absolute bottom-[100%] left-0 pb-1 rounded-lg cursor-default">

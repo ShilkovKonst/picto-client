@@ -1,7 +1,7 @@
+import React from "react";
 import { getOneById as getPictoById } from "@/_helpers/pictoApiHelper";
 import { getOneById as getCategoryById } from "@/_helpers/categoryApiHelper";
-import React from "react";
-import Pictogram from "@/_components/dashboard/pictograms/Pictogram";
+import Pictogram from "./Pictogram";
 
 const page = async ({ params }) => {
   const pictogram = await getPictoById(params.id);

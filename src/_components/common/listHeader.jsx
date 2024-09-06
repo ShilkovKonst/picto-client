@@ -1,19 +1,104 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CreateIcon from "../icons/createIcon";
+import { Label, Radio, Select } from "flowbite-react";
 
-const ListHeader = ({ entityName }) => {
+const ListHeader = ({
+  entityName,
+  list,
+  setList,
+  itemsPerPage,
+  setItemsPerPage,
+}) => {
+  const handlePerPageChange = (e) => {
+    const { value } = e.target;
+    setItemsPerPage(value);
+  };
+
+  const handleListChange = (e) => {
+    const { value } = e.target;
+    if (entityName == "categories") {
+      switch (value) {
+        case "all":
+          setList(list);
+          break;
+        case "super":
+          setList(list?.filter((el) => el.supercategory == null));
+          break;
+        case "sub":
+          setList(list?.filter((el) => el.supercategory != null));
+          break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (
+      entityName == "categories" &&
+      (localStorage.getItem("catCurrentList") == null ||
+        localStorage.getItem("catCurrentList") == undefined)
+    ) {
+      localStorage.setItem("catCurrentList", "all");
+    }
+  }, []);
+
   return (
     <thead>
+      <tr>
+        <th className="flex flex-row flex-wrap gap-1 items-center my-2">
+          <Label htmlFor="itemsPerPage" value={`Par page`} />
+          {itemsPerPage != 0 && (
+            <Select
+              id="itemsPerPage"
+              onChange={handlePerPageChange}
+              sizing="sm"
+              defaultValue={itemsPerPage}
+            >
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
+            </Select>
+          )}
+          {(entityName == "categories" || entityName == "pictograms") && (
+            <>
+              <Label className="ml-auto" htmlFor="list" value={`Afficher:`} />
+              <Select
+                id="list"
+                onChange={(e) => handleListChange(e)}
+                sizing="sm"
+                defaultValue={itemsPerPage}
+              >
+                <option value={"all"}>tous</option>
+                {entityName == "categories" && (
+                  <>
+                    <option value={"super"}>super-catégories</option>
+                    <option value={"sub"}>sous-catégories</option>
+                  </>
+                )}
+              </Select>
+            </>
+          )}
+        </th>
+      </tr>
       <tr className="border-b">
         <th className="text-lg flex justify-between items-center">
-          <span className=" mx-auto">{entityName == "pictograms" ? "PICTOGRAMMES" : entityName.toUpperCase()}</span>
+          <span className="w-20">
+          </span>
+          <span className=" mx-auto">
+            {entityName == "pictograms"
+              ? "PICTOGRAMMES"
+              : entityName.toUpperCase()}
+          </span>
           <Link
-            className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl px-2 font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group mx-4"
+            className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl px-2 font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group mx-5"
             href={`/dashboard/${entityName}/create`}
           >
             <CreateIcon />
-            <div className="hidden group-hover:block absolute bottom-[100%] left-0 rounded-lg pb-1 cursor-default w-auto">
+            <div className="hidden group-hover:block absolute bottom-[100%] left-0 rounded-lg cursor-default w-auto">
               <p className="text-xs text-black">Créer</p>
             </div>
           </Link>

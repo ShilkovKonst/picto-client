@@ -27,7 +27,7 @@ const FormAdjFields = ({
           <Checkbox
             id={"irregulier"}
             value={irregularId(tags)}
-            checked={form?.tags?.includes(irregularId(tags).toString())}
+            checked={form?.tags?.includes(irregularId(tags)?.toString())}
             onChange={(e) => {
               setIsIrregular((prev) => !prev);
               return handleCheckboxChange(e);
@@ -43,7 +43,7 @@ const FormAdjFields = ({
               placeholder="Feminin"
               name="feminin"
               onChange={handleChange}
-              value={form.feminin}
+              value={form.irregular.feminin}
               required={isIrregular}
             />
             <TextInput
@@ -53,7 +53,7 @@ const FormAdjFields = ({
               placeholder="Pluriel"
               name="plurial"
               onChange={handleChange}
-              value={form.plurial}
+              value={form.irregular.plurial}
               required={isIrregular}
             />
           </div>

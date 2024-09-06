@@ -1,12 +1,11 @@
-import Entity from "@/_components/dashboard/Entity";
-import { getOneById } from "@/_helpers/tagApiHelper";
 import React from "react";
+import { getOneById } from "@/_helpers/tagApiHelper";
+import Tag from "./Tag";
 
 const page = async ({ params }) => {
   const data = await getOneById(params.id);
-  console.log(data);
-
-  return <Entity entity={data ?? null} entityName="tags" />;
+  
+  return <Tag tag={data ?? null} />;
 };
 
 export default page;

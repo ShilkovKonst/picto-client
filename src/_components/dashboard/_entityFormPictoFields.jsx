@@ -29,53 +29,77 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
       ...form,
       type: pictogram?.type ?? -1,
       category: pictogram?.category ?? -1,
-      tags: pictogram?.tags ?? [],
-
-      past_participle: pictogram?.irregular?.past_participle ?? "",
-      feminin: pictogram?.irregular?.feminin ?? "",
-      plurial: pictogram?.irregular?.plurial ?? "",
-
-      present_first_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.first_person_singular ?? "",
-      present_second_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.second_person_singular ?? "",
-      present_third_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.third_person_singular ?? "",
-      present_first_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.first_person_plurial ?? "",
-      present_second_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.second_person_plurial ?? "",
-      present_third_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "present")
-          ?.third_person_plurial ?? "",
-
-      futur_first_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.first_person_singular ?? "",
-      futur_second_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.second_person_singular ?? "",
-      futur_third_person_singular:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.third_person_singular ?? "",
-      futur_first_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.first_person_plurial ?? "",
-      futur_second_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.second_person_plurial ?? "",
-      futur_third_person_plurial:
-        pictogram?.irregular?.conjugations?.find((c) => c.tense == "futur")
-          ?.third_person_plurial ?? "",
+      tags: pictogram?.tags?.map((t) => t.id.toString()) ?? [],
+      irregular: {
+        pastParticiple: pictogram?.irregular?.pastParticiple ?? "",
+        feminin: pictogram?.irregular?.feminin ?? "",
+        plurial: pictogram?.irregular?.plurial ?? "",
+        conjugations: [
+          {
+            tense: "present",
+            firstSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.firstSingular ?? "",
+            secondSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.secondSingular ?? "",
+            thirdSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.thirdSingular ?? "",
+            firstPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.firstPlurial ?? "",
+            secondPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.secondPlurial ?? "",
+            thirdPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "present"
+              )?.thirdPlurial ?? "",
+          },
+          {
+            tense: "futur",
+            firstSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.firstSingular ?? "",
+            secondSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.secondSingular ?? "",
+            thirdSingular:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.thirdSingular ?? "",
+            firstPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.firstPlurial ?? "",
+            secondPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.secondPlurial ?? "",
+            thirdPlurial:
+              pictogram?.irregular?.conjugations?.find(
+                (c) => c.tense == "futur"
+              )?.thirdPlurial ?? "",
+          },
+        ],
+      },
     });
     getTags();
     getCategories();
+    
   }, []);
+  useEffect(() => {
+    setIsIrregular(form?.tags?.includes("3"));
+  }, [form])
+  
 
   const addTag = (tagId) => {
     setForm((prevForm) => ({
@@ -115,6 +139,13 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
     }));
   };
 
+  const handleIrregularChange = (e) => {
+    setForm({
+      ...form,
+      irregular: { ...form.irregular, [e.target.name]: e.target.value },
+    });
+  };
+
   return (
     <>
       <div className={`lg:flex lg:justify-between`}>
@@ -140,17 +171,17 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
         </div>
         <div className="mt-5 lg:w-2/5">
           <Label htmlFor="type" value={`Type:`} />
-          {form.category && categories && (
+          {form.type && (
             <Select
               id="type"
               name="type"
               onChange={handleTypeChange}
-              defaultValue={form?.type != -1 && form?.type}
+              defaultValue={form?.type}
               required
             >
               <option value={-1}>Choisir une type</option>
               {types &&
-                types.map((t, i) => (
+                types.sort().map((t, i) => (
                   <option key={i} value={t}>
                     {t}
                   </option>
@@ -166,7 +197,7 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
           tags={tags}
           verbTag={tag1}
           setVerbTag={setTag1}
-          handleChange={handleChange}
+          handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
@@ -180,7 +211,7 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
           tags={tags}
           nounTag={tag1}
           setNounTag={setTag1}
-          handleChange={handleChange}
+          handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
@@ -191,7 +222,7 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
         <FormAdjFields
           form={form}
           tags={tags}
-          handleChange={handleChange}
+          handleChange={handleIrregularChange}
           handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}

@@ -10,6 +10,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: "360px",
+        smm: "640px",
+      },
       keyframes: {
         pulse_color: {
           "0, 100%": {

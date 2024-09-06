@@ -4,9 +4,8 @@ const FrontPagination = ({
   itemsPerPage,
   totalItems,
   currentPage,
-  setCurrentPage
+  setCurrentPage,
 }) => {
-
   return (
     <nav className="md:absolute -bottom-20 right-0 left-0">
       <ul className="flex flex-row items-center justify-center gap-3">
@@ -24,7 +23,7 @@ const FrontPagination = ({
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
           {currentPage > 1 && (
             <div
-              onClick={() => setCurrentPage(prev => prev - 1)}
+              onClick={() => setCurrentPage((prev) => prev - 1)}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
               <svg
@@ -53,7 +52,7 @@ const FrontPagination = ({
         <li className="min-w-8 sm:min-w-10 cursor-pointer">
           {currentPage < Math.ceil(totalItems / itemsPerPage) && (
             <div
-              onClick={() => setCurrentPage(prev => prev + 1)}
+              onClick={() => setCurrentPage((prev) => prev + 1)}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
               <svg
@@ -78,14 +77,17 @@ const FrontPagination = ({
         </li>
         <li className=" min-w-8 sm:min-w-10"></li>
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
-          {currentPage < Math.ceil(totalItems / itemsPerPage) && (
-            <div
-              onClick={() => setCurrentPage(Math.ceil(totalItems / itemsPerPage))}
-              className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center font-normal"
-            >
-              {Math.ceil(totalItems / itemsPerPage)}
-            </div>
-          )}
+          {itemsPerPage != 0 &&
+            currentPage < Math.ceil(totalItems / itemsPerPage) && (
+              <div
+                onClick={() =>
+                  setCurrentPage(Math.ceil(totalItems / itemsPerPage))
+                }
+                className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center font-normal"
+              >
+                {Math.ceil(totalItems / itemsPerPage)}
+              </div>
+            )}
         </li>
       </ul>
     </nav>

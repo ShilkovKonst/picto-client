@@ -66,6 +66,19 @@ export async function getAllByType(type) {
   return res.json();
 }
 
+// find all by tag ID
+export async function getAllByTagId(id) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories/tag/${id}`,
+    {
+      next: { revalidate: REVALIDATE },
+    }
+  ).catch((e) => {
+    throw new Error("Failed to fetch data: " + e.message);
+  });
+  return res.json();
+}
+
 export async function getOneById(id) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/${id}`,

@@ -4,13 +4,19 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import EntityFormImage from "./_entityFormImage";
 import EntityFormCatFields from "./_entityFormCatFields";
-import {
-  createCategory,
-  createQuestion,
-  updateCategory,
-  updateQuestion,
-} from "@/_helpers/submitHelper";
 import EntityFormPictoFields from "./_entityFormPictoFields";
+import {
+  categoryFormData,
+  createCategory,
+  createPictogram,
+  createQuestion,
+  createTag,
+  pictoFormData,
+  updateCategory,
+  updatePictogram,
+  updateQuestion,
+  updateTag,
+} from "@/_helpers/submitHelper";
 
 const EntityForm = ({ entity, entityName, pathname }) => {
   const router = useRouter();
@@ -23,54 +29,38 @@ const EntityForm = ({ entity, entityName, pathname }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+
   useEffect(() => {
     console.log(form);
   }, [form]);
+  useEffect(() => {
+    console.log("entity", entity);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", form.title);
     if (entityName == "categories") {
-      form.imageFile && formData.append("imageFile", form.imageFile);
-      formData.append("supercategory", form.supercategory);
-      formData.append("questions", JSON.stringify(form.questions));
+      categoryFormData(form, formData);
     }
     if (entityName == "pictograms") {
-      form.imageFile && formData.append("imageFile", form.imageFile);
-      formData.append("type", form.type);
-      formData.append("category", form.category);
-      formData.append("tags", JSON.stringify(form.tags));
-      
-      formData.append("past_participle", form.past_participle);
-      formData.append("feminin", form.feminin);
-      formData.append("plurial", form.plurial);
-
-      formData.append("present_first_person_singular", form.present_first_person_singular);
-      formData.append("present_second_person_singular", form.present_second_person_singular);
-      formData.append("present_third_person_singular", form.present_third_person_singular);
-      formData.append("present_first_person_plurial", form.present_first_person_plurial);
-      formData.append("present_second_person_plurial", form.present_second_person_plurial);
-      formData.append("present_third_person_plurial", form.present_third_person_plurial);
-      
-      formData.append("futur_first_person_singular", form.futur_first_person_singular);
-      formData.append("futur_second_person_singular", form.futur_second_person_singular);
-      formData.append("futur_third_person_singular", form.futur_third_person_singular);
-      formData.append("futur_first_person_plurial", form.futur_first_person_plurial);
-      formData.append("futur_second_person_plurial", form.futur_second_person_plurial);
-      formData.append("futur_third_person_plurial", form.futur_third_person_plurial);
-
+      pictoFormData(form, formData);
     }
     try {
       // on create category
       if (pathname.includes("create")) {
         entityName == "categories" && createCategory(router, formData);
         entityName == "questions" && createQuestion(router, formData);
+        entityName == "pictograms" && createPictogram(router, formData);
+        entityName == "tags" && createTag(router, formData);
       }
       // on update category
       else {
         entityName == "categories" && updateCategory(entity, router, formData);
         entityName == "questions" && updateQuestion(entity, router, formData);
+        entityName == "pictograms" && updatePictogram(entity, router, formData);
+        entityName == "tags" && updateTag(entity, router, formData);
       }
       router.refresh();
     } catch (error) {
@@ -124,7 +114,7 @@ const EntityForm = ({ entity, entityName, pathname }) => {
 
       {entityName == "pictograms" && (
         <EntityFormPictoFields
-          question={entity}
+          pictogram={entity}
           form={form}
           setForm={setForm}
           handleChange={handleChange}

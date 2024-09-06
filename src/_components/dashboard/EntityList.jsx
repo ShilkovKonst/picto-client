@@ -1,22 +1,50 @@
 "use client";
 import ListHeader from "@/_components/common/listHeader";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FrontPagination from "@/_components/common/frontPagination";
 import EntityItem from "./_entityItem";
 
 const EntityList = ({ data, entityName }) => {
+  const [currentList, setCurrentList] = useState(
+    data?.sort((a, b) => {
+      return a.title.localeCompare(b.title, undefined, { sensitivity: "base" });
+    })
+  );
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(0);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = currentList.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    if (
+      localStorage.getItem("itemsPerPage") == null ||
+      localStorage.getItem("itemsPerPage") == undefined
+    ) {
+      localStorage.setItem("itemsPerPage", 5);
+    }
+    setItemsPerPage(localStorage.getItem("itemsPerPage"));
+  }, []);
+
+  useEffect(() => {
+    if (itemsPerPage !== localStorage.getItem("itemsPerPage")) {
+      setCurrentPage(1);
+    }
+    localStorage.setItem("itemsPerPage", itemsPerPage);
+  }, [itemsPerPage]);
 
   return (
     <>
       <table className="table w-full min-h-96">
-        <ListHeader entityName={entityName} />
+        <ListHeader
+          entityName={entityName}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          list={data}
+          setList={setCurrentList}
+        />
         <tbody className="flex flex-col gap-1">
           <tr className="flex flex-row justify-between items-center text-sm sm:text-base py-4 border-b">
             <th
@@ -57,7 +85,7 @@ const EntityList = ({ data, entityName }) => {
       {data && (
         <FrontPagination
           itemsPerPage={itemsPerPage}
-          totalItems={data.length}
+          totalItems={currentList.length}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
