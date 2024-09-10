@@ -9,7 +9,7 @@ import { deleteOneById as deleteOnePictoById } from "@/_helpers/pictoApiHelper";
 import { deleteOneById as deleteOneTagById } from "@/_helpers/tagApiHelper";
 import { deleteOneById as deleteOneQuestById } from "@/_helpers/questionApiHelper";
 
-const ActionDelete = ({ entity, entityName, type }) => {
+const ActionDelete = ({ entity, entityName, type, isSublist }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [toDelete, setToDelete] = useState(false);
@@ -35,9 +35,9 @@ const ActionDelete = ({ entity, entityName, type }) => {
     <>
       <button
         onClick={() => setToDelete(true)}
-        className={`group relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1`}
+        className={`group relative bg-pbg hover:bg-pred transition ease-in-out duration-300 ${isSublist ? "h-5" : "h-10"} w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center my-1 text-xs sm:text-sm`}
       >
-        <RemoveIcon />
+        <RemoveIcon isSublist={isSublist} />
         <div className="hidden group-hover:block absolute bottom-[100%] left-0 pb-1 rounded-lg cursor-default">
           <p className="text-xs text-black">Effacer</p>
         </div>

@@ -34,8 +34,8 @@ const Pictogram = ({ pictogram, category }) => {
                     <th className="text-start w-[40%] lg:w-[20%]">
                       Category:{" "}
                     </th>
-                    <td className="text-start w-[45%] lg:w-[30%]">
-                      <Link href={`/dashboard/categories/${category.id}`}>
+                    <td className="text-start w-[45%] lg:w-[30%] ">
+                      <Link href={`/dashboard/categories/${category.id}`} className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
                         {category.title}
                       </Link>
                     </td>

@@ -54,13 +54,13 @@ export const updateTag = async (entity, router, formData) => {
 };
 ////////////////////////////////////////////////////////////////////////
 export const categoryFormData = (form, formData) => {
-  form.imageFile && formData.append("imageFile", form.imageFile);
+  form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
   formData.append("supercategory", form.supercategory);
   formData.append("questions", JSON.stringify(form.questions));
 };
 
 export const pictoFormData = (form, formData) => {
-  form.imageFile && formData.append("imageFile", form.imageFile);
+  form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
   formData.append("type", form.type);
   formData.append("category", form.category);
   formData.append("tags", JSON.stringify(form.tags));

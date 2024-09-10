@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import CreateIcon from "../icons/createIcon";
 import { Label, Radio, Select } from "flowbite-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ListHeader = ({
   entityName,
@@ -11,9 +12,12 @@ const ListHeader = ({
   itemsPerPage,
   setItemsPerPage,
 }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const handlePerPageChange = (e) => {
     const { value } = e.target;
-    setItemsPerPage(value);
+    router.push(`/dashboard/${entityName}?page=${0}&size=${value}&type=${searchParams.get("type")}`);
   };
 
   const handleListChange = (e) => {
@@ -21,13 +25,13 @@ const ListHeader = ({
     if (entityName == "categories") {
       switch (value) {
         case "all":
-          setList(list);
+          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=all`);
           break;
         case "super":
-          setList(list?.filter((el) => el.supercategory == null));
+          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=supercategories`);
           break;
         case "sub":
-          setList(list?.filter((el) => el.supercategory != null));
+          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=subcategories`);
           break;
       }
     }
@@ -53,14 +57,13 @@ const ListHeader = ({
               id="itemsPerPage"
               onChange={handlePerPageChange}
               sizing="sm"
-              defaultValue={itemsPerPage}
+              defaultValue={searchParams.get("size")}
             >
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
+              {[5, 6, 7, 8, 9, 10].map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
             </Select>
           )}
           {(entityName == "categories" || entityName == "pictograms") && (
@@ -86,8 +89,7 @@ const ListHeader = ({
       </tr>
       <tr className="border-b">
         <th className="text-lg flex justify-between items-center">
-          <span className="w-20">
-          </span>
+          <span className="w-20"></span>
           <span className=" mx-auto">
             {entityName == "pictograms"
               ? "PICTOGRAMMES"

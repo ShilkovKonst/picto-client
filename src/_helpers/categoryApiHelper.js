@@ -3,12 +3,12 @@ import { getCsrfToken } from "./authApiHelpers";
 const REVALIDATE = parseInt(process.env.REVALIDATE);
 
 // find all categories as pages for dashboard
-export const getAll = async (pageNo, listSize, isSeance) => {
+export const getAll = async (pageNo, listSize) => {
   const csrfToken = await getCsrfToken();
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?page=${pageNo}&size=${listSize}&isSeance=${isSeance}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?page=${pageNo}&size=${listSize}`,
       {
         next: { revalidate: REVALIDATE },
         headers: {
@@ -19,7 +19,54 @@ export const getAll = async (pageNo, listSize, isSeance) => {
     );
     if (res.ok) {
       const body = await res.json();
-      console.log(body);
+      return body;
+    }
+  } catch (error) {
+    console.error("Error fetching categories:", error.message);
+  }
+};
+
+// find all supercategories as pages for dashboard
+export const getAllSuper = async (pageNo, listSize) => {
+  const csrfToken = await getCsrfToken();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?page=${pageNo}&size=${listSize}&type=supercategories`,
+      {
+        next: { revalidate: REVALIDATE },
+        headers: {
+          "X-XSRF-TOKEN": csrfToken, // add CSRF token to headers
+        },
+        credentials: "include",
+      }
+    );
+    if (res.ok) {
+      const body = await res.json();
+      return body;
+    }
+  } catch (error) {
+    console.error("Error fetching categories:", error.message);
+  }
+};
+
+// find all supercategories as pages for dashboard
+export const getAllSub = async (pageNo, listSize) => {
+  const csrfToken = await getCsrfToken();
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?page=${pageNo}&size=${listSize}&type=subcategories`,
+      {
+        next: { revalidate: REVALIDATE },
+        headers: {
+          "X-XSRF-TOKEN": csrfToken, // add CSRF token to headers
+        },
+        credentials: "include",
+      }
+    );
+    if (res.ok) {
+      const body = await res.json();
       return body;
     }
   } catch (error) {

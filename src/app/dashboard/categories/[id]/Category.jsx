@@ -1,11 +1,16 @@
 "use client";
-import { Accordion } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import EntityHead from "@/_components/dashboard/_entityHead";
+import Accordion from "@/_components/dashboard/_accordion";
 
-const Category = ({ category, questions, subcategories, supercategory }) => {
+const Category = ({ category, pictograms, questions, subcategories, supercategory }) => {
+  const [isOpenPictos, setIsOpenPictos] = useState(
+    category?.pictograms?.length > 0
+  );
+  const [isOpenQuests, setIsOpenQuests] = useState(questions != null);
+  const [isOpenSubcats, setIsOpenSubcats] = useState(subcategories != null);
   return (
     <>
       <table className="table w-full">
@@ -31,7 +36,7 @@ const Category = ({ category, questions, subcategories, supercategory }) => {
                     Super category:{" "}
                   </th>
                   <td className="text-start w-[45%] lg:w-[30%]">
-                    <Link href={`/dashboard/categories/${supercategory?.id}`}>
+                    <Link href={`/dashboard/categories/${supercategory?.id}`} className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
                       {supercategory.title}
                     </Link>
                   </td>
@@ -41,67 +46,30 @@ const Category = ({ category, questions, subcategories, supercategory }) => {
           )}
         </tbody>
       </table>
-      <Accordion collapseAll alwaysOpen>
-        {questions && (
-          <Accordion.Panel>
-            <Accordion.Title>Questions</Accordion.Title>
-            <Accordion.Content>
-              <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
-                {questions?.length > 0 &&
-                  questions?.map((q, i) => (
-                    <li key={i}>
-                      <Link
-                        href={`/dashboard/questions/${q?.id}`}
-                        className="text-cyan-600 hover:underline dark:text-cyan-500"
-                      >
-                        {q?.title}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </Accordion.Content>
-          </Accordion.Panel>
-        )}
-        {category?.pictograms && (
-          <Accordion.Panel>
-            <Accordion.Title>Pictogrammes</Accordion.Title>
-            <Accordion.Content>
-              <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
-                {category?.pictograms?.length > 0 &&
-                  category?.pictograms?.map((pict, i) => (
-                    <li key={i}>
-                      <Link
-                        href={`/dashboard/pictograms/${pict.id}`}
-                        className="text-cyan-600 hover:underline dark:text-cyan-500"
-                      >
-                        {pict.title}
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </Accordion.Content>
-          </Accordion.Panel>
-        )}
-        {subcategories && (
-          <Accordion.Panel>
-            <Accordion.Title>Sous-catégories</Accordion.Title>
-            <Accordion.Content>
-              <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
-                {subcategories.map((subCat, i) => (
-                  <li key={i}>
-                    <Link
-                      href={`/dashboard/categories/${subCat.id}`}
-                      className="text-cyan-600 hover:underline dark:text-cyan-500"
-                    >
-                      {subCat.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Accordion.Content>
-          </Accordion.Panel>
-        )}
-      </Accordion>
+      {pictograms && (
+        <Accordion
+          state={isOpenPictos}
+          setState={setIsOpenPictos}
+          entityName={"pictograms"}
+          entity={pictograms}
+        />
+      )}
+      {questions && (
+        <Accordion
+          state={isOpenQuests}
+          setState={setIsOpenQuests}
+          entityName={"questions"}
+          entity={questions}
+        />
+      )}
+      {subcategories && (
+        <Accordion
+          state={isOpenSubcats}
+          setState={setIsOpenSubcats}
+          entityName={"categories"}
+          entity={subcategories}
+        />
+      )}
     </>
   );
 };

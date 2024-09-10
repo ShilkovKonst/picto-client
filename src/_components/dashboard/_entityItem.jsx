@@ -3,9 +3,9 @@ import Link from "next/link";
 import React from "react";
 import MediaField from "./__mediaField";
 
-const EntityItem = ({ entity, entityName }) => {
+const EntityItem = ({ entity, entityName, isSublist }) => {
   return (
-    <tr className="flex flex-row justify-between items-center text-sm sm:text-base border-t border-b h-16 md:h-14 group/item">
+    <tr className={`flex flex-row justify-between items-center text-sm sm:text-base border-t border-b ${isSublist ? "h-14" : "h-16 md:h-14"}  group/item`}>
       <td
         className={`text-center md:text-start ${
           entityName == "categories" || entityName == "pictograms"
@@ -22,7 +22,7 @@ const EntityItem = ({ entity, entityName }) => {
         </Link>
       </td>
       {(entityName == "categories" || entityName == "pictograms") && (
-        <MediaField entity={entity} entityName={entityName} />
+        <MediaField entity={entity} entityName={entityName} isSublist={isSublist} />
       )}
       <td
         className={`flex items-center justify-center ${
@@ -31,7 +31,7 @@ const EntityItem = ({ entity, entityName }) => {
             : "w-1/2"
         }`}
       >
-        <ActionsTable entity={entity} entityName={entityName} />
+        <ActionsTable entity={entity} entityName={entityName} isSublist={isSublist} />
       </td>
     </tr>
   );
