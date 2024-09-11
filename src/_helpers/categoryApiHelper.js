@@ -77,7 +77,7 @@ export const getAllSub = async (pageNo, listSize) => {
 // find all categories as one list
 export async function getAllAsList() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?isSeance=true`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?asList=true`,
     {
       next: { revalidate: REVALIDATE },
     }

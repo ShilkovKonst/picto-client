@@ -4,9 +4,8 @@ import React from 'react'
 
 const page = async () => {
   const data = await getAll();
-  console.log(data);
 
-  return <EntityList data={data ?? null} entityName="questions" />;
+  return <EntityList data={data?.content?.length > 0 ? data : null} entityName="questions" />;
 }
 
 export default page
