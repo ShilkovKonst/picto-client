@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 const EntityFormCatFields = ({ category, form, setForm, handleChange }) => {
   const [questions, setQuestions] = useState(null);
   const [categories, setCategories] = useState(null);
-
+  
   const getQuestions = async () => {
     const quests = await getAllAsList();
     setQuestions(quests);

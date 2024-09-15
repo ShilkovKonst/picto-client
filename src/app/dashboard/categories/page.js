@@ -16,8 +16,8 @@ const page = async ({ searchParams }) => {
       ? await getAllSub(searchParams.page ?? 0, searchParams.size ?? 5)
       : await getAll(searchParams.page ?? 0, searchParams.size ?? 5);
 
-      console.log(page.content.length)
-  return <EntityList data={page ?? null} entityName="categories" />;
+      console.log(page?.content?.length)
+  return <EntityList data={page?.content?.length > 0 ? page : null} entityName="categories" />;
 };
 
 export default page;

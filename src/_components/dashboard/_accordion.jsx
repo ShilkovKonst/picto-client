@@ -48,7 +48,6 @@ const Accordion = ({ state, setState, entityName, entity }) => {
             <motion.div
               variants={{ collapsed: { scale: 0.95 }, open: { scale: 1 } }}
               transition={{ duration: 0.3 }}
-              className="content-placeholder"
             >
               <table className={`table w-full`}>
                 <tbody className="flex flex-col gap-1 ">

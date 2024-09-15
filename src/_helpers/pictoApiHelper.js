@@ -3,12 +3,12 @@ import { getCsrfToken } from "./authApiHelpers";
 const REVALIDATE = parseInt(process.env.REVALIDATE);
 
 // find all pictograms as pages for dashboard
-export const getAll = async (pageNo, listSize, isSeance) => {
+export const getAll = async (pageNo, listSize) => {
   const csrfToken = await getCsrfToken();
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}&isSeance=${isSeance}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}`,
       {
         next: { revalidate: REVALIDATE },
         headers: {
@@ -30,7 +30,7 @@ export const getAll = async (pageNo, listSize, isSeance) => {
 // find all pictograms as one list
 export async function getAllAsList() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?isSeance=true`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?asList=true`,
     {
       next: { revalidate: REVALIDATE },
     }
