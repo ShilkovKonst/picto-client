@@ -2,13 +2,37 @@ import { getCsrfToken } from "./authApiHelpers";
 
 const REVALIDATE = parseInt(process.env.REVALIDATE);
 
-// find all pictograms
-export const getAll = async () => {
+// find all questions as pages
+export const getAll = async (pageNo, listSize) => {
   const csrfToken = await getCsrfToken();
 
   try {
     const res = await fetch(  
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/questions`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/questions?page=${pageNo}&size=${listSize}`,
+      {
+        next: { revalidate: REVALIDATE },
+        headers: {
+          "X-XSRF-TOKEN": csrfToken, // add CSRF token to headers
+        },
+        credentials: "include",
+      }
+    );
+    if (res.ok) {
+      const body = await res.json();
+      return body;
+    }
+  } catch (error) {
+    console.error("Error fetching questions:", error.message);
+  }
+};
+
+// find all questions
+export const getAllAsList = async () => {
+  const csrfToken = await getCsrfToken();
+
+  try {
+    const res = await fetch(  
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/questions?asList=true`,
       {
         next: { revalidate: REVALIDATE },
         headers: {

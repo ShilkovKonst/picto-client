@@ -1,5 +1,5 @@
-import { getAllAsList } from "@/_helpers/categoryApiHelper";
-import { getAll } from "@/_helpers/tagApiHelper";
+import { getAllAsSimpleList } from "@/_helpers/categoryApiHelper";
+import { getAllAsList } from "@/_helpers/tagApiHelper";
 import { Label, Select } from "flowbite-react";
 import React, { useState, useEffect } from "react";
 import { types } from "@/_constants/picto";
@@ -16,11 +16,11 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
   const [tag2, setTag2] = useState(null);
 
   const getCategories = async () => {
-    const cats = await getAllAsList();
+    const cats = await getAllAsSimpleList();
     setCategories(cats);
   };
   const getTags = async () => {
-    const tagsList = await getAll();
+    const tagsList = await getAllAsList();
     setTags(tagsList);
   };
 

@@ -1,5 +1,5 @@
-import { getAllAsList } from "@/_helpers/categoryApiHelper";
-import { getAll } from "@/_helpers/questionApiHelper";
+import { getAllAsSimpleList } from "@/_helpers/categoryApiHelper";
+import { getAllAsList } from "@/_helpers/questionApiHelper";
 import { Label, Select, Checkbox } from "flowbite-react";
 import React, { useState, useEffect } from "react";
 
@@ -8,12 +8,12 @@ const EntityFormCatFields = ({ category, form, setForm, handleChange }) => {
   const [categories, setCategories] = useState(null);
 
   const getQuestions = async () => {
-    const quests = await getAll();
+    const quests = await getAllAsList();
     setQuestions(quests);
   };
 
   const getCategories = async () => {
-    const cats = await getAllAsList();
+    const cats = await getAllAsSimpleList();
     setCategories(cats);
   };
 
@@ -63,7 +63,7 @@ const EntityFormCatFields = ({ category, form, setForm, handleChange }) => {
           >
             <option value={-1}>Sans super-catégorie</option>
             {categories &&
-              categories.map(
+              categories?.map(
                 (cat, i) =>
                   cat.id != category?.id &&
                   !cat.supercategory && (

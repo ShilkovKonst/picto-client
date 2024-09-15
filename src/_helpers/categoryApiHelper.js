@@ -77,7 +77,20 @@ export const getAllSub = async (pageNo, listSize) => {
 // find all categories as one list
 export async function getAllAsList() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?isSeance=true`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?asList=true`,
+    {
+      next: { revalidate: REVALIDATE },
+    }
+  ).catch((e) => {
+    throw new Error("Failed to fetch data: " + e.message);
+  });
+  return res.json();
+}
+
+// find all categories as one list
+export async function getAllAsSimpleList() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?simple=true`,
     {
       next: { revalidate: REVALIDATE },
     }
