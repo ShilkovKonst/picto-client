@@ -15,6 +15,8 @@ const SignUpForm = () => {
     phoneNumber: "",
     job: "",
     institutionId: "1",
+    isActive: true,
+    isVerified: false,
   });
   const [isPasswordRevealed, SetIsPasswordRevealed] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -28,15 +30,32 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await signup(form);
+      // const response = await signup(form);
+      const response = await fetch("/api/auth/signUp", {
+        method: "POST",
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
       if (response.status >= 400) {
-        setIsError(true);
-        setErrorMessage("Invalid credentials:" + response.statusText);
+        const body = await response.json();
+        console.log(body);
+        if (response.status == 400) {
+          setIsError(true);
+          setErrorMessage(body.message);
+        } else {
+          setIsError(true);
+          setErrorMessage(response.statusText);
+        }
       } else {
         try {
-          const login = await signin({
+          const loginData = {
             email: form.email,
             password: form.password,
+          };
+          await fetch("/api/auth/signIn", {
+            method: "POST",
+            body: JSON.stringify(loginData),
+            credentials: "include",
           });
           router.push(`/dashboard`);
           router.refresh();
@@ -46,7 +65,7 @@ const SignUpForm = () => {
               error.message
           );
         }
-        /*         router.push(`/`);
+        /* router.push(`/`);
         router.refresh(); */
       }
     } catch (error) {
@@ -76,17 +95,17 @@ const SignUpForm = () => {
         </h2>
 
         <form className="flex flex-col w-full h-full" onSubmit={handleSubmit}>
-          {isError && (
-            <div className="text-red-600 mx-auto">{errorMessage}</div>
-          )}
           <div className="z-50 flex justify-center items-center md:flex-wrap flex-col md:flex-row gap-3 *:w-2/3 md:*:w-1/3">
+            {isError && (
+              <div className="text-red-600 mx-auto"><span className="font-semibold pr-1">Invalid credentials:</span>{errorMessage}</div>
+            )}
             <div>
-              <label htmlFor="email">Email</label>
+              <label className={`${isError && "text-red-600"}`} htmlFor="email">Email</label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                className="input-text md:mb-4"
+                className={`input-text md:mb-4 ${isError && "bg-red-100"}`}
                 autoComplete="email"
                 placeholder="Email"
                 onChange={handleChange}
@@ -161,11 +180,6 @@ const SignUpForm = () => {
                 required
               />
             </div>
-            {/* <input
-              type="hidden"
-              name="_csrf_token"
-              value="{{ csrf_token('authenticate') }}"
-            /> */}
           </div>
 
           <div className="flex flex-col items-center justify-between w-full h-full">

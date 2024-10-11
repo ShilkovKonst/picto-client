@@ -1,21 +1,19 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import UserActions from "./userActions";
 import WarningIcon from "@/_components/icons/warningIcon";
 import SuccessIcon from "@/_components/icons/successIcon";
 
-const user = {
-  lastName: "last name",
-  firstName: "first name",
-  email: "email",
-  job: "job",
-  isActive: false,
-  isVerified: false,
-  institution: {
-    title: "institution",
-  },
-};
-
 const UserProfile = () => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
   return (
     <table className="table w-full">
       <thead>
@@ -23,7 +21,7 @@ const UserProfile = () => {
           <th className="text-lg flex justify-center items-center">
             <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
               Profil
-              {user.isActive ? (
+              {user && user?.isActive ? (
                 <>
                   <SuccessIcon />
                   <div className="hidden group-hover:block absolute top-6 -right-16 w-52 rounded-lg alert-success p-4">
@@ -43,7 +41,7 @@ const UserProfile = () => {
                 </>
               )}
             </span>
-            {user.isActive && (
+            {user && user?.isActive && (
               <UserActions
                 path1="/dashboard/profile/update"
                 path2="/dashboard/profile/desactivate"
@@ -55,24 +53,24 @@ const UserProfile = () => {
       <tbody className="flex flex-col gap-2 w-full">
         <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
           <th className="text-start w-[40%] lg:w-[20%]">Nom</th>
-          <td className="text-start w-[45%] lg:w-[30%]">{user.lastName}</td>
+          <td className="text-start w-[45%] lg:w-[30%]">{user?.lastName}</td>
           <th className="text-start w-[40%] lg:w-[20%]">Prénom</th>
-          <td className="text-start w-[45%] lg:w-[30%]">{user.firstName}</td>
+          <td className="text-start w-[45%] lg:w-[30%]">{user?.firstName}</td>
         </tr>
         <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
           <th className="text-start w-[40%] lg:w-[20%]">Fonction</th>
-          <td className="text-start w-[45%] lg:w-[30%]">{user.job}</td>
+          <td className="text-start w-[45%] lg:w-[30%]">{user?.job}</td>
           <th className="text-start w-[40%] lg:w-[20%]">Institution</th>
           <td className="text-start w-[45%] lg:w-[30%]">
-            {user.institution.title}
+            {user?.institution?.title}
           </td>
         </tr>
         <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
           <th className="text-start w-[20%] lg:w-[15%]">Email</th>
           <td className="text-start flex items-center w-[75%] lg:w-[55%]">
-            {user.email}
+            {user?.sub}
             <div className="relative group text-center w-auto ml-1">
-              {user.isVerified ? (
+              {user?.isVerified ? (
                 <>
                   <SuccessIcon />
                   <div className="hidden group-hover:block absolute bottom-6 -right-36 w-72 rounded-lg alert-success p-4">

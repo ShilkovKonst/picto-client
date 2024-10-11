@@ -26,17 +26,12 @@ export async function GET(req) {
   const searchParams = req?.nextUrl?.searchParams;
 
   const asList = searchParams.get("asList");
-  const type = searchParams.get("type");
   const page = searchParams.get("page") ?? 0;
   const size = searchParams.get("size") ?? 5;
   try {
     // fetch pictograms as list
     if (asList) {
       return await handleGetAllAsList(accessToken, csrfToken);
-    }
-    // fetch pictograms as pages
-    if (type && type != "all") {
-      return await handleGetAllByType(accessToken, page, size, csrfToken, type);
     }
     return await handleGetAll(accessToken, page, size, csrfToken);
   } catch (error) {
@@ -50,7 +45,7 @@ export async function GET(req) {
 
 async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}`,
+    `${process.env.SERVER_BASE_URL}/questions?page=${pageNo}&size=${listSize}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
@@ -70,44 +65,12 @@ async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
     );
   }
   const data = await response.json();
-  return NextResponse.json(data);
-}
-
-async function handleGetAllByType(
-  accessToken,
-  pageNo,
-  listSize,
-  csrfToken,
-  type
-) {
-  const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}&type=${type}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
-      },
-      credentials: "include",
-    }
-  );
-  if (!response.ok) {
-    console.log("picto API !response.ok: ", response.statusText);
-    if (response.status == 401) {
-      // TODO: create logic
-    }
-    return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
-      { status: response.status }
-    );
-  }
-  const data = await response.json();
-  
   return NextResponse.json(data);
 }
 
 async function handleGetAllAsList(accessToken, csrfToken) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/pictograms?asList=true`,
+    `${process.env.SERVER_BASE_URL}/questions?asList=true`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,

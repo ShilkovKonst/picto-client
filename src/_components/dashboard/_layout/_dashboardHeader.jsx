@@ -1,9 +1,22 @@
+"use client";
 import images from "@/_constants/images";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const DashboardHeader = () => {
+  const router = useRouter();
+
+  const handleClick = async () => {
+    const response = await fetch("/api/auth/signOut");
+    if (response.status == 200) {
+      console.log("response.status == 200", response.status)
+      localStorage.removeItem("userData");
+    } 
+    router.push(`/`);
+    router.refresh();    
+  };
+
   return (
     <div className="flex flex-row justify-between items-center w-full sm:p-4">
       <Image
@@ -19,9 +32,10 @@ const DashboardHeader = () => {
             {/* {{ app.user.firstName }} {{ app.user.lastName }} */}
           </p>
         </div>
-        <Link
+        <button
+          type="button"
+          onClick={handleClick}
           className="w-10 h-10 bg-pbg hover:bg-pred transition duration-300 ease-in-out rounded-full overflow-hidden"
-          href="/"
         >
           <svg
             className="w-10 h-10 text-white"
@@ -40,7 +54,7 @@ const DashboardHeader = () => {
               d="M6 18 17.94 6M18 18 6.06 6"
             />
           </svg>
-        </Link>
+        </button>
       </div>
     </div>
   );

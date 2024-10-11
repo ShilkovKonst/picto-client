@@ -31,11 +31,11 @@ const Pictogram = ({ pictogram, category }) => {
                 </td>
                 {category ? (
                   <>
-                    <th className="text-start w-[40%] lg:w-[20%]">
+                    <th className="text-start flex items-center h-8 w-[40%] lg:w-[20%]">
                       Category:{" "}
                     </th>
-                    <td className="text-start w-[45%] lg:w-[30%] ">
-                      <Link href={`/dashboard/categories/${category.id}`} className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
+                    <td className="text-start flex items-center h-8 w-[45%] lg:w-[30%] ">
+                      <Link href={`/dashboard/categories/${category.id}`} className="py-1 px-3 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
                         {category.title}
                       </Link>
                     </td>
