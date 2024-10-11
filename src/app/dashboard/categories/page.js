@@ -1,23 +1,50 @@
 import EntityList from "@/_components/dashboard/EntityList";
-import {
-  getAll,
-  getAllAsList,
-  getAllSub,
-  getAllSuper,
-} from "@/_helpers/categoryApiHelper";
+import { cookies } from "next/headers";
 import React from "react";
 
 const page = async ({ searchParams }) => {
-  // const data = await getAllAsList();
-  const page =
+  const page = searchParams.page ?? 0;
+  const size = searchParams.size ?? 5;
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("accessToken");
+  const data =
     searchParams.type == "supercategories"
-      ? await getAllSuper(searchParams.page ?? 0, searchParams.size ?? 5)
+      ? await getAllByType(accessToken, page, size, "supercategories")
       : searchParams.type == "subcategories"
-      ? await getAllSub(searchParams.page ?? 0, searchParams.size ?? 5)
-      : await getAll(searchParams.page ?? 0, searchParams.size ?? 5);
+      ? await getAllByType(accessToken, page, size, "subcategories")
+      : await getAll(accessToken, page, size);
 
-      console.log(page?.content?.length)
-  return <EntityList data={page?.content?.length > 0 ? page : null} entityName="categories" />;
+  return <EntityList data={data ?? []} entityName="categories" />;
 };
 
 export default page;
+
+async function getAll(accessToken, page, size) {
+  const response = await fetch(
+    `${process.env.CLIENT_API_BASE_URL}/api/categories?page=${page}&size=${size}`,
+    {
+      method: "GET",
+      headers: {
+        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
+      },
+      credentials: "include",
+    }
+  );
+  const data = await response.json();
+  return data;
+}
+
+async function getAllByType(accessToken, page, size, type) {
+  const response = await fetch(
+    `${process.env.CLIENT_API_BASE_URL}/api/categories?page=${page}&size=${size}&type=${type}`,
+    {
+      method: "GET",
+      headers: {
+        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
+      },
+      credentials: "include",
+    }
+  );
+  const data = await response.json();
+  return data;
+}

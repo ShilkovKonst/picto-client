@@ -28,7 +28,7 @@ const EntityHead = ({ entity, entityName }) => {
               {entityName == "categories" && "Créer une nouvelle catégorie"}
               {entityName == "pictograms" && "Créer une nouvelle pictogramme"}
               {entityName == "questions" && "Créer une nouvelle question"}
-              {entityName == "tags" && "Créer un nouvel tag"}
+              {entityName == "tags" && "Créer un nouveau tag"}
             </span>
           </th>
         )}

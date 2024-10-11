@@ -5,11 +5,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 import { useRouter } from "next/navigation";
-import { signin } from "@/_helpers/authApiHelpers";
+import { getCsrfToken, refresh, signin } from "@/_helpers/authApiHelpers";
 
 const LoginForm = () => {
   const router = useRouter();
-
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -24,22 +23,62 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", form.email);
-    formData.append("password", form.password);
-    console.log(formData);
     try {
-      const response = await signin(formData);
-      console.log("response from signin", response);
-      if (response.status >= 400) {
+      // const responseHelper = await signin(form);
+      const responseApi = await fetch("/api/auth/signIn", {
+        method: "POST",
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
+      console.log("response from signin", responseApi);
+      if (responseApi.status >= 400) {
         setIsError(true);
-        setErrorMessage("Invalid credentials");
+        setErrorMessage(
+          "Invalid credentials: " + (responseApi.statusText ?? responseApi.error)
+        );
       } else {
-        router.push(`/dashboard`);
-        router.refresh();
+        const data = await responseApi.json()
+        if (data.user) {
+          localStorage.setItem("userData", JSON.stringify(data.user));
+        }
+        // TODO: recovering user data from access token and storing them in local storage
+        // router.push(`/dashboard`);
+        // router.refresh();
       }
     } catch (error) {
       console.error("Bad credentials:", error.message);
+    }
+  };
+
+  const handleRefresh = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`/api/auth/refresh`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Bad credentials:", error.message);
+    }
+  };
+
+  const handleApiTest = async (e) => {
+    e.preventDefault();
+    try {
+      const helperResponse = await getCsrfToken();
+      const response = await fetch("/api/auth/csrf", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch CSRF token");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching CSRF token:", error);
     }
   };
 
@@ -62,8 +101,10 @@ const LoginForm = () => {
           Connexion
         </h2>
 
-        <form className="flex flex-col w-full h-full">
-          {isError && <div className="text-red-600 mx-auto">{errorMessage}</div>}
+        <form className="flex flex-col w-full h-full" onSubmit={handleSubmit}>
+          {isError && (
+            <div className="text-red-600 mx-auto">{errorMessage}</div>
+          )}
           <div className="z-50">
             <input
               type="email"
@@ -112,12 +153,18 @@ const LoginForm = () => {
             <button
               className="z-10 btn-b flex justify-center items-center"
               type="submit"
-              onClick={handleSubmit}
             >
               Se connecter
             </button>
           </div>
         </form>
+        <button
+          className="z-10 btn-b flex justify-center items-center"
+          type="button"
+          onClick={handleRefresh}
+        >
+          Refresh
+        </button>
         <p className="z-10 absolute bottom-0 md:bottom-3 text-sm mx-auto h-11 leading-loose font-bold">
           Pas encore de compte ?
           <a

@@ -1,27 +1,33 @@
 import { getCsrfToken } from "./authApiHelpers";
 
-const REVALIDATE = parseInt(process.env.REVALIDATE);
+const REVALIDATE = parseInt(process.env.REVALIDATE);  
 
 // find all pictograms as pages for dashboard
-export const getAll = async (pageNo, listSize) => {
+export const getAll = async (accessToken, pageNo, listSize) => {
   const csrfToken = await getCsrfToken();
-
+  console.log('Access Token from helper:', accessToken?.value);
+  console.log("find all pictograms as pages for dashboard after get csrf");
   try {
+    console.log("find all pictograms as pages for dashboard try block");
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}`,
+      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms?page=${pageNo}&size=${listSize}`,
       {
         next: { revalidate: REVALIDATE },
         headers: {
+          Authorization: `Bearer ${accessToken.value}`,
           "X-XSRF-TOKEN": csrfToken, // add CSRF token to headers
         },
         credentials: "include",
       }
     );
     if (res.ok) {
+      console.log("find all pictograms as pages for dashboard if res is ok");
       const body = await res.json();
       console.log(body);
       return body;
     }
+    console.log("find all pictograms as pages for dashboard if res is not ok");
+    console.log(res);
   } catch (error) {
     console.error("Error fetching pictograms:", error.message);
   }
@@ -30,7 +36,7 @@ export const getAll = async (pageNo, listSize) => {
 // find all pictograms as one list
 export async function getAllAsList() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms?asList=true`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms?asList=true`,
     {
       next: { revalidate: REVALIDATE },
     }
@@ -43,7 +49,7 @@ export async function getAllAsList() {
 // find all by category
 export async function getAllByCategory(id) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/category/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/category/${id}`,
     {
       next: { revalidate: REVALIDATE },
     }
@@ -56,7 +62,7 @@ export async function getAllByCategory(id) {
 // find all by type
 export async function getAllByType(type) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/type/${type}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/type/${type}`,
     {
       next: { revalidate: REVALIDATE },
     }
@@ -69,7 +75,7 @@ export async function getAllByType(type) {
 // find all by tag ID
 export async function getAllByTagId(id) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories/tag/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/categories/tag/${id}`,
     {
       next: { revalidate: REVALIDATE },
     }
@@ -81,7 +87,7 @@ export async function getAllByTagId(id) {
 
 export async function getOneById(id) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/${id}`,
     {
       next: { revalidate: REVALIDATE },
     }
@@ -96,7 +102,7 @@ export async function createOne(body) {
 
   console.log(body);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms`,
     {
       method: "POST",
       body: body,
@@ -120,7 +126,7 @@ export async function updateOneById(id, body) {
 
   console.log(body.get("imageFile"));
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/${id}`,
     {
       method: "PUT",
       body: body,
@@ -143,7 +149,7 @@ export async function deleteOneById(id) {
   const csrfToken = await getCsrfToken();
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/${id}`,
     {
       method: "DELETE",
       headers: {
@@ -164,7 +170,7 @@ export async function createOneMedia(data) {
 
   console.log(data);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/media`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/media`,
     {
       method: "POST",
       body: JSON.stringify(data),
@@ -185,7 +191,7 @@ export async function deleteOneMediaById(id) {
 
   console.log(data);
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/media/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/media/${id}`,
     {
       method: "DELETE",
       body: JSON.stringify(data),
@@ -204,7 +210,7 @@ export async function deleteOneMediaById(id) {
 export const getOneMediaFile = async (mediaId, setImageSrc) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/pictograms/${mediaId}/image`
+      `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/pictograms/${mediaId}/image`
     );
     if (response.ok) {
       const blob = await response.blob();

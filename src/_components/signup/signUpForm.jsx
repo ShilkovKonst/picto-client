@@ -1,6 +1,6 @@
 "use client";
 import images from "@/_constants/images";
-import { signup } from "@/_helpers/authApiHelpers";
+import { signin, signup } from "@/_helpers/authApiHelpers";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -10,7 +10,13 @@ const SignUpForm = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    job: "",
+    institutionId: "1",
   });
+  const [isPasswordRevealed, SetIsPasswordRevealed] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -21,24 +27,31 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", form.email);
-    formData.append("password", form.password);
     try {
-      const response = await signup(formData);
+      const response = await signup(form);
       if (response.status >= 400) {
         setIsError(true);
-        setErrorMessage("Invalid credentials:"+ 
-          "user already exists");
+        setErrorMessage("Invalid credentials:" + response.statusText);
       } else {
-        router.push(`/`);
-        router.refresh();
+        try {
+          const login = await signin({
+            email: form.email,
+            password: form.password,
+          });
+          router.push(`/dashboard`);
+          router.refresh();
+        } catch (error) {
+          throw new Error(
+            "Une erreur s'est produite lors de l'envoi du message. " +
+              error.message
+          );
+        }
+        /*         router.push(`/`);
+        router.refresh(); */
       }
     } catch (error) {
       throw new Error(
-        "Une erreur s'est produite lors de"+ 
-        "l'envoi du message. " 
-        + error.message
+        "Une erreur s'est produite lors de l'envoi du message. " + error.message
       );
     }
   };
@@ -62,33 +75,92 @@ const SignUpForm = () => {
           Inscription
         </h2>
 
-        <form className="flex flex-col w-full h-full">
+        <form className="flex flex-col w-full h-full" onSubmit={handleSubmit}>
           {isError && (
             <div className="text-red-600 mx-auto">{errorMessage}</div>
           )}
-          <div className="z-50">
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="input-text md:mb-4"
-              autoComplete="email"
-              placeholder="Email"
-              onChange={handleChange}
-              value={form.email}
-              required
-              autoFocus
-            />
-            <input
-              type="password"
-              name="password"
-              id="password"
-              className="input-text md:mb-4"
-              onChange={handleChange}
-              value={form.password}
-              required
-              placeholder="Mot de passe"
-            />
+          <div className="z-50 flex justify-center items-center md:flex-wrap flex-col md:flex-row gap-3 *:w-2/3 md:*:w-1/3">
+            <div>
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                className="input-text md:mb-4"
+                autoComplete="email"
+                placeholder="Email"
+                onChange={handleChange}
+                value={form.email}
+                required
+                autoFocus
+              />
+            </div>
+            <div className="relative">
+              <label htmlFor="password">Mot de passe</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                className="input-text md:mb-4"
+                onChange={handleChange}
+                value={form.password}
+                required
+                autoComplete="current-password"
+                placeholder="Mot de passe"
+              />
+            </div>
+            <div>
+              <label htmlFor="firstName">Prénom</label>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                className="input-text md:mb-4"
+                placeholder="Prénom"
+                onChange={handleChange}
+                value={form.firstName}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName">Nom</label>
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                className="input-text md:mb-4"
+                placeholder="Nom"
+                onChange={handleChange}
+                value={form.lastName}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="phoneNumber">Numéro de téléphone</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                className="input-text md:mb-4"
+                placeholder="Numéro de téléphone"
+                onChange={handleChange}
+                value={form.phoneNumber}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="job">Fonction</label>
+              <input
+                type="text"
+                name="job"
+                id="job"
+                className="input-text md:mb-4"
+                placeholder="Fonction"
+                onChange={handleChange}
+                value={form.job}
+                required
+              />
+            </div>
             {/* <input
               type="hidden"
               name="_csrf_token"
@@ -100,7 +172,6 @@ const SignUpForm = () => {
             <button
               className="z-10 btn-b flex justify-center items-center"
               type="submit"
-              onClick={handleSubmit}
             >
               S&apos;inscrire
             </button>

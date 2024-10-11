@@ -1,37 +1,78 @@
 import { NextResponse } from "next/server";
 
-export function middleware(request) {
-  // const currentUser = request.cookies.get('currentUser')?.value
-
-  // if (currentUser && !request.nextUrl.pathname.startsWith('/dashboard')) {
-  //   return Response.redirect(new URL('/dashboard', request.url))
-  // }
-
-  // if (!currentUser && !request.nextUrl.pathname.startsWith('/')) {
-  //   return Response.redirect(new URL('/', request.url))
-  // }
-
-  const { searchParams, pathname } = new URL(request.url);
-  const size = Number(searchParams.get("size"));
-  const page = Number(searchParams.get("page"));
-  const type = searchParams.get("type");
-  console.log(pathname.split("/").length);
-  if (pathname.split("/").length > 2 && (size <= 0 || page < 0)) {
-    // Если size некорректен, перенаправляем на корректный URL
-    const url = request.nextUrl.clone();
-    url.searchParams.set("size", "5"); // Устанавливаем минимальное значение
-    url.searchParams.set("page", "0"); // Убедимся, что страница остается той же
-    return NextResponse.redirect(url);
-  }
+export async function middleware(request) {
+  // if user is still authenticated -> gain new access token via refresh api route
   if (
-    pathname.split("/")[2] == "categories" &&
-    type != "supercategories" &&
-    type != "subcategories" &&
-    type != "all"
+    request.cookies.get("refreshToken") &&
+    !request.cookies.get("accessToken")
   ) {
-    const url = request.nextUrl.clone();
-    url.searchParams.set("type", "all"); 
-    return NextResponse.redirect(url);
+    const cookies = request.headers.get("cookie");
+    //await refreshAccessToken(cookies); // doesn't work, don't know why
+    try {
+      const res = await fetch(
+        `${process.env.CLIENT_API_BASE_URL}/api/auth/refresh`,
+        {
+          method: "POST",
+          headers: {
+            Cookie: cookies,
+          },
+          credentials: "include",
+        }
+      );
+      if (res.headers.getSetCookie()) {
+        const setCookieHeader = res.headers.getSetCookie();
+        const [cookie, ...cookieAttributes] = setCookieHeader[0].split("; ");
+        const attributes = {};
+        cookieAttributes.forEach((attr) => {
+          const [key, value] = attr.split("=");
+          attributes[key.toLowerCase()] = value || true;
+        });
+        const response = NextResponse.next();
+        response.cookies.set(cookie.split("=")[0], cookie.split("=")[1], {
+          httpOnly: attributes["httponly"] || false,
+          secure: attributes["secure"] || false,
+          path: attributes["path"] || "/",
+          maxAge: attributes["max-age"]
+            ? parseInt(attributes["max-age"], 10)
+            : undefined,
+          expires: attributes["expires"]
+            ? new Date(attributes["expires"])
+            : undefined,
+          sameSite: attributes["samesite"],
+        });
+        // console.log("response from middleware", response);
+        return response;
+      }
+    } catch (error) {
+      console.error("Error refreshing access-token:", error.message);
+      return NextResponse.json(
+        { message: "Internal server error while refreshing token" },
+        { status: 500 }
+      );
+    }
+    // console.log("middleware accessToken: ", request.cookies.get("accessToken"));
+  }
+  // correct url format for categories and pictograms if it is incorrect
+  const { searchParams, pathname } = new URL(request.url);
+  if (pathname.includes("categories") || pathname.includes("pictograms")) {
+    const size = Number(searchParams.get("size"));
+    const page = Number(searchParams.get("page"));
+    const type = searchParams.get("type");
+    if (
+      pathname.includes("dashboard") &&
+      pathname.split("/").length == 3 &&
+      (size < 5 || page < 0)
+    ) {
+      const url = request.nextUrl.clone();
+      url.searchParams.set("size", "5");
+      url.searchParams.set("page", "0");
+      return NextResponse.redirect(url);
+    }
+    if (!type) {
+      const url = request.nextUrl.clone();
+      url.searchParams.set("type", "all");
+      return NextResponse.redirect(url);
+    }
   }
   return NextResponse.next();
 }
@@ -39,3 +80,52 @@ export function middleware(request) {
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
+
+async function refreshAccessToken(cookies) {
+  try {
+    const res = await fetch(
+      `${process.env.CLIENT_API_BASE_URL}/api/auth/refresh`,
+      {
+        method: "POST",
+        headers: {
+          Cookie: cookies,
+        },
+        credentials: "include",
+      }
+    );
+    console.log(
+      "res.headers.getSetCookie() from method from middleware",
+      cookies
+    );
+    if (res.headers.getSetCookie()) {
+      const setCookieHeader = res.headers.getSetCookie();
+      const [cookie, ...cookieAttributes] = setCookieHeader[0].split("; ");
+      const attributes = {};
+      cookieAttributes.forEach((attr) => {
+        const [key, value] = attr.split("=");
+        attributes[key.toLowerCase()] = value || true;
+      });
+      const response = NextResponse.next();
+      response.cookies.set(cookie.split("=")[0], cookie.split("=")[1], {
+        httpOnly: attributes["httponly"] || false,
+        secure: attributes["secure"] || false,
+        path: attributes["path"] || "/",
+        maxAge: attributes["max-age"]
+          ? parseInt(attributes["max-age"], 10)
+          : undefined,
+        expires: attributes["expires"]
+          ? new Date(attributes["expires"])
+          : undefined,
+        sameSite: attributes["samesite"],
+      });
+      // console.log("response from middleware", response);
+      return response;
+    }
+  } catch (error) {
+    console.error("Error refreshing access-token:", error.message);
+    return NextResponse.json(
+      { message: "Internal server error while refreshing token" },
+      { status: 500 }
+    );
+  }
+}

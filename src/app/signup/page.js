@@ -1,5 +1,5 @@
-import SignUp from "@/_components/signup/SignUp";
 import React from "react";
+import SignUp from "./SignUp";
 
 const page = () => {
   return <SignUp />;

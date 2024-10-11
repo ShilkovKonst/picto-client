@@ -9,38 +9,21 @@ import Pagination from "../common/pagination";
 const EntityList = ({ data, entityName }) => {
   const [itemsPerPage, setItemsPerPage] = useState(0);
 
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = currentList.slice(indexOfFirstItem, indexOfLastItem);
-
   useEffect(() => {
     if (
       localStorage.getItem("itemsPerPage") == null ||
       localStorage.getItem("itemsPerPage") == undefined ||
-      localStorage.getItem("itemsPerPage") == 0
+      localStorage.getItem("itemsPerPage") < 5
     ) {
       localStorage.setItem("itemsPerPage", 5);
-    }    
-    if ( entityName == "categories" &&
-      (localStorage.getItem("catPageNumber") == null ||
-      localStorage.getItem("catPageNumber") == undefined )
-    ) {
-      localStorage.setItem("catPageNumber", 0);
     }
     setItemsPerPage(localStorage.getItem("itemsPerPage"));
   }, []);
 
   useEffect(() => {
-    if (itemsPerPage !== localStorage.getItem("itemsPerPage")) {
-      // setCurrentPage(1);
-    }
     itemsPerPage != 0 && localStorage.setItem("itemsPerPage", itemsPerPage);
   }, [itemsPerPage]);
-  
-  useEffect(() => {
-    localStorage.setItem("catPageNumber", data?.number);
-  }, [data?.number]);
-  
+
   return (
     <>
       <table className="table w-full min-h-96">
@@ -48,8 +31,6 @@ const EntityList = ({ data, entityName }) => {
           entityName={entityName}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
-          // list={data}
-          // setList={setCurrentList}
         />
         <tbody className="flex flex-col gap-1">
           <tr className="flex flex-row justify-between items-center text-sm sm:text-base py-4 border-b">
@@ -84,23 +65,18 @@ const EntityList = ({ data, entityName }) => {
           </tr>
           {data?.content &&
             data.content.map((item, i) => (
-              <EntityItem key={i} entity={item} entityName={entityName} isSublist={false} />
+              <EntityItem
+                key={i}
+                entity={item}
+                entityName={entityName}
+                isSublist={false}
+              />
             ))}
-          {/* {currentItems &&
-            currentItems.map((item, i) => (
-              <EntityItem key={i} entity={item} entityName={entityName} isSublist={false} />
-            ))} */}
         </tbody>
       </table>
-      {data && <Pagination data={data} entityName={entityName} />}
-      {/* {data && (
-        <FrontPagination
-          itemsPerPage={itemsPerPage}
-          totalItems={currentList.length}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      )} */}
+      {data?.content?.length > 0 && (
+        <Pagination data={data} entityName={entityName} />
+      )}
     </>
   );
 };

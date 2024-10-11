@@ -11,13 +11,19 @@ const ListHeader = ({
   setList,
   itemsPerPage,
   setItemsPerPage,
+  setIsLoading,
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const handlePerPageChange = (e) => {
     const { value } = e.target;
-    router.push(`/dashboard/${entityName}?page=${0}&size=${value}&type=${searchParams.get("type")}`);
+    localStorage.setItem("itemsPerPage", value);
+    router.push(
+      `/dashboard/${entityName}?page=${0}&size=${value}&type=${searchParams.get(
+        "type"
+      )}`
+    );
   };
 
   const handleListChange = (e) => {
@@ -25,13 +31,96 @@ const ListHeader = ({
     if (entityName == "categories") {
       switch (value) {
         case "all":
-          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=all`);
+          localStorage.setItem("catCurrentList", "all");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=all`
+          );
           break;
-        case "super":
-          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=supercategories`);
+        case "supercategories":
+          localStorage.setItem("catCurrentList", "supercategories");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=supercategories`
+          );
           break;
-        case "sub":
-          router.push(`/dashboard/${entityName}?page=${0}&size=${searchParams.get("size")}&type=subcategories`);
+        case "subcategories":
+          localStorage.setItem("catCurrentList", "subcategories");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=subcategories`
+          );
+          break;
+      }
+    }
+    if (entityName == "pictograms") {
+      switch (value) {
+        case "all":
+          localStorage.setItem("pictoCurrentList", "all");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=all`
+          );
+          break;
+        case "verbe":
+          localStorage.setItem("pictoCurrentList", "verbe");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=verbe`
+          );
+          break;
+        case "nom":
+          localStorage.setItem("pictoCurrentList", "nom");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=nom`
+          );
+          break;
+        case "nombre":
+          localStorage.setItem("pictoCurrentList", "nombre");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=nombre`
+          );
+          break;
+        case "adjectif":
+          localStorage.setItem("pictoCurrentList", "adjectif");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=adjectif`
+          );
+          break;
+        case "invariable":
+          localStorage.setItem("pictoCurrentList", "invariable");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=invariable`
+          );
+          break;
+        case "interrogatif":
+          localStorage.setItem("pictoCurrentList", "interrogatif");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=interrogatif`
+          );
+          break;
+        case "pronom_ou_determinant":
+          localStorage.setItem("pictoCurrentList", "pronom_ou_determinant");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=pronom_ou_determinant`
+          );
           break;
       }
     }
@@ -73,13 +162,26 @@ const ListHeader = ({
                 id="list"
                 onChange={(e) => handleListChange(e)}
                 sizing="sm"
-                defaultValue={itemsPerPage}
+                defaultValue={searchParams.get("type")}
               >
                 <option value={"all"}>tous</option>
                 {entityName == "categories" && (
                   <>
-                    <option value={"super"}>super-catégories</option>
-                    <option value={"sub"}>sous-catégories</option>
+                    <option value={"supercategories"}>super-catégories</option>
+                    <option value={"subcategories"}>sous-catégories</option>
+                  </>
+                )}
+                {entityName == "pictograms" && (
+                  <>
+                    <option value={"verbe"}>verbe</option>
+                    <option value={"nom"}>nom</option>
+                    <option value={"nombre"}>nombre</option>
+                    <option value={"adjectif"}>adjectif</option>
+                    <option value={"invariable"}>invariable</option>
+                    <option value={"interrogatif"}>interrogatif</option>
+                    <option value={"pronom_ou_determinant"}>
+                      pronom_ou_determinant
+                    </option>
                   </>
                 )}
               </Select>
