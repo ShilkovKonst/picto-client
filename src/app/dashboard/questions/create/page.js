@@ -1,10 +1,7 @@
-import EntityUpdate from '@/_components/dashboard/EntityUpdate';
-import { getAll } from '@/_helpers/questionApiHelper';
-import React from 'react'
+import EntityUpdate from "@/_components/dashboard/EntityUpdate";
 
 const page = async () => {
-
   return <EntityUpdate entity={null} entityName="questions" />;
-}
+};
 
-export default page
+export default page;

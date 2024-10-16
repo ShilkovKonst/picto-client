@@ -15,8 +15,8 @@ const SignUpForm = () => {
     phoneNumber: "",
     job: "",
     institutionId: "1",
-    isActive: true,
-    isVerified: false,
+    active: true,
+    verified: false,
   });
   const [isPasswordRevealed, SetIsPasswordRevealed] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -38,7 +38,6 @@ const SignUpForm = () => {
       });
       if (response.status >= 400) {
         const body = await response.json();
-        console.log(body);
         if (response.status == 400) {
           setIsError(true);
           setErrorMessage(body.message);
@@ -52,11 +51,15 @@ const SignUpForm = () => {
             email: form.email,
             password: form.password,
           };
-          await fetch("/api/auth/signIn", {
+          const loginResponse = await fetch("/api/auth/signIn", {
             method: "POST",
             body: JSON.stringify(loginData),
             credentials: "include",
           });
+          const data = await loginResponse.json();
+          if (data.user) {
+            localStorage.setItem("userData", JSON.stringify(data.user));
+          }
           router.push(`/dashboard`);
           router.refresh();
         } catch (error) {
@@ -97,10 +100,15 @@ const SignUpForm = () => {
         <form className="flex flex-col w-full h-full" onSubmit={handleSubmit}>
           <div className="z-50 flex justify-center items-center md:flex-wrap flex-col md:flex-row gap-3 *:w-2/3 md:*:w-1/3">
             {isError && (
-              <div className="text-red-600 mx-auto"><span className="font-semibold pr-1">Invalid credentials:</span>{errorMessage}</div>
+              <div className="text-red-600 mx-auto">
+                <span className="font-semibold pr-1">Invalid credentials:</span>
+                {errorMessage}
+              </div>
             )}
             <div>
-              <label className={`${isError && "text-red-600"}`} htmlFor="email">Email</label>
+              <label className={`${isError && "text-red-600"}`} htmlFor="email">
+                Email
+              </label>
               <input
                 type="email"
                 name="email"

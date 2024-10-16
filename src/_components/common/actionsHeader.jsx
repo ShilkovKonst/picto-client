@@ -15,7 +15,7 @@ const ActionsHeader = ({ entity, entityName }) => {
           <p className="text-xs text-black">Modifier</p>
         </div>
       </Link>
-      <ActionDelete entity={entity} type="header" />
+      <ActionDelete entity={entity} entityName={entityName} />
     </div>
   );
 };

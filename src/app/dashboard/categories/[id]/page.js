@@ -1,16 +1,33 @@
-import React from "react";
 import Category from "./Category";
-import { cookies } from "next/headers";
+import getAccessToken from "@/_utils/cookieUtil";
+import {
+  getAllByOtherId,
+  getAllSubEntitiesBySuperEntityId,
+  getOneById,
+} from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-  const category = await getOneCatById(accessToken, params.id);
-  const pictograms = await getAllPictoByCategoryId(accessToken, params.id);
-  const questions = await getAllQuestionsByCategoryId(accessToken, params.id);
-  const subcategories = await getAllSubcatsBySupercategoryId(accessToken, params.id);
+  const accessToken = getAccessToken();
+  const category = await getOneById("categories", params.id, accessToken);
+  const pictograms = await getAllByOtherId(
+    "pictograms",
+    "category",
+    params.id,
+    accessToken
+  );
+  const questions = await getAllByOtherId(
+    "questions",
+    "category",
+    params.id,
+    accessToken
+  );
+  const subcategories = await getAllSubEntitiesBySuperEntityId(
+    "categories",
+    params.id,
+    accessToken
+  );
   const supercategory = category.supercategory
-    ? await getOneCatById(accessToken, category.supercategory)
+    ? await getOneById("categories", category.supercategory, accessToken)
     : null;
 
   return (
@@ -25,63 +42,3 @@ const page = async ({ params }) => {
 };
 
 export default page;
-
-async function getOneCatById(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/categories/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}
-
-async function getAllPictoByCategoryId(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/pictograms/category/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}
-
-async function getAllQuestionsByCategoryId(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/questions/category/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}
-
-async function getAllSubcatsBySupercategoryId(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/categories/${id}/subcategories`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}

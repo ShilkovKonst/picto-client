@@ -1,6 +1,6 @@
 "use client";
 import { Checkbox, Label, Radio, TextInput } from "flowbite-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FormConjFields from "./__formConjFields";
 import { irregularId } from "@/_constants/picto";
 
@@ -8,14 +8,14 @@ const FormVerbFields = ({
   form,
   setForm,
   tags,
-  verbTag,
-  setVerbTag,
   isIrregular,
   setIsIrregular,
   handleChange,
   handleRadioChange,
   handleCheckboxChange,
-}) => {
+}) => {  
+  const [verbTag, setVerbTag] = useState(null);
+
   useEffect(() => {
     verbTag != null &&
       setForm((prevForm) => ({
@@ -41,7 +41,7 @@ const FormVerbFields = ({
   return (
     <>
       <div className={`lg:flex lg:justify-between`}>
-        <fieldset className="mt-5 lg:w-2/5">
+        <fieldset className="mt-5 lg:w-2/5 flex flex-col gap-3 lg:gap-0">
           <Label value={`Tags:`} />
           {tags &&
             tags.map(

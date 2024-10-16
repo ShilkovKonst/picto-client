@@ -1,13 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
 import UpdateIcon from "../icons/updateIcon";
-import RemoveIcon from "../icons/removeIcon";
-import { Button, Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { deleteOneById, updateOneById } from "@/_helpers/categoryApiHelper";
-import { useRouter } from "next/navigation";
-import { revalidateTag } from "next/cache";
 import ActionDelete from "./_actionDelete";
 
 const ActionsTable = ({ entity, entityName, isSublist }) => {

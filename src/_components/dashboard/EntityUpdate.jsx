@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import EntityHead from "./_entityHead";
 import EntityForm from "./_entityForm";
 
-const EntityUpdate = ({ entity, entityName }) => {
+const EntityUpdate = ({ entity, entityName, categories, questions, tags }) => {
   const pathname = usePathname();
   return (
     <>
@@ -15,6 +15,9 @@ const EntityUpdate = ({ entity, entityName }) => {
         entity={entity}
         entityName={entityName}
         pathname={pathname}
+        categories={categories}
+        questions={questions}
+        tags={tags}
       />
     </>
   );

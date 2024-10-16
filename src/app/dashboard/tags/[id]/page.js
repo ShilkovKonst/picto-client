@@ -1,44 +1,47 @@
-import React from "react";
 import Tag from "./Tag";
-import { cookies } from "next/headers";
+import getAccessToken from "@/_utils/cookieUtil";
+import { getAllByOtherId, getOneById } from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-  const dataTag = await getOneById(accessToken, params.id);
-  const dataPictos = await getAllPictosByTagId(accessToken, params.id);
-  
-  return <Tag tag={dataTag} pictograms={dataPictos} />;
+  const accessToken = getAccessToken();
+  const tag = await getOneById("tags", params.id, accessToken);
+  const pictograms = await getAllByOtherId("pictograms", "tag", params.id, accessToken);
+
+  return <Tag tag={tag} pictograms={pictograms} />;
 };
 
 export default page;
 
-async function getOneById(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/tags/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken?.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}
+// async function getOneById(id) {
+//   const response = await fetch(
+//     `${process.env.CLIENT_API_BASE_URL}/api/tags/${id}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         Cookie: getAccessToken()
+//           ? `accessToken=${getAccessToken()?.value}`
+//           : "",
+//       },
+//       credentials: "include",
+//     }
+//   );
+//   const data = await response.json();
+//   return data;
+// }
 
-async function getAllPictosByTagId(accessToken, id) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/pictograms/tag/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken?.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}
+// async function getAllPictosByTagId(id) {
+//   const response = await fetch(
+//     `${process.env.CLIENT_API_BASE_URL}/api/pictograms/tag/${id}`,
+//     {
+//       method: "GET",
+//       headers: {
+//         Cookie: getAccessToken()
+//           ? `accessToken=${getAccessToken()?.value}`
+//           : "",
+//       },
+//       credentials: "include",
+//     }
+//   );
+//   const data = await response.json();
+//   return data;
+// }

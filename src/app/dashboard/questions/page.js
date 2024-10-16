@@ -1,31 +1,14 @@
 import EntityList from "@/_components/dashboard/EntityList";
-import { cookies } from "next/headers";
-import React from "react";
+import getAccessToken from "@/_utils/cookieUtil";
+import { getAllAsPage } from "@/_utils/entityApiUtil";
 
 const page = async ({ searchParams }) => {
+  const accessToken = getAccessToken();
   const page = searchParams.page ?? 0;
   const size = searchParams.size ?? 5;
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-  const data = await getAllQuestions(page, size, accessToken);
-  console.log(data);
+  const data = await getAllAsPage("questions", page, size, accessToken);
 
   return <EntityList data={data ?? []} entityName="questions" />;
 };
 
 export default page;
-
-async function getAllQuestions(page, size, accessToken) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/questions?page=${page}&size=${size}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken?.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}

@@ -1,26 +1,6 @@
 import { NextResponse } from "next/server";
 
-const getCsrfToken = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSRF token");
-    }
-    const data = await response.json();
-    return data.token;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-};
-
 export async function GET(req) {
-  const csrfToken = await getCsrfToken();
-
   const accessToken = req?.cookies?.get("accessToken");
   const searchParams = req?.nextUrl?.searchParams;
 
@@ -28,13 +8,13 @@ export async function GET(req) {
   const page = searchParams.get("page") ?? 0;
   const size = searchParams.get("size") ?? 5;
   try {
-    // fetch pictograms as list
+    // fetch tags as list
     if (asList) {
-      return await handleGetAllAsList(accessToken, csrfToken);
+      return await handleGetAllAsList(accessToken);
     }
-    return await handleGetAll(accessToken, page, size, csrfToken);
+    return await handleGetAll(accessToken, page, size);
   } catch (error) {
-    console.error("Error fetching pictograms:", error.message);
+    console.error("Error fetching tags:", error.message);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -42,13 +22,65 @@ export async function GET(req) {
   }
 }
 
-async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
+export async function POST(req) {
+  const cookies = req.headers.get("cookie");
+  // retrieve CSRF token from server
+  const csrfTokenResponse = await fetch(
+    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
+    {
+      method: "GET",
+      headers: {
+        Cookie: cookies,
+      },
+      credentials: "include",
+    }
+  );
+  if (!csrfTokenResponse.ok) {
+    return NextResponse.json(
+      { message: "Failed to fetch csrf-token" },
+      { status: csrfTokenResponse.status }
+    );
+  }
+  const csrfData = await csrfTokenResponse.json();
+  const csrfToken = csrfData.token;
+  
+  // send request to server with body, create new tag
+  const accessToken = req?.cookies?.get("accessToken");
+  const formData = await req.formData();
+  try {
+    const response = await fetch(`${process.env.SERVER_BASE_URL}/tags`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken.value}`,
+        Cookie: cookies,
+        "X-XSRF-TOKEN": csrfToken,
+      },
+      credentials: "include",
+    });
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: "Failed to create tag" },
+        { status: response.status }
+      );
+    }
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error creating category:", error.message);
+    return NextResponse.json(
+      { message: "Internal server error while creating category" },
+      { status: 500 }
+    );
+  }
+}
+
+async function handleGetAll(accessToken, pageNo, listSize) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/tags?page=${pageNo}&size=${listSize}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -59,7 +91,7 @@ async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
       // TODO: create logic
     }
     return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
+      { message: "Failed to fetch tags" },
       { status: response.status }
     );
   }
@@ -67,13 +99,12 @@ async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
   return NextResponse.json(data);
 }
 
-async function handleGetAllAsList(accessToken, csrfToken) {
+async function handleGetAllAsList(accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/tags?asList=true`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -84,7 +115,7 @@ async function handleGetAllAsList(accessToken, csrfToken) {
       // TODO: create logic
     }
     return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
+      { message: "Failed to fetch tags" },
       { status: response.status }
     );
   }

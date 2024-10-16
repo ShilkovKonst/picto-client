@@ -18,7 +18,7 @@ const EntityItem = ({ entity, entityName, isSublist }) => {
           className="w-full flex items-center"
         >
           <div className="py-5 me-2 h-0 w-1 bg-transparent group-hover/item:bg-pbg transition ease-in-out duration-300"></div>
-          <p className="w-full text-center md:text-start">{entity?.title}</p>
+          <p className="w-full text-center md:text-start">{entityName == "users" ? entity.firstName + " " + entity.lastName : entity?.title}</p>
         </Link>
       </td>
       {(entityName == "categories" || entityName == "pictograms") && (

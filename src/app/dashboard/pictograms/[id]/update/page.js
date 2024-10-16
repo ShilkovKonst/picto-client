@@ -1,11 +1,25 @@
 import EntityUpdate from "@/_components/dashboard/EntityUpdate";
-import { getOneById } from "@/_helpers/pictoApiHelper";
-import React from "react";
+import getAccessToken from "@/_utils/cookieUtil";
+import {
+  getAllAsList,
+  getAllAsSimpleList,
+  getOneById,
+} from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
-  const pictogram = await getOneById(params.id);
+  const accessToken = getAccessToken();
+  const pictogram = await getOneById("pictograms", params.id, accessToken);
+  const categories = await getAllAsSimpleList("categories", accessToken);
+  const tags = await getAllAsList("tags", accessToken);
 
-  return <EntityUpdate entity={pictogram} entityName={"pictograms"} />;
+  return (
+    <EntityUpdate
+      entity={pictogram}
+      entityName={"pictograms"}
+      categories={categories}
+      tags={tags}
+    />
+  );
 };
 
 export default page;

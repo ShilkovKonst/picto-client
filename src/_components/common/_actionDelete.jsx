@@ -1,29 +1,32 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RemoveIcon from "../icons/removeIcon";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { deleteOneById as deleteOneCatById } from "@/_helpers/categoryApiHelper";
-import { deleteOneById as deleteOnePictoById } from "@/_helpers/pictoApiHelper";
-import { deleteOneById as deleteOneTagById } from "@/_helpers/tagApiHelper";
-import { deleteOneById as deleteOneQuestById } from "@/_helpers/questionApiHelper";
 
-const ActionDelete = ({ entity, entityName, type, isSublist }) => {
+const ActionDelete = ({ entity, entityName, isSublist }) => {
   const pathname = usePathname();
+  const [perPage, setPerPage] = useState(5);
   const router = useRouter();
   const [toDelete, setToDelete] = useState(false);
 
+  useEffect(() => {
+    const itemsPerPage = localStorage.getItem("itemsPerPage");
+    if (itemsPerPage) {
+      setPerPage(itemsPerPage);
+    }
+  }, []);
+
   const handleClick = async () => {
     try {
-      entityName == "categories" && await deleteOneCatById(entity.id);
-      entityName == "pictograms" && await deleteOnePictoById(entity.id);
-      entityName == "tags" && await deleteOneTagById(entity.id);
-      entityName == "questions" && await deleteOneQuestById(entity.id);
-      setToDelete(false);
-      pathname.split("/").length > 3 &&
-        router.push(`/dashboard/categories`);
-      router.refresh();
+      const response = await deleteOneById(entity.id, entityName);
+      if (response.status == 205) {
+        setToDelete(false);
+        pathname.split("/").length > 3 &&
+          router.push(`/dashboard/${entityName}?size=${perPage}`);
+        router.refresh();
+      }
     } catch (error) {
       console.log(error);
       throw new Error(
@@ -35,7 +38,9 @@ const ActionDelete = ({ entity, entityName, type, isSublist }) => {
     <>
       <button
         onClick={() => setToDelete(true)}
-        className={`group relative bg-pbg hover:bg-pred transition ease-in-out duration-300 ${isSublist ? "h-5" : "h-10"} w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center my-1 text-xs sm:text-sm`}
+        className={`group relative bg-pbg hover:bg-pred transition ease-in-out duration-300 ${
+          isSublist ? "h-5" : "h-10"
+        } w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center my-1 text-xs sm:text-sm`}
       >
         <RemoveIcon isSublist={isSublist} />
         <div className="hidden group-hover:block absolute bottom-[100%] left-0 pb-1 rounded-lg cursor-default">
@@ -67,3 +72,22 @@ const ActionDelete = ({ entity, entityName, type, isSublist }) => {
 };
 
 export default ActionDelete;
+
+async function deleteOneById(id, entityName) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(`${errorDetails.message}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Bad credentials:", error.message);
+  }
+}

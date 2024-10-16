@@ -34,7 +34,7 @@ export async function POST(req) {
   }
 
   try {
-    console.log(requestBody)
+    console.log("requestBody from sign up api route", requestBody)
     const response = await fetch(`${process.env.SERVER_BASE_URL}/auth/signUp`, {
       method: "POST",
       body: JSON.stringify(requestBody),

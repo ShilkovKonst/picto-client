@@ -1,5 +1,3 @@
-import { getAllAsSimpleList } from "@/_helpers/categoryApiHelper";
-import { getAllAsList } from "@/_helpers/tagApiHelper";
 import { Label, Select } from "flowbite-react";
 import React, { useState, useEffect } from "react";
 import { types } from "@/_constants/picto";
@@ -8,21 +6,15 @@ import FormNounFields from "./__formNounFields";
 import FormAdjFields from "./__formAdjFields";
 import FormPronounFields from "./__formPronounFields";
 
-const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
-  const [categories, setCategories] = useState(null);
-  const [tags, setTags] = useState(null);
+const EntityFormPictoFields = ({
+  pictogram,
+  form,
+  setForm,
+  handleChange,
+  categories,
+  tags,
+}) => {
   const [isIrregular, setIsIrregular] = useState(false);
-  const [tag1, setTag1] = useState(null);
-  const [tag2, setTag2] = useState(null);
-
-  const getCategories = async () => {
-    const cats = await getAllAsSimpleList();
-    setCategories(cats);
-  };
-  const getTags = async () => {
-    const tagsList = await getAllAsList();
-    setTags(tagsList);
-  };
 
   useEffect(() => {
     setForm({
@@ -92,14 +84,10 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
         ],
       },
     });
-    getTags();
-    getCategories();
-    
   }, []);
   useEffect(() => {
     setIsIrregular(form?.tags?.includes("3"));
-  }, [form])
-  
+  }, [form]);
 
   const addTag = (tagId) => {
     setForm((prevForm) => ({
@@ -195,8 +183,6 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
           form={form}
           setForm={setForm}
           tags={tags}
-          verbTag={tag1}
-          setVerbTag={setTag1}
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
@@ -209,8 +195,6 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
           form={form}
           setForm={setForm}
           tags={tags}
-          nounTag={tag1}
-          setNounTag={setTag1}
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
@@ -233,10 +217,6 @@ const EntityFormPictoFields = ({ pictogram, form, setForm, handleChange }) => {
           form={form}
           setForm={setForm}
           tags={tags}
-          pronounTag1={tag1}
-          setPronounTag1={setTag1}
-          pronounTag2={tag2}
-          setPronounTag2={setTag2}
           handleRadioChange={handleRadioChange}
         />
       )}

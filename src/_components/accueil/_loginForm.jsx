@@ -25,13 +25,11 @@ const LoginForm = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // const responseHelper = await signin(form);
       const responseApi = await fetch("/api/auth/signIn", {
         method: "POST",
         body: JSON.stringify(form),
         credentials: "include",
       });
-      console.log("response from signin", responseApi);
       if (responseApi.status >= 400) {
         setIsError(true);
         setErrorMessage(
@@ -42,6 +40,7 @@ const LoginForm = () => {
         isError && setIsError(false);
         const data = await responseApi.json();
         if (data.user) {
+          console.log(data.user)
           localStorage.setItem("userData", JSON.stringify(data.user));
         }
         router.push(`/dashboard`);

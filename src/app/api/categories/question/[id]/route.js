@@ -1,33 +1,12 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const getCsrfToken = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSRF token");
-    }
-    const data = await response.json();
-    return data.token;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-};
-
 export async function GET(req, { params }) {
-  const csrfToken = await getCsrfToken();
   const id = params.id;
   const accessToken = req?.cookies?.get("accessToken");
-
   try {
-    return await handleGetAllByQuestionId(id, accessToken, csrfToken);
+    return await getAllByQuestionId(id, accessToken);
   } catch (error) {
-    console.error("Error fetching pictograms:", error.message);
+    console.error("Error fetching categories:", error.message);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -35,29 +14,26 @@ export async function GET(req, { params }) {
   }
 }
 
-async function handleGetAllByQuestionId(id, accessToken, csrfToken) {
+async function getAllByQuestionId(id, accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/categories/question/${id}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
   );
-
   if (!response.ok) {
     console.log("picto API !response.ok: ", response.statusText);
     if (response.status == 401) {
       // TODO: create logic
     }
     return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
+      { message: "Failed to fetch categories" },
       { status: response.status }
     );
   }
-
   const data = await response.json();
   return NextResponse.json(data);
 }

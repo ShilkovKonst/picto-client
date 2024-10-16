@@ -1,31 +1,10 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const getCsrfToken = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSRF token");
-    }
-    const data = await response.json();
-    return data.token;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-};
-
 export async function GET(req, { params }) {
-  const csrfToken = await getCsrfToken();
   const id = params.id;
   const accessToken = req?.cookies?.get("accessToken");
-
   try {
-    return await handleGetAllBySupercategory(id, accessToken, csrfToken);
+    return await getAllBySupercategory(id, accessToken);
   } catch (error) {
     console.error("Error fetching pictograms:", error.message);
     return NextResponse.json(
@@ -35,18 +14,16 @@ export async function GET(req, { params }) {
   }
 }
 
-async function handleGetAllBySupercategory(id, accessToken, csrfToken) {
+async function getAllBySupercategory(id, accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/categories/${id}/subcategories`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
   );
-
   if (!response.ok) {
     console.log("picto API !response.ok: ", response.statusText);
     if (response.status == 401) {
@@ -57,7 +34,6 @@ async function handleGetAllBySupercategory(id, accessToken, csrfToken) {
       { status: response.status }
     );
   }
-
   const data = await response.json();
   return NextResponse.json(data);
 }

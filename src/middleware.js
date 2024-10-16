@@ -19,9 +19,9 @@ export async function middleware(request) {
           credentials: "include",
         }
       );
-      if (res.headers.getSetCookie()) {
+      if (res.headers.getSetCookie().length > 0) {
         const setCookieHeader = res.headers.getSetCookie();
-        const [cookie, ...cookieAttributes] = setCookieHeader[0].split("; ");
+        const [cookie, ...cookieAttributes] = setCookieHeader[0]?.split("; ");
         const attributes = {};
         cookieAttributes.forEach((attr) => {
           const [key, value] = attr.split("=");
@@ -80,52 +80,3 @@ export async function middleware(request) {
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
-
-async function refreshAccessToken(cookies) {
-  try {
-    const res = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/auth/refresh`,
-      {
-        method: "POST",
-        headers: {
-          Cookie: cookies,
-        },
-        credentials: "include",
-      }
-    );
-    console.log(
-      "res.headers.getSetCookie() from method from middleware",
-      cookies
-    );
-    if (res.headers.getSetCookie()) {
-      const setCookieHeader = res.headers.getSetCookie();
-      const [cookie, ...cookieAttributes] = setCookieHeader[0].split("; ");
-      const attributes = {};
-      cookieAttributes.forEach((attr) => {
-        const [key, value] = attr.split("=");
-        attributes[key.toLowerCase()] = value || true;
-      });
-      const response = NextResponse.next();
-      response.cookies.set(cookie.split("=")[0], cookie.split("=")[1], {
-        httpOnly: attributes["httponly"] || false,
-        secure: attributes["secure"] || false,
-        path: attributes["path"] || "/",
-        maxAge: attributes["max-age"]
-          ? parseInt(attributes["max-age"], 10)
-          : undefined,
-        expires: attributes["expires"]
-          ? new Date(attributes["expires"])
-          : undefined,
-        sameSite: attributes["samesite"],
-      });
-      // console.log("response from middleware", response);
-      return response;
-    }
-  } catch (error) {
-    console.error("Error refreshing access-token:", error.message);
-    return NextResponse.json(
-      { message: "Internal server error while refreshing token" },
-      { status: 500 }
-    );
-  }
-}

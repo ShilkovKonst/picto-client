@@ -4,9 +4,9 @@ import { getOneById } from '@/_utils/entityApiUtil';
 
 const page = async ({params}) => {
   const accessToken = getAccessToken();
-  const question = await getOneById("questions", params.id, accessToken);
+  const tag = await getOneById("tags", params.id, accessToken);
 
-  return <EntityUpdate entity={question} entityName="questions" />;
+  return <EntityUpdate entity={tag} entityName="tags" />;
 }
 
 export default page

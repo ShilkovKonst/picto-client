@@ -1,78 +1,48 @@
 import { NextResponse } from "next/server";
 
-const getCsrfToken = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSRF token");
-    }
-    const data = await response.json();
-    return data.token;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-};
-
 export async function GET(req) {
-  const csrfToken = await getCsrfToken();
-
-  const accessToken = req?.cookies?.get("accessToken");
-  const searchParams = req?.nextUrl?.searchParams;
-
-  const asList = searchParams.get("asList");
-  const simple = searchParams.get("simple");
-  const type = searchParams.get("type");
-  const page = searchParams.get("page") ?? 0;
-  const size = searchParams.get("size") ?? 5;
-
+  const accessToken = req.cookies?.get("accessToken");  
+  const searchParams = req.nextUrl?.searchParams;
+  const { asList, simple, type, page = 0, size = 5 } = Object.fromEntries(searchParams.entries());
   try {
     // fetch categories as list
     if (asList) {
       if (type === "supercategories") {
-        return await handleGetAllByTypeAsList(
+        return await getAllByTypeAsList(
           accessToken,
-          csrfToken,
           "supercategories"
         );
       }
       if (type === "subcategories") {
-        return await handleGetAllByTypeAsList(
+        return await getAllByTypeAsList(
           accessToken,
-          csrfToken,
           "subcategories"
         );
       }
       if (simple) {
-        return await handleGetAllAsSimpleList(accessToken, csrfToken);
+        return await getAllAsSimpleList(accessToken);
       }
-      return await handleGetAllAsList(accessToken, csrfToken);
+      return await getAllAsList(accessToken);
     }
     // fetch categories as pages
     else {
       if (type === "supercategories") {
-        return await handleGetAllByType(
+        return await getAllByType(
           accessToken,
           page,
           size,
-          csrfToken,
           "supercategories"
         );
       }
       if (type === "subcategories") {
-        return await handleGetAllByType(
+        return await getAllByType(
           accessToken,
           page,
           size,
-          csrfToken,
           "subcategories"
         );
       }
-      return await handleGetAll(accessToken, page, size, csrfToken);
+      return await getAll(accessToken, page, size);
     }
   } catch (error) {
     console.error("Error fetching pictograms:", error.message);
@@ -84,20 +54,64 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
-  const csrfToken = await getCsrfToken();
-
-  const accessToken = req?.cookies?.get("accessToken");
+  const cookies = req.headers.get("cookie");
+  // retrieve CSRF token from server
+  const csrfTokenResponse = await fetch(
+    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
+    {
+      method: "GET",
+      headers: {
+        Cookie: cookies,
+      },
+      credentials: "include",
+    }
+  );
+  if (!csrfTokenResponse.ok) {
+    return NextResponse.json(
+      { message: "Failed to fetch csrf-token" },
+      { status: csrfTokenResponse.status }
+    );
+  }
+  const csrfData = await csrfTokenResponse.json();
+  const csrfToken = csrfData.token;
   
-
+  // send request to server with body, create new category
+  const accessToken = req?.cookies?.get("accessToken");
+  const formData = await req.formData();
+  try {
+    const response = await fetch(`${process.env.SERVER_BASE_URL}/categories`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken.value}`,
+        Cookie: cookies,
+        "X-XSRF-TOKEN": csrfToken,
+      },
+      credentials: "include",
+    });
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: "Failed to create category" },
+        { status: response.status }
+      );
+    }
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error creating category:", error.message);
+    return NextResponse.json(
+      { message: "Internal server error while creating category" },
+      { status: 500 }
+    );
+  }
 }
 
-async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
+async function getAll(accessToken, pageNo, listSize) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/categories?page=${pageNo}&size=${listSize}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -116,11 +130,10 @@ async function handleGetAll(accessToken, pageNo, listSize, csrfToken) {
   return NextResponse.json(data);
 }
 
-async function handleGetAllByType(
+async function getAllByType(
   accessToken,
   pageNo,
   listSize,
-  csrfToken,
   type
 ) {
   const response = await fetch(
@@ -128,7 +141,6 @@ async function handleGetAllByType(
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -147,13 +159,12 @@ async function handleGetAllByType(
   return NextResponse.json(data);
 }
 
-async function handleGetAllAsList(accessToken, csrfToken) {
+async function getAllAsList(accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/categories?asList=true`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -172,13 +183,12 @@ async function handleGetAllAsList(accessToken, csrfToken) {
   return NextResponse.json(data);
 }
 
-async function handleGetAllAsSimpleList(accessToken, csrfToken) {
+async function getAllAsSimpleList(accessToken) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/categories?asList=true&simple=true`,
+    `${process.env.SERVER_BASE_URL}/categories?simple=true`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }
@@ -197,17 +207,12 @@ async function handleGetAllAsSimpleList(accessToken, csrfToken) {
   return NextResponse.json(data);
 }
 
-async function handleGetAllByTypeAsList(
-  accessToken,
-  csrfToken,
-  type
-) {
+async function getAllByTypeAsList(accessToken, type) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/categories/${type}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }

@@ -1,17 +1,16 @@
 "use client";
 import { Label, Radio } from "flowbite-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const FormPronounFields = ({
   form,
   setForm,
   tags,
-  pronounTag1,
-  setPronounTag1,
-  pronounTag2,
-  setPronounTag2,
   handleRadioChange,
 }) => {
+  const [pronounTag1, setPronounTag1] = useState(null);
+  const [pronounTag2, setPronounTag2] = useState(null);
+
   useEffect(() => {
     pronounTag1 != null &&
       setForm((prevForm) => ({
@@ -30,7 +29,7 @@ const FormPronounFields = ({
 
   return (
     <div className={`lg:flex lg:justify-between`}>
-      <fieldset className="mt-5 lg:w-2/5">
+      <fieldset className="mt-5 lg:w-2/5 flex flex-col gap-3 lg:gap-0">
         <Label value={`Tags:`} />
         {tags?.map(
           (t, i) =>

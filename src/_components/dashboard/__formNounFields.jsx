@@ -1,21 +1,20 @@
 "use client";
 import { irregularId } from "@/_constants/picto";
 import { Checkbox, Label, Radio, TextInput } from "flowbite-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const FormNounFields = ({
   form,
   setForm,
   tags,
-  nounTag,
-  setNounTag,
   isIrregular,
   setIsIrregular,
   handleChange,
   handleRadioChange,
   handleCheckboxChange,
-}) => {
-  
+}) => {  
+  const [nounTag, setNounTag] = useState(null);
+
   useEffect(() => {
     nounTag != null &&
       setForm((prevForm) => ({
@@ -26,7 +25,7 @@ const FormNounFields = ({
 
   return (
     <div className={`lg:flex lg:justify-between`}>
-      <fieldset className="mt-5 lg:w-2/5">
+      <fieldset className="mt-5 lg:w-2/5 flex flex-col gap-3 lg:gap-0">
         <Label value={`Tags:`} />
         {tags &&
           tags.map(

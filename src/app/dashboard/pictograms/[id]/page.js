@@ -1,29 +1,16 @@
-import React from "react";
 import Pictogram from "./Pictogram";
-import { cookies } from "next/headers";
+import getAccessToken from "@/_utils/cookieUtil";
+import { getOneById } from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get("accessToken");
-  const dataPicto = await apiResponse(params.id, "pictograms", accessToken)
-  const dataCat = await apiResponse(dataPicto.category, "categories", accessToken)
-  
-  return <Pictogram pictogram={dataPicto ?? null} category={dataCat ?? null} />;
+  const accessToken = getAccessToken();
+  const pictogram = await getOneById("pictograms", params.id, accessToken);
+  const category = await getOneById(
+    "categories",
+    pictogram.category,
+    accessToken
+  );
+  return <Pictogram pictogram={pictogram} category={category} />;
 };
 
 export default page;
-
-async function apiResponse(id, entity, accessToken) {
-  const responsePicto = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entity}/${id}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const dataPicto = await responsePicto.json();
-  return dataPicto;
-}
