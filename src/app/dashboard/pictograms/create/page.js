@@ -1,7 +1,6 @@
 import EntityUpdate from "@/_components/dashboard/EntityUpdate";
-import getAccessToken from "@/_utils/cookieUtil";
+import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
-import React from "react";
 
 const page = async () => {
   const accessToken = getAccessToken();

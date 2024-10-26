@@ -4,7 +4,7 @@ export async function GET(req, { params }) {
   const id = params.id;
   const accessToken = req?.cookies?.get("accessToken");
   try {
-    return await getAllBySupercategory(id, accessToken);
+    return await getAllBySupercategoryId(id, accessToken);
   } catch (error) {
     console.error("Error fetching pictograms:", error.message);
     return NextResponse.json(
@@ -14,9 +14,9 @@ export async function GET(req, { params }) {
   }
 }
 
-async function getAllBySupercategory(id, accessToken) {
+async function getAllBySupercategoryId(id, accessToken) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/categories/${id}/subcategories`,
+    `${process.env.SERVER_BASE_URL}/categories/supercategory/${id}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,

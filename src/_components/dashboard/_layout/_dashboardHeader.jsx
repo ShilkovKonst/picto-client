@@ -1,25 +1,15 @@
 "use client";
-import images from "@/_constants/images";
 import Image from "next/image";
+import images from "@/_constants/images";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
 
-const DashboardHeader = () => {
+const DashboardHeader = ({ user }) => {
   const router = useRouter();
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-  }, []);
-
-  const handleClick = async () => {
+  const handleSignOut = async () => {
     const response = await fetch("/api/auth/signOut");
     if (response.status == 200) {
       console.log("response.status == 200", response.status);
-      localStorage.removeItem("userData");
     }
     router.push(`/`);
     router.refresh();
@@ -43,7 +33,7 @@ const DashboardHeader = () => {
           </div>
           <button
             type="button"
-            onClick={handleClick}
+            onClick={handleSignOut}
             className="w-10 h-10 bg-pbg hover:bg-pred transition duration-300 ease-in-out rounded-full overflow-hidden flex justify-center items-center"
           >
             <svg
@@ -63,7 +53,7 @@ const DashboardHeader = () => {
                 d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"
               />
             </svg>
-{/* 
+            {/* 
             <svg
               className="w-10 h-10 text-white"
               aria-hidden="true"

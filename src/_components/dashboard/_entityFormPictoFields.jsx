@@ -15,7 +15,7 @@ const EntityFormPictoFields = ({
   tags,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
-
+  
   useEffect(() => {
     setForm({
       ...form,
@@ -149,7 +149,7 @@ const EntityFormPictoFields = ({
             >
               <option value={-1}>Choisir une catégorie</option>
               {categories &&
-                categories.map((cat, i) => (
+                categories.sort((a, b) => a.title.localeCompare(b.title)).map((cat, i) => (
                   <option key={i} value={cat.id}>
                     {cat.title}
                   </option>

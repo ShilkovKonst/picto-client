@@ -1,5 +1,5 @@
 import Tag from "./Tag";
-import getAccessToken from "@/_utils/cookieUtil";
+import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllByOtherId, getOneById } from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {

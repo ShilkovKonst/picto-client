@@ -5,7 +5,6 @@ import { useState } from "react";
 import EntityFormImage from "./_entityFormImage";
 import EntityFormCatFields from "./_entityFormCatFields";
 import EntityFormPictoFields from "./_entityFormPictoFields";
-import { categoryFormData, pictoFormData } from "@/_helpers/submitHelper";
 
 const EntityForm = ({
   entity,
@@ -29,10 +28,18 @@ const EntityForm = ({
     const formData = new FormData();
     formData.append("title", form.title);
     if (entityName == "categories") {
-      categoryFormData(form, formData);
+      // categoryFormData(form, formData);
+      form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
+      formData.append("supercategory", form.type);
+      formData.append("questions", form.type);
     }
     if (entityName == "pictograms") {
-      pictoFormData(form, formData);
+      // pictoFormData(form, formData);      
+      form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
+      formData.append("type", form.type);
+      formData.append("category", form.category);
+      formData.append("tags", JSON.stringify(form.tags));
+      form.tags.includes("3") && formData.append("irregular", JSON.stringify(form.irregular));
     }
     try {
       // on create

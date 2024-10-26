@@ -12,6 +12,8 @@ import EyeSlashIcon from "./eyeSlashIcon";
 import SuccessIcon from "./successIcon";
 import UpdateIcon from "./updateIcon";
 import WarningIcon from "./warningIcon";
+import NotesIcon from "./notesIcon";
+import InstitutionsIcon from "./institutionsIcon";
 
 export {
   HomeIcon,
@@ -27,5 +29,7 @@ export {
   EyeSlashIcon,
   SuccessIcon,
   UpdateIcon,
-  WarningIcon
-  };
+  WarningIcon,
+  NotesIcon,
+  InstitutionsIcon,
+};

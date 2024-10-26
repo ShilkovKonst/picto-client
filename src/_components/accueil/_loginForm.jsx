@@ -31,18 +31,11 @@ const LoginForm = () => {
         credentials: "include",
       });
       if (responseApi.status >= 400) {
+        setIsLoading(false);
         setIsError(true);
-        setErrorMessage(
-          "Invalid credentials: " +
-            (responseApi.statusText ?? responseApi.error)
-        );
+        setErrorMessage("Invalid credentials: incorrect email or password");
       } else {
         isError && setIsError(false);
-        const data = await responseApi.json();
-        if (data.user) {
-          console.log(data.user)
-          localStorage.setItem("userData", JSON.stringify(data.user));
-        }
         router.push(`/dashboard`);
         router.refresh();
       }
@@ -53,7 +46,7 @@ const LoginForm = () => {
 
   return (
     <div
-      className="flex justify-center z-10 relative items-center h-full w-full md:w-2/5 bg-[#e5e9ec] overflow-hidden shadow-outset-4/10"
+      className="flex justify-center z-10 relative items-center w-full md:w-2/5 bg-[#e5e9ec] overflow-hidden shadow-outset-4/10"
       id="connexion switch-cnt"
     >
       <div
@@ -106,13 +99,6 @@ const LoginForm = () => {
                 className="z-10 cursor-pointer underline text-sm leading-loose font-bold hover:text-pred transition duration-150"
               >
                 Mot de passe oublié ?
-              </Link>
-              <Link
-                href="/dashboard"
-                className="z-10 btn-b flex justify-center items-center"
-                type="submit"
-              >
-                To dashboard
               </Link>
               <button
                 className="z-10 btn-b flex justify-center items-center"

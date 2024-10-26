@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  interpolate-size: allow-keywords;
+}
 
+/* /////////////////////////////////////////////////////////////////// */
 body {
   min-width: 480px;
 }

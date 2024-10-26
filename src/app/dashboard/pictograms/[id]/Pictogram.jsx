@@ -1,9 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
 import EntityHead from "@/_components/dashboard/_entityHead";
-import { getOneMediaFile } from "@/_helpers/pictoApiHelper";
 
 
 const Pictogram = ({ pictogram, category }) => {

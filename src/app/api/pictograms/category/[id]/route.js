@@ -1,31 +1,11 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-const getCsrfToken = async () => {
-  try {
-    const response = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-      {
-        method: "GET",
-      }
-    );
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSRF token");
-    }
-    const data = await response.json();
-    return data.token;
-  } catch (error) {
-    console.error("Error fetching CSRF token:", error);
-  }
-};
-
 export async function GET(req, { params }) {
-  const csrfToken = await getCsrfToken();
   const id = params.id;
   const accessToken = req?.cookies?.get("accessToken");
 
   try {
-    return await handleGetAllByCategoryId(id, accessToken, csrfToken);
+    return await handleGetAllByCategoryId(id, accessToken);
   } catch (error) {
     console.error("Error fetching pictograms:", error.message);
     return NextResponse.json(
@@ -35,13 +15,12 @@ export async function GET(req, { params }) {
   }
 }
 
-async function handleGetAllByCategoryId(id, accessToken, csrfToken) {
+async function handleGetAllByCategoryId(id, accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/pictograms/category/${id}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
-        "X-XSRF-TOKEN": csrfToken,
       },
       credentials: "include",
     }

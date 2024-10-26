@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
+  // if user is signed out => reroute to landing page
+  if (
+    !request.cookies.get("refreshToken") &&
+    request.nextUrl.href.includes("dashboard")
+  ) {
+    return NextResponse.redirect(`${process.env.CLIENT_API_BASE_URL}/`);
+  }
   // if user is still authenticated -> gain new access token via refresh api route
   if (
     request.cookies.get("refreshToken") &&

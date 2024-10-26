@@ -1,5 +1,5 @@
 import EntityList from "@/_components/dashboard/EntityList";
-import getAccessToken from "@/_utils/cookieUtil";
+import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsPage, getAllByTypeAsPage } from "@/_utils/entityApiUtil";
 
 const page = async ({ searchParams }) => {

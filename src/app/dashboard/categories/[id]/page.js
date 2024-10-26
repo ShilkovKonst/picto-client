@@ -1,8 +1,7 @@
 import Category from "./Category";
-import getAccessToken from "@/_utils/cookieUtil";
+import getAccessToken from "@/_utils/getAccessTokenUtil";
 import {
   getAllByOtherId,
-  getAllSubEntitiesBySuperEntityId,
   getOneById,
 } from "@/_utils/entityApiUtil";
 
@@ -21,8 +20,9 @@ const page = async ({ params }) => {
     params.id,
     accessToken
   );
-  const subcategories = await getAllSubEntitiesBySuperEntityId(
+  const subcategories = await getAllByOtherId(
     "categories",
+    "supercategory",
     params.id,
     accessToken
   );

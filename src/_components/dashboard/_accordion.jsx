@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import EntityItem from "./_entityItem";
 
-const Accordion = ({ state, setState, entityName, entity }) => {
+const Accordion = ({ state, setState, entityName, entity }) => {  
   return (
     <>
       <motion.button
-        animate={{ backgroundColor: state ? "#e58463" : "#1e646f", color: state ? "black" : "white"}}
+        animate={{
+          backgroundColor: state ? "#e58463" : "#1e646f",
+          color: state ? "black" : "white",
+        }}
         transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
         onClick={() => setState((prev) => !prev)}
         className=" inline-flex justify-center w-full rounded-full border border-gray-300 shadow-sm my-1 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
       >
-        <span className="capitalize mr-1">{entityName}</span>
-        ({entity?.length} au totale)
+        <span className="capitalize mr-1">{entityName}</span>({entity?.length}{" "}
+        au totale)
         <svg
           className="-mr-1 ml-2 h-5 w-5"
           xmlns="http://www.w3.org/2000/svg"

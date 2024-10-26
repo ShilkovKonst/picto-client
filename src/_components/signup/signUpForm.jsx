@@ -1,11 +1,11 @@
 "use client";
 import images from "@/_constants/images";
-import { signin, signup } from "@/_helpers/authApiHelpers";
+import { Select } from "flowbite-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const SignUpForm = () => {
+const SignUpForm = ({ institutions }) => {
   const router = useRouter();
   const [form, setForm] = useState({
     email: "",
@@ -14,14 +14,15 @@ const SignUpForm = () => {
     lastName: "",
     phoneNumber: "",
     job: "",
-    institutionId: "1",
+    institutionId: "",
+    code: "",
     active: true,
     verified: false,
   });
   const [isPasswordRevealed, SetIsPasswordRevealed] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [errorCode, setErrorCode] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
-
   const handleChange = (e) => {
     isError && setIsError(false);
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -36,15 +37,11 @@ const SignUpForm = () => {
         body: JSON.stringify(form),
         credentials: "include",
       });
-      if (response.status >= 400) {
-        const body = await response.json();
-        if (response.status == 400) {
-          setIsError(true);
-          setErrorMessage(body.message);
-        } else {
-          setIsError(true);
-          setErrorMessage(response.statusText);
-        }
+      const body = await response.json();
+      if (body.status >= 400) {
+        setIsError(true);
+        setErrorCode(body.status);
+        setErrorMessage(body.title);
       } else {
         try {
           const loginData = {
@@ -68,8 +65,6 @@ const SignUpForm = () => {
               error.message
           );
         }
-        /* router.push(`/`);
-        router.refresh(); */
       }
     } catch (error) {
       throw new Error(
@@ -98,22 +93,25 @@ const SignUpForm = () => {
         </h2>
 
         <form className="flex flex-col w-full h-full" onSubmit={handleSubmit}>
+          {isError && (
+            <div className="text-red-600 mx-auto">
+              <span className="font-semibold pr-1">Invalid credentials:</span>
+              {errorMessage}
+            </div>
+          )}
           <div className="z-50 flex justify-center items-center md:flex-wrap flex-col md:flex-row gap-3 *:w-2/3 md:*:w-1/3">
-            {isError && (
-              <div className="text-red-600 mx-auto">
-                <span className="font-semibold pr-1">Invalid credentials:</span>
-                {errorMessage}
-              </div>
-            )}
             <div>
-              <label className={`${isError && "text-red-600"}`} htmlFor="email">
+              <label
+                className={`${isError && errorCode == 400 && "text-red-600"}`}
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                className={`input-text md:mb-4 ${isError && "bg-red-100"}`}
+                className={`input-text md:mb-4 ${isError && errorCode == 400 && "bg-red-100"}`}
                 autoComplete="email"
                 placeholder="Email"
                 onChange={handleChange}
@@ -185,6 +183,44 @@ const SignUpForm = () => {
                 placeholder="Fonction"
                 onChange={handleChange}
                 value={form.job}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="institution">Institution</label>
+              <Select
+                id="institutionId"
+                name="institutionId"
+                className="input-text md:mb-4 pl-0"
+                onChange={handleChange}
+                defaultValue={-1}
+                required
+              >
+                <option value={-1}>Choisir votre institution</option>
+                {institutions
+                  .sort((a, b) => a.title.localeCompare(b.title))
+                  .map((inst, i) => (
+                    <option key={i} value={inst.id}>
+                      {inst.title}
+                    </option>
+                  ))}
+              </Select>
+            </div>
+            <div>
+              <label
+                className={`${isError && errorCode == 403 && "text-red-600"}`}
+                htmlFor="institution"
+              >
+                Code de vérification
+              </label>
+              <input
+                type="text"
+                name="code"
+                id="code"
+                className={`input-text md:mb-4 ${isError && errorCode == 403 && "bg-red-100"}`}
+                placeholder="Saisir code de votre institution"
+                onChange={handleChange}
+                value={form.code}
                 required
               />
             </div>

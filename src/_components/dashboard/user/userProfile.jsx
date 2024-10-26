@@ -4,15 +4,15 @@ import UserActions from "./userActions";
 import WarningIcon from "@/_components/icons/warningIcon";
 import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
+import { getCookie } from "@/_utils/getCookieUtil";
+import { jwtDecode } from "jwt-decode";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
+    const accessToken = getCookie("accessToken");
+    setUser(jwtDecode(accessToken))
   }, []);
 
   return (

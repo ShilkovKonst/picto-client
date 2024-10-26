@@ -1,27 +1,14 @@
 import EntityList from "@/_components/dashboard/EntityList";
-import getAccessToken from "@/_utils/cookieUtil";
+import getAccessToken from "@/_utils/getAccessTokenUtil";
+import { getAllAsPage } from "@/_utils/entityApiUtil";
 
 const page = async ({ searchParams }) => {
+  const accessToken = getAccessToken();
   const page = searchParams.page ?? 0;
   const size = searchParams.size ?? 5;
-  const data = await getAllUsers(page, size, accessToken);
+  const data = await getAllAsPage("users", page, size, accessToken);
 
   return <EntityList data={data ?? []} entityName="users" />;
 };
 
 export default page;
-
-async function getAllUsers(page, size, accessToken) {
-  const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/users?page=${page}&size=${size}`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: getAccessToken() ? `accessToken=${getAccessToken()?.value}` : "",
-      },
-      credentials: "include",
-    }
-  );
-  const data = await response.json();
-  return data;
-}

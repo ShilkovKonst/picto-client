@@ -45,14 +45,7 @@ export async function POST(req) {
       },
       credentials: "include",
     });
-    if (!response.ok) {
-      return NextResponse.json(
-        { message: "Failed to create user, this email is already in use" },
-        { status: response.status }
-      );
-    }    
     const data = await response.json()
-
     return NextResponse.json(data);
 
   } catch (error) {
