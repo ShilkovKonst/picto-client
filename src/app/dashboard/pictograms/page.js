@@ -1,18 +1,18 @@
 import EntityList from "@/_components/dashboard/EntityList";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllAsPage, getAllByTypeAsPage } from "@/_utils/entityApiUtil";
+import { getAllAsPage, getAllByOtherAsPage } from "@/_utils/entityApiUtil";
 
 const page = async ({ searchParams }) => {
   const accessToken = getAccessToken();
-  const page = searchParams.page ?? 0;
-  const size = searchParams.size ?? 5;
+  const { page = 0, size = 5, type } = searchParams;
   const data =
-    searchParams.type != "all"
-      ? await getAllByTypeAsPage(
+    type != "all"
+      ? await getAllByOtherAsPage(
           "pictograms",
+          "type",
+          type,
           page,
           size,
-          searchParams.type,
           accessToken
         )
       : await getAllAsPage("pictograms", page, size, accessToken);

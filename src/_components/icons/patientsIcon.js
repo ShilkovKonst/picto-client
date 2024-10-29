@@ -4,7 +4,9 @@ export const PatientsIcon = ({ pathname }) => {
   return (
     <svg
       className={`w-8 h-8 md:w-6 md:h-6 transition duration-150 ease-in-out ${
-        pathname === "/dashboard/patients" ? "text-pred" : "text-pbg group-hover:text-pred"
+         pathname.includes("/dashboard/patients")
+          ? "text-pred"
+          : "text-pbg group-hover:text-pred"
       } `}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +17,7 @@ export const PatientsIcon = ({ pathname }) => {
     >
       <path
         fillRule="evenodd"
-        d="M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3 1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1Z"
+        d="M5.024 3.783A1 1 0 0 1 6 3h12a1 1 0 0 1 .976.783L20.802 12h-4.244a1.99 1.99 0 0 0-1.824 1.205 2.978 2.978 0 0 1-5.468 0A1.991 1.991 0 0 0 7.442 12H3.198l1.826-8.217ZM3 14v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5h-4.43a4.978 4.978 0 0 1-9.14 0H3Zm5-7a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Zm0 2a1 1 0 0 0 0 2h8a1 1 0 1 0 0-2H8Z"
         clipRule="evenodd"
       />
     </svg>

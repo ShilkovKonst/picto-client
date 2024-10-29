@@ -13,11 +13,15 @@ const EntityHead = ({ entity, entityName }) => {
               {entityName == "pictograms" && "Pictogramme:"}
               {entityName == "questions" && "Question:"}
               {entityName == "tags" && "Tag:"}
+              {entityName == "institutions" && "Institution:"}
+              {entityName == "users" && "Thérapeute:"}
+              {entityName == "patients" && "Patient:"}
+              {entityName == "notes" && "Note:"}
               <Link
                 className="hover:text-pred trasition duration-150 ease-in-out ml-3"
                 href={`/dashboard/${entityName}/${entity?.id}`}
               >
-                {entity?.title}
+                {entityName != "users" && entityName != "patients" ? entity?.title : entity.firstName.slice(0, 1) + ". " + entity.lastName}
               </Link>
             </span>
             <ActionsHeader entity={entity} entityName={entityName} />
@@ -29,6 +33,10 @@ const EntityHead = ({ entity, entityName }) => {
               {entityName == "pictograms" && "Créer une nouvelle pictogramme"}
               {entityName == "questions" && "Créer une nouvelle question"}
               {entityName == "tags" && "Créer un nouveau tag"}
+              {entityName == "institutions" && "Créer une nouvelle institution"}
+              {entityName == "users" && "Créer un nouveau thérapeute"}
+              {entityName == "patients" && "Créer un nouveau patient"}
+              {entityName == "notes" && "Créer une nouvelle note"}
             </span>
           </th>
         )}

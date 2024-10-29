@@ -1,26 +1,26 @@
 import Category from "./Category";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import {
-  getAllByOtherId,
+  getAllByOtherAsList,
   getOneById,
 } from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
   const accessToken = getAccessToken();
   const category = await getOneById("categories", params.id, accessToken);
-  const pictograms = await getAllByOtherId(
+  const pictograms = await getAllByOtherAsList(
     "pictograms",
     "category",
     params.id,
     accessToken
   );
-  const questions = await getAllByOtherId(
+  const questions = await getAllByOtherAsList(
     "questions",
     "category",
     params.id,
     accessToken
   );
-  const subcategories = await getAllByOtherId(
+  const subcategories = await getAllByOtherAsList(
     "categories",
     "supercategory",
     params.id,

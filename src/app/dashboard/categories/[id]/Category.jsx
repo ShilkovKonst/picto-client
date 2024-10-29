@@ -5,12 +5,13 @@ import React, { useState } from "react";
 import EntityHead from "@/_components/dashboard/_entityHead";
 import Accordion from "@/_components/dashboard/_accordion";
 
-const Category = ({ category, pictograms, questions, subcategories, supercategory }) => {
-  const [isOpenPictos, setIsOpenPictos] = useState(
-    category?.pictograms?.length > 0
-  );
-  const [isOpenQuests, setIsOpenQuests] = useState(questions != null);
-  const [isOpenSubcats, setIsOpenSubcats] = useState(subcategories != null);
+const Category = ({
+  category,
+  pictograms,
+  questions,
+  subcategories,
+  supercategory,
+}) => {
   return (
     <>
       <table className="table w-full">
@@ -36,7 +37,10 @@ const Category = ({ category, pictograms, questions, subcategories, supercategor
                     Super category:{" "}
                   </th>
                   <td className="text-start w-[45%] lg:w-[30%]">
-                    <Link href={`/dashboard/categories/${supercategory?.id}`} className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
+                    <Link
+                      href={`/dashboard/categories/${supercategory?.id}`}
+                      className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                    >
                       {supercategory.title}
                     </Link>
                   </td>
@@ -46,30 +50,14 @@ const Category = ({ category, pictograms, questions, subcategories, supercategor
           )}
         </tbody>
       </table>
-      {pictograms && (
-        <Accordion
-          state={isOpenPictos}
-          setState={setIsOpenPictos}
-          entityName={"pictograms"}
-          entity={pictograms}
-        />
-      )}
-      {questions && (
-        <Accordion
-          state={isOpenQuests}
-          setState={setIsOpenQuests}
-          entityName={"questions"}
-          entity={questions}
-        />
-      )}
-      {subcategories && (
-        <Accordion
-          state={isOpenSubcats}
-          setState={setIsOpenSubcats}
-          entityName={"categories"}
-          entity={subcategories}
-        />
-      )}
+      <Accordion
+        initial="pictograms"
+        entities={[
+          { name: "pictograms", entity: pictograms },
+          { name: "questions", entity: questions },
+          { name: "categories", entity: subcategories },
+        ]}
+      />
     </>
   );
 };

@@ -4,7 +4,7 @@ export const UsersIcon = ({ pathname }) => {
   return (
     <svg
       className={`w-8 h-8 md:w-6 md:h-6 transition duration-150 ease-in-out ${
-        pathname === "/dashboard/users"
+        pathname.includes("/dashboard/users")
           ? "text-pred"
           : "text-pbg group-hover:text-pred"
       } `}

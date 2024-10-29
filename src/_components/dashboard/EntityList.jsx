@@ -1,8 +1,6 @@
 "use client";
 import ListHeader from "@/_components/common/listHeader";
-import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import FrontPagination from "@/_components/common/frontPagination";
+import { useState, useEffect } from "react";
 import EntityItem from "./_entityItem";
 import Pagination from "../common/pagination";
 
@@ -21,7 +19,9 @@ const EntityList = ({ data, entityName }) => {
   }, []);
 
   useEffect(() => {
-    itemsPerPage != 0 && localStorage.setItem("itemsPerPage", itemsPerPage);
+    itemsPerPage >= 5 &&
+      itemsPerPage <= 10 &&
+      localStorage.setItem("itemsPerPage", Math.floor(itemsPerPage));
   }, [itemsPerPage]);
 
   return (
@@ -33,31 +33,58 @@ const EntityList = ({ data, entityName }) => {
           setItemsPerPage={setItemsPerPage}
         />
         <tbody className="flex flex-col gap-1">
-          <tr className="flex flex-row justify-between items-center text-sm sm:text-base py-4 border-b">
+          <tr
+            className={`grid justify-between items-center text-sm sm:text-base py-4 border-b ${
+              entityName == "users" || entityName == "patients"
+                ? "grid-cols-8"
+                : entityName == "notes"
+                ? "grid-cols-4"
+                : entityName == "pictograms" || entityName == "categories"
+                ? "grid-cols-3"
+                : "grid-cols-2"
+            }`}
+          >
             <th
-              className={`flex justify-center md:justify-start items-center md:text-start ${
-                entityName == "categories" || entityName == "pictograms"
-                  ? "w-1/3 md:w-2/5"
-                  : "w-1/2"
+              className={`text-center md:text-start ${
+                entityName == "users" || entityName == "patients"
+                  ? "col-span-3"
+                  : "col-span-1"
               }`}
             >
-              <Link
-                href={`#`}
-                className="flex items-center w-auto {{ sortBy == 'name' ? 'underline decoration-1' }} "
-              >
-                Titre
-              </Link>
+              {entityName != "notes" &&
+              entityName != "users" &&
+              entityName != "patients"
+                ? "Titre"
+                : entityName == "patients"
+                ? "Patient"
+                : "Thérapeute"}
             </th>
             {(entityName == "categories" || entityName == "pictograms") && (
-              <th className="text-center md:text-start w-1/3 md:w-1/5">
-                Image
-              </th>
+              <th className="text-center md:text-start">Image</th>
+            )}
+            {entityName == "notes" && (
+              <>
+                <th className="text-center md:text-start">Patient(e)</th>
+                <th className="text-center md:text-start">Estimation</th>
+              </>
+            )}
+            {entityName == "users" && (
+              <>
+                <th className="text-center md:text-start">Actif</th>
+                <th className="text-center md:text-start">Vérifié</th>
+              </>
+            )}
+            {entityName == "patients" && (
+              <>
+                <th className="text-center md:text-start">Sexe</th>
+                <th className="text-center md:text-start">Grade</th>
+              </>
             )}
             <th
               className={`text-center ${
-                entityName == "categories" || entityName == "pictograms"
-                  ? "w-1/3 md:w-2/5"
-                  : "w-1/2"
+                entityName == "users" || entityName == "patients"
+                  ? "col-span-3"
+                  : "col-span-1"
               }`}
             >
               Actions

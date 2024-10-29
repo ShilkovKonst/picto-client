@@ -1,11 +1,11 @@
 import Tag from "./Tag";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllByOtherId, getOneById } from "@/_utils/entityApiUtil";
+import { getAllByOtherAsList, getOneById } from "@/_utils/entityApiUtil";
 
 const page = async ({ params }) => {
   const accessToken = getAccessToken();
   const tag = await getOneById("tags", params.id, accessToken);
-  const pictograms = await getAllByOtherId("pictograms", "tag", params.id, accessToken);
+  const pictograms = await getAllByOtherAsList("pictograms", "tag", params.id, accessToken);
 
   return <Tag tag={tag} pictograms={pictograms} />;
 };

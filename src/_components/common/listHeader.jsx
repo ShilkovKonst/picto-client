@@ -1,18 +1,11 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CreateIcon from "../icons/createIcon";
 import { Label, Radio, Select } from "flowbite-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const ListHeader = ({
-  entityName,
-  list,
-  setList,
-  itemsPerPage,
-  setItemsPerPage,
-  setIsLoading,
-}) => {
+const ListHeader = ({ entityName, itemsPerPage }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -141,20 +134,18 @@ const ListHeader = ({
       <tr>
         <th className="flex flex-row flex-wrap gap-1 items-center my-2">
           <Label htmlFor="itemsPerPage" value={`Par page`} />
-          {itemsPerPage != 0 && (
-            <Select
-              id="itemsPerPage"
-              onChange={handlePerPageChange}
-              sizing="sm"
-              defaultValue={searchParams.get("size")}
-            >
-              {[5, 6, 7, 8, 9, 10].map((e) => (
-                <option key={e} value={e}>
-                  {e}
-                </option>
-              ))}
-            </Select>
-          )}
+          <Select
+            id="itemsPerPage"
+            onChange={handlePerPageChange}
+            sizing="sm"
+            defaultValue={searchParams.get("size")}
+          >
+            {[5, 6, 7, 8, 9, 10].map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </Select>
           {(entityName == "categories" || entityName == "pictograms") && (
             <>
               <Label className="ml-auto" htmlFor="list" value={`Afficher:`} />

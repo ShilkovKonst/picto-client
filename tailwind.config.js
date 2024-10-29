@@ -31,6 +31,8 @@ module.exports = {
         pblue: "#ace4e7",
         pred: "#e58463",
         pbg: "#1e646f",
+        "pbg-trans-10": "#1e646f10",
+        "pbg-trans-bb": "#1e646fbb",
         pform: "#e5e9ec",
       },
       boxShadow: {
