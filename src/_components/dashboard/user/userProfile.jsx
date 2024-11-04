@@ -9,11 +9,15 @@ import { jwtDecode } from "jwt-decode";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    setUser(jwtDecode(accessToken))
+    setAccessToken(jwtDecode(getCookie("accessToken")));
   }, []);
+
+  useEffect(() => {
+    setUser(accessToken);
+  }, [accessToken]);
 
   return (
     <table className="table w-full">

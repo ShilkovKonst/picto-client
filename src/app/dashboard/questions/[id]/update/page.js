@@ -1,4 +1,4 @@
-import EntityUpdate from '@/_components/dashboard/EntityUpdate';
+import EntityUpdate from '@/_components/dashboard/cqpUpdate/EntityUpdate';
 import getAccessToken from '@/_utils/getAccessTokenUtil';
 import { getOneById } from '@/_utils/entityApiUtil';
 

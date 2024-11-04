@@ -22,14 +22,15 @@ export async function GET(req, { params }) {
   } catch (error) {
     console.error("Error fetching entities:", error.message);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Internal server error: " + error.message },
       { status: 500 }
     );
   }
 }
 
-export async function POST(req) {
+export async function POST(req, { params }) {
   const cookies = req.headers.get("cookie");
+  const entityName = params.entity;
   // retrieve CSRF token from server
   const csrfTokenResponse = await fetch(
     `${process.env.CLIENT_API_BASE_URL}/api/csrf`,

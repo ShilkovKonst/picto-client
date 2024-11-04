@@ -1,5 +1,5 @@
 "use server";
-import EntityUpdate from "@/_components/dashboard/EntityUpdate";
+import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsList, getOneById, getAllAsSimpleList } from "@/_utils/entityApiUtil";
 

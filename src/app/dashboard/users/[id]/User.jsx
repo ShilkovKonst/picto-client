@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
 import EntityHead from "@/_components/dashboard/_entityHead";
 import Accordion from "@/_components/dashboard/_accordion";
 import { SuccessIcon, WarningIcon } from "@/_components/icons";
+import Link from "next/link";
 
 const User = ({ user, patients, notes }) => {
   return (
@@ -21,7 +21,12 @@ const User = ({ user, patients, notes }) => {
             <td className="text-start w-[45%] lg:w-[30%]">{user?.job}</td>
             <th className="text-start w-[40%] lg:w-[20%]">Institution</th>
             <td className="text-start w-[45%] lg:w-[30%]">
-              {user?.institution?.title}
+              <Link
+                href={`/dashboard/institutions/${user?.institution?.id}`}
+                className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+              >
+                {user?.institution?.title}
+              </Link>
             </td>
           </tr>
           <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
@@ -54,8 +59,8 @@ const User = ({ user, patients, notes }) => {
       <Accordion
         initial={"patients"}
         entities={[
-          { name: "patients", entity: patients },
-          { name: "notes", entity: notes },
+          { name: "patients", entityList: patients },
+          { name: "notes", entityList: notes },
         ]}
       />
     </>

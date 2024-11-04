@@ -1,6 +1,6 @@
-import EntityUpdate from "@/_components/dashboard/EntityUpdate";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
+import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
 
 const page = async () => {
   const accessToken = getAccessToken();

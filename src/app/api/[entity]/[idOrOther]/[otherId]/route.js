@@ -26,7 +26,6 @@ export async function GET(req, { params }) {
 }
 
 async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, accessToken) {
-  console.log(`${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}?page=${page}&size=${size}`)
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}?page=${page}&size=${size}`,
     {
@@ -49,7 +48,6 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
   }
 
   const data = await response.json();
-  console.log(data)
   return NextResponse.json(data);
 }
 
@@ -74,7 +72,6 @@ async function getAllByOtherAsList(entityName, otherName, otherId, accessToken) 
       { status: response.status }
     );
   }
-
   const data = await response.json();
   return NextResponse.json(data);
 }

@@ -5,7 +5,7 @@ import Accordion from "@/_components/dashboard/_accordion";
 
 const Tag = ({ tag, pictograms }) => {
   const [isOpenPictos, setIsOpenPictos] = useState(pictograms?.length > 0);
-  
+
   return (
     <>
       <table className="table w-full">
@@ -14,7 +14,7 @@ const Tag = ({ tag, pictograms }) => {
       {pictograms && (
         <Accordion
           initial={"pictograms"}
-          entities={[{name: "pictograms", entity: pictograms}]}
+          entities={[{ name: "pictograms", entityList: pictograms }]}
         />
       )}
     </>

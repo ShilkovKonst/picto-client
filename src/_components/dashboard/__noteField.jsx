@@ -1,17 +1,34 @@
 "use client";
 
-const NoteField = ({ entity }) => {
+const NoteField = ({ entity, isSublist }) => {
   return (
     <>
-      <div className="flex justify-center md:justify-start w-full">
+      <div className="flex justify-center items-center md:justify-start w-full text-sm">
+        <div className="py-[27px] me-2 h-0 w-1 bg-transparent group-hover/item:bg-pbg transition ease-in-out duration-300"></div>
         <p className="w-full text-center md:text-start">
-          {entity.patient.firstName.slice(0, 1) +
-            ". " +
-            entity.patient.lastName}
+          {isSublist && entity.user == null
+            ? entity.patient
+            : isSublist && entity.patient == null
+            ? entity.user
+            : entity.user.firstName.slice(0, 1) + ". " + entity.user.lastName}
         </p>
       </div>
-      <div className="flex justify-center md:justify-start w-full">
+      {!isSublist && (
+        <div className="flex justify-center md:justify-start w-full text-sm">
+          <p className="w-full text-center md:text-start">
+            {entity?.patient.firstName.slice(0, 1) +
+              ". " +
+              entity.patient.lastName}
+          </p>
+        </div>
+      )}
+      <div className="flex justify-center md:justify-start w-full text-sm">
         <p className="w-full text-center md:text-start">{entity?.estimation}</p>
+      </div>
+      <div className="flex justify-center md:justify-start w-full text-sm">
+        <p className="w-full text-center md:text-start">
+          {entity?.createdAt?.slice(0, 10)}
+        </p>
       </div>
     </>
   );

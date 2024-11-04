@@ -11,7 +11,7 @@ const Question = ({ question, categories }) => {
       </table>
       <Accordion
         initial={"categories"}
-        entities={[{ name: "categories", entity: categories }]}
+        entities={[{ name: "categories", entityList: categories }]}
       />
     </>
   );

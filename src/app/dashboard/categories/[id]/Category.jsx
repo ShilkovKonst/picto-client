@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import EntityHead from "@/_components/dashboard/_entityHead";
 import Accordion from "@/_components/dashboard/_accordion";
+import EntityHead from "@/_components/dashboard/_entityHead";
 
 const Category = ({
   category,
@@ -53,9 +52,9 @@ const Category = ({
       <Accordion
         initial="pictograms"
         entities={[
-          { name: "pictograms", entity: pictograms },
-          { name: "questions", entity: questions },
-          { name: "categories", entity: subcategories },
+          { name: "pictograms", entityList: pictograms },
+          { name: "questions", entityList: questions },
+          { name: "categories", entityList: subcategories },
         ]}
       />
     </>

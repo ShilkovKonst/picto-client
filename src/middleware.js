@@ -1,6 +1,15 @@
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
+  const { searchParams, pathname } = new URL(request.url);
+  // if user is signed in => reroute from landing page to profile
+  if (
+    request.cookies.get("refreshToken") &&
+    request.cookies.get("accessToken") &&
+    pathname == "/"
+  ) {
+    return NextResponse.redirect(`${process.env.CLIENT_API_BASE_URL}/dashboard/`);
+  }
   // if user is signed out => reroute to landing page
   if (
     !request.cookies.get("refreshToken") &&
@@ -60,7 +69,6 @@ export async function middleware(request) {
     // console.log("middleware accessToken: ", request.cookies.get("accessToken"));
   }
   // correct url format for categories and pictograms if it is incorrect
-  const { searchParams, pathname } = new URL(request.url);
   if (pathname.includes("categories") || pathname.includes("pictograms")) {
     const size = Number(searchParams.get("size"));
     const page = Number(searchParams.get("page"));

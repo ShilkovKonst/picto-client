@@ -1,6 +1,7 @@
 import ActionsHeader from "@/_components/common/actionsHeader";
 import Link from "next/link";
 import React from "react";
+import { SuccessIcon, WarningIcon } from "../icons";
 
 const EntityHead = ({ entity, entityName }) => {
   return (
@@ -8,7 +9,7 @@ const EntityHead = ({ entity, entityName }) => {
       <tr className="border-b">
         {entity ? (
           <th className="text-lg md:text-xl flex justify-center items-center">
-            <span className=" mx-auto">
+            <span className="flex justify-center items-center mx-auto">
               {entityName == "categories" && "Catégorie:"}
               {entityName == "pictograms" && "Pictogramme:"}
               {entityName == "questions" && "Question:"}
@@ -21,8 +22,17 @@ const EntityHead = ({ entity, entityName }) => {
                 className="hover:text-pred trasition duration-150 ease-in-out ml-3"
                 href={`/dashboard/${entityName}/${entity?.id}`}
               >
-                {entityName != "users" && entityName != "patients" ? entity?.title : entity.firstName.slice(0, 1) + ". " + entity.lastName}
+                {entityName == "users" || entityName == "patients" ? (
+                  <div>
+                    {entity.firstName.slice(0, 1) + ". " + entity.lastName}{" "}
+                  </div>
+                ) : entityName == "notes" ? (
+                  entity.estimation
+                ) : (
+                  entity?.title
+                )}
               </Link>
+              {entity?.active ? <SuccessIcon /> : <WarningIcon />}
             </span>
             <ActionsHeader entity={entity} entityName={entityName} />
           </th>
