@@ -18,12 +18,16 @@ const Patient = ({ patient, notes }) => {
           <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
             <th className="text-start w-[35%] lg:w-[35%]">Thérapeute actuel</th>
             <td className="text-start w-[55%] lg:w-[55%]">
-              <Link
-                href={`/dashboard/users/${patient?.user?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
-              >
-                {patient?.user?.firstName + " " + patient?.user?.lastName}
-              </Link>
+              {patient?.user ? (
+                <Link
+                  href={`/dashboard/users/${patient?.user?.id}`}
+                  className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                >
+                  {patient?.user?.firstName + " " + patient?.user?.lastName}
+                </Link>
+              ) : (
+                <div className="bg-red-500 py-1 px-3 rounded-full text-center font-semibold">none</div>
+              )}
             </td>
           </tr>
         </tbody>

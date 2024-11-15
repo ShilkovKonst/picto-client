@@ -2,7 +2,7 @@ import { useState } from "react";
 import EntityItem from "./_entityItem";
 import { usePathname } from "next/navigation";
 
-const Accordion = ({ initial, entities }) => {
+const Accordion = ({ initial, entities, session }) => {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(initial);
   
@@ -65,6 +65,7 @@ const Accordion = ({ initial, entities }) => {
               entList.entityList.map((el, j) => (
                 <EntityItem
                   key={j}
+                  session={session}
                   entity={el}
                   entityName={entList.name}
                   isSublist={true}

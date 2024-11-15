@@ -14,7 +14,7 @@ import {
   UsersIcon,
 } from "@/_components/icons";
 
-const DashboardContentList = ({ user }) => {
+const DashboardContentList = ({ session }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [perPage, setPerPage] = useState(5);
@@ -95,21 +95,20 @@ const DashboardContentList = ({ user }) => {
 
   return (
     <ul className="flex flex-row justify-between items-center w-full md:w-auto md:block mb-3 md:mb-0 md:mr-3 p-4 bg-[#ffffff80] shadow-inset-5/5 rounded-xl border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059] md:space-y-4 text-left text-gray-500">
-      {user &&
-        ((user.roles.includes("ROLE_SUPERADMIN") &&
+      {session &&
+        ((session.roles.includes("ROLE_SUPERADMIN") &&
           items
             .filter((i) => i.for.includes("SUPER"))
             .map((item, i) => (
               <DashboardContentItem key={i} item={item} pathname={pathname} />
             ))) ||
-          (user.roles.includes("ROLE_ADMIN") &&
+          (session.roles.includes("ROLE_ADMIN") &&
             items
               .filter((i) => i.for.includes("ADMIN"))
               .map((item, i) => (
                 <DashboardContentItem key={i} item={item} pathname={pathname} />
               ))) ||
-          (user &&
-            user.roles.includes("ROLE_USER") &&
+          (session.roles.includes("ROLE_USER") &&
             items
               .filter((i) => i.for.includes("SUPER"))
               .map((item, i) => (

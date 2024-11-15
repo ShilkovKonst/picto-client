@@ -1,30 +1,23 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import RemoveIcon from "../icons/removeIcon";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const ActionDelete = ({ entity, entityName, isSublist }) => {
+const ActionDelete = ({ entity, entityName, isSublist, user }) => {
   const pathname = usePathname();
-  const [perPage, setPerPage] = useState(5);
   const router = useRouter();
   const [toDelete, setToDelete] = useState(false);
 
-  useEffect(() => {
-    const itemsPerPage = localStorage.getItem("itemsPerPage");
-    if (itemsPerPage) {
-      setPerPage(itemsPerPage);
-    }
-  }, []);
-
   const handleClick = async () => {
+    
     try {
       const response = await deleteOneById(entity.id, entityName);
       if (response.status == 205) {
         setToDelete(false);
         pathname.split("/").length > 3 &&
-          router.push(`/dashboard/${entityName}?size=${perPage}`);
+          router.push(`/dashboard/${entityName}?`);
         router.refresh();
       }
     } catch (error) {

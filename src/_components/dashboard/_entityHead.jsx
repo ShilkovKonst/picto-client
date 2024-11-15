@@ -3,12 +3,12 @@ import Link from "next/link";
 import React from "react";
 import { SuccessIcon, WarningIcon } from "../icons";
 
-const EntityHead = ({ entity, entityName }) => {
+const EntityHead = ({ entity, entityName, session }) => {
   return (
     <thead>
       <tr className="border-b">
         {entity ? (
-          <th className="text-lg md:text-xl flex justify-center items-center">
+          <th className="text-lg md:text-xl flex justify-center items-center min-h-[50px]">
             <span className="flex justify-center items-center mx-auto">
               {entityName == "categories" && "Catégorie:"}
               {entityName == "pictograms" && "Pictogramme:"}
@@ -32,9 +32,9 @@ const EntityHead = ({ entity, entityName }) => {
                   entity?.title
                 )}
               </Link>
-              {entity?.active ? <SuccessIcon /> : <WarningIcon />}
+              {entityName == "users" && (entity?.active ? <SuccessIcon /> : <WarningIcon />)}
             </span>
-            <ActionsHeader entity={entity} entityName={entityName} />
+            {(entityName != "users" || session.id != entity.id) && <ActionsHeader entity={entity} entityName={entityName} />}
           </th>
         ) : (
           <th className="text-lg md:text-xl flex justify-center items-center">

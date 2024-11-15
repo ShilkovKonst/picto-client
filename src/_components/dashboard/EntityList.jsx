@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import EntityItem from "./_entityItem";
 import Pagination from "../common/pagination";
 
-const EntityList = ({ data, entityName }) => {
+const EntityList = ({ data, session, entityName }) => {
   const [itemsPerPage, setItemsPerPage] = useState(0);
 
   useEffect(() => {
@@ -94,6 +94,7 @@ const EntityList = ({ data, entityName }) => {
             data.content.map((item, i) => (
               <EntityItem
                 key={i}
+                session={session}
                 entity={item}
                 entityName={entityName}
                 isSublist={false}

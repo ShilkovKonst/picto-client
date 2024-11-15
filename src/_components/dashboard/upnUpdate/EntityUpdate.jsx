@@ -5,6 +5,7 @@ import EntityForm from "./_entityForm";
 import EntityHead from "../_entityHead";
 
 const EntityUpdate = ({
+  session,
   entity,
   entityName,
   institutions,
@@ -16,7 +17,7 @@ const EntityUpdate = ({
   return (
     <>
       <table className="table w-full">
-        <EntityHead entity={entity} entityName={entityName} />
+        <EntityHead session={session} entity={entity} entityName={entityName} />
       </table>
       <EntityForm
         entity={entity}

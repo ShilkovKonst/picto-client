@@ -1,5 +1,5 @@
 "use client";
-import { Label, Textarea, TextInput } from "flowbite-react";
+import { Label, Textarea, TextInput, Spinner, Button } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EntityFormImage from "./_entityFormImage";
@@ -19,12 +19,15 @@ const EntityForm = ({
   const [form, setForm] = useState({
     title: entity ? entity?.title : "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("title", form.title);
     if (entityName == "categories") {
@@ -34,12 +37,13 @@ const EntityForm = ({
       formData.append("questions", JSON.stringify(form.questions));
     }
     if (entityName == "pictograms") {
-      // pictoFormData(form, formData);      
+      // pictoFormData(form, formData);
       form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
       formData.append("type", form.type);
       formData.append("category", form.category);
       formData.append("tags", JSON.stringify(form.tags));
-      form.tags.includes("3") && formData.append("irregular", JSON.stringify(form.irregular));
+      form.tags.includes("3") &&
+        formData.append("irregular", JSON.stringify(form.irregular));
     }
     try {
       // on create
@@ -86,7 +90,7 @@ const EntityForm = ({
         >
           <Label htmlFor="title" value={`Title`} />
           {entityName == "questions" ? (
-            <Textarea 
+            <Textarea
               id="title"
               type={`text`}
               sizing="md"
@@ -132,9 +136,17 @@ const EntityForm = ({
       )}
       <button
         type="submit"
-        className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center"
+        disabled={isLoading}
+        className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
       >
-        Confirmer
+        {isLoading ? (
+          <>
+            <Spinner className="" size="md" aria-label="Veuillez patienter" />
+            <span className="pl-3">Veuillez patienter</span>
+          </>
+        ) : (
+          "Confirmer"
+        )}
       </button>
     </form>
   );

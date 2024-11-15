@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import EntityFormInstitutionFields from "./__entityFormInstitutionFields";
 import EntityFormPersonFields from "./__entityFormPersonFields";
+import { Spinner } from "flowbite-react";
 
 const EntityForm = ({
   entity,
@@ -16,13 +17,17 @@ const EntityForm = ({
   const router = useRouter();
 
   const [form, setForm] = useState({});
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData();
     switch (entityName) {
       case "institutions":
@@ -39,10 +44,10 @@ const EntityForm = ({
         formData.append("password", form.password);
         formData.append("phoneNumber", form.phoneNumber);
         formData.append("job", form.job);
-        formData.append("active", form.active);
-        formData.append("verified", form.verified);
-        formData.append("roles", form.roles);
-        formData.append("institution", form.institution);
+        formData.append("active", JSON.stringify(form.active));
+        formData.append("verified", JSON.stringify(form.verified));
+        formData.append("roles", JSON.stringify(form.roles));
+        formData.append("institutionId", form.institutionId);
         break;
       case "patients":
         formData.append("firstName", form.firstName);
@@ -66,7 +71,13 @@ const EntityForm = ({
     try {
       // on create
       if (pathname.includes("create")) {
-        create(entityName, router, formData);
+        const response = await createOne(formData, entityName);
+        response.status == 200 &&
+          router.push(`/dashboard/${entityName}/${response.id}`);
+        if (response.status >= 400) {
+          setError(true);
+          setErrorMessage(response.title);
+        }
       }
       // on update
       else {
@@ -81,10 +92,13 @@ const EntityForm = ({
   };
 
   return (
-    <form
-      className={`mx-auto`}
-      onSubmit={handleSubmit}
-    >
+    <form className={`mx-auto`} onSubmit={handleSubmit}>
+      {error && (
+        <div className="text-red-600 mx-auto">
+          <span className="font-semibold pr-1">Invalid credentials:</span>
+          {errorMessage}
+        </div>
+      )}
       {entityName == "institutions" && (
         <EntityFormInstitutionFields
           institution={entity}
@@ -98,6 +112,7 @@ const EntityForm = ({
         <EntityFormPersonFields
           person={entity}
           entityName={entityName}
+          users={users}
           institutions={institutions}
           roles={roles}
           form={form}
@@ -118,9 +133,16 @@ const EntityForm = ({
       )}
       <button
         type="submit"
-        className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center"
-      >
-        Confirmer
+        className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
+      >        
+        {isLoading ? (
+          <>
+            <Spinner className="" size="md" aria-label="Veuillez patienter" />
+            <span className="pl-3">Veuillez patienter</span>
+          </>
+        ) : (
+          "Confirmer"
+        )}
       </button>
     </form>
   );
@@ -130,7 +152,8 @@ export default EntityForm;
 
 const create = async (entityName, router, formData) => {
   const response = await createOne(formData, entityName);
-  router.push(`/dashboard/${entityName}/${response.id}`);
+  response.status == 200 &&
+    router.push(`/dashboard/${entityName}/${response.id}`);
 };
 
 async function createOne(formData, entityName) {

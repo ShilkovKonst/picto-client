@@ -3,7 +3,7 @@ import Image from "next/image";
 import images from "@/_constants/images";
 import { useRouter } from "next/navigation";
 
-const DashboardHeader = ({ user }) => {
+const DashboardHeader = ({ session }) => {
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -23,12 +23,12 @@ const DashboardHeader = ({ user }) => {
         width={140}
         className="z-10 "
       />
-      {user && (
+      {session && (
         <div className="flex flex-row justify-between gap-3 items-center">
           <div className="flex flex-col justify-center items-center text-end">
             <p className="ml-auto">Bienvenue,</p>
             <p className="font-semibold">
-              {user.job} {user.firstName} {user.lastName}
+              {session.job} {session.firstName} {session.lastName}
             </p>
           </div>
           <button

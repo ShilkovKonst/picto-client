@@ -1,23 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import UserActions from "./userActions";
 import WarningIcon from "@/_components/icons/warningIcon";
 import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
-import { getCookie } from "@/_utils/getCookieUtil";
-import { jwtDecode } from "jwt-decode";
 
-const UserProfile = () => {
-  const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-
-  useEffect(() => {
-    setAccessToken(jwtDecode(getCookie("accessToken")));
-  }, []);
-
-  useEffect(() => {
-    setUser(accessToken);
-  }, [accessToken]);
+const UserProfile = ({ user }) => {
 
   return (
     <table className="table w-full">

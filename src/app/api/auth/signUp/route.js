@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

@@ -25,7 +25,7 @@ body {
     @apply text-green-800 bg-green-50 shadow-success-inset-2/4;
   }
   .btn-b {
-    @apply cursor-pointer shadow-outset-8/16 hover:shadow-outset-6/10 transition ease-in-out duration-300 scale-100 hover:scale-95 w-44 h-12 rounded-3xl mb-12 mt-3 md:mt-6 font-bold text-sm tracking-[1.25px] bg-pbg text-[#f9f9f9] border-none outline-none;
+    @apply cursor-pointer shadow-outset-8/16 hover:shadow-outset-6/10 transition ease-in-out duration-300 scale-100 hover:scale-95 w-44 h-12 rounded-3xl mb-12 mt-6 font-bold text-sm tracking-[1.25px] bg-pbg text-[#f9f9f9] border-none outline-none;
   }
   .btn-a {
     @apply shadow-outset-8/16 hover:shadow-outset-6/10 transition ease-in-out duration-300 scale-100 hover:scale-95 h-8 sm:h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] bg-pbg text-[#f9f9f9] border-none outline-none;

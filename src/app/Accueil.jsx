@@ -4,7 +4,7 @@ import React from "react";
 
 const Accueil = () => {
   return (
-    <div className="flex flex-col md:flex-row w-full md:w-4/5 lg:w-3/4 xl:w-2/3 h-full md:h-[95%] bg-pform sm:rounded-xl overflow-hidden relative ml-auto mr-auto">
+    <div className="flex flex-col md:flex-row w-full lg:w-3/4 xl:w-2/3 min-h-svh md:min-h-0 h-full lg:h-[95%] bg-pform lg:rounded-xl overflow-hidden relative ml-auto mr-auto">
       <LoginForm />
       <ModeInvite />
     </div>

@@ -8,6 +8,7 @@ export async function getAllAsPage(entityName, page, size, accessToken) {
         Cookie: accessToken ? `accessToken=${accessToken?.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const data = await response.json();
@@ -22,6 +23,7 @@ export async function getAllAsList(entityName, accessToken) {
         Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const data = await response.json();
@@ -37,6 +39,19 @@ export async function getAllAsSimpleList(entityName, accessToken) {
         Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
+    }
+  );
+  const data = await response.json();
+  return data;
+}
+
+export async function getAllAsSimpleListForSignUp(entityName) {
+  const response = await fetch(
+    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}?signup=true`,
+    {
+      method: "GET",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const data = await response.json();
@@ -60,6 +75,7 @@ export async function getAllByOtherAsPage(
         Cookie: accessToken ? `accessToken=${accessToken?.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const data = await response.json();
@@ -80,6 +96,7 @@ export async function getAllByOtherAsList(
         Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const data = await response.json();
@@ -96,6 +113,7 @@ export async function getOneById(entityName, id, accessToken) {
         Cookie: accessToken ? `accessToken=${accessToken.value}` : "",
       },
       credentials: "include",
+      next: { revalidate: parseInt(process.env.REVALIDATE) }
     }
   );
   const dataPicto = await responsePicto.json();

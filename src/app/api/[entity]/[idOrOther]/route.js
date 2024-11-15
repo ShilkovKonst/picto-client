@@ -116,6 +116,7 @@ export async function DELETE(req, { params }) {
         credentials: "include",
       }
     );
+    //console.log(response)
     if (!response.ok) {
       return NextResponse.json(
         { message: "Failed to delete entity" },
@@ -123,6 +124,7 @@ export async function DELETE(req, { params }) {
       );
     }
     // const data = await response.json();
+    // console.log(data)
     return NextResponse.json(
       { status: response.status },
       { statusText: response.statusText }

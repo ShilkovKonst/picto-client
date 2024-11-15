@@ -7,6 +7,7 @@ export async function GET(req, { params }) {
   const {
     asList,
     simple,
+    signup,
     page = 0,
     size = 5,
   } = Object.fromEntries(searchParams.entries());
@@ -17,6 +18,9 @@ export async function GET(req, { params }) {
     }
     if (simple) {
       return await getAllAsSimpleList(entityName, accessToken);
+    }
+    if (signup) {
+      return await getAllAsSimpleListForSignUp(entityName);
     }
     return await getAllAsPage(entityName, page, size, accessToken);
   } catch (error) {
@@ -55,24 +59,27 @@ export async function POST(req, { params }) {
   const accessToken = req?.cookies?.get("accessToken");
   const formData = await req.formData();
   try {
-    const response = await fetch(`${process.env.SERVER_BASE_URL}/${entityName}`, {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`,
-        Cookie: cookies,
-        "X-XSRF-TOKEN": csrfToken,
-      },
-      credentials: "include",
-    });
-    if (!response.ok) {
-      return NextResponse.json(
-        { message: "Failed to create entity" },
-        { status: response.status }
-      );
-    }
+    const response = await fetch(
+      `${process.env.SERVER_BASE_URL}/${entityName}`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          Cookie: cookies,
+          "X-XSRF-TOKEN": csrfToken,
+        },
+        //credentials: "include",
+      }
+    );
+    // if (!response.ok) {
+    //   return NextResponse.json(
+    //     { message: "Failed to create entity" },
+    //     { status: response.status }
+    //   );
+    // }
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json({...data, status: data.status ?? 200});
   } catch (error) {
     console.error("Error creating entity:", error.message);
     return NextResponse.json(
@@ -130,7 +137,6 @@ async function getAllAsList(entityName, accessToken) {
   return NextResponse.json(data);
 }
 
-
 async function getAllAsSimpleList(entityName, accessToken) {
   const response = await fetch(
     `${process.env.SERVER_BASE_URL}/${entityName}?asList=true&simple=true`,
@@ -140,6 +146,24 @@ async function getAllAsSimpleList(entityName, accessToken) {
       },
       credentials: "include",
     }
+  );
+  if (!response.ok) {
+    console.log("entity API !response.ok: ", response.statusText);
+    if (response.status == 401) {
+      // TODO: create logic
+    }
+    return NextResponse.json(
+      { message: "Failed to fetch entities" },
+      { status: response.status }
+    );
+  }
+  const data = await response.json();
+  return NextResponse.json(data);
+}
+
+async function getAllAsSimpleListForSignUp(entityName) {
+  const response = await fetch(
+    `${process.env.SERVER_BASE_URL}/${entityName}/simple`
   );
   if (!response.ok) {
     console.log("entity API !response.ok: ", response.statusText);

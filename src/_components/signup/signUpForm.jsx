@@ -1,9 +1,9 @@
 "use client";
 import images from "@/_constants/images";
-import { Select } from "flowbite-react";
+import { Select, TextInput } from "flowbite-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const SignUpForm = ({ institutions }) => {
   const router = useRouter();
@@ -75,7 +75,7 @@ const SignUpForm = ({ institutions }) => {
 
   return (
     <div
-      className="flex justify-center z-10 relative items-center h-full w-full bg-[#e5e9ec] overflow-hidden shadow-outset-4/10"
+      className="flex justify-center z-10 relative items-center h-full w-full bg-[#e5e9ec]"
       id="connexion switch-cnt"
     >
       <div
@@ -107,11 +107,11 @@ const SignUpForm = ({ institutions }) => {
               >
                 Email
               </label>
-              <input
+              <TextInput
                 type="email"
                 name="email"
                 id="email"
-                className={`input-text md:mb-4 ${isError && errorCode == 400 && "bg-red-100"}`}
+                className={`md:mb-4 ${isError && errorCode == 400 && "bg-red-100"}`}
                 autoComplete="email"
                 placeholder="Email"
                 onChange={handleChange}
@@ -122,11 +122,11 @@ const SignUpForm = ({ institutions }) => {
             </div>
             <div className="relative">
               <label htmlFor="password">Mot de passe</label>
-              <input
+              <TextInput
                 type="password"
                 name="password"
                 id="password"
-                className="input-text md:mb-4"
+                className="md:mb-4"
                 onChange={handleChange}
                 value={form.password}
                 required
@@ -136,11 +136,11 @@ const SignUpForm = ({ institutions }) => {
             </div>
             <div>
               <label htmlFor="firstName">Prénom</label>
-              <input
+              <TextInput
                 type="text"
                 name="firstName"
                 id="firstName"
-                className="input-text md:mb-4"
+                className="md:mb-4"
                 placeholder="Prénom"
                 onChange={handleChange}
                 value={form.firstName}
@@ -149,11 +149,11 @@ const SignUpForm = ({ institutions }) => {
             </div>
             <div>
               <label htmlFor="lastName">Nom</label>
-              <input
+              <TextInput
                 type="text"
                 name="lastName"
                 id="lastName"
-                className="input-text md:mb-4"
+                className="md:mb-4"
                 placeholder="Nom"
                 onChange={handleChange}
                 value={form.lastName}
@@ -162,11 +162,11 @@ const SignUpForm = ({ institutions }) => {
             </div>
             <div>
               <label htmlFor="phoneNumber">Numéro de téléphone</label>
-              <input
+              <TextInput
                 type="text"
                 name="phoneNumber"
                 id="phoneNumber"
-                className="input-text md:mb-4"
+                className="md:mb-4"
                 placeholder="Numéro de téléphone"
                 onChange={handleChange}
                 value={form.phoneNumber}
@@ -175,11 +175,11 @@ const SignUpForm = ({ institutions }) => {
             </div>
             <div>
               <label htmlFor="job">Fonction</label>
-              <input
+              <TextInput
                 type="text"
                 name="job"
                 id="job"
-                className="input-text md:mb-4"
+                className="md:mb-4"
                 placeholder="Fonction"
                 onChange={handleChange}
                 value={form.job}
@@ -187,7 +187,7 @@ const SignUpForm = ({ institutions }) => {
               />
             </div>
             <div>
-              <label htmlFor="institution">Institution</label>
+              <label htmlFor="institutionId">Institution</label>
               <Select
                 id="institutionId"
                 name="institutionId"
@@ -197,9 +197,7 @@ const SignUpForm = ({ institutions }) => {
                 required
               >
                 <option value={-1}>Choisir votre institution</option>
-                {institutions
-                  .sort((a, b) => a.title.localeCompare(b.title))
-                  .map((inst, i) => (
+                {institutions?.sort((a, b) => a.title.localeCompare(b.title))?.map((inst, i) => (
                     <option key={i} value={inst.id}>
                       {inst.title}
                     </option>
@@ -209,15 +207,15 @@ const SignUpForm = ({ institutions }) => {
             <div>
               <label
                 className={`${isError && errorCode == 403 && "text-red-600"}`}
-                htmlFor="institution"
+                htmlFor="code"
               >
                 Code de vérification
               </label>
-              <input
+              <TextInput
                 type="text"
                 name="code"
                 id="code"
-                className={`input-text md:mb-4 ${isError && errorCode == 403 && "bg-red-100"}`}
+                className={`md:mb-4 ${isError && errorCode == 403 && "bg-red-100"}`}
                 placeholder="Saisir code de votre institution"
                 onChange={handleChange}
                 value={form.code}
@@ -245,7 +243,7 @@ const SignUpForm = ({ institutions }) => {
           </a>
         </p>
       </div>
-      <div className="switch__circle absolute w-96 h-96 rounded-full -bottom-1/2 -left-1/2 shadow-inset-8/12"></div>
+      <div className="switch__circle absolute w-96 h-96 rounded-full -bottom-1/4 md:-bottom-1/2 lg:-bottom-1/4 -left-1/4 shadow-inset-8/12"></div>
       <div className="switch__circle switch__circle--t absolute w-96 h-96 rounded-full -top-1/3 left-3/4 shadow-inset-8/12"></div>
     </div>
   );

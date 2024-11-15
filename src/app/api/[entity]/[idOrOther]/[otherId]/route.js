@@ -35,7 +35,6 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
       credentials: "include",
     }
   );
-
   if (!response.ok) {
     console.log("picto API !response.ok: ", response.statusText);
     if (response.status == 401) {
@@ -46,7 +45,6 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
       { status: response.status }
     );
   }
-
   const data = await response.json();
   return NextResponse.json(data);
 }

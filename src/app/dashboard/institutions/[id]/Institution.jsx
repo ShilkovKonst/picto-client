@@ -2,41 +2,35 @@
 import Accordion from "@/_components/dashboard/_accordion";
 import EntityHead from "@/_components/dashboard/_entityHead";
 
-const Institution = ({ institution, users }) => {
+const Institution = ({ institution, users, session }) => {
   return (
     <>
       <table className="table w-full">
         <EntityHead entity={institution} entityName="institutions" />
-        <tbody className="flex flex-col gap-2 w-full">
-          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[40%] lg:w-[20%]">Nom du contact</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
+        <tbody className="w-full">
+          <tr className="grid grid-cols-5 text-sm sm:text-base p-2 border-b">
+            <th className="col-span-1 text-sm text-start py-3">Nom du contact</th>
+            <td className="col-span-4 text-start py-3 ml-2">
               {institution?.contactName}
             </td>
-          </tr>
-          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[40%] lg:w-[20%]">Email</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
-              {institution?.email}
-            </td>
-            <th className="text-start w-[40%] lg:w-[20%]">
-              Numéro de téléphone
-            </th>
-            <td className="text-start w-[45%] lg:w-[30%]">
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-3">Email</th>
+            <td className="col-span-4 text-start py-3 ml-2">{institution?.email}</td>
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-3">Téléphone</th>
+            <td className="col-span-4 text-start py-3 ml-2">
               {institution?.phoneNumber}
             </td>
-          </tr>
-          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[20%] lg:w-[15%]">Code</th>
-            <td className="text-start flex items-center w-[75%] lg:w-[55%]">
-              {institution?.code}
-            </td>
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-3">Code</th>
+            <td className="col-span-4 text-start py-3 ml-2">{institution?.code}</td>
           </tr>
         </tbody>
       </table>
       <Accordion
         initial={"users"}
         entities={[{ name: "users", entityList: users }]}
+        session={session}
       />
     </>
   );

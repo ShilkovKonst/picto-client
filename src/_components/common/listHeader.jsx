@@ -115,6 +115,14 @@ const ListHeader = ({ entityName, itemsPerPage }) => {
             )}&type=pronom_ou_determinant`
           );
           break;
+        case "orphan":
+          localStorage.setItem("pictoCurrentList", "orphan");
+          router.push(
+            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+              "size"
+            )}&type=orphan`
+          );
+          break;
       }
     }
   };
@@ -171,8 +179,9 @@ const ListHeader = ({ entityName, itemsPerPage }) => {
                     <option value={"invariable"}>invariable</option>
                     <option value={"interrogatif"}>interrogatif</option>
                     <option value={"pronom_ou_determinant"}>
-                      pronom_ou_determinant
+                      pronom / determinant
                     </option>
+                    <option value={"orphan"}>sans catégorie</option>
                   </>
                 )}
               </Select>

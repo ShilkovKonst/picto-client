@@ -6,7 +6,7 @@ import NoteField from "./__noteField";
 import UserField from "./__userField";
 import PatientField from "./__patientField";
 
-const EntityItem = ({ entity, entityName, isSublist }) => {
+const EntityItem = ({ session, entity, entityName, isSublist }) => {
   return (
     <tr className="grid grid-cols-1">
       <td
@@ -91,11 +91,13 @@ const EntityItem = ({ entity, entityName, isSublist }) => {
               : "col-span-1"
           }`}
         >
-          <ActionsTable
-            entity={entity}
-            entityName={entityName}
-            isSublist={isSublist}
-          />
+          {(entityName != "users" || entity.id != session.id) && (
+            <ActionsTable
+              entity={entity}
+              entityName={entityName}
+              isSublist={isSublist}
+            />
+          )}
         </div>
       </td>
     </tr>

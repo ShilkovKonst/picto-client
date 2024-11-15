@@ -5,10 +5,10 @@ import { jwtDecode } from "jwt-decode";
 
 const Layout = ({ children, searchParams }) => {
   const accessToken = getAccessToken();
-  const user = accessToken && jwtDecode(accessToken.value);
+  const session = accessToken && jwtDecode(accessToken.value);
 
   return (
-    <DashboardLayout children={children} params={searchParams} user={user} />
+    <DashboardLayout children={children} params={searchParams} session={session} />
   );
 };
 
