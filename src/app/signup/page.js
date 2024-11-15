@@ -4,8 +4,7 @@ import { getAllAsSimpleListForSignUp } from "@/_utils/entityApiUtil";
 
 const page = async () => {
   const institutions = await getAllAsSimpleListForSignUp("institutions");
-  console.log(institutions);
-  return <SignUp institutions={institutions} />;
+  return <SignUp institutions={institutions ?? []} />;
 };
 
 export default page;
