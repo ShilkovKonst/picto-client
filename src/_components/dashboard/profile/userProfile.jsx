@@ -5,6 +5,25 @@ import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
 
 const UserProfile = ({ user }) => {
+  const handleClick = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/verify/send-email`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        const errorDetails = await response.json();
+        throw new Error(`${errorDetails.message}`);
+      } 
+      console.log(response)
+      return response.json();
+    } catch (error) {
+      console.error("Bad credentials:", error.message);
+    }
+  };
 
   return (
     <table className="table w-full">
@@ -91,12 +110,13 @@ const UserProfile = ({ user }) => {
                         <p className="text-red-800">
                           Votre email n&apos;est pas vérifié.
                         </p>
-                        <a
+                        <button
                           className="font-semibold underline decoration-1"
-                          href="{{ path('app_verify_email_resend') }}"
+                          onClick={handleClick}
+                          //href="{{ path('app_verify_email_resend') }}"
                         >
                           Renvoyer l&apos;email de vérification
-                        </a>
+                        </button>
                       </div>
                     </>
                   )}

@@ -4,11 +4,11 @@ import React from "react";
 const ModeInvite = () => {
   return (
     <div
-      className="flex justify-center items-center relative w-full md:w-3/5 h-auto p-4 md:p-8 lg:p-12 bg-[#e5e9ec]"
+      className="flex justify-center items-center relative w-full md:w-3/5 h-auto p-8 lg:p-12 bg-[#e5e9ec]"
       id="a-container"
     >
       <div
-        className="flex justify-between items-center gap-3 sm:gap-2 md:gap-3 flex-col w-full h-full"
+        className="flex justify-between items-center gap-3 flex-col w-full h-full"
         id="a-form"
       >
         <h2 className="switch__title text-2xl sm:text-3xl md:text-4xl font-bold leading-loose md:mb-5 text-center">

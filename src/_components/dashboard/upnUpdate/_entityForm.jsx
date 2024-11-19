@@ -6,6 +6,7 @@ import EntityFormPersonFields from "./__entityFormPersonFields";
 import { Spinner } from "flowbite-react";
 
 const EntityForm = ({
+  session,
   entity,
   entityName,
   pathname,
@@ -29,6 +30,7 @@ const EntityForm = ({
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();
+    console.log("form from submit", form);
     switch (entityName) {
       case "institutions":
         formData.append("title", form.title);
@@ -55,9 +57,9 @@ const EntityForm = ({
         formData.append("code", form.code);
         formData.append("sex", form.sex);
         formData.append("grade", form.grade);
-        formData.append("active", form.active);
+        formData.append("active", JSON.stringify(form.active));
         formData.append("birthDate", form.birthDate);
-        formData.append("user", form.user);
+        formData.append("userId", form.userId);
         break;
       case "notes":
         formData.append("estimation", form.estimation);
@@ -72,7 +74,8 @@ const EntityForm = ({
       // on create
       if (pathname.includes("create")) {
         const response = await createOne(formData, entityName);
-        response.status == 200 &&
+        console.log("response createOne", response)
+        response.status == 201 &&
           router.push(`/dashboard/${entityName}/${response.id}`);
         if (response.status >= 400) {
           setError(true);
@@ -81,7 +84,14 @@ const EntityForm = ({
       }
       // on update
       else {
-        update(entity.id, entityName, router, formData);
+        const response = await updateOne(entity.id, entityName, formData, router);
+        console.log("response updateOne", response)
+        response.status == 202 &&
+          router.push(`/dashboard/${entityName}/${response.id}`);
+        if (response.status >= 400) {
+          setError(true);
+          setErrorMessage(response.title);
+        }
       }
       router.refresh();
     } catch (error) {
@@ -110,7 +120,8 @@ const EntityForm = ({
 
       {(entityName == "users" || entityName == "patients") && (
         <EntityFormPersonFields
-          person={entity}
+          session={session}
+          entity={entity}
           entityName={entityName}
           users={users}
           institutions={institutions}
@@ -134,7 +145,7 @@ const EntityForm = ({
       <button
         type="submit"
         className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
-      >        
+      >
         {isLoading ? (
           <>
             <Spinner className="" size="md" aria-label="Veuillez patienter" />
@@ -150,11 +161,11 @@ const EntityForm = ({
 
 export default EntityForm;
 
-const create = async (entityName, router, formData) => {
-  const response = await createOne(formData, entityName);
-  response.status == 200 &&
-    router.push(`/dashboard/${entityName}/${response.id}`);
-};
+// const create = async (entityName, router, formData) => {
+//   const response = await createOne(formData, entityName);
+//   response.status == 200 &&
+//     router.push(`/dashboard/${entityName}/${response.id}`);
+// };
 
 async function createOne(formData, entityName) {
   try {
@@ -170,18 +181,19 @@ async function createOne(formData, entityName) {
       const errorDetails = await response.json();
       throw new Error(`${errorDetails.message}`);
     }
+    console.log(response)
     return response.json();
   } catch (error) {
     console.error("Bad credentials:", error.message);
   }
 }
 
-const update = async (id, entityName, router, formData) => {
-  const response = await updateOne(id, entityName, formData);
-  router.push(`/dashboard/${entityName}/${response.id}`);
-};
+// const update = async (id, entityName, router, formData) => {
+//   const response = await updateOne(id, entityName, formData);
+//   router.push(`/dashboard/${entityName}/${response.id}`);
+// };
 
-async function updateOne(id, entityName, formData) {
+async function updateOne(id, entityName, formData, router) {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
@@ -194,7 +206,8 @@ async function updateOne(id, entityName, formData) {
     if (!response.ok) {
       const errorDetails = await response.json();
       throw new Error(`${errorDetails.message}`);
-    }
+    } 
+    console.log(response)
     return response.json();
   } catch (error) {
     console.error("Bad credentials:", error.message);

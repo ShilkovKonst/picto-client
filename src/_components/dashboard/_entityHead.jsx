@@ -32,7 +32,7 @@ const EntityHead = ({ entity, entityName, session }) => {
                   entity?.title
                 )}
               </Link>
-              {entityName == "users" && (entity?.active ? <SuccessIcon /> : <WarningIcon />)}
+              {(entityName == "users" || entityName == "patients") && (entity?.active ? <SuccessIcon /> : <WarningIcon />)}
             </span>
             {(entityName != "users" || session.id != entity.id) && <ActionsHeader entity={entity} entityName={entityName} />}
           </th>

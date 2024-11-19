@@ -5,7 +5,7 @@ import CreateIcon from "../icons/createIcon";
 import { Label, Radio, Select } from "flowbite-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const ListHeader = ({ entityName, itemsPerPage }) => {
+const ListHeader = ({ entityName, qnty }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -195,7 +195,7 @@ const ListHeader = ({ entityName, itemsPerPage }) => {
           <span className=" mx-auto">
             {entityName == "pictograms"
               ? "PICTOGRAMMES"
-              : entityName.toUpperCase()}
+              : entityName.toUpperCase()} {"(" + qnty + ")"}
           </span>
           <Link
             className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl px-2 font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group mx-5"

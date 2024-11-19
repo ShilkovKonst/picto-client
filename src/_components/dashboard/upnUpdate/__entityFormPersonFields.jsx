@@ -10,7 +10,8 @@ import {
 import { useEffect } from "react";
 
 const EntityFormPersonFields = ({
-  person,
+  session,
+  entity,
   entityName,
   institutions,
   users,
@@ -19,35 +20,35 @@ const EntityFormPersonFields = ({
   setForm,
   handleChange,
 }) => {
-  console.log(person);
-  console.log(form);
+  console.log(entity);
+  console.log("form", form);
   // console.log(form.roles);
   useEffect(() => {
     entityName == "users" &&
       setForm({
         ...form,
-        lastName: person?.lastName ?? "",
-        firstName: person?.firstName ?? "",
-        email: person?.email ?? "",
-        password: person?.password ?? "",
-        phoneNumber: person?.phoneNumber ?? "",
-        job: person?.job ?? "",
-        active: person?.active ?? undefined,
-        verified: person?.verified ?? undefined,
-        roles: person?.roles?.map((r) => r.id) ?? [],
-        institutionId: person?.institution.id ?? -1,
+        lastName: entity?.lastName ?? "",
+        firstName: entity?.firstName ?? "",
+        email: entity?.email ?? "",
+        password: entity?.password ?? "",
+        phoneNumber: entity?.phoneNumber ?? "",
+        job: entity?.job ?? "",
+        active: entity?.active ?? undefined,
+        verified: entity?.verified ?? undefined,
+        roles: entity?.roles?.map((r) => r.id) ?? [],
+        institutionId: entity?.institution.id ?? -1,
       });
     entityName == "patients" &&
       setForm({
         ...form,
-        lastName: person?.lastName ?? "",
-        firstName: person?.firstName ?? "",
-        code: person?.code ?? "",
-        grade: person?.grade ?? "",
-        sex: person?.sex ?? "",
-        active: person?.active ?? undefined,
-        birthDate: new Date(person?.birthDate).toLocaleDateString(),
-        user: person?.user?.id ?? -1,
+        lastName: entity?.lastName ?? "",
+        firstName: entity?.firstName ?? "",
+        code: entity?.code ?? "",
+        grade: entity?.grade ?? "",
+        sex: entity?.sex ?? "",
+        active: entity?.active ?? undefined,
+        birthDate: entity?.birthDate ? new Date(entity?.birthDate).toLocaleDateString() : new Date().toLocaleDateString(),
+        userId: entity?.user?.id ?? session.id,
       });
   }, []);
 
@@ -213,7 +214,7 @@ const EntityFormPersonFields = ({
             </div>
           )}
           <div className={`flex items-center gap-3`}>
-            {person == null || form.active != undefined ? (
+            {entity == null || form.active != undefined ? (
               <Checkbox
                 id={"active"}
                 name="active"
@@ -227,7 +228,7 @@ const EntityFormPersonFields = ({
           </div>
           {entityName == "users" && (
             <div className={`flex items-center gap-3`}>
-              {person == null || form.verified != undefined ? (
+              {entity == null || form.verified != undefined ? (
                 <Checkbox
                   id={"verified"}
                   name="verified"
@@ -244,15 +245,21 @@ const EntityFormPersonFields = ({
         {entityName == "patients" && (
           <div className={`mt-5`}>
             <Label htmlFor="birthDate" value={`Date de naissance (mm-dd-yyyy)`} />
+            {form.birthDate? (
             <Datepicker
               sizing={"sm"}
               onSelectedDateChanged={handleDateChange}
-              value={form.birthDate ?? new Date().toLocaleDateString()}
+              value={form.birthDate}
               language="fr"
               name=""
               id="birthDate"
               required
-            />
+            />) : (
+              <div className="flex justify-center items-center w-full">
+                <Spinner className="" aria-label="Loading birthDate..." />
+                <p className="pl-2">Loading birthDate...</p>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -261,7 +268,7 @@ const EntityFormPersonFields = ({
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-0 lg:gap-3">
           <div className={`mt-5`}>
             <Label htmlFor="institutionId" value={`Institution`} />
-            {person == null || form.institutionId ? (
+            {form.institutionId ? (
               <Select
                 id="institutionId"
                 name="institutionId"
@@ -288,7 +295,7 @@ const EntityFormPersonFields = ({
           </div>
           <div className={`mt-5`}>
             <Label htmlFor="roles" value={`Rôles`} />
-            {person == null || form?.roles ? (
+            {form?.roles ? (
               roles?.map((r, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <Checkbox
@@ -312,14 +319,14 @@ const EntityFormPersonFields = ({
       {entityName == "patients" && (
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-0 lg:gap-3">
           <div className={`mt-5`}>
-            <Label htmlFor="user" value={`Thérapeute`} />
-            {person == null || form.user ? (
+            <Label htmlFor="userId" value={`Thérapeute`} />
+            {form.userId ? (
               <Select
-                id="user"
-                name="user"
+                id="userId"
+                name="userId"
                 className="input-text md:mb-4 pl-0"
                 onChange={handleChange}
-                defaultValue={form.user}
+                defaultValue={form.userId}
                 required
               >
                 <option value={-1}>Choisir un thérapeute</option>
@@ -340,7 +347,7 @@ const EntityFormPersonFields = ({
               </Select>
             ) : (
               <div className="flex justify-center items-center w-full">
-                <Spinner className="" aria-label="Loading roles..." />
+                <Spinner className="" aria-label="Loading théraputes..." />
                 <p className="pl-2">Loading Thérapeutes...</p>
               </div>
             )}

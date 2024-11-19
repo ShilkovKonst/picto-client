@@ -69,17 +69,16 @@ export async function POST(req, { params }) {
           Cookie: cookies,
           "X-XSRF-TOKEN": csrfToken,
         },
-        //credentials: "include",
       }
     );
-    // if (!response.ok) {
-    //   return NextResponse.json(
-    //     { message: "Failed to create entity" },
-    //     { status: response.status }
-    //   );
-    // }
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: "Failed to create entity" },
+        { status: response.status }
+      );
+    }
     const data = await response.json();
-    return NextResponse.json({...data, status: data.status ?? 200});
+    return NextResponse.json({...data, status: data.status ?? response.status});
   } catch (error) {
     console.error("Error creating entity:", error.message);
     return NextResponse.json(

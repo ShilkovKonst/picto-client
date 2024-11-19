@@ -50,7 +50,7 @@ const LoginForm = () => {
       id="connexion switch-cnt"
     >
       <div
-        className="flex justify-between items-center flex-col w-full h-full p-4 md:p-8 lg:p-12"
+        className="flex justify-between items-center flex-col w-full h-full p-8 lg:p-12"
         id="switch-c1"
       >
         <Image

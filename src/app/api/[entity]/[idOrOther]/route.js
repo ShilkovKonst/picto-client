@@ -56,7 +56,6 @@ export async function PUT(req, { params }) {
           Cookie: cookies,
           "X-XSRF-TOKEN": csrfToken,
         },
-        credentials: "include",
       }
     );
     if (!response.ok) {
@@ -66,7 +65,7 @@ export async function PUT(req, { params }) {
       );
     }
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json({...data, status: data.status ?? response.status});
   } catch (error) {
     console.error("Error updating entity:", error.message);
     return NextResponse.json(

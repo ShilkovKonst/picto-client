@@ -4,6 +4,7 @@ import Accordion from "@/_components/dashboard/_accordion";
 import Link from "next/link";
 
 const Patient = ({ patient, notes }) => {
+  console.log(patient);
   return (
     <>
       <table className="table w-full">
@@ -16,6 +17,13 @@ const Patient = ({ patient, notes }) => {
             <td className="text-start w-[45%] lg:w-[30%]">{patient?.grade}</td>
           </tr>
           <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
+            <th className="text-start w-[40%] lg:w-[20%]">Date de naissance</th>
+            <td className="text-start w-[45%] lg:w-[30%]">
+              {new Date(patient?.birthDate).toLocaleDateString()}
+              {/* {patient?.birthDate} */}
+            </td>
+          </tr>
+          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
             <th className="text-start w-[35%] lg:w-[35%]">Thérapeute actuel</th>
             <td className="text-start w-[55%] lg:w-[55%]">
               {patient?.user ? (
@@ -26,7 +34,9 @@ const Patient = ({ patient, notes }) => {
                   {patient?.user?.firstName + " " + patient?.user?.lastName}
                 </Link>
               ) : (
-                <div className="bg-red-500 py-1 px-3 rounded-full text-center font-semibold">none</div>
+                <div className="bg-red-500 py-1 px-3 rounded-full text-center font-semibold">
+                  none
+                </div>
               )}
             </td>
           </tr>

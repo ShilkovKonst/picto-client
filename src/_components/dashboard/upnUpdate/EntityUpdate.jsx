@@ -20,6 +20,7 @@ const EntityUpdate = ({
         <EntityHead session={session} entity={entity} entityName={entityName} />
       </table>
       <EntityForm
+        session={session}
         entity={entity}
         entityName={entityName}
         pathname={pathname}
