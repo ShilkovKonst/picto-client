@@ -1,12 +1,16 @@
 import UserProfile from "@/_components/dashboard/profile/userProfile";
+import { getAllByOtherAsList } from "@/_utils/entityApiUtil";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { jwtDecode } from "jwt-decode";
 
-const page = () => {
+const page = async ({ searchParams }) => {
   const accessToken = getAccessToken();
   const user = accessToken ? jwtDecode(accessToken?.value) : null;
-  
-  return <UserProfile user={user} />;
+  const patients = await getAllByOtherAsList("patients", "user", user.id, accessToken);
+  const notes = await getAllByOtherAsList("notes", "user", user.id, accessToken);
+  const { verify } = searchParams;
+
+  return <UserProfile user={user} notes={notes} patients={patients} verify={verify} />;
 };
 
 export default page;

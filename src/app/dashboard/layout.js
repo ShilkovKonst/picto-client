@@ -1,14 +1,29 @@
-import React from "react";
-import DashboardLayout from "./DashboardLayout";
+import { Suspense } from "react";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { jwtDecode } from "jwt-decode";
+import DashboardHeader from "@/_components/dashboard/_layout/_dashboardHeader";
+import DashboardContentList from "@/_components/dashboard/_layout/_dashboardContentList";
 
-const Layout = ({ children, searchParams }) => {
+const Layout = ({ children }) => {
   const accessToken = getAccessToken();
   const session = accessToken && jwtDecode(accessToken.value);
-
   return (
-    <DashboardLayout children={children} params={searchParams} session={session} />
+    <div
+      className="relative w-full md:w-[100%] lg:w-[70%] xl:w-[70%]  bg-pform md:rounded-xl
+     p-3 pb-20 ml-auto mr-auto"
+    >
+      {/* <!-- logo of the site  with deconnexion button--> */}
+      <DashboardHeader session={session} />
+      <div className="flex flex-col md:flex-row items-start sm:p-4">
+        {/* <!-- side bar with list of entities --> */}
+        <Suspense>
+          <DashboardContentList session={session} />
+        </Suspense>
+        <div className="relative w-full min-h-[50vh] flex flex-col justify-start overflow-visible mt-3 md:mt-0 md:ml-3 p-4 pt-2 bg-[#ffffff80] shadow-inset-5/5 rounded-xl border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
+          {children}
+        </div>
+      </div>
+    </div>
   );
 };
 

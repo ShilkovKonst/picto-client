@@ -2,7 +2,7 @@ import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
-    // getting CSRF token
+  // getting CSRF token
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
   const csrfTokenResponse = await fetch(
@@ -31,17 +31,12 @@ export async function POST(req) {
     `${process.env.SERVER_BASE_URL}/auth/verify/generate-token?email=${session.sub}`,
     {
       method: "POST",
-      // body: requestBody,
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
         Cookie: cookies,
         "X-XSRF-TOKEN": csrfToken,
       },
     }
-  );
-  console.log(
-    "verify send email api route generateTokenResponse",
-    generateTokenResponse
   );
   if (!generateTokenResponse.ok) {
     return NextResponse.json(
@@ -50,8 +45,8 @@ export async function POST(req) {
     );
   }
   const verificationToken = await generateTokenResponse.text();
-  
-  // sending verification token to user  
+
+  // sending verification token to user
   try {
     const sendingEmailResponse = await fetch(
       `${process.env.SERVER_BASE_URL}/auth/verify/send-email?toEmail=${session.sub}&token=${verificationToken}`,
@@ -64,7 +59,6 @@ export async function POST(req) {
         },
       }
     );
-    console.log("from api verify sending email route sendingEmailResponse", sendingEmailResponse)
     if (!sendingEmailResponse.ok) {
       return NextResponse.json(
         { message: "Failed to update entity" },
@@ -72,8 +66,10 @@ export async function POST(req) {
       );
     }
     const sendingEmailData = await sendingEmailResponse.json();
-    console.log("from api verify sending email route sendingEmailData", sendingEmailData)
-    return NextResponse.json({...sendingEmailData, status: sendingEmailData.status ?? sendingEmailResponse.status});
+    return NextResponse.json({
+      ...sendingEmailData,
+      status: sendingEmailData.status ?? sendingEmailResponse.status,
+    });
   } catch (error) {
     console.error("Error updating entity:", error.message);
     return NextResponse.json(

@@ -3,8 +3,9 @@ import UserActions from "./userActions";
 import WarningIcon from "@/_components/icons/warningIcon";
 import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
+import Accordion from "../_accordion";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, verify, patients, notes }) => {
   const handleClick = async () => {
     try {
       const response = await fetch(
@@ -17,8 +18,8 @@ const UserProfile = ({ user }) => {
       if (!response.ok) {
         const errorDetails = await response.json();
         throw new Error(`${errorDetails.message}`);
-      } 
-      console.log(response)
+      }
+      console.log(response);
       return response.json();
     } catch (error) {
       console.error("Bad credentials:", error.message);
@@ -26,107 +27,120 @@ const UserProfile = ({ user }) => {
   };
 
   return (
-    <table className="table w-full">
-      <thead>
-        <tr className=" border-b w-auto">
-          <th className="text-lg flex justify-center items-center">
-            <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
-              Profil
-              {user?.active ? (
-                <>
+    <>
+      {!user.verified &&
+        verify &&
+        (verify == "success" ? (
+          <div className="absolute z-50 -left-0 -top-6 rounded-t-xl bg-green-300 w-full py-2 text-center text-sm md:text-base">
+            L&apos;email est verifié
+          </div>
+        ) : (
+          <div className="absolute z-50 -left-0 -top-6 rounded-t-xl bg-red-300 w-full py-2 text-center text-sm md:text-base">
+            Le token de vérification est expiré,{" "}
+            <button
+              className="font-semibold underline decoration-1"
+              onClick={handleClick}
+            >
+              renvoyer l&apos;email
+            </button>
+          </div>
+        ))}
+      <table className="table w-full">
+        <thead>
+          <tr className=" border-b w-auto">
+            <th className="text-lg flex justify-center items-center">
+              <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
+                Profil
+                {user?.active ? (
                   <SuccessIcon />
-                  <div className="hidden group-hover:block absolute top-6 -right-16 w-52 rounded-lg alert-success p-4">
-                    <p className="font-normal text-sm text-green-800">
-                      Votre compte est actif.
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <WarningIcon />
-                  <div className="hidden group-hover:block absolute top-6 -right-16 w-52 rounded-lg alert-danger p-4">
-                    <p className="font-normal text-sm text-red-800">
-                      Votre compte est inactif.
-                    </p>
-                  </div>
-                </>
+                ) : (
+                  <>
+                    <WarningIcon />
+                    <div className="hidden group-hover:block absolute top-6 -right-16 w-52 rounded-lg alert-danger p-4">
+                      <p className="font-normal text-sm text-red-800">
+                        Votre compte est inactif.
+                      </p>
+                    </div>
+                  </>
+                )}
+              </span>
+              {user?.active && (
+                <UserActions
+                  path1="/dashboard/profile/update"
+                  path2="/dashboard/profile/desactivate"
+                />
               )}
-            </span>
-            {user?.active && (
-              <UserActions
-                path1="/dashboard/profile/update"
-                path2="/dashboard/profile/desactivate"
-              />
-            )}
-          </th>
-        </tr>
-      </thead>
-      <tbody className="flex flex-col gap-2 w-full">
-        {!user && (
-          <tr className="h-[205px] flex justify-center items-center">
-            <th className="text-start w-[40%] lg:w-[20%]">
-              <Spinner className="" size="xl" aria-label="Loading profile..." />
             </th>
           </tr>
-        )}
-        {user && (
-          <>
-            <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-              <th className="text-start w-[40%] lg:w-[20%]">Nom</th>
-              <td className="text-start w-[45%] lg:w-[30%]">
-                {user?.lastName}
-              </td>
-              <th className="text-start w-[40%] lg:w-[20%]">Prénom</th>
-              <td className="text-start w-[45%] lg:w-[30%]">
-                {user?.firstName}
-              </td>
+        </thead>
+        <tbody className="flex flex-col w-full *:grid *:grid-cols-4 *:gap-1 *:lg:gap-0">
+          {!user && (
+            <tr className="h-[205px] flex justify-center items-center">
+              <th className="text-start w-[40%] lg:w-[20%]">
+                <Spinner
+                  className=""
+                  size="xl"
+                  aria-label="Loading profile..."
+                />
+              </th>
             </tr>
-            <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-              <th className="text-start w-[40%] lg:w-[20%]">Fonction</th>
-              <td className="text-start w-[45%] lg:w-[30%]">{user?.job}</td>
-              <th className="text-start w-[40%] lg:w-[20%]">Institution</th>
-              <td className="text-start w-[45%] lg:w-[30%]">
-                {user?.institution?.title}
-              </td>
-            </tr>
-            <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-              <th className="text-start w-[20%] lg:w-[15%]">Email</th>
-              <td className="text-start flex items-center w-[75%] lg:w-[55%]">
-                {user?.sub}
-                <div className="relative group text-center w-auto ml-1">
-                  {user?.verified ? (
-                    <>
-                      <SuccessIcon />
-                      <div className="hidden group-hover:block absolute bottom-6 -right-36 w-72 rounded-lg alert-success p-4">
-                        <p className="text-green-800">
-                          Votre email est vérifié.
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <WarningIcon />
-                      <div className="hidden group-hover:block absolute bottom-6 -right-36 w-72 rounded-lg alert-danger p-4">
-                        <p className="text-red-800">
-                          Votre email n&apos;est pas vérifié.
-                        </p>
+          )}
+          {user && (
+            <>
+              <tr className="*:col-span-2 *:lg:col-span-1 text-sm sm:text-base p-2">
+                <th className="text-start">Nom</th>
+                <td className="text-start">
+                  {user?.lastName}
+                </td>
+                <th className="text-start">Prénom</th>
+                <td className="text-start">
+                  {user?.firstName}
+                </td>
+              </tr>
+            <td className="border col-span-4 bg-pbg-trans-88"></td>
+              <tr className="*:col-span-2 *:lg:col-span-1 text-sm sm:text-base p-2">
+                <th className="text-start">Fonction</th>
+                <td className="text-start">{user?.job}</td>
+                <th className="text-start">Institution</th>
+                <td className="text-start">
+                  {user?.institution?.title}
+                </td>
+              </tr>
+              <td className="border col-span-4 bg-pbg-trans-88"></td>
+              <tr className="text-sm sm:text-base p-2">
+                <th className="col-span-1 text-start">Email</th>
+                <td className="col-span-3 text-start">
+                  <div className="flex items-center gap-3">
+                    {user?.sub}
+                    {user?.verified ? <SuccessIcon /> : <WarningIcon />}
+                  </div>
+                  <div className="">
+                    {!user?.verified && (
+                      <p className="text-red-800">
+                        Votre email n&apos;est pas vérifié.{" "}
                         <button
                           className="font-semibold underline decoration-1"
                           onClick={handleClick}
-                          //href="{{ path('app_verify_email_resend') }}"
                         >
-                          Renvoyer l&apos;email de vérification
+                          Envoyer l&apos;email de vérification
                         </button>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </td>
-            </tr>
-          </>
-        )}
-      </tbody>
-    </table>
+                      </p>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            </>
+          )}
+        </tbody>
+      </table>
+      <Accordion
+        initial={"patients"}
+        entities={[
+          { name: "patients", entityList: patients },
+          { name: "notes", entityList: notes },
+        ]}
+      />
+    </>
   );
 };
 
