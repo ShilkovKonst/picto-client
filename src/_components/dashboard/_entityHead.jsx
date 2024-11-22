@@ -24,17 +24,17 @@ const EntityHead = ({ entity, entityName, session }) => {
               >
                 {entityName == "users" || entityName == "patients" ? (
                   <div>
-                    {entity.firstName.slice(0, 1) + ". " + entity.lastName}{" "}
+                    {entity?.firstName?.slice(0, 1) + ". " + entity?.lastName}{" "}
                   </div>
                 ) : entityName == "notes" ? (
-                  entity.estimation
+                  entity?.estimation
                 ) : (
                   entity?.title
                 )}
               </Link>
               {(entityName == "users" || entityName == "patients") && (entity?.active ? <SuccessIcon /> : <WarningIcon />)}
             </span>
-            {(entityName != "users" || session.id != entity.id) && <ActionsHeader entity={entity} entityName={entityName} />}
+            {(entityName != "users" || session?.id != entity?.id) && <ActionsHeader entity={entity} entityName={entityName} />}
           </th>
         ) : (
           <th className="text-lg md:text-xl flex justify-center items-center">

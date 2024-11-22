@@ -30,7 +30,7 @@ const Accordion = ({ initial, entities, session }) => {
             isOpen != entList.name ? "hidden" : "block"
           }  transition-all ease-in-out duration-150`}
         >
-          <thead className="relative">
+          <thead className="relative mt-1">
             <tr
               className={`grid grid-cols-${
                 entList.name == "notes"
@@ -38,10 +38,10 @@ const Accordion = ({ initial, entities, session }) => {
                   : entList.name == "categories" || entList.name == "pictograms"
                   ? "3"
                   : "2"
-              }`}
+              } *:border-l *:border-r *:border-t-0 *:border-b-0`}
             >
               <th>
-                {(entList.name == "notes" && pathname.includes("users"))
+                {(entList.name == "notes" && (pathname.includes("users") || pathname.split("/").length == 2))
                   ? "Patient"
                   : (entList.name == "notes" && pathname.includes("patients"))
                   ? "Thérapeute"
@@ -60,7 +60,7 @@ const Accordion = ({ initial, entities, session }) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody className="flex flex-col gap-1 max-h-80 overflow-y-auto">
+          <tbody className="flex flex-col gap-1 max-h-80 overflow-y-auto mt-1">
             {entList.entityList?.length > 0 &&
               entList.entityList.map((el, j) => (
                 <EntityItem

@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
 // ---------------------GET---------------------------
@@ -65,7 +66,10 @@ export async function PUT(req, { params }) {
       );
     }
     const data = await response.json();
-    return NextResponse.json({...data, status: data.status ?? response.status});
+    return NextResponse.json({
+      ...data,
+      status: data.status ?? response.status,
+    });
   } catch (error) {
     console.error("Error updating entity:", error.message);
     return NextResponse.json(
@@ -151,11 +155,14 @@ async function getOne(entityName, id, accessToken) {
 
   if (!response.ok) {
     console.log("entity API !response.ok: ", response.statusText);
-    if (response.status == 401) {
-      // TODO: create logic
-    }
+    // if (response.status == 401) {
+    //   // TODO: create logic
+    // }
+    // if (response.status == 404) {
+    //   notFound();
+    // }
     return NextResponse.json(
-      { message: "Failed to fetch entity" },
+      { message: "Failed to fetch entity", status: response.status},
       { status: response.status }
     );
   }

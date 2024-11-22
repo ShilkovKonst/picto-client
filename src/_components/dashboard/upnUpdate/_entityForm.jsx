@@ -4,6 +4,7 @@ import { useState } from "react";
 import EntityFormInstitutionFields from "./__entityFormInstitutionFields";
 import EntityFormPersonFields from "./__entityFormPersonFields";
 import { Spinner } from "flowbite-react";
+import EntityFormNoteFields from "./__entityFormNoteFields";
 
 const EntityForm = ({
   session,
@@ -64,8 +65,8 @@ const EntityForm = ({
       case "notes":
         formData.append("estimation", form.estimation);
         formData.append("comment", form.comment);
-        formData.append("user", form.user);
-        formData.append("patient", form.patient);
+        formData.append("userId", form.userId);
+        formData.append("patientId", form.patientId);
         break;
       default:
         break;
@@ -74,7 +75,7 @@ const EntityForm = ({
       // on create
       if (pathname.includes("create")) {
         const response = await createOne(formData, entityName);
-        console.log("response createOne", response)
+        console.log("response createOne", response);
         response.status == 201 &&
           router.push(`/dashboard/${entityName}/${response.id}`);
         if (response.status >= 400) {
@@ -84,8 +85,13 @@ const EntityForm = ({
       }
       // on update
       else {
-        const response = await updateOne(entity.id, entityName, formData, router);
-        console.log("response updateOne", response)
+        const response = await updateOne(
+          entity.id,
+          entityName,
+          formData,
+          router
+        );
+        console.log("response updateOne", response);
         response.status == 202 &&
           router.push(`/dashboard/${entityName}/${response.id}`);
         if (response.status >= 400) {
@@ -102,7 +108,7 @@ const EntityForm = ({
   };
 
   return (
-    <form className={`mx-auto`} onSubmit={handleSubmit}>
+    <form className={`mx-auto min-w-[75%] *:*:mt-5 *:*:w-full`} onSubmit={handleSubmit}>
       {error && (
         <div className="text-red-600 mx-auto">
           <span className="font-semibold pr-1">Invalid credentials:</span>
@@ -133,7 +139,8 @@ const EntityForm = ({
       )}
 
       {entityName == "notes" && (
-        <EntityFormNotesFields
+        <EntityFormNoteFields
+          session={session}
           note={entity}
           users={users}
           patients={patients}
@@ -181,7 +188,7 @@ async function createOne(formData, entityName) {
       const errorDetails = await response.json();
       throw new Error(`${errorDetails.message}`);
     }
-    console.log(response)
+    console.log(response);
     return response.json();
   } catch (error) {
     console.error("Bad credentials:", error.message);
@@ -206,8 +213,8 @@ async function updateOne(id, entityName, formData, router) {
     if (!response.ok) {
       const errorDetails = await response.json();
       throw new Error(`${errorDetails.message}`);
-    } 
-    console.log(response)
+    }
+    console.log(response);
     return response.json();
   } catch (error) {
     console.error("Bad credentials:", error.message);

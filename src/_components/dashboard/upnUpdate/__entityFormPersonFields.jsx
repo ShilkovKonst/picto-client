@@ -47,7 +47,9 @@ const EntityFormPersonFields = ({
         grade: entity?.grade ?? "",
         sex: entity?.sex ?? "",
         active: entity?.active ?? undefined,
-        birthDate: entity?.birthDate ? new Date(entity?.birthDate).toLocaleDateString() : new Date().toLocaleDateString(),
+        birthDate: entity?.birthDate
+          ? new Date(entity?.birthDate).toLocaleDateString()
+          : new Date().toLocaleDateString(),
         userId: entity?.user?.id ?? session.id,
       });
   }, []);
@@ -193,8 +195,8 @@ const EntityFormPersonFields = ({
           </div>
         </div>
       )}
-      <div className="flex flex-col lg:flex-row justify-between items-start  gap-0 lg:gap-3">
-        <div className="flex flex-col justify-start items-start mt-5">
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-0 lg:gap-3">
+        <div className="flex flex-col justify-start items-start">
           {entityName == "patients" && (
             <div className={`flex flex-col items-start gap-3 mb-5`}>
               <Label value={`Sexe:`} />
@@ -243,18 +245,22 @@ const EntityFormPersonFields = ({
           )}
         </div>
         {entityName == "patients" && (
-          <div className={`mt-5`}>
-            <Label htmlFor="birthDate" value={`Date de naissance (mm-dd-yyyy)`} />
-            {form.birthDate? (
-            <Datepicker
-              sizing={"sm"}
-              onSelectedDateChanged={handleDateChange}
-              value={form.birthDate}
-              language="fr"
-              name=""
-              id="birthDate"
-              required
-            />) : (
+          <div>
+            <Label htmlFor="birthDate" value={`Date de naissance`} />
+            <p className="text-xs font-medium text-gray-900 mb-1">
+              (mm-dd-yyyy)
+            </p>
+            {form.birthDate ? (
+              <Datepicker
+                sizing={"sm"}
+                onSelectedDateChanged={handleDateChange}
+                value={form.birthDate}
+                language="fr"
+                name=""
+                id="birthDate"
+                required
+              />
+            ) : (
               <div className="flex justify-center items-center w-full">
                 <Spinner className="" aria-label="Loading birthDate..." />
                 <p className="pl-2">Loading birthDate...</p>

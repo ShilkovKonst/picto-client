@@ -14,7 +14,7 @@ const Note = ({ note }) => {
               {note?.estimation}
             </td>
           </tr>
-          {/* <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
+          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
             <th className="text-start w-[40%] lg:w-[20%]">Thérapeute</th>
             <td className="text-start w-[45%] lg:w-[30%]">
               <Link
@@ -35,7 +35,7 @@ const Note = ({ note }) => {
                   note?.patient.lastName}
               </Link>
             </td>
-          </tr> */}
+          </tr>
           <tr className="flex flex-col md:flex-row gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
             <th className="text-start w-[40%] lg:w-[20%]">Déscription</th>
             <td className="text-start w-[45%] lg:w-[30%]">

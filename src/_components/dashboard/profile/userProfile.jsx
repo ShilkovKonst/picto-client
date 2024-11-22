@@ -5,7 +5,7 @@ import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
 import Accordion from "../_accordion";
 
-const UserProfile = ({ user, verify, patients, notes }) => {
+const UserProfile = ({ user, notes, patients, verify }) => {
   const handleClick = async () => {
     try {
       const response = await fetch(
@@ -87,28 +87,22 @@ const UserProfile = ({ user, verify, patients, notes }) => {
           )}
           {user && (
             <>
-              <tr className="*:col-span-2 *:lg:col-span-1 text-sm sm:text-base p-2">
-                <th className="text-start">Nom</th>
-                <td className="text-start">
-                  {user?.lastName}
-                </td>
-                <th className="text-start">Prénom</th>
-                <td className="text-start">
-                  {user?.firstName}
-                </td>
+              <tr className="*:col-span-2 *:lg:col-span-1 *:text-start text-sm sm:text-base p-2">
+                <th className="">Nom</th>
+                <td className="">{user?.lastName}</td>
+                <th className="">Prénom</th>
+                <td className="">{user?.firstName}</td>
               </tr>
-            <td className="border col-span-4 bg-pbg-trans-88"></td>
-              <tr className="*:col-span-2 *:lg:col-span-1 text-sm sm:text-base p-2">
-                <th className="text-start">Fonction</th>
-                <td className="text-start">{user?.job}</td>
-                <th className="text-start">Institution</th>
-                <td className="text-start">
-                  {user?.institution?.title}
-                </td>
+              <tr className="border col-span-4 bg-pbg-trans-88"></tr>
+              <tr className="*:col-span-2 *:lg:col-span-1 *:text-start text-sm sm:text-base p-2">
+                <th className="">Fonction</th>
+                <td className="">{user?.job}</td>
+                <th className="">Institution</th>
+                <td className="">{user?.institution?.title}</td>
               </tr>
-              <td className="border col-span-4 bg-pbg-trans-88"></td>
+              <tr className="border col-span-4 bg-pbg-trans-88"></tr>
               <tr className="text-sm sm:text-base p-2">
-                <th className="col-span-1 text-start">Email</th>
+                <th className="col-span-1 ">Email</th>
                 <td className="col-span-3 text-start">
                   <div className="flex items-center gap-3">
                     {user?.sub}

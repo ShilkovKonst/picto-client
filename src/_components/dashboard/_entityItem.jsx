@@ -10,7 +10,7 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
   return (
     <tr className="grid grid-cols-1">
       <td
-        className={`grid border-t border-b ${
+        className={`grid ${
           isSublist
             ? entityName == "notes"
               ? "grid-cols-4"
@@ -26,11 +26,11 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
             : "grid-cols-2"
         } ${
           isSublist ? "h-14" : "h-16 md:h-14"
-        }  group/item hover:bg-pbg-trans-10 transition ease-in-out duration-300`}
+        } border-t border-b group/item hover:bg-pbg-trans-10 transition ease-in-out duration-300`}
       >
         <Link
           href={`/dashboard/${entityName}/${entity?.id}`}
-          className={`grid justify-between items-center text-sm sm:text-base ${
+          className={`grid text-sm sm:text-base ${
             isSublist
               ? entityName == "notes"
                 ? "col-span-3 grid-cols-3"
