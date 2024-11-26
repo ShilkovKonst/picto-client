@@ -13,15 +13,23 @@ const FormVerbFields = ({
   handleChange,
   handleRadioChange,
   handleCheckboxChange,
-}) => {  
+}) => {
+  const verbTagsPool = tags.filter(
+    (t) => t.title == "auxiliaire_avoir" || t.title == "auxiliaire_etre"
+  );
+
   const [verbTag, setVerbTag] = useState(null);
 
   useEffect(() => {
-    verbTag != null &&
-      setForm((prevForm) => ({
-        ...prevForm,
-        tags: [...prevForm.tags, verbTag],
-      }));
+    if (verbTag != null && !form.tags.includes(verbTag)) {
+      const excludeIds = new Set(
+        verbTagsPool.filter((e) => e.id != verbTag).map((e) => e.id)
+      );
+      setForm({
+        ...form,
+        tags: [...form.tags.filter((t) => !excludeIds.has(Number(t))), verbTag],
+      });
+    }
   }, [verbTag]);
 
   const handleConjugationChange = (e, tense) => {

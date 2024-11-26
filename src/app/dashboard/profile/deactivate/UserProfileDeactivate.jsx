@@ -1,35 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {useState } from "react";
 
-const UserProfileDeactivate = () => {
-  const [user, setUser] = useState(null);
+const UserProfileDeactivate = ({ session }) => {
+  const router = useRouter();
   const [form, setForm] = useState({
-    email: "",
+    email: session.sub ?? null,
     password: "",
   });
-
-  useEffect(() => {
-    const userData = localStorage.getItem("userData");
-    if (userData) {
-      setUser(JSON.parse(userData));
-      setForm({ ...form, email: user?.sub });
-    }
-  }, []);
-  useEffect(() => {
-    setForm({ ...form, email: user?.sub });
-  }, [user]);
 
   const handleChange = (e) => {
     // isError && setIsError(false);
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  }; 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: logic to desactivate users profile
-    console.warn("TODO: logic to desactivate users profile");
+    //setIsLoading(true);
+    try {
+      const responseApi = await fetch("/api/deactivate", {
+        method: "POST",
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
+      if (responseApi.status >= 400) {
+        //setIsLoading(false);
+        //setIsError(true);
+        //setErrorMessage("Invalid credentials: incorrect  password");
+      } else {
+        //isError && setIsError(false);
+        router.push(`/dashboard`);
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Bad credentials:", error.message);
+    }
   };
 
   return (
@@ -65,9 +72,14 @@ const UserProfileDeactivate = () => {
         </div>
       </div>
 
-      <form className="flex flex-col items-center justify-between w-full h-full" onSubmit={handleSubmit}>
+      <form
+        className="flex flex-col items-center justify-between w-full h-full"
+        onSubmit={handleSubmit}
+      >
         <div className="z-50">
-          <label className="text-sm md:text-base"  htmlFor="password">Saisir votre mot de passe pour confirmer désactivation</label>
+          <label className="text-sm md:text-base" htmlFor="password">
+            Saisir votre mot de passe pour confirmer désactivation
+          </label>
           <input
             type="password"
             name="password"

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const MediaField = ({ entity, entityName, isSublist }) => {
   return (
-    <div className="flex justify-center md:justify-start">
+    <div className={`flex justify-center ${!isSublist && "md:justify-start"} items-center`}>
       {entity?.media?.imageFileRes && (
         <Image
           className={`${isSublist ? "h-12 w-12" : "h-16 w-16 md:h-14 md:w-14"}`}

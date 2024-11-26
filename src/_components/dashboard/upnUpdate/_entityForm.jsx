@@ -15,6 +15,7 @@ const EntityForm = ({
   users,
   roles,
   patients,
+  patient,
 }) => {
   const router = useRouter();
 
@@ -93,7 +94,9 @@ const EntityForm = ({
         );
         console.log("response updateOne", response);
         response.status == 202 &&
-          router.push(`/dashboard/${entityName}/${response.id}`);
+          (entityName == "users" && session.id == entity.id
+            ? router.push(`/dashboard`)
+            : router.push(`/dashboard/${entityName}/${response.id}`));
         if (response.status >= 400) {
           setError(true);
           setErrorMessage(response.title);
@@ -108,7 +111,10 @@ const EntityForm = ({
   };
 
   return (
-    <form className={`mx-auto min-w-[75%] *:*:mt-5 *:*:w-full`} onSubmit={handleSubmit}>
+    <form
+      className={`mx-auto min-w-[75%] *:*:mt-5 *:*:w-full`}
+      onSubmit={handleSubmit}
+    >
       {error && (
         <div className="text-red-600 mx-auto">
           <span className="font-semibold pr-1">Invalid credentials:</span>
@@ -144,35 +150,32 @@ const EntityForm = ({
           note={entity}
           users={users}
           patients={patients}
+          patient={patient}
           form={form}
           setForm={setForm}
           handleChange={handleChange}
         />
       )}
-      <button
-        type="submit"
-        className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
-      >
-        {isLoading ? (
-          <>
-            <Spinner className="" size="md" aria-label="Veuillez patienter" />
-            <span className="pl-3">Veuillez patienter</span>
-          </>
-        ) : (
-          "Confirmer"
-        )}
-      </button>
+      <div>
+        <button
+          type="submit"
+          className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
+        >
+          {isLoading ? (
+            <>
+              <Spinner className="" size="md" aria-label="Veuillez patienter" />
+              <span className="pl-3">Veuillez patienter</span>
+            </>
+          ) : (
+            "Confirmer"
+          )}
+        </button>
+      </div>
     </form>
   );
 };
 
 export default EntityForm;
-
-// const create = async (entityName, router, formData) => {
-//   const response = await createOne(formData, entityName);
-//   response.status == 200 &&
-//     router.push(`/dashboard/${entityName}/${response.id}`);
-// };
 
 async function createOne(formData, entityName) {
   try {
@@ -194,11 +197,6 @@ async function createOne(formData, entityName) {
     console.error("Bad credentials:", error.message);
   }
 }
-
-// const update = async (id, entityName, router, formData) => {
-//   const response = await updateOne(id, entityName, formData);
-//   router.push(`/dashboard/${entityName}/${response.id}`);
-// };
 
 async function updateOne(id, entityName, formData, router) {
   try {

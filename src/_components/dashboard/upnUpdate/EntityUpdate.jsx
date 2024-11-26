@@ -12,6 +12,7 @@ const EntityUpdate = ({
   users,
   roles,
   patients,
+  patient,
 }) => {
   const pathname = usePathname();
   return (
@@ -28,6 +29,7 @@ const EntityUpdate = ({
         users={users}
         roles={roles}
         patients={patients}
+        patient={patient}
       />
     </>
   );

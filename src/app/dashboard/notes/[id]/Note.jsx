@@ -7,45 +7,53 @@ const Note = ({ note }) => {
     <>
       <table className="table w-full">
         <EntityHead entity={note} entityName="notes" />
-        <tbody className="flex flex-col gap-2 w-full">
-          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[40%] lg:w-[20%]">Estimation</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
+        <tbody className="w-full">
+          <tr className="grid grid-cols-6 text-sm sm:text-base p-2 *:flex *:justify-start *:items-center">
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
+            <th className="col-span-2 text-sm text-start py-1">Estimation</th>
+            <td className="col-span-4 text-start ml-2 py-1">
               {note?.estimation}
             </td>
-          </tr>
-          <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[40%] lg:w-[20%]">Thérapeute</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
+            <th className="col-span-6 text-sm text-start py-1">Commentaire</th>
+            <td className="col-span-6 text-sm text-start py-1">
+              {note?.comment.split("/n").map((c, i) => (
+                <div key={i} className="">
+                  <p>{c}</p>
+                  {i == note.comment.split("/n") - 1 && <br />}
+                </div>
+              ))}
+            </td>
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
+            <th className="col-span-2 text-sm text-start py-1">
+              <p>Date de création</p>
+            </th>
+            <td className="col-span-4 text-start ml-2 py-1">
+              {new Date(note?.createdAt).toLocaleDateString("fr-FR")}
+            </td>
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
+            <th className="col-span-2 text-sm text-start py-1">Thérapeute</th>
+            <td className="col-span-4 text-start ml-2 py-1">
               <Link
                 href={`/dashboard/users/${note?.user?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
               >
                 {note?.user.firstName.charAt(0) + ". " + note?.user.lastName}
               </Link>
             </td>
-            <th className="text-start w-[40%] lg:w-[20%]">Patient</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
+            <th className="col-span-2 text-sm text-start py-1">Patient</th>
+            <td className="col-span-4 text-start ml-2 py-1">
               <Link
                 href={`/dashboard/patients/${note?.patient?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
               >
                 {note?.patient.firstName.charAt(0) +
                   ". " +
                   note?.patient.lastName}
               </Link>
             </td>
-          </tr>
-          <tr className="flex flex-col md:flex-row gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-            <th className="text-start w-[40%] lg:w-[20%]">Déscription</th>
-            <td className="text-start w-[45%] lg:w-[30%]">
-              {note?.comment.split("/n").map((c, i) => (
-                <div key={i} className="">
-                  <p>{c}</p>
-                  {i == note.comment.split("/n")-1 && <br />}
-                </div>
-              ))}
-            </td>
+            <td className="border col-span-6 bg-pbg-trans-bb"></td>
           </tr>
         </tbody>
       </table>

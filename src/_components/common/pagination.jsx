@@ -9,10 +9,10 @@ const Pagination = ({ data, entityName }) => {
     <nav className="md:absolute -bottom-20 right-0 left-0">
       <ul className="flex flex-row items-center justify-center gap-3">
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
-          {!data.first && (
+          {data.page.number != 0 && (
             <Link
               href={`/dashboard/${entityName}?page=${0}&size=${
-                data.size
+                data.page.size
               }&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center font-normal"
             >
@@ -22,10 +22,10 @@ const Pagination = ({ data, entityName }) => {
         </li>
         <li className=" min-w-8 sm:min-w-10"></li>
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
-          {data.number > 0 && (
+          {data.page.number > 0 && (
             <Link
-              href={`/dashboard/${entityName}?page=${data.number - 1}&size=${
-                data.size
+              href={`/dashboard/${entityName}?page=${data.page.number - 1}&size=${
+                data.page.size
               }&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
@@ -50,13 +50,13 @@ const Pagination = ({ data, entityName }) => {
           )}
         </li>
         <li className="cursor-default h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] text-pbg bg-[#f9f9f9] border-none outline-none w-auto min-w-10 flex flex-row justify-center items-center">
-          {data.number + 1}
+          {data.page.number + 1}
         </li>
         <li className="min-w-8 sm:min-w-10 cursor-pointer">
-          {data.number < data.totalPages - 1 && (
+          {data.page.number < data.page.totalPages - 1 && (
             <Link
-              href={`/dashboard/${entityName}?page=${data.number + 1}&size=${
-                data.size
+              href={`/dashboard/${entityName}?page=${data.page.number + 1}&size=${
+                data.page.size
               }&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
@@ -82,14 +82,14 @@ const Pagination = ({ data, entityName }) => {
         </li>
         <li className=" min-w-8 sm:min-w-10"></li>
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
-          {!data.last && (
+          {data.page.number != data.page.totalPages - 1 && (
             <Link
               href={`/dashboard/${entityName}?page=${
-                data.totalPages - 1
-              }&size=${data.size}&type=${searchParams.get("type")}`}
+                data.page.totalPages - 1
+              }&size=${data.page.size}&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center font-normal"
             >
-              {data.totalPages}
+              {data.page.totalPages}
             </Link>
           )}
         </li>

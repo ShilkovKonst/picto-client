@@ -15,12 +15,11 @@ const EntityFormPictoFields = ({
   tags,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
-  
   useEffect(() => {
     setForm({
       ...form,
       type: pictogram?.type ?? -1,
-      category: pictogram?.category ?? -1,
+      categoryId: pictogram?.category.id ?? -1,
       tags: pictogram?.tags?.map((t) => t.id.toString()) ?? [],
       irregular: {
         pastParticiple: pictogram?.irregular?.pastParticiple ?? "",
@@ -85,6 +84,7 @@ const EntityFormPictoFields = ({
       },
     });
   }, []);
+
   useEffect(() => {
     setIsIrregular(form?.tags?.includes("3"));
   }, [form]);
@@ -121,10 +121,6 @@ const EntityFormPictoFields = ({
   // method to remove old verb tag value from form and add new verb tag value via useEffect
   const handleRadioChange = (e, tag, setTag) => {
     setTag(e.target.value);
-    setForm((prevForm) => ({
-      ...prevForm,
-      tags: [...prevForm.tags.filter((t) => t != tag)],
-    }));
   };
 
   const handleIrregularChange = (e) => {
@@ -139,21 +135,23 @@ const EntityFormPictoFields = ({
       <div className={`lg:flex lg:justify-between`}>
         <div className="mt-5 lg:w-2/5">
           <Label htmlFor="category" value={`Catégorie:`} />
-          {form.category && categories && (
+          {form.categoryId && categories && (
             <Select
-              id="category"
-              name="category"
+              id="categoryId"
+              name="categoryId"
               onChange={handleChange}
-              defaultValue={form?.category ?? -1}
+              defaultValue={form?.categoryId ?? -1}
               required
             >
               <option value={-1}>Choisir une catégorie</option>
               {categories &&
-                categories.sort((a, b) => a.title.localeCompare(b.title)).map((cat, i) => (
-                  <option key={i} value={cat.id}>
-                    {cat.title}
-                  </option>
-                ))}
+                categories
+                  .sort((a, b) => a.title.localeCompare(b.title))
+                  .map((cat, i) => (
+                    <option key={i} value={cat.id}>
+                      {cat.title}
+                    </option>
+                  ))}
             </Select>
           )}
         </div>

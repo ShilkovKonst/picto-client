@@ -9,11 +9,12 @@ const EntityFormCatFields = ({
   questions,
   categories,
 }) => {
+  console.log(category)
   useEffect(() => {
     setForm({
       ...form,
       questions: category?.questions ?? [],
-      supercategory: category?.supercategory ?? -1,
+      supercategoryId: category?.supercategory?.id ?? -1,
     });
   }, []);
   
@@ -41,21 +42,20 @@ const EntityFormCatFields = ({
     <>
       <div className="mt-5">
         <Label htmlFor="supercategory" value={`Super-catégorie:`} />
-        {form.supercategory ? (
+        {form.supercategoryId ? (
           categories && (
             <Select
-              id="supercategory"
-              name="supercategory"
+              id="supercategoryId"
+              name="supercategoryId"
               onChange={handleChange}
-              defaultValue={form?.supercategory ?? -1}
+              defaultValue={form?.supercategoryId ?? -1}
               required
             >
               <option value={-1}>Sans super-catégorie</option>
               {categories &&
                 categories?.map(
                   (cat, i) =>
-                    cat.id != category?.id &&
-                    !cat.supercategory && (
+                    cat.id != category?.id && (
                       <option key={i} value={cat.id}>
                         {cat.title}
                       </option>

@@ -1,11 +1,11 @@
 "use client";
-import UserActions from "./userActions";
 import WarningIcon from "@/_components/icons/warningIcon";
 import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
-import Accordion from "../_accordion";
+import UserActions from "@/_components/dashboard/profile/_userActions";
+import Accordion from "@/_components/dashboard/_accordion";
 
-const UserProfile = ({ user, notes, patients, verify }) => {
+const UserProfile = ({ session, notes, patients, verify }) => {
   const handleClick = async () => {
     try {
       const response = await fetch(
@@ -19,7 +19,6 @@ const UserProfile = ({ user, notes, patients, verify }) => {
         const errorDetails = await response.json();
         throw new Error(`${errorDetails.message}`);
       }
-      console.log(response);
       return response.json();
     } catch (error) {
       console.error("Bad credentials:", error.message);
@@ -28,7 +27,7 @@ const UserProfile = ({ user, notes, patients, verify }) => {
 
   return (
     <>
-      {!user.verified &&
+      {!session.verified &&
         verify &&
         (verify == "success" ? (
           <div className="absolute z-50 -left-0 -top-6 rounded-t-xl bg-green-300 w-full py-2 text-center text-sm md:text-base">
@@ -51,7 +50,7 @@ const UserProfile = ({ user, notes, patients, verify }) => {
             <th className="text-lg flex justify-center items-center">
               <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
                 Profil
-                {user?.active ? (
+                {session?.active ? (
                   <SuccessIcon />
                 ) : (
                   <>
@@ -64,17 +63,17 @@ const UserProfile = ({ user, notes, patients, verify }) => {
                   </>
                 )}
               </span>
-              {user?.active && (
+              {session?.active && (
                 <UserActions
                   path1="/dashboard/profile/update"
-                  path2="/dashboard/profile/desactivate"
+                  path2="/dashboard/profile/deactivate"
                 />
               )}
             </th>
           </tr>
         </thead>
-        <tbody className="flex flex-col w-full *:grid *:grid-cols-4 *:gap-1 *:lg:gap-0">
-          {!user && (
+        <tbody className="flex flex-col w-full">
+          {!session && (
             <tr className="h-[205px] flex justify-center items-center">
               <th className="text-start w-[40%] lg:w-[20%]">
                 <Spinner
@@ -85,31 +84,31 @@ const UserProfile = ({ user, notes, patients, verify }) => {
               </th>
             </tr>
           )}
-          {user && (
+          {session && (
             <>
-              <tr className="*:col-span-2 *:lg:col-span-1 *:text-start text-sm sm:text-base p-2">
-                <th className="">Nom</th>
-                <td className="">{user?.lastName}</td>
-                <th className="">Prénom</th>
-                <td className="">{user?.firstName}</td>
-              </tr>
-              <tr className="border col-span-4 bg-pbg-trans-88"></tr>
-              <tr className="*:col-span-2 *:lg:col-span-1 *:text-start text-sm sm:text-base p-2">
-                <th className="">Fonction</th>
-                <td className="">{user?.job}</td>
-                <th className="">Institution</th>
-                <td className="">{user?.institution?.title}</td>
-              </tr>
-              <tr className="border col-span-4 bg-pbg-trans-88"></tr>
-              <tr className="text-sm sm:text-base p-2">
-                <th className="col-span-1 ">Email</th>
-                <td className="col-span-3 text-start">
+              <tr className="grid grid-cols-6 gap-1 lg:gap-0 text-sm sm:text-base p-2">
+                <th className="col-span-2 text-start">Nom</th>
+                <td className="col-span-4 text-start">{session?.lastName}</td>
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <th className="col-span-2 text-start">Prénom</th>
+                <td className="col-span-4 text-start">{session?.firstName}</td>
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <th className="col-span-2 text-start">Fonction</th>
+                <td className="col-span-4 text-start">{session?.job}</td>
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <th className="col-span-2 text-start">Institution</th>
+                <td className="col-span-4 text-start">
+                  {session?.institution?.title}
+                </td>
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <th className="col-span-2 text-start">Email</th>
+                <td className="col-span-4 text-start">
                   <div className="flex items-center gap-3">
-                    {user?.sub}
-                    {user?.verified ? <SuccessIcon /> : <WarningIcon />}
+                    {session?.sub}
+                    {session?.verified ? <SuccessIcon /> : <WarningIcon />}
                   </div>
                   <div className="">
-                    {!user?.verified && (
+                    {!session?.verified && (
                       <p className="text-red-800">
                         Votre email n&apos;est pas vérifié.{" "}
                         <button
@@ -122,12 +121,14 @@ const UserProfile = ({ user, notes, patients, verify }) => {
                     )}
                   </div>
                 </td>
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
               </tr>
             </>
           )}
         </tbody>
       </table>
       <Accordion
+        session={session}
         initial={"patients"}
         entities={[
           { name: "patients", entityList: patients },

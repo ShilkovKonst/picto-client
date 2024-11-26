@@ -2,29 +2,44 @@
 import { Label, Radio } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 
-const FormPronounFields = ({
-  form,
-  setForm,
-  tags,
-  handleRadioChange,
-}) => {
+const FormPronounFields = ({ form, setForm, tags, handleRadioChange }) => {
+  const pronounTagsPool1 = tags.filter(
+    (t) => t.title == "masculin" || t.title == "feminin"
+  );
+  const pronounTagsPool2 = tags.filter(
+    (t) => t.title == "singulier" || t.title == "pluriel"
+  );
   const [pronounTag1, setPronounTag1] = useState(null);
   const [pronounTag2, setPronounTag2] = useState(null);
 
   useEffect(() => {
-    pronounTag1 != null &&
-      setForm((prevForm) => ({
-        ...prevForm,
-        tags: [...prevForm.tags, pronounTag1],
-      }));
+    if (pronounTag1 != null && !form.tags.includes(pronounTag1)) {
+      const excludeIds = new Set(
+        pronounTagsPool1.filter((e) => e.id != pronounTag1).map((e) => e.id)
+      );
+      setForm({
+        ...form,
+        tags: [
+          ...form.tags.filter((t) => !excludeIds.has(Number(t))),
+          pronounTag1,
+        ],
+      });
+    }
   }, [pronounTag1]);
 
   useEffect(() => {
-    pronounTag2 != null &&
-      setForm((prevForm) => ({
-        ...prevForm,
-        tags: [...prevForm.tags, pronounTag2],
-      }));
+    if (pronounTag2 != null && !form.tags.includes(pronounTag2)) {
+      const excludeIds = new Set(
+        pronounTagsPool2.filter((e) => e.id != pronounTag2).map((e) => e.id)
+      );
+      setForm({
+        ...form,
+        tags: [
+          ...form.tags.filter((t) => !excludeIds.has(Number(t))),
+          pronounTag2,
+        ],
+      });
+    }
   }, [pronounTag2]);
 
   return (
@@ -49,7 +64,7 @@ const FormPronounFields = ({
               </div>
             )
         )}
-        <div className="border-b-2" ></div>
+        <div className="border-b-2"></div>
         {tags?.map(
           (t, i) =>
             (t.title == "singulier" || t.title == "pluriel") && (
@@ -68,7 +83,7 @@ const FormPronounFields = ({
               </div>
             )
         )}
-        <div className="border-b-2" ></div>
+        <div className="border-b-2"></div>
       </fieldset>
       <div className="mt-5 lg:w-2/5 "></div>
     </div>

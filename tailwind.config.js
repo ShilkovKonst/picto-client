@@ -32,6 +32,8 @@ module.exports = {
         pred: "#e58463",
         pbg: "#1e646f",
         "pbg-trans-10": "#1e646f10",
+        "pbg-trans-20": "#1e646f20",
+        "pbg-trans-30": "#1e646f30",
         "pbg-trans-88": "#1e646f88",
         "pbg-trans-bb": "#1e646fbb",
         pform: "#e5e9ec",

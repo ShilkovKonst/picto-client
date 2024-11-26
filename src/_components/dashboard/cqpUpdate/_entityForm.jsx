@@ -21,6 +21,7 @@ const EntityForm = ({
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  console.log(form.tags)
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -33,14 +34,14 @@ const EntityForm = ({
     if (entityName == "categories") {
       // categoryFormData(form, formData);
       form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
-      formData.append("supercategory", form.supercategory);
+      formData.append("supercategoryId", form.supercategoryId);
       formData.append("questions", JSON.stringify(form.questions));
     }
     if (entityName == "pictograms") {
       // pictoFormData(form, formData);
       form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
       formData.append("type", form.type);
-      formData.append("category", form.category);
+      formData.append("categoryId", form.categoryId);
       formData.append("tags", JSON.stringify(form.tags));
       form.tags.includes("3") &&
         formData.append("irregular", JSON.stringify(form.irregular));

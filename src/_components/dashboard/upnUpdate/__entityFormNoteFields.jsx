@@ -9,6 +9,7 @@ const EntityFormNoteFields = ({
   note,
   users,
   patients,
+  patient
 }) => {
   useEffect(() => {
     setForm({
@@ -16,7 +17,7 @@ const EntityFormNoteFields = ({
       estimation: note?.estimation ?? "",
       comment: note?.comment ?? "",
       userId: note?.user.id ?? session.id,
-      patientId: note?.patient.id ?? -1,
+      patientId: note?.patient.id ?? patient ?? -1,
     });
   }, []);
 

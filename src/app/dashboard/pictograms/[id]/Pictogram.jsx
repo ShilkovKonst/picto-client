@@ -4,7 +4,7 @@ import Link from "next/link";
 import EntityHead from "@/_components/dashboard/_entityHead";
 
 
-const Pictogram = ({ pictogram, category }) => {
+const Pictogram = ({ pictogram }) => {
   return (
     <>
       <table className="table w-full">
@@ -27,14 +27,14 @@ const Pictogram = ({ pictogram, category }) => {
                     />
                   )}
                 </td>
-                {category ? (
+                {pictogram.category ? (
                   <>
                     <th className="text-start flex items-center h-8 w-[40%] lg:w-[20%]">
                       Category:{" "}
                     </th>
                     <td className="text-start flex items-center h-8 w-[45%] lg:w-[30%] ">
-                      <Link href={`/dashboard/categories/${category.id}`} className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
-                        {category.title}
+                      <Link href={`/dashboard/categories/${pictogram.category.id}`} className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
+                        {pictogram.category.title}
                       </Link>
                     </td>
                   </>

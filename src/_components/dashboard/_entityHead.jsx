@@ -6,7 +6,7 @@ import { SuccessIcon, WarningIcon } from "../icons";
 const EntityHead = ({ entity, entityName, session }) => {
   return (
     <thead>
-      <tr className="border-b">
+      <tr className="">
         {entity ? (
           <th className="text-lg md:text-xl flex justify-center items-center min-h-[50px]">
             <span className="flex justify-center items-center mx-auto">

@@ -52,7 +52,11 @@ const correctPathname = async (request, searchParams, pathname) => {
       url.searchParams.set("page", "0");
       return NextResponse.redirect(url);
     }
-    if (!type) {
+    if (
+      pathname.includes("dashboard") &&
+      pathname.split("/").length == 3 &&
+      !type
+    ) {
       const url = request.nextUrl.clone();
       url.searchParams.set("type", "all");
       return NextResponse.redirect(url);
@@ -85,7 +89,6 @@ const refreshSession = async (request) => {
       });
       return response;
     }
-    console.log("after test");
     if (res.headers.getSetCookie().length > 0) {
       const setCookieHeader = res.headers.getSetCookie();
       const [cookie, ...cookieAttributes] = setCookieHeader[0]?.split("; ");

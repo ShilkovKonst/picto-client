@@ -45,7 +45,6 @@ export async function PUT(req, { params }) {
   const id = params.idOrOther;
   const accessToken = req?.cookies?.get("accessToken");
   const formData = await req.formData();
-
   try {
     const response = await fetch(
       `${process.env.SERVER_BASE_URL}/${entityName}/${id}`,

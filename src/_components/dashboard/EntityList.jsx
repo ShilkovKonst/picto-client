@@ -6,7 +6,6 @@ import Pagination from "../common/pagination";
 
 const EntityList = ({ data, session, entityName }) => {
   const [itemsPerPage, setItemsPerPage] = useState(0);
-
   useEffect(() => {
     if (
       localStorage.getItem("itemsPerPage") == null ||
@@ -29,7 +28,7 @@ const EntityList = ({ data, session, entityName }) => {
       <table className="table w-full min-h-96">
         <ListHeader
           entityName={entityName}
-          qnty={data?.totalElements}
+          qnty={data?.page.totalElements}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
         />

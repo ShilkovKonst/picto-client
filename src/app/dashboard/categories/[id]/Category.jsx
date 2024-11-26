@@ -30,17 +30,17 @@ const Category = ({
                   />
                 )}
               </td>
-              {supercategory && (
+              {category.supercategory && (
                 <>
                   <th className="text-start w-[40%] lg:w-[20%]">
                     Super category:{" "}
                   </th>
                   <td className="text-start w-[45%] lg:w-[30%]">
                     <Link
-                      href={`/dashboard/categories/${supercategory?.id}`}
+                      href={`/dashboard/categories/${category.supercategory?.id}`}
                       className="p-2 rounded-full text-white hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
                     >
-                      {supercategory.title}
+                      {category.supercategory.title}
                     </Link>
                   </td>
                 </>

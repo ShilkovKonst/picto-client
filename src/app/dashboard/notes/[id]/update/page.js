@@ -5,18 +5,18 @@ import { jwtDecode } from "jwt-decode";
 
 const page = async ({ params }) => {
   const accessToken = getAccessToken();
-  const session = jwtDecode(accessToken?.value);
-  const user = await getOneById("users", session.id, accessToken);
-  const institutions = await getAllAsList("institutions", accessToken);
-  const roles = await getAllAsList("roles", accessToken);
+  const session = jwtDecode(accessToken.value);
+  const note = await getOneById("notes", params.id, accessToken);
+  const users = await getAllAsList("users", accessToken);
+  const patients = await getAllAsList("patients", accessToken);
 
   return (
     <EntityUpdate
-      entity={user}
-      institutions={institutions}
-      roles={roles}
+      entity={note}
+      users={users}
+      patients={patients}
       session={session}
-      entityName="users"
+      entityName="notes"
     />
   );
 };

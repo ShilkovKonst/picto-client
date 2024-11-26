@@ -25,12 +25,12 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
             ? "grid-cols-3"
             : "grid-cols-2"
         } ${
-          isSublist ? "h-14" : "h-16 md:h-14"
-        } border-t border-b group/item hover:bg-pbg-trans-10 transition ease-in-out duration-300`}
+          isSublist ? "h-[50px]" : "h-16 md:h-14"
+        } border-t border-b group/item p-0`}
       >
         <Link
           href={`/dashboard/${entityName}/${entity?.id}`}
-          className={`grid text-sm sm:text-base ${
+          className={`grid text-sm sm:text-base bg-gradient-to-r hover:from-pbg-trans-30 from-90% hover:to-transparent transition-all ease-in-out duration-300 ${
             isSublist
               ? entityName == "notes"
                 ? "col-span-3 grid-cols-3"
@@ -52,10 +52,10 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
                 entityName == "users" || entityName == "patients"
                   ? "col-span-3"
                   : "col-span-1"
-              }`}
+              } ${
+                isSublist ? "before:py-[24px]" : "before:py-[27px]"
+              } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-pbg `}
             >
-              <div className="py-[27px] me-2 h-0 w-1 bg-transparent group-hover/item:bg-pbg transition ease-in-out duration-300"></div>
-
               <p className="w-full text-center md:text-start capitalize">
                 {entityName == "notes"
                   ? entity.user.firstName.slice(0, 1) +

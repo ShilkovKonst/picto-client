@@ -1,14 +1,16 @@
 import { useState } from "react";
 import EntityItem from "./_entityItem";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { CreateIcon } from "../icons";
 
-const Accordion = ({ initial, entities, session }) => {
-  const pathname = usePathname()
+const Accordion = ({ initial, entities, session, patient }) => {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(initial);
-  
+
   return (
     <>
-      <div className={`grid grid-cols-${entities?.length} mb-1 gap-1 border-b`}>
+      <div className={`grid grid-cols-${entities?.length} gap-1 border-b`}>
         {entities?.map((entList, i) => (
           <button
             key={i}
@@ -16,17 +18,18 @@ const Accordion = ({ initial, entities, session }) => {
               isOpen != entList.name
                 ? "bg-pbg hover:bg-pred text-white hover:text-black"
                 : "bg-pred text-black"
-            } font-bold text-sm md:text-xs lg:text-sm tracking-[1.25px] text-[#f9f9f9] outline-none capitalize transition ease-in-out duration-300`}
+            } font-bold text-xs tracking-[1.25px] text-[#f9f9f9] outline-none capitalize transition ease-in-out duration-300`}
             onClick={() => setIsOpen(entList.name)}
           >
-            {entList.name == "categories" ? "subcategories" : entList.name}
+            {entList.name == "categories" ? "subcategories" : entList.name} (
+            {entList.entityList?.length ?? 0})
           </button>
         ))}
       </div>
       {entities?.map((entList, i) => (
         <table
           key={i}
-          className={`table w-full ${
+          className={`table w-full  ${
             isOpen != entList.name ? "hidden" : "block"
           }  transition-all ease-in-out duration-150`}
         >
@@ -40,10 +43,11 @@ const Accordion = ({ initial, entities, session }) => {
                   : "2"
               } *:border-l *:border-r *:border-t-0 *:border-b-0`}
             >
-              <th>
-                {(entList.name == "notes" && (pathname.includes("users") || pathname.split("/").length == 2))
+              <th className="flex justify-center items-center gap-1">
+                {entList.name == "notes" &&
+                (pathname.includes("users") || pathname.split("/").length == 2)
                   ? "Patient"
-                  : (entList.name == "notes" && pathname.includes("patients"))
+                  : entList.name == "notes" && pathname.includes("patients")
                   ? "Thérapeute"
                   : entList.name == "patients" || entList.name == "users"
                   ? "Nom"
@@ -52,15 +56,29 @@ const Accordion = ({ initial, entities, session }) => {
               {(entList.name == "notes" ||
                 entList.name == "pictograms" ||
                 entList.name == "categories") && (
-                <th>{entList.name == "notes" ? "Estimation" : "Image"}</th>
+                <th className="flex justify-center items-center gap-1">
+                  {entList.name == "notes" ? "Estimation" : "Image"}
+                </th>
               )}
               {entList.name == "notes" && (
-                <th>{entList.name == "notes" ? "Date" : "Titre"}</th>
+                <th className="flex justify-center items-center gap-1">
+                  {entList.name == "notes" ? "Date" : "Titre"}
+                </th>
               )}
-              <th>Actions</th>
+              <th className="flex justify-center items-center gap-1">
+                <p>Actions</p>
+                {entList.name == "notes" && session?.id == patient?.user?.id && (
+                  <Link
+                    className={`relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-5 w-10 rounded-3xl font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group`}
+                    href={`/dashboard/${entList.name}/create?user=${session?.id}&patient=${patient.id}`}
+                  >
+                    <CreateIcon />
+                  </Link>
+                )}
+              </th>
             </tr>
           </thead>
-          <tbody className="flex flex-col gap-1 max-h-80 overflow-y-auto mt-1">
+          <tbody className="flex flex-col gap-1 max-h-80 overflow-y-auto">
             {entList.entityList?.length > 0 &&
               entList.entityList.map((el, j) => (
                 <EntityItem

@@ -22,18 +22,15 @@ const EntityFormPersonFields = ({
 }) => {
   console.log(entity);
   console.log("form", form);
-  // console.log(form.roles);
   useEffect(() => {
     entityName == "users" &&
       setForm({
         ...form,
         lastName: entity?.lastName ?? "",
         firstName: entity?.firstName ?? "",
-        email: entity?.email ?? "",
-        password: entity?.password ?? "",
         phoneNumber: entity?.phoneNumber ?? "",
         job: entity?.job ?? "",
-        active: entity?.active ?? undefined,
+        active: entity?.active ?? true,
         verified: entity?.verified ?? undefined,
         roles: entity?.roles?.map((r) => r.id) ?? [],
         institutionId: entity?.institution.id ?? -1,
@@ -46,7 +43,7 @@ const EntityFormPersonFields = ({
         code: entity?.code ?? "",
         grade: entity?.grade ?? "",
         sex: entity?.sex ?? "",
-        active: entity?.active ?? undefined,
+        active: entity?.active ?? true,
         birthDate: entity?.birthDate
           ? new Date(entity?.birthDate).toLocaleDateString()
           : new Date().toLocaleDateString(),
@@ -113,55 +110,29 @@ const EntityFormPersonFields = ({
           />
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
-        <div className={`mt-5`}>
-          <Label htmlFor="code" value={`Code`} />
-          <TextInput
-            id="code"
-            type={`text`}
-            sizing="md"
-            name="code"
-            onChange={handleChange}
-            value={form.code ?? ""}
-            required
-          />
-        </div>
-        <div className={`mt-5`}>
-          <Label htmlFor="grade" value={`Grade`} />
-          <TextInput
-            id="grade"
-            type={`text`}
-            sizing="md"
-            name="grade"
-            onChange={handleChange}
-            value={form.grade ?? ""}
-            required
-          />
-        </div>
-      </div>
-      {entityName == "users" && (
+      {entityName == "patients" && (
         <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
           <div className={`mt-5`}>
-            <Label htmlFor="email" value={`email`} />
+            <Label htmlFor="code" value={`Code`} />
             <TextInput
-              id="email"
-              type={`email`}
+              id="code"
+              type={`text`}
               sizing="md"
-              name="email"
+              name="code"
               onChange={handleChange}
-              value={form.email ?? ""}
+              value={form.code ?? ""}
               required
             />
           </div>
           <div className={`mt-5`}>
-            <Label htmlFor="password" value={`Mot de passe`} />
+            <Label htmlFor="grade" value={`Grade`} />
             <TextInput
-              id="password"
-              type={`password`}
+              id="grade"
+              type={`text`}
               sizing="md"
-              name="password"
+              name="grade"
               onChange={handleChange}
-              value={form.password ?? ""}
+              value={form.grade ?? ""}
               required
             />
           </div>
@@ -215,47 +186,50 @@ const EntityFormPersonFields = ({
               ))}
             </div>
           )}
-          <div className={`flex items-center gap-3`}>
-            {entity == null || form.active != undefined ? (
-              <Checkbox
-                id={"active"}
-                name="active"
-                checked={form.active ?? false}
-                onChange={(e) => handleCheckboxChange(e)}
-              />
-            ) : (
-              <Spinner size={"sm"} aria-label="Loading active..." />
-            )}
-            <Label htmlFor="active" value={`Activé`} />
-          </div>
-          {entityName == "users" && (
+          {(entity?.roles?.includes("ROLE_SUPERADMIN") || entity?.user?.id == session?.id) && (
             <div className={`flex items-center gap-3`}>
-              {entity == null || form.verified != undefined ? (
+              {entity == null || form.active != undefined ? (
                 <Checkbox
-                  id={"verified"}
-                  name="verified"
-                  checked={form.verified ?? false}
+                  id={"active"}
+                  name="active"
+                  checked={form.active ?? false}
                   onChange={(e) => handleCheckboxChange(e)}
                 />
               ) : (
-                <Spinner size={"sm"} aria-label="Loading verified..." />
+                <Spinner size={"sm"} aria-label="Loading active..." />
               )}
-              <Label htmlFor="verified" value={`Vérifié`} />
+              <Label htmlFor="active" value={`Actif(ve)`} />
             </div>
           )}
+          {entityName == "users" &&
+            entity?.roles?.includes("ROLE_SUPERADMIN") && (
+              <div className={`flex items-center gap-3`}>
+                {entity == null || form.verified != undefined ? (
+                  <Checkbox
+                    id={"verified"}
+                    name="verified"
+                    checked={form.verified ?? false}
+                    onChange={(e) => handleCheckboxChange(e)}
+                  />
+                ) : (
+                  <Spinner size={"sm"} aria-label="Loading verified..." />
+                )}
+                <Label htmlFor="verified" value={`Vérifié(e)`} />
+              </div>
+            )}
         </div>
         {entityName == "patients" && (
           <div>
             <Label htmlFor="birthDate" value={`Date de naissance`} />
             <p className="text-xs font-medium text-gray-900 mb-1">
-              (mm-dd-yyyy)
+              (dd-MM-YYYY)
             </p>
             {form.birthDate ? (
               <Datepicker
                 sizing={"sm"}
                 onSelectedDateChanged={handleDateChange}
-                value={form.birthDate}
-                language="fr"
+                value={new Date(form.birthDate).toLocaleDateString("fr-FR")}
+                language="fr-FR"
                 name=""
                 id="birthDate"
                 required
@@ -299,27 +273,29 @@ const EntityFormPersonFields = ({
               </div>
             )}
           </div>
-          <div className={`mt-5`}>
-            <Label htmlFor="roles" value={`Rôles`} />
-            {form?.roles ? (
-              roles?.map((r, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <Checkbox
-                    id={r.id}
-                    value={r?.id}
-                    checked={form?.roles?.includes(r.id) ? true : false}
-                    onChange={(e) => handleRoleChange(e, r)}
-                  />
-                  <Label htmlFor={r.id}>{r.title}</Label>
+          {entity?.roles?.includes("ROLE_SUPERADMIN") && (
+            <div className={`mt-5`}>
+              <Label htmlFor="roles" value={`Rôles`} />
+              {form?.roles ? (
+                roles?.map((r, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <Checkbox
+                      id={r.id}
+                      value={r?.id}
+                      checked={form?.roles?.includes(r.id) ? true : false}
+                      onChange={(e) => handleRoleChange(e, r)}
+                    />
+                    <Label htmlFor={r.id}>{r.title}</Label>
+                  </div>
+                ))
+              ) : (
+                <div className="flex justify-center items-center w-full">
+                  <Spinner className="" aria-label="Loading roles..." />
+                  <p className="pl-2">Loading roles...</p>
                 </div>
-              ))
-            ) : (
-              <div className="flex justify-center items-center w-full">
-                <Spinner className="" aria-label="Loading roles..." />
-                <p className="pl-2">Loading roles...</p>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       )}
       {entityName == "patients" && (

@@ -26,9 +26,6 @@ const page = async ({ params }) => {
     params.id,
     accessToken
   );
-  const supercategory = category.supercategory
-    ? await getOneById("categories", category.supercategory, accessToken)
-    : null;
 
   return (
     <Category
@@ -36,7 +33,6 @@ const page = async ({ params }) => {
       pictograms={pictograms.length > 0 ? pictograms : null}
       questions={questions.length > 0 ? questions : null}
       subcategories={subcategories.length > 0 ? subcategories : null}
-      supercategory={supercategory}
     />
   );
 };

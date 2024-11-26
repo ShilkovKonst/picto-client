@@ -36,7 +36,7 @@ const ActionDelete = ({ entity, entityName, isSublist, user }) => {
         } w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center my-1 text-xs sm:text-sm`}
       >
         <RemoveIcon isSublist={isSublist} />
-        <div className="hidden group-hover:block absolute bottom-[100%] left-0 pb-1 rounded-lg cursor-default">
+        <div className={`hidden group-hover:block absolute bottom-[100%] left-0 ${!isSublist && "pb-1"} rounded-lg cursor-default z-50`}>
           <p className="text-xs text-black">Effacer</p>
         </div>
       </button>

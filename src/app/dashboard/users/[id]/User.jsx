@@ -13,28 +13,28 @@ const User = ({ user, session, patients, notes }) => {
       <table className="table w-full">
         <EntityHead entity={user} entityName="users" session={session} />
         <tbody className="w-full">
-          <tr className="grid grid-cols-5 text-sm sm:text-base p-2 border-b">
-            <th className="col-span-1 text-sm text-start py-3">Nom</th>
-            <td className="col-span-4 text-start py-3 ml-2">
+          <tr className="grid grid-cols-5 text-sm sm:text-base p-2">
+            <th className="col-span-1 text-sm text-start py-1">Nom</th>
+            <td className="col-span-4 text-start ml-2 py-1">
               {user?.lastName + " " + user?.firstName}{" "}
             </td>
-            <td className="border col-span-5 bg-pbg-trans-88"></td>
-            <th className="col-span-1 text-sm text-start py-3">Fonction</th>
-            <td className="col-span-4 text-start py-3 ml-2">{user?.job}</td>
-            <td className="border col-span-5 bg-pbg-trans-88"></td>
-            <th className="col-span-1 text-sm text-start py-3">Institution</th>
-            <td className="col-span-4 text-start py-3 ml-2">
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-1">Fonction</th>
+            <td className="col-span-4 text-start py-1 ml-2">{user?.job}</td>
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-1">Institution</th>
+            <td className="col-span-4 text-start py-1 ml-2">
               <Link
                 href={`/dashboard/institutions/${user?.institution?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
               >
                 {user?.institution?.title}
               </Link>
             </td>
-            <td className="border col-span-5 bg-pbg-trans-88"></td>
-            <th className="col-span-1 text-sm text-start py-3">Email</th>
-            <td className="col-span-4 text-start py-3 ml-2 flex">
-              <a href={`/dashboard/users/${user?.email}`}>{user?.email}</a>
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-1">Email</th>
+            <td className="col-span-4 text-start py-1 ml-2 flex">
+              <p>{user?.email}</p>
               <div className="relative group text-center w-auto ml-1">
                 {user?.verified ? (
                   <SuccessIcon />
@@ -50,23 +50,24 @@ const User = ({ user, session, patients, notes }) => {
                 )}
               </div>
             </td>
-            <td className="border col-span-5 bg-pbg-trans-88"></td>
-            <th className="col-span-1 text-sm text-start py-3">Téléphone</th>
-            <td className="col-span-4 text-start py-3 ml-2">
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-1">Téléphone</th>
+            <td className="col-span-4 text-start py-1 ml-2">
               {user?.phoneNumber}
             </td>
-            <td className="border col-span-5 bg-pbg-trans-88"></td>
-            <th className="col-span-1 text-sm text-start py-3">Rôles</th>
-            <td className="col-span-4 text-start py-3 ml-2 flex flex-wrap gap-1">
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <th className="col-span-1 text-sm text-start py-1">Rôles</th>
+            <td className="col-span-4 text-start py-1 ml-2 flex flex-wrap gap-2">
               {user?.roles?.map((r, i) => (
                 <div
                   key={i}
-                  className="cursor-default bg-pbg hover:bg-pred transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
+                  className="cursor-default text-xs bg-pbg hover:bg-pred transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
                 >
                   {r.title}
                 </div>
               ))}
             </td>
+            <td className="border col-span-5 bg-pbg-trans-bb"></td>
           </tr>
         </tbody>
       </table>
