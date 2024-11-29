@@ -1,13 +1,13 @@
-import Category from "./Category";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
-import {
-  getAllByOtherAsList,
-  getOneById,
-} from "@/_utils/entityApiUtil";
+import Category from "./Category";
+import { getAllByOtherAsList, getOneById } from "@/_utils/entityApiUtil";
+import { notFound } from "next/navigation";
 
-const page = async ({ params }) => {
-  const accessToken = getAccessToken();
+const page = async (props) => {
+  const { accessToken, session } = getAccessToken();
+  const params = await props.params;
   const category = await getOneById("categories", params.id, accessToken);
+  category?.status == 404 && notFound();
   const pictograms = await getAllByOtherAsList(
     "pictograms",
     "category",

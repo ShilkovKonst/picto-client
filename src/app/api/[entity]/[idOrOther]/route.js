@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
 // ---------------------GET---------------------------
-export async function GET(req, { params }) {
+export async function GET(req, props) {
+  const params = await props.params;
   const entityName = params.entity;
   const id = params.idOrOther;
   const accessToken = req?.cookies?.get("accessToken");
@@ -18,7 +19,8 @@ export async function GET(req, { params }) {
 }
 
 // ---------------------UPDATE---------------------------
-export async function PUT(req, { params }) {
+export async function PUT(req, props) {
+  const params = await props.params;
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
   const csrfTokenResponse = await fetch(
@@ -79,7 +81,8 @@ export async function PUT(req, { params }) {
 }
 
 // ---------------------DELETE---------------------------
-export async function DELETE(req, { params }) {
+export async function DELETE(req, props) {
+  const params = await props.params;
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
   const csrfTokenResponse = await fetch(

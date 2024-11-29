@@ -20,7 +20,7 @@ const EntityFormPersonFields = ({
   setForm,
   handleChange,
 }) => {
-  console.log(entity);
+  console.log("entity", entity);
   console.log("form", form);
   useEffect(() => {
     entityName == "users" &&
@@ -45,8 +45,8 @@ const EntityFormPersonFields = ({
         sex: entity?.sex ?? "",
         active: entity?.active ?? true,
         birthDate: entity?.birthDate
-          ? new Date(entity?.birthDate).toLocaleDateString()
-          : new Date().toLocaleDateString(),
+          ? new Date(entity?.birthDate)
+          : new Date(),
         userId: entity?.user?.id ?? session.id,
       });
   }, []);
@@ -79,7 +79,7 @@ const EntityFormPersonFields = ({
   };
 
   const handleDateChange = (date) => {
-    setForm({ ...form, birthDate: date.toLocaleDateString() });
+    setForm({ ...form, birthDate: date });
   };
 
   return (
@@ -221,16 +221,13 @@ const EntityFormPersonFields = ({
         {entityName == "patients" && (
           <div>
             <Label htmlFor="birthDate" value={`Date de naissance`} />
-            <p className="text-xs font-medium text-gray-900 mb-1">
-              (dd-MM-YYYY)
-            </p>
             {form.birthDate ? (
               <Datepicker
                 sizing={"sm"}
-                onSelectedDateChanged={handleDateChange}
-                value={new Date(form.birthDate).toLocaleDateString("fr-FR")}
+                onChange={handleDateChange}
+                value={form.birthDate}
                 language="fr-FR"
-                name=""
+                name="birthDate"
                 id="birthDate"
                 required
               />
@@ -312,10 +309,22 @@ const EntityFormPersonFields = ({
                 required
               >
                 <option value={-1}>Choisir un thérapeute</option>
-                {users &&
+                {users && (session.roles.includes("ROLE_ADMIN") ?
                   users
                     .sort((a, b) =>
                       a.institution.title.localeCompare(b.institution.title)
+                    )
+                    .map((user, i) => (
+                      <option key={i} value={user.id}>
+                        {user.institution.title +
+                          " - " +
+                          user.firstName.charAt(0) +
+                          ". " +
+                          user.lastName}
+                      </option>
+                    )) : users
+                    .filter((e) =>
+                      e.id == session.id)
                     )
                     .map((user, i) => (
                       <option key={i} value={user.id}>

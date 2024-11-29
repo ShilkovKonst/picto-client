@@ -1,11 +1,10 @@
 import { getAllByOtherAsList } from "@/_utils/entityApiUtil";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { jwtDecode } from "jwt-decode";
 import UserProfile from "./UserProfile";
 
-const page = async ({ searchParams }) => {
-  const accessToken = getAccessToken();
-  const session = accessToken ? jwtDecode(accessToken?.value) : null;
+const page = async (props) => {
+  const searchParams = await props.searchParams;
+  const { accessToken, session } = getAccessToken();
   const patients = await getAllByOtherAsList(
     "patients",
     "user",
@@ -25,7 +24,11 @@ const page = async ({ searchParams }) => {
       session={session}
       notes={notes.map((note) => ({
         ...note,
-        user: null,
+        user: {
+          id: note?.user?.id,
+          name:
+            note?.user?.firstName?.charAt(0) + ". " + note?.patient?.lastName,
+        },
         patient:
           note.patient.firstName.charAt(0) + ". " + note.patient.lastName,
       }))}

@@ -3,8 +3,7 @@ import { getAllAsList } from "@/_utils/entityApiUtil";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 
 const page = async () => {
-  const accessToken = getAccessToken();
-  const session = jwtDecode(accessToken?.value);
+  const { accessToken, session } = getAccessToken();
   const institutions = await getAllAsList("institutions", accessToken);
   const roles = await getAllAsList("roles", accessToken);
 

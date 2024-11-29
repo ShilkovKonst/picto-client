@@ -7,6 +7,7 @@ import UserField from "./__userField";
 import PatientField from "./__patientField";
 
 const EntityItem = ({ session, entity, entityName, isSublist }) => {
+  console.log("entity", entity)
   return (
     <tr className="grid grid-cols-1">
       <td
@@ -29,7 +30,11 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
         } border-t border-b group/item p-0`}
       >
         <Link
-          href={`/dashboard/${entityName}/${entity?.id}`}
+          href={
+            entityName == "users" && entity.id == session.id
+              ? `/dashboard`
+              : `/dashboard/${entityName}/${entity?.id}`
+          }
           className={`grid text-sm sm:text-base bg-gradient-to-r hover:from-pbg-trans-30 from-90% hover:to-transparent transition-all ease-in-out duration-300 ${
             isSublist
               ? entityName == "notes"
@@ -91,13 +96,16 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
               : "col-span-1"
           }`}
         >
-          {(entityName != "users" || entity.id != session.id) && (
-            <ActionsTable
-              entity={entity}
-              entityName={entityName}
-              isSublist={isSublist}
-            />
-          )}
+          {session.roles.includes("ROLE_ADMIN") ||
+            (entityName == "users" && entity?.id != session.id) ||
+            ((entityName == "patients" || entityName == "notes") &&
+              entity?.user?.id == session.id) && (
+                <ActionsTable
+                  entity={entity}
+                  entityName={entityName}
+                  isSublist={isSublist}
+                />
+              )}
         </div>
       </td>
     </tr>

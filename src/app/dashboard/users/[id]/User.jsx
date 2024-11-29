@@ -5,9 +5,6 @@ import { SuccessIcon, WarningIcon } from "@/_components/icons";
 import Link from "next/link";
 
 const User = ({ user, session, patients, notes }) => {
-  const hClick = async (email) => {
-
-  }
   return (
     <>
       <table className="table w-full">
@@ -72,6 +69,8 @@ const User = ({ user, session, patients, notes }) => {
         </tbody>
       </table>
       <Accordion
+        user={user}
+        session={session}
         initial={"patients"}
         entities={[
           { name: "patients", entityList: patients },

@@ -4,7 +4,8 @@ import Accordion from "@/_components/dashboard/_accordion";
 import Link from "next/link";
 
 const Patient = ({ patient, notes, session }) => {
-  console.log(patient);
+  if (patient.user.id != session.id && !session.roles.includes("ROLE_ADMIN"))
+    return <div className="flex justify-center items-center">Il est interdit d'observer des patients des autres thérapeutes.</div>;
   return (
     <>
       <table className="table w-full">
@@ -22,7 +23,7 @@ const Patient = ({ patient, notes, session }) => {
             <td className="border col-span-6 bg-pbg-trans-bb"></td>
             <th className="col-span-2 text-sm text-start py-1">
               <p>Date de naissance</p>
-            </th> 
+            </th>
             <td className="col-span-4 text-start ml-2 py-1">
               {new Date(patient?.birthDate).toLocaleDateString("fr-FR")}
             </td>
@@ -33,7 +34,11 @@ const Patient = ({ patient, notes, session }) => {
             <td className="col-span-4 text-start ml-2 py-1">
               {patient?.user ? (
                 <Link
-                  href={`/dashboard/users/${patient?.user?.id}`}
+                  href={
+                    patient?.user?.id == session.id
+                      ? `/dashboard`
+                      : `/dashboard/users/${patient?.user?.id}`
+                  }
                   className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
                 >
                   {patient?.user?.firstName + " " + patient?.user?.lastName}

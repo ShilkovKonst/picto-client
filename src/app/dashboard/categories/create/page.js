@@ -3,7 +3,7 @@ import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
 import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
 
 const page = async () => {
-  const accessToken = getAccessToken();
+  const { accessToken, session } = getAccessToken();
   const categories = await getAllAsSimpleList("categories", accessToken);
   const questions = await getAllAsList("questions", accessToken);
   return (

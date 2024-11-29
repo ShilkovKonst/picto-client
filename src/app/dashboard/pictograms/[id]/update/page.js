@@ -6,8 +6,9 @@ import {
   getOneById,
 } from "@/_utils/entityApiUtil";
 
-const page = async ({ params }) => {
-  const accessToken = getAccessToken();
+const page = async (props) => {
+  const { accessToken, session } = getAccessToken();
+  const params = await props.params;
   const pictogram = await getOneById("pictograms", params.id, accessToken);
   const categories = await getAllAsSimpleList("categories", accessToken);
   const tags = await getAllAsList("tags", accessToken);

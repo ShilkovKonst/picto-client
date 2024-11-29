@@ -27,11 +27,14 @@ export async function POST(req) {
   // generating verification token
   const accessToken = req?.cookies?.get("accessToken");
   const session = jwtDecode(accessToken.value);
+  const verificationTokenRequest = {email: session.sub}
   const generateTokenResponse = await fetch(
-    `${process.env.SERVER_BASE_URL}/auth/verify/generate-token?email=${session.sub}`,
+    `${process.env.SERVER_BASE_URL}/auth/verify/generate-token`,
     {
       method: "POST",
+      body: JSON.stringify(verificationTokenRequest),
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${accessToken.value}`,
         Cookie: cookies,
         "X-XSRF-TOKEN": csrfToken,
@@ -47,12 +50,15 @@ export async function POST(req) {
   const verificationToken = await generateTokenResponse.text();
 
   // sending verification token to user
+  const body = {toEmail: session.sub, token: verificationToken}
   try {
     const sendingEmailResponse = await fetch(
-      `${process.env.SERVER_BASE_URL}/auth/verify/send-email?toEmail=${session.sub}&token=${verificationToken}`,
+      `${process.env.SERVER_BASE_URL}/auth/verify/send-email`,
       {
         method: "POST",
+        body: JSON.stringify(body),
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken.value}`,
           Cookie: cookies,
           "X-XSRF-TOKEN": csrfToken,

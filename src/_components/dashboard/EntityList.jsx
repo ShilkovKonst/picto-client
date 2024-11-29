@@ -80,7 +80,7 @@ const EntityList = ({ data, session, entityName }) => {
                 <th className="text-center md:text-start">Grade</th>
               </>
             )}
-            <th
+            {(session.roles.includes("ROLE_ADMIN") || session.roles.includes("ROLE_SUPERADMIN")) && <th
               className={`text-center ${
                 entityName == "users" || entityName == "patients"
                   ? "col-span-3"
@@ -88,7 +88,7 @@ const EntityList = ({ data, session, entityName }) => {
               }`}
             >
               Actions
-            </th>
+            </th>}
           </tr>
           {data?.content &&
             data.content.map((item, i) => (

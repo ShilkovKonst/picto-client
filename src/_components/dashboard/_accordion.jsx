@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { CreateIcon } from "../icons";
 
-const Accordion = ({ initial, entities, session, patient }) => {
+const Accordion = ({ initial, entities, session, user, patient }) => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(initial);
 
@@ -67,12 +67,12 @@ const Accordion = ({ initial, entities, session, patient }) => {
               )}
               <th className="flex justify-center items-center gap-1">
                 <p>Actions</p>
-                {entList.name == "notes" && session?.id == patient?.user?.id && (
+                {(entList.name == "notes" || entList.name == "patients") && (session.roles.includes("ROLE_ADMIN") || session.id == user?.id) && (
                   <Link
                     className={`relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-5 w-10 rounded-3xl font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group`}
-                    href={`/dashboard/${entList.name}/create?user=${session?.id}&patient=${patient.id}`}
+                    href={`/dashboard/${entList.name}/create?user=${session?.id}${patient ? "&patient=" + patient?.id : ""}`}
                   >
-                    <CreateIcon />
+                    <CreateIcon isSublist={true} />
                   </Link>
                 )}
               </th>

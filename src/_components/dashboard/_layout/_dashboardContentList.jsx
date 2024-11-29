@@ -41,7 +41,7 @@ const DashboardContentList = ({ session }) => {
       title: "Profile",
       url: "/dashboard",
       icon: <HomeIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "USER",
     },
     {
       title: "Institutions",
@@ -53,43 +53,43 @@ const DashboardContentList = ({ session }) => {
       title: "Users",
       url: `/dashboard/users?size=${perPage}`,
       icon: <UsersIcon pathname={pathname} />,
-      for: "ADMIN, SUPER",
+      for: "ADMIN",
     },
     {
       title: "Patients",
       url: `/dashboard/patients?size=${perPage}`,
       icon: <PatientsIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "ADMIN",
     },
     {
       title: "Notes",
       url: `/dashboard/notes?size=${perPage}`,
       icon: <NotesIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "ADMIN",
     },
     {
       title: "Questions",
       url: `/dashboard/questions?size=${perPage}`,
       icon: <QuestionsIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "USER",
     },
     {
       title: "Categories",
       url: `/dashboard/categories?size=${perPage}&type=${catType}`,
       icon: <CategoriesIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "USER",
     },
     {
       title: "Pictograms",
       url: `/dashboard/pictograms?size=${perPage}&type=${pictoType}`,
       icon: <PictogramsIcon pathname={pathname} />,
-      for: "USER, ADMIN, SUPER",
+      for: "USER",
     },
     {
       title: "Tags",
       url: `/dashboard/tags?size=${perPage}`,
       icon: <TagsIcon pathname={pathname} />,
-      for: "ADMIN, SUPER",
+      for: "ADMIN",
     },
   ];
 
@@ -110,10 +110,11 @@ const DashboardContentList = ({ session }) => {
               ))) ||
           (session.roles.includes("ROLE_USER") &&
             items
-              .filter((i) => i.for.includes("SUPER"))
+              .filter((i) => i.for.includes("USER"))
               .map((item, i) => (
                 <DashboardContentItem key={i} item={item} pathname={pathname} />
-              ))))}
+              ))))
+              }
     </ul>
   );
 };

@@ -1,10 +1,15 @@
 "use server";
 import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllAsList, getOneById, getAllAsSimpleList } from "@/_utils/entityApiUtil";
+import {
+  getAllAsList,
+  getOneById,
+  getAllAsSimpleList,
+} from "@/_utils/entityApiUtil";
 
-const page = async ({ params }) => {
-  const accessToken = getAccessToken();
+const page = async (props) => {
+  const { accessToken, session } = getAccessToken();
+  const params = await props.params;
   const category = await getOneById("categories", params.id, accessToken);
   const categories = await getAllAsSimpleList("categories", accessToken);
   const questions = await getAllAsList("questions", accessToken);

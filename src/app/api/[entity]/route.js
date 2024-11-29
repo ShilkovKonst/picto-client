@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req, { params }) {
+export async function GET(req, props) {
+  const params = await props.params;
   const accessToken = req?.cookies?.get("accessToken");
   const entityName = params.entity;
   const searchParams = req?.nextUrl?.searchParams;
@@ -32,7 +33,8 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function POST(req, { params }) {
+export async function POST(req, props) {
+  const params = await props.params;
   const cookies = req.headers.get("cookie");
   const entityName = params.entity;
   // retrieve CSRF token from server

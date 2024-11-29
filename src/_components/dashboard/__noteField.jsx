@@ -12,9 +12,9 @@ const NoteField = ({ entity, isSublist }) => {
         <p className="w-full text-center md:text-start">
           {isSublist &&
             (entity?.user
-              ? entity?.user ?? "entity?.user"
+              ? entity?.user.id ? entity.user.name : entity.user
               : entity?.patient
-              ? entity?.patient ?? "entity?.patient"
+              ? entity?.patient.id ? entity.patient.name : entity.patient
               : "none")}
           {!isSublist &&
             (entity?.user && entity?.user?.firstName && entity?.user?.lastName

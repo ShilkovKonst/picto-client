@@ -3,7 +3,7 @@ import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
 
 const page = async () => {
-  const accessToken = getAccessToken();
+  const { accessToken, session } = getAccessToken();
   const categories = await getAllAsSimpleList("categories", accessToken);
   const tags = await getAllAsList("tags", accessToken);
 

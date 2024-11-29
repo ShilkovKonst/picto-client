@@ -4,8 +4,10 @@ import SuccessIcon from "@/_components/icons/successIcon";
 import { Spinner } from "flowbite-react";
 import UserActions from "@/_components/dashboard/profile/_userActions";
 import Accordion from "@/_components/dashboard/_accordion";
+import { useState } from "react";
 
 const UserProfile = ({ session, notes, patients, verify }) => {
+  const [isEmailSent, setIsEmailSent] = useState(false);
   const handleClick = async () => {
     try {
       const response = await fetch(
@@ -15,6 +17,10 @@ const UserProfile = ({ session, notes, patients, verify }) => {
           credentials: "include",
         }
       );
+      console.log(response);
+      if (response.ok) {
+        setIsEmailSent(true);
+      }
       if (!response.ok) {
         const errorDetails = await response.json();
         throw new Error(`${errorDetails.message}`);
@@ -46,7 +52,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
         ))}
       <table className="table w-full">
         <thead>
-          <tr className=" border-b w-auto">
+          <tr className="w-auto">
             <th className="text-lg flex justify-center items-center">
               <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
                 Profil
@@ -87,6 +93,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
           {session && (
             <>
               <tr className="grid grid-cols-6 gap-1 lg:gap-0 text-sm sm:text-base p-2">
+                <td className="border col-span-6 bg-pbg-trans-bb"></td>
                 <th className="col-span-2 text-start">Nom</th>
                 <td className="col-span-4 text-start">{session?.lastName}</td>
                 <td className="border col-span-6 bg-pbg-trans-bb"></td>
@@ -108,17 +115,29 @@ const UserProfile = ({ session, notes, patients, verify }) => {
                     {session?.verified ? <SuccessIcon /> : <WarningIcon />}
                   </div>
                   <div className="">
-                    {!session?.verified && (
-                      <p className="text-red-800">
-                        Votre email n&apos;est pas vérifié.{" "}
-                        <button
-                          className="font-semibold underline decoration-1"
-                          onClick={handleClick}
-                        >
-                          Envoyer l&apos;email de vérification
-                        </button>
-                      </p>
-                    )}
+                    {!session?.verified &&
+                      (!isEmailSent ? (
+                        <p className="text-red-800 text-xs font-light">
+                          Votre email n&apos;est pas vérifié.{" "}
+                          <button
+                            className="font-normal underline decoration-1"
+                            onClick={handleClick}
+                          >
+                            Envoyer l&apos;email de vérification
+                          </button>
+                        </p>
+                      ) : (
+                        <p className="text-yellow-800 text-xs font-light">
+                          L'émail de vérification à été envoyé. Vérifiez votre
+                          boîte de lettres.{" "}
+                          <button
+                            className="font-normal underline decoration-1"
+                            onClick={handleClick}
+                          >
+                            Renvoyer l&apos;email de vérification
+                          </button>
+                        </p>
+                      ))}
                   </div>
                 </td>
                 <td className="border col-span-6 bg-pbg-trans-bb"></td>
@@ -128,6 +147,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
         </tbody>
       </table>
       <Accordion
+        user={session}
         session={session}
         initial={"patients"}
         entities={[

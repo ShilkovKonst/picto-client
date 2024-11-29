@@ -2,8 +2,9 @@ import EntityList from "@/_components/dashboard/EntityList";
 import getAccessToken from "@/_utils/getAccessTokenUtil";
 import { getAllAsPage, getAllByOtherAsPage } from "@/_utils/entityApiUtil";
 
-const page = async ({ searchParams }) => {
-  const accessToken = getAccessToken();
+const page = async (props) => {
+  const { accessToken, session } = getAccessToken();
+  const searchParams = await props.searchParams;
   const { page = 0, size = 5, type } = searchParams;
   const data =
     type == "all"
@@ -28,6 +29,7 @@ const page = async ({ searchParams }) => {
 
   return (
     <EntityList
+      session={session}
       data={data && data?.content?.length > 0 ? data : []}
       entityName="pictograms"
     />

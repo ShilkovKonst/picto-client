@@ -60,7 +60,7 @@ const EntityForm = ({
         formData.append("sex", form.sex);
         formData.append("grade", form.grade);
         formData.append("active", JSON.stringify(form.active));
-        formData.append("birthDate", form.birthDate);
+        formData.append("birthDate", form.birthDate.toLocaleDateString("fr-FR"));
         formData.append("userId", form.userId);
         break;
       case "notes":
@@ -74,7 +74,7 @@ const EntityForm = ({
     }
     try {
       // on create
-      if (pathname.includes("create")) {
+      if (pathname.includes("create")) {        
         const response = await createOne(formData, entityName);
         console.log("response createOne", response);
         response.status == 201 &&
