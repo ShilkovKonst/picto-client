@@ -1,5 +1,5 @@
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getOneById } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getOneById } from "@/_lib/entityApiUtil";
 import Institution from "./Institution";
 import { notFound } from "next/navigation";
 

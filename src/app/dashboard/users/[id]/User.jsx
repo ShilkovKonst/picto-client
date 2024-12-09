@@ -3,6 +3,7 @@ import EntityHead from "@/_components/dashboard/_entityHead";
 import Accordion from "@/_components/dashboard/_accordion";
 import { SuccessIcon, WarningIcon } from "@/_components/icons";
 import Link from "next/link";
+import Separator from "@/_components/common/separator";
 
 const User = ({ user, session, patients, notes }) => {
   return (
@@ -11,24 +12,25 @@ const User = ({ user, session, patients, notes }) => {
         <EntityHead entity={user} entityName="users" session={session} />
         <tbody className="w-full">
           <tr className="grid grid-cols-5 text-sm sm:text-base p-2">
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Nom</th>
             <td className="col-span-4 text-start ml-2 py-1">
               {user?.lastName + " " + user?.firstName}{" "}
             </td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Fonction</th>
             <td className="col-span-4 text-start py-1 ml-2">{user?.job}</td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Institution</th>
             <td className="col-span-4 text-start py-1 ml-2">
               <Link
                 href={`/dashboard/institutions/${user?.institution?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300"
+                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
               >
                 {user?.institution?.title}
               </Link>
             </td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Email</th>
             <td className="col-span-4 text-start py-1 ml-2 flex">
               <p>{user?.email}</p>
@@ -47,24 +49,24 @@ const User = ({ user, session, patients, notes }) => {
                 )}
               </div>
             </td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Téléphone</th>
             <td className="col-span-4 text-start py-1 ml-2">
               {user?.phoneNumber}
             </td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
             <th className="col-span-1 text-sm text-start py-1">Rôles</th>
             <td className="col-span-4 text-start py-1 ml-2 flex flex-wrap gap-2">
               {user?.roles?.map((r, i) => (
                 <div
                   key={i}
-                  className="cursor-default text-xs bg-pbg hover:bg-pred transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
+                  className="cursor-default text-xs bg-primary hover:bg-secondary transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
                 >
                   {r.title}
                 </div>
               ))}
             </td>
-            <td className="border col-span-5 bg-pbg-trans-bb"></td>
+            <Separator n={5} />
           </tr>
         </tbody>
       </table>

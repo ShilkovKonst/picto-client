@@ -1,5 +1,5 @@
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getAllAsList, getAllAsSimpleList } from "@/_lib/entityApiUtil";
 import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
 
 const page = async () => {

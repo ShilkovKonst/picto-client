@@ -1,4 +1,7 @@
-import { Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
+import SelectList from "@/_components/shared/SelectList";
+import TextAreaItem from "@/_components/shared/TextAreaItem";
+import TextItem from "@/_components/shared/TextItem";
 import { useEffect } from "react";
 
 const EntityFormNoteFields = ({
@@ -9,7 +12,7 @@ const EntityFormNoteFields = ({
   note,
   users,
   patients,
-  patient
+  patient,
 }) => {
   useEffect(() => {
     setForm({
@@ -24,93 +27,60 @@ const EntityFormNoteFields = ({
   return (
     <>
       <div className="flex flex-col justify-evenly items-center gap-0 lg:gap-3 *:mt-5 *:w-full">
-        <div>
-          <Label htmlFor="estimation" value={`Estimation`} />
-          <TextInput
-            id="estimation"
-            type={`text`}
-            sizing="md"
-            name="estimation"
-            onChange={handleChange}
-            value={form.estimation ?? ""}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="comment" value={`Commentaire`} />
-          <Textarea
-            id="comment"
-            type={`text`}
-            sizing="md"
-            name="comment"
-            onChange={handleChange}
-            value={form.comment ?? ""}
-            rows={3}
-            required
-          />
-        </div>
+        <TextItem
+          id={"estimation"}
+          title={"Estimation:"}
+          defaultValue={form.estimation}
+          handleChange={handleChange}
+        />
+        <TextAreaItem
+          id={"comment"}
+          title={"Commentaire:"}
+          defaultValue={form.comment}
+          handleChange={handleChange}
+        />
       </div>
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-0 lg:gap-3 *:mt-5 *:w-full">
-        <div>
-          <Label htmlFor="userId" value={`Thérapeute`} />
-          {form.userId ? (
-            <Select
-              id="userId"
-              name="userId"
-              className="input-text md:mb-4 pl-0"
-              onChange={handleChange}
-              defaultValue={form.userId}
-              required
-            >
-              <option value={-1}>Choisir un thérapeute</option>
-              {users &&
-                users
-                  .sort((a, b) =>
-                    a.institution.title.localeCompare(b.institution.title)
+        {form.userId ? (
+          <SelectList
+            id={"userId"}
+            title={"Thérapeute:"}
+            defaultValue={form.userId}
+            handleChange={handleChange}
+            zeroListElement={"Choisir un thérapeute"}
+            list={
+              session.roles.includes("ROLE_SUPERADMIN")
+                ? users
+                : session.roles.includes("ROLE_ADMIN")
+                ? users.filter(
+                    (e) => e.institution.id == session.institution.id
                   )
-                  .map((user, i) => (
-                    <option key={i} value={user.id}>
-                      {user.institution.title +
-                        " - " +
-                        user.firstName.charAt(0) +
-                        ". " +
-                        user.lastName}
-                    </option>
-                  ))}
-            </Select>
-          ) : (
-            <div className="flex justify-center items-center w-full">
-              <Spinner className="" aria-label="Loading théraputes..." />
-              <p className="pl-2">Loading thérapeutes...</p>
-            </div>
-          )}
-        </div>
-        <div>
-          <Label htmlFor="patientId" value={`Patient`} />
-          {form.userId ? (
-            <Select
-              id="patientId"
-              name="patientId"
-              className="input-text md:mb-4 pl-0"
-              onChange={handleChange}
-              defaultValue={form.patientId}
-              required
-            >
-              <option value={-1}>Choisir un patient</option>
-              {patients &&
-                patients.map((patient, i) => (
-                  <option key={i} value={patient.id}>
-                    {patient.firstName.charAt(0) + ". " + patient.lastName}
-                  </option>
-                ))}
-            </Select>
-          ) : (
-            <div className="flex justify-center items-center w-full">
-              <Spinner className="" aria-label="Loading théraputes..." />
-              <p className="pl-2">Loading patients...</p>
-            </div>
-          )}
-        </div>
+                : users.filter((e) => e.id == session.id)
+            }
+          />
+        ) : (
+          <LoadingSpinner text={"Loading thérapeutes..."} />
+        )}
+        {form.userId ? (
+          <SelectList
+            id={"patientId"}
+            title={"Patient:"}
+            defaultValue={form.patientId}
+            handleChange={handleChange}
+            zeroListElement={"Choisir un patient"}
+            list={
+              session.roles.includes("ROLE_SUPERADMIN")
+                ? patients
+                : session.roles.includes("ROLE_ADMIN")
+                ? patients.filter(
+                    (e) => e.user.institution.id == session.institution.id
+                  )
+                : patients.filter((e) => e.id == session.id)
+            }
+          />
+        ) : (
+          <LoadingSpinner text={"Loading patients..."} />
+        )}
       </div>
     </>
   );

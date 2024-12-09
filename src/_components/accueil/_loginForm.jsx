@@ -96,7 +96,7 @@ const LoginForm = () => {
             <div className="flex flex-col items-center justify-between w-full h-full">
               <Link
                 href="/"
-                className="z-10 cursor-pointer underline text-sm leading-loose font-bold hover:text-pred transition duration-150"
+                className="z-10 cursor-pointer underline text-sm leading-loose font-bold hover:text-secondary transition duration-150"
               >
                 Mot de passe oublié ?
               </Link>
@@ -118,7 +118,7 @@ const LoginForm = () => {
           Pas encore de compte ?
           <a
             href="/signup"
-            className="cursor-pointer underline hover:text-pred transition duration-150 ml-2"
+            className="cursor-pointer underline hover:text-secondary transition duration-150 ml-2"
           >
             S&apos;inscrire
           </a>

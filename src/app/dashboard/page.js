@@ -1,5 +1,5 @@
-import { getAllByOtherAsList } from "@/_utils/entityApiUtil";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
+import { getAllByOtherAsList } from "@/_lib/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
 import UserProfile from "./UserProfile";
 
 const page = async (props) => {

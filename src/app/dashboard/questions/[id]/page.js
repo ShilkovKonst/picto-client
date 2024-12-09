@@ -1,6 +1,6 @@
 import Question from "./Question";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllByOtherAsList, getOneById } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getAllByOtherAsList, getOneById } from "@/_lib/entityApiUtil";
 import { notFound } from "next/navigation";
 
 const page = async (props) => {

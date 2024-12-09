@@ -1,10 +1,11 @@
 import { Label, Select } from "flowbite-react";
 import React, { useState, useEffect } from "react";
-import { types } from "@/_constants/picto";
+import { types } from "@/_constants/pictoTypes";
 import FormVerbFields from "./__formVerbFields";
 import FormNounFields from "./__formNounFields";
 import FormAdjFields from "./__formAdjFields";
 import FormPronounFields from "./__formPronounFields";
+import SelectList from "@/_components/shared/SelectList";
 
 const EntityFormPictoFields = ({
   pictogram,
@@ -132,49 +133,27 @@ const EntityFormPictoFields = ({
 
   return (
     <>
-      <div className={`lg:flex lg:justify-between`}>
-        <div className="mt-5 lg:w-2/5">
-          <Label htmlFor="category" value={`Catégorie:`} />
-          {form.categoryId && categories && (
-            <Select
-              id="categoryId"
-              name="categoryId"
-              onChange={handleChange}
-              defaultValue={form?.categoryId ?? -1}
-              required
-            >
-              <option value={-1}>Choisir une catégorie</option>
-              {categories &&
-                categories
-                  .sort((a, b) => a.title.localeCompare(b.title))
-                  .map((cat, i) => (
-                    <option key={i} value={cat.id}>
-                      {cat.title}
-                    </option>
-                  ))}
-            </Select>
-          )}
-        </div>
-        <div className="mt-5 lg:w-2/5">
-          <Label htmlFor="type" value={`Type:`} />
-          {form.type && (
-            <Select
-              id="type"
-              name="type"
-              onChange={handleTypeChange}
-              defaultValue={form?.type}
-              required
-            >
-              <option value={-1}>Choisir une type</option>
-              {types &&
-                types.sort().map((t, i) => (
-                  <option key={i} value={t}>
-                    {t}
-                  </option>
-                ))}
-            </Select>
-          )}
-        </div>
+      <div className={`lg:flex lg:justify-between lg:gap-3`}>
+        {form.categoryId && categories && (
+          <SelectList
+            id={"categoryId"}
+            title={"Catégorie:"}
+            defaultValue={form.categoryId}
+            handleChange={handleChange}
+            zeroListElement={"Choisir une catégorie"}
+            list={categories}
+          />
+        )}
+        {form.type && types && (
+          <SelectList
+            id={"type"}
+            title={"Type:"}
+            defaultValue={form.type}
+            handleChange={handleTypeChange}
+            zeroListElement={"Choisir une type"}
+            list={types}
+          />
+        )}
       </div>
       {form.type == "verbe" && (
         <FormVerbFields

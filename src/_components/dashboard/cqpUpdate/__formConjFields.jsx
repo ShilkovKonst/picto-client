@@ -52,7 +52,7 @@ const FormConjFields = ({ form, isIrregular, handleChange }) => {
   return (
     <div className={`lg:flex lg:justify-between`}>
       {conjugations.map((tense, i) => (
-        <fieldset key={i} className="mt-5 lg:w-2/5 flex flex-col gap-1">
+        <div key={i} className="mt-5 lg:w-2/5 flex flex-col gap-1">
           <Label
             value={`${
               Object.keys(tense)[0] == "present" ? "Présent" : "Futur"
@@ -85,7 +85,7 @@ const FormConjFields = ({ form, isIrregular, handleChange }) => {
               required={isIrregular}
             />
           ))}
-        </fieldset>
+        </div>
       ))}
     </div>
   );

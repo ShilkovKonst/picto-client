@@ -1,6 +1,6 @@
-import getAccessToken from "@/_utils/getAccessTokenUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
 import Category from "./Category";
-import { getAllByOtherAsList, getOneById } from "@/_utils/entityApiUtil";
+import { getAllByOtherAsList, getOneById } from "@/_lib/entityApiUtil";
 import { notFound } from "next/navigation";
 
 const page = async (props) => {
@@ -29,6 +29,7 @@ const page = async (props) => {
 
   return (
     <Category
+      session={session}
       category={category}
       pictograms={pictograms.length > 0 ? pictograms : null}
       questions={questions.length > 0 ? questions : null}

@@ -1,9 +1,10 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CreateIcon from "../icons/createIcon";
-import { Label, Radio, Select } from "flowbite-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import ListPerPageSelector from "./_listPerPageSelector";
+import ListTypeSelector from "./_listTypeSelector";
 
 const ListHeader = ({ entityName, qnty }) => {
   const router = useRouter();
@@ -19,112 +20,19 @@ const ListHeader = ({ entityName, qnty }) => {
     );
   };
 
-  const handleListChange = (e) => {
+  const handleTypeListChange = (e) => {
     const { value } = e.target;
     if (entityName == "categories") {
-      switch (value) {
-        case "all":
-          localStorage.setItem("catCurrentList", "all");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=all`
-          );
-          break;
-        case "supercategories":
-          localStorage.setItem("catCurrentList", "supercategories");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=supercategories`
-          );
-          break;
-        case "subcategories":
-          localStorage.setItem("catCurrentList", "subcategories");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=subcategories`
-          );
-          break;
-      }
+      localStorage.setItem("catCurrentList", value);
     }
     if (entityName == "pictograms") {
-      switch (value) {
-        case "all":
-          localStorage.setItem("pictoCurrentList", "all");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=all`
-          );
-          break;
-        case "verbe":
-          localStorage.setItem("pictoCurrentList", "verbe");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=verbe`
-          );
-          break;
-        case "nom":
-          localStorage.setItem("pictoCurrentList", "nom");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=nom`
-          );
-          break;
-        case "nombre":
-          localStorage.setItem("pictoCurrentList", "nombre");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=nombre`
-          );
-          break;
-        case "adjectif":
-          localStorage.setItem("pictoCurrentList", "adjectif");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=adjectif`
-          );
-          break;
-        case "invariable":
-          localStorage.setItem("pictoCurrentList", "invariable");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=invariable`
-          );
-          break;
-        case "interrogatif":
-          localStorage.setItem("pictoCurrentList", "interrogatif");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=interrogatif`
-          );
-          break;
-        case "pronom_ou_determinant":
-          localStorage.setItem("pictoCurrentList", "pronom_ou_determinant");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=pronom_ou_determinant`
-          );
-          break;
-        case "orphan":
-          localStorage.setItem("pictoCurrentList", "orphan");
-          router.push(
-            `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
-              "size"
-            )}&type=orphan`
-          );
-          break;
-      }
+      localStorage.setItem("pictoCurrentList", value);
     }
+    router.push(
+      `/dashboard/${entityName}?page=${0}&size=${searchParams.get(
+        "size"
+      )}&type=${value}`
+    );
   };
 
   useEffect(() => {
@@ -139,66 +47,37 @@ const ListHeader = ({ entityName, qnty }) => {
 
   return (
     <thead>
-      <tr>
-        <th className="flex flex-row flex-wrap gap-1 items-center my-2">
-          <Label htmlFor="itemsPerPage" value={`Par page`} />
-          <Select
-            id="itemsPerPage"
-            onChange={handlePerPageChange}
-            sizing="sm"
-            defaultValue={searchParams.get("size")}
-          >
-            {[5, 6, 7, 8, 9, 10].map((e) => (
-              <option key={e} value={e}>
-                {e}
-              </option>
-            ))}
-          </Select>
+      <tr className="border-b grid grid-cols-8">
+        <th className="col-span-2 lg:col-span-3 flex flex-col lg:flex-row gap-1 lg:gap-2">
+          <ListPerPageSelector
+            id={"itemsPerPage"}
+            title={"Par page"}
+            value={"size"}
+            handleChange={handlePerPageChange}
+            searchParams={searchParams}
+          />
           {(entityName == "categories" || entityName == "pictograms") && (
-            <>
-              <Label className="ml-auto" htmlFor="list" value={`Afficher:`} />
-              <Select
-                id="list"
-                onChange={(e) => handleListChange(e)}
-                sizing="sm"
-                defaultValue={searchParams.get("type")}
-              >
-                <option value={"all"}>tous</option>
-                {entityName == "categories" && (
-                  <>
-                    <option value={"supercategories"}>super-catégories</option>
-                    <option value={"subcategories"}>sous-catégories</option>
-                  </>
-                )}
-                {entityName == "pictograms" && (
-                  <>
-                    <option value={"verbe"}>verbe</option>
-                    <option value={"nom"}>nom</option>
-                    <option value={"nombre"}>nombre</option>
-                    <option value={"adjectif"}>adjectif</option>
-                    <option value={"invariable"}>invariable</option>
-                    <option value={"interrogatif"}>interrogatif</option>
-                    <option value={"pronom_ou_determinant"}>
-                      pronom / determinant
-                    </option>
-                    <option value={"orphan"}>sans catégorie</option>
-                  </>
-                )}
-              </Select>
-            </>
+            <ListTypeSelector
+              entityName={entityName}
+              id={"typeList"}
+              title={"Afficher"}
+              value={"type"}
+              handleChange={handleTypeListChange}
+              searchParams={searchParams}
+            />
           )}
         </th>
-      </tr>
-      <tr className="border-b">
-        <th className="text-lg flex justify-between items-center">
-          <span className="w-20"></span>
+        <th className="col-span-4 lg:col-span-3 text-lg flex justify-between items-center">
           <span className=" mx-auto">
             {entityName == "pictograms"
               ? "PICTOGRAMMES"
-              : entityName.toUpperCase()} {"(" + qnty + ")"}
+              : entityName.toUpperCase()}{" "}
+            {"(" + qnty + ")"}
           </span>
+        </th>
+        <th className="col-span-2 text-lg flex justify-end items-center">
           <Link
-            className="relative bg-pbg hover:bg-pred transition ease-in-out duration-300 h-10 w-10 rounded-3xl px-2 font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1 group mx-5"
+            className="relative bg-primary hover:bg-secondary transition ease-in-out duration-300 h-8 w-8 rounded-3xl font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-2 group mx-5 lg:mx-2"
             href={`/dashboard/${entityName}/create`}
           >
             <CreateIcon />

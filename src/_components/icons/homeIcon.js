@@ -4,7 +4,7 @@ const HomeIcon = ({ pathname }) => {
   return (
     <svg
       className={`w-8 h-8 md:w-6 md:h-6 transition duration-150 ease-in-out ${
-        (pathname === "/dashboard" || pathname.includes("profile")) ? "text-pred" : "text-pbg group-hover:text-pred"
+        (pathname === "/dashboard" || pathname.includes("profile")) ? "text-secondary" : "text-primary group-hover:text-secondary"
       } `}
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"

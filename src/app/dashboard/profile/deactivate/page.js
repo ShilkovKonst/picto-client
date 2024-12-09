@@ -1,4 +1,4 @@
-import getAccessToken from '@/_utils/getAccessTokenUtil';
+import getAccessToken from '@/_lib/getAccessTokenUtil';
 import UserProfileDeactivate from './UserProfileDeactivate'
 
 const page = () => {

@@ -5,6 +5,7 @@ import EntityFormInstitutionFields from "./__entityFormInstitutionFields";
 import EntityFormPersonFields from "./__entityFormPersonFields";
 import { Spinner } from "flowbite-react";
 import EntityFormNoteFields from "./__entityFormNoteFields";
+import ConfirmButton from "@/_components/shared/ConfirmButton";
 
 const EntityForm = ({
   session,
@@ -156,20 +157,8 @@ const EntityForm = ({
           handleChange={handleChange}
         />
       )}
-      <div>
-        <button
-          type="submit"
-          className="text-white bg-pbg hover:bg-pred transition ease-in-out duration-300 font-medium rounded-lg text-sm w-full mt-5 px-5 py-2.5 text-center flex justify-center items-center"
-        >
-          {isLoading ? (
-            <>
-              <Spinner className="" size="md" aria-label="Veuillez patienter" />
-              <span className="pl-3">Veuillez patienter</span>
-            </>
-          ) : (
-            "Confirmer"
-          )}
-        </button>
+      <div className="pt-5">
+        <ConfirmButton isLoading={isLoading} />
       </div>
     </form>
   );

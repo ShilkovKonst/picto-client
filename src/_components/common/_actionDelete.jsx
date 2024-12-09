@@ -5,7 +5,7 @@ import RemoveIcon from "../icons/removeIcon";
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
-const ActionDelete = ({ entity, entityName, isSublist, user }) => {
+const ActionDelete = ({ entity, entityName, isSublist }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [toDelete, setToDelete] = useState(false);
@@ -31,12 +31,12 @@ const ActionDelete = ({ entity, entityName, isSublist, user }) => {
     <>
       <button
         onClick={() => setToDelete(true)}
-        className={`group relative bg-pbg hover:bg-pred transition ease-in-out duration-300 ${
-          isSublist ? "h-5" : "h-10"
-        } w-10 rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center my-1 text-xs sm:text-sm`}
+        className={`group relative bg-primary hover:bg-secondary transition ease-in-out duration-300 ${
+          isSublist ? "h-6 w-6 md:w-8" : "w-8 h-8"
+        }  rounded-3xl  font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center mt-2 text-xs sm:text-sm`}
       >
         <RemoveIcon isSublist={isSublist} />
-        <div className={`hidden group-hover:block absolute bottom-[100%] left-0 ${!isSublist && "pb-1"} rounded-lg cursor-default z-50`}>
+        <div className={`hidden group-hover:block absolute bottom-[100%] right-0 ${!isSublist && "pb-1"} rounded-lg cursor-default z-50`}>
           <p className="text-xs text-black">Effacer</p>
         </div>
       </button>

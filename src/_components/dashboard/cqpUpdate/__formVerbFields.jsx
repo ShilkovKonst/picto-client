@@ -2,7 +2,7 @@
 import { Checkbox, Label, Radio, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import FormConjFields from "./__formConjFields";
-import { irregularId } from "@/_constants/picto";
+import { irregularId } from "@/_constants/pictoTypes";
 
 const FormVerbFields = ({
   form,
@@ -49,7 +49,7 @@ const FormVerbFields = ({
   return (
     <>
       <div className={`lg:flex lg:justify-between`}>
-        <fieldset className="mt-5 lg:w-2/5 flex flex-col gap-3 lg:gap-0">
+        <div>
           <Label value={`Tags:`} />
           {tags &&
             tags.map(
@@ -71,8 +71,8 @@ const FormVerbFields = ({
                   </div>
                 )
             )}
-        </fieldset>
-        <div className="mt-5 lg:w-2/5 ">
+        </div>
+        <div>
           <div className={"flex items-center gap-2 mb-1"}>
             <Label
               htmlFor={"irregulier"}

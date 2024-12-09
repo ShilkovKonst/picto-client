@@ -1,11 +1,12 @@
+import CheckboxBlock from "@/_components/shared/CheckboxBlock";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
+import RadioBlock from "@/_components/shared/RadioBlock";
+import SelectList from "@/_components/shared/SelectList";
+import TextItem from "@/_components/shared/TextItem";
 import {
-  Checkbox,
   Datepicker,
   Label,
-  Radio,
-  Select,
   Spinner,
-  TextInput,
 } from "flowbite-react";
 import { useEffect } from "react";
 
@@ -20,8 +21,6 @@ const EntityFormPersonFields = ({
   setForm,
   handleChange,
 }) => {
-  console.log("entity", entity);
-  console.log("form", form);
   useEffect(() => {
     entityName == "users" &&
       setForm({
@@ -33,7 +32,7 @@ const EntityFormPersonFields = ({
         active: entity?.active ?? true,
         verified: entity?.verified ?? undefined,
         roles: entity?.roles?.map((r) => r.id) ?? [],
-        institutionId: entity?.institution.id ?? -1,
+        institutionId: entity?.institution?.id ?? -1,
       });
     entityName == "patients" &&
       setForm({
@@ -44,9 +43,7 @@ const EntityFormPersonFields = ({
         grade: entity?.grade ?? "",
         sex: entity?.sex ?? "",
         active: entity?.active ?? true,
-        birthDate: entity?.birthDate
-          ? new Date(entity?.birthDate)
-          : new Date(),
+        birthDate: entity?.birthDate ? new Date(entity?.birthDate) : new Date(),
         userId: entity?.user?.id ?? session.id,
       });
   }, []);
@@ -81,142 +78,95 @@ const EntityFormPersonFields = ({
   const handleDateChange = (date) => {
     setForm({ ...form, birthDate: date });
   };
-
   return (
     <>
       <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
-        <div className={`mt-5`}>
-          <Label htmlFor="lastName" value={`Nom`} />
-          <TextInput
-            id="lastName"
-            type={`text`}
-            sizing="md"
-            name="lastName"
-            onChange={handleChange}
-            value={form.lastName ?? ""}
-            required
-          />
-        </div>
-        <div className={`mt-5`}>
-          <Label htmlFor="firstName" value={`Prénom`} />
-          <TextInput
-            id="firstName"
-            type={`text`}
-            sizing="md"
-            name="firstName"
-            onChange={handleChange}
-            value={form.firstName ?? ""}
-            required
-          />
-        </div>
+        <TextItem
+          id={"lastName"}
+          title={"Nom:"}
+          defaultValue={form.lastName}
+          handleChange={handleChange}
+        />
+        <TextItem
+          id={"firstName"}
+          title={"Prénom:"}
+          defaultValue={form.firstName}
+          handleChange={handleChange}
+        />
       </div>
       {entityName == "patients" && (
         <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
-          <div className={`mt-5`}>
-            <Label htmlFor="code" value={`Code`} />
-            <TextInput
-              id="code"
-              type={`text`}
-              sizing="md"
-              name="code"
-              onChange={handleChange}
-              value={form.code ?? ""}
-              required
-            />
-          </div>
-          <div className={`mt-5`}>
-            <Label htmlFor="grade" value={`Grade`} />
-            <TextInput
-              id="grade"
-              type={`text`}
-              sizing="md"
-              name="grade"
-              onChange={handleChange}
-              value={form.grade ?? ""}
-              required
-            />
-          </div>
+          <TextItem
+            id={"code"}
+            title={"Code:"}
+            defaultValue={form.code}
+            handleChange={handleChange}
+          />
+          <TextItem
+            id={"grade"}
+            title={"Grade:"}
+            defaultValue={form.grade}
+            handleChange={handleChange}
+          />
         </div>
       )}
       {entityName == "users" && (
         <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
-          <div className={`mt-5`}>
-            <Label htmlFor="phoneNumber" value={`Numéro de téléphone`} />
-            <TextInput
-              id="phoneNumber"
-              type={`text`}
-              sizing="md"
-              name="phoneNumber"
-              onChange={handleChange}
-              value={form.phoneNumber ?? ""}
-              required
-            />
-          </div>
-          <div className={`mt-5`}>
-            <Label htmlFor="job" value={`Fonction`} />
-            <TextInput
-              id="job"
-              type={`text`}
-              sizing="md"
-              name="job"
-              onChange={handleChange}
-              value={form.job ?? ""}
-              required
-            />
-          </div>
+          <TextItem
+            id={"phoneNumber"}
+            title={"Numéro de téléphone:"}
+            defaultValue={form.phoneNumber}
+            handleChange={handleChange}
+          />
+          <TextItem
+            id={"job"}
+            title={"Fonction:"}
+            defaultValue={form.job}
+            handleChange={handleChange}
+          />
         </div>
       )}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-0 lg:gap-3">
         <div className="flex flex-col justify-start items-start">
           {entityName == "patients" && (
-            <div className={`flex flex-col items-start gap-3 mb-5`}>
+            <div className={`flex flex-col items-start gap-1 mb-5`}>
               <Label value={`Sexe:`} />
               {["homme", "femme"].map((s, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <Radio
-                    id={s}
-                    name="sex"
-                    value={s}
-                    checked={form?.sex == s}
-                    onChange={(e) => handleRadioChange(e)}
-                    required
-                  />
-                  <Label htmlFor={s}>{s}</Label>
-                </div>
+                <RadioBlock
+                  key={i}
+                  id={s}
+                  name={"sex"}
+                  checked={form.sex == s}
+                  handleChange={(e) => handleRadioChange(e)}
+                  title={s}
+                />
               ))}
             </div>
           )}
-          {(entity?.roles?.includes("ROLE_SUPERADMIN") || entity?.user?.id == session?.id) && (
-            <div className={`flex items-center gap-3`}>
-              {entity == null || form.active != undefined ? (
-                <Checkbox
-                  id={"active"}
-                  name="active"
-                  checked={form.active ?? false}
-                  onChange={(e) => handleCheckboxChange(e)}
-                />
-              ) : (
-                <Spinner size={"sm"} aria-label="Loading active..." />
-              )}
-              <Label htmlFor="active" value={`Actif(ve)`} />
-            </div>
+          {(session?.roles?.includes("ROLE_ADMIN") || //  <-- ROLE_SUPERADMIN
+            entity?.user?.id == session?.id) &&
+          (entity == null || form.active != undefined) ? (
+            <CheckboxBlock
+              id={"active"}
+              title={"Actif(ve)"}
+              checked={form.active ?? false}
+              handleChange={(e) => handleCheckboxChange(e)}
+            />
+          ) : (
+            <Spinner size={"sm"} aria-label="Loading active..." />
           )}
           {entityName == "users" &&
-            entity?.roles?.includes("ROLE_SUPERADMIN") && (
-              <div className={`flex items-center gap-3`}>
-                {entity == null || form.verified != undefined ? (
-                  <Checkbox
-                    id={"verified"}
-                    name="verified"
-                    checked={form.verified ?? false}
-                    onChange={(e) => handleCheckboxChange(e)}
-                  />
-                ) : (
-                  <Spinner size={"sm"} aria-label="Loading verified..." />
-                )}
-                <Label htmlFor="verified" value={`Vérifié(e)`} />
-              </div>
-            )}
+            session?.roles?.includes("ROLE_ADMIN") && // <-- ROLE_SUPERADMIN
+            (entity == null || form.verified != undefined ? (
+              <CheckboxBlock
+                id={"verified"}
+                title={"Vérifié(e)"}
+                checked={form.verified ?? false}
+                handleChange={(e) => handleCheckboxChange(e)}
+              />
+            ) : (
+              <Spinner size={"sm"} aria-label="Loading verified..." />
+            ))}
         </div>
         {entityName == "patients" && (
           <div>
@@ -232,10 +182,7 @@ const EntityFormPersonFields = ({
                 required
               />
             ) : (
-              <div className="flex justify-center items-center w-full">
-                <Spinner className="" aria-label="Loading birthDate..." />
-                <p className="pl-2">Loading birthDate...</p>
-              </div>
+              <LoadingSpinner text={"Loading birth date..."} />
             )}
           </div>
         )}
@@ -243,53 +190,43 @@ const EntityFormPersonFields = ({
 
       {entityName == "users" && (
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-0 lg:gap-3">
-          <div className={`mt-5`}>
-            <Label htmlFor="institutionId" value={`Institution`} />
-            {form.institutionId ? (
-              <Select
-                id="institutionId"
-                name="institutionId"
-                className="input-text md:mb-4 pl-0"
-                onChange={handleChange}
-                defaultValue={form.institutionId}
-                required
-              >
-                <option value={-1}>Choisir une institution</option>
-                {institutions
-                  .sort((a, b) => a.title.localeCompare(b.title))
-                  .map((inst, i) => (
-                    <option key={i} value={inst.id}>
-                      {inst.title}
-                    </option>
-                  ))}
-              </Select>
-            ) : (
-              <div className="flex justify-center items-center w-full">
-                <Spinner className="" aria-label="Loading roles..." />
-                <p className="pl-2">Loading Institution...</p>
-              </div>
-            )}
-          </div>
-          {entity?.roles?.includes("ROLE_SUPERADMIN") && (
-            <div className={`mt-5`}>
-              <Label htmlFor="roles" value={`Rôles`} />
+          {form.institutionId ? (
+            <SelectList
+              id={"institutionId"}
+              title={"Institution:"}
+              defaultValue={form.institutionId}
+              handleChange={handleChange}
+              zeroListElement={"Choisir une institution"}
+              list={institutions}
+            />
+          ) : (
+            <LoadingSpinner text={"Loading Institution..."} />
+          )}
+          {session?.roles?.includes("ROLE_ADMIN") && ( // <-- ROLE_SUPERADMIN
+            <div>
+              <p>Rôles:</p>
               {form?.roles ? (
-                roles?.map((r, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <Checkbox
+                roles
+                  ?.filter((r) => {
+                    if (session.roles.includes("ROLE_SUPERADMIN")) {
+                      return true;
+                    }
+                    if (session.roles.includes("ROLE_ADMIN")) {
+                      return r.title !== "ROLE_SUPERADMIN";
+                    }
+                    return false;
+                  })
+                  ?.map((r, i) => (
+                    <CheckboxBlock
+                      key={i}
                       id={r.id}
-                      value={r?.id}
+                      title={r.title}
                       checked={form?.roles?.includes(r.id) ? true : false}
-                      onChange={(e) => handleRoleChange(e, r)}
+                      handleChange={(e) => handleRoleChange(e, r)}
                     />
-                    <Label htmlFor={r.id}>{r.title}</Label>
-                  </div>
-                ))
+                  ))
               ) : (
-                <div className="flex justify-center items-center w-full">
-                  <Spinner className="" aria-label="Loading roles..." />
-                  <p className="pl-2">Loading roles...</p>
-                </div>
+                <LoadingSpinner text={"Loading roles..."} />
               )}
             </div>
           )}
@@ -297,52 +234,26 @@ const EntityFormPersonFields = ({
       )}
       {entityName == "patients" && (
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-0 lg:gap-3">
-          <div className={`mt-5`}>
-            <Label htmlFor="userId" value={`Thérapeute`} />
-            {form.userId ? (
-              <Select
-                id="userId"
-                name="userId"
-                className="input-text md:mb-4 pl-0"
-                onChange={handleChange}
-                defaultValue={form.userId}
-                required
-              >
-                <option value={-1}>Choisir un thérapeute</option>
-                {users && (session.roles.includes("ROLE_ADMIN") ?
-                  users
-                    .sort((a, b) =>
-                      a.institution.title.localeCompare(b.institution.title)
+          {form.userId ? (
+            <SelectList
+              id={"userId"}
+              title={"Thérapeute:"}
+              defaultValue={form.userId}
+              handleChange={handleChange}
+              zeroListElement={"Choisir un thérapeute"}
+              list={
+                session.roles.includes("ROLE_SUPERADMIN")
+                  ? users
+                  : session.roles.includes("ROLE_ADMIN")
+                  ? users.filter(
+                      (e) => e.institution.id == session.institution.id
                     )
-                    .map((user, i) => (
-                      <option key={i} value={user.id}>
-                        {user.institution.title +
-                          " - " +
-                          user.firstName.charAt(0) +
-                          ". " +
-                          user.lastName}
-                      </option>
-                    )) : users
-                    .filter((e) =>
-                      e.id == session.id)
-                    )
-                    .map((user, i) => (
-                      <option key={i} value={user.id}>
-                        {user.institution.title +
-                          " - " +
-                          user.firstName.charAt(0) +
-                          ". " +
-                          user.lastName}
-                      </option>
-                    ))}
-              </Select>
-            ) : (
-              <div className="flex justify-center items-center w-full">
-                <Spinner className="" aria-label="Loading théraputes..." />
-                <p className="pl-2">Loading Thérapeutes...</p>
-              </div>
-            )}
-          </div>
+                  : users.filter((e) => e.id == session.id)
+              }
+            />
+          ) : (
+            <LoadingSpinner text={"Loading Thérapeutes..."} />
+          )}
         </div>
       )}
     </>

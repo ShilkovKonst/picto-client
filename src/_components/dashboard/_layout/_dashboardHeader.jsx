@@ -19,7 +19,7 @@ const DashboardHeader = ({ session }) => {
     <div className="flex flex-row justify-between items-center w-full sm:p-4">
       <Image
         src={images.logo}
-        alt="LogoEcam.png"
+        alt="LogoEcam2.png"
         width={140}
         className="z-10 "
       />
@@ -34,7 +34,7 @@ const DashboardHeader = ({ session }) => {
           <button
             type="button"
             onClick={handleSignOut}
-            className="w-10 h-10 bg-pbg hover:bg-pred transition duration-300 ease-in-out rounded-full overflow-hidden flex justify-center items-center"
+            className="w-10 h-10 bg-primary hover:bg-secondary transition duration-300 ease-in-out rounded-full overflow-hidden flex justify-center items-center"
           >
             <svg
               className="w-8 h-8 text-white"

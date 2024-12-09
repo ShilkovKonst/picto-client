@@ -5,8 +5,11 @@ import { Spinner } from "flowbite-react";
 import UserActions from "@/_components/dashboard/profile/_userActions";
 import Accordion from "@/_components/dashboard/_accordion";
 import { useState } from "react";
+import Link from "next/link";
+import Separator from "@/_components/common/separator";
 
 const UserProfile = ({ session, notes, patients, verify }) => {
+  console.log(session)
   const [isEmailSent, setIsEmailSent] = useState(false);
   const handleClick = async () => {
     try {
@@ -54,7 +57,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
         <thead>
           <tr className="w-auto">
             <th className="text-lg flex justify-center items-center">
-              <span className="font-bold mx-auto flex justify-center items-center gap-3 relative group">
+              <span className="font-bold mx-auto flex justify-center items-center gap-1 relative group">
                 Profil
                 {session?.active ? (
                   <SuccessIcon />
@@ -93,24 +96,29 @@ const UserProfile = ({ session, notes, patients, verify }) => {
           {session && (
             <>
               <tr className="grid grid-cols-6 gap-1 lg:gap-0 text-sm sm:text-base p-2">
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
                 <th className="col-span-2 text-start">Nom</th>
                 <td className="col-span-4 text-start">{session?.lastName}</td>
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
                 <th className="col-span-2 text-start">Prénom</th>
                 <td className="col-span-4 text-start">{session?.firstName}</td>
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
                 <th className="col-span-2 text-start">Fonction</th>
                 <td className="col-span-4 text-start">{session?.job}</td>
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
                 <th className="col-span-2 text-start">Institution</th>
-                <td className="col-span-4 text-start">
-                  {session?.institution?.title}
+                <td className="col-span-4 text-start flex items-center">
+                  <Link
+                    href={`/dashboard/institutions/${session?.institution?.id}`}
+                    className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
+                  >
+                    {session?.institution?.title}
+                  </Link>
                 </td>
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
                 <th className="col-span-2 text-start">Email</th>
                 <td className="col-span-4 text-start">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1">
                     {session?.sub}
                     {session?.verified ? <SuccessIcon /> : <WarningIcon />}
                   </div>
@@ -140,7 +148,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
                       ))}
                   </div>
                 </td>
-                <td className="border col-span-6 bg-pbg-trans-bb"></td>
+                <Separator n={6} />
               </tr>
             </>
           )}

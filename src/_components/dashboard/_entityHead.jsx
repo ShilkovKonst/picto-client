@@ -19,8 +19,8 @@ const EntityHead = ({ entity, entityName, session }) => {
               {entityName == "patients" && "Patient:"}
               {entityName == "notes" && "Note:"}
               <Link
-                className="hover:text-pred trasition duration-150 ease-in-out ml-3"
-                href={`/dashboard/${entityName}/${entity?.id}`}
+                className="hover:text-pred trasition duration-150 ease-in-out ml-3 me-1"
+                href={entityName == "users" && entity.id == session.id ? "/dashboard" : `/dashboard/${entityName}/${entity?.id}`}
               >
                 {entityName == "users" || entityName == "patients" ? (
                   <div>
@@ -34,7 +34,7 @@ const EntityHead = ({ entity, entityName, session }) => {
               </Link>
               {(entityName == "users" || entityName == "patients") && (entity?.active ? <SuccessIcon /> : <WarningIcon />)}
             </span>
-            {(entityName != "users" || session?.id != entity?.id) && <ActionsHeader entity={entity} entityName={entityName} />}
+            {(entityName != "users" || session?.id != entity?.id) && <ActionsHeader session={session} entity={entity} entityName={entityName} />}
           </th>
         ) : (
           <th className="text-lg md:text-xl flex justify-center items-center">

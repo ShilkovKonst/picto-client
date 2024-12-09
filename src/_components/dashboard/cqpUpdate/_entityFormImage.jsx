@@ -12,7 +12,7 @@ const EntityFormImage = ({ entity, entityName, form, setForm, pathname }) => {
   };
   
   return (
-    <div className={`mt-5 ${entityName == "pictograms" ? "lg:w-[50%]" : ""}`}>
+    <div>
       <Label
         htmlFor="imageName"
         value={

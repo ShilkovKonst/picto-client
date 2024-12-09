@@ -7,7 +7,6 @@ import UserField from "./__userField";
 import PatientField from "./__patientField";
 
 const EntityItem = ({ session, entity, entityName, isSublist }) => {
-  console.log("entity", entity)
   return (
     <tr className="grid grid-cols-1">
       <td
@@ -35,7 +34,7 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
               ? `/dashboard`
               : `/dashboard/${entityName}/${entity?.id}`
           }
-          className={`grid text-sm sm:text-base bg-gradient-to-r hover:from-pbg-trans-30 from-90% hover:to-transparent transition-all ease-in-out duration-300 ${
+          className={`grid text-sm sm:text-base bg-gradient-to-r hover:from-primary-trans-30 from-90% hover:to-transparent transition-all ease-in-out duration-300 ${
             isSublist
               ? entityName == "notes"
                 ? "col-span-3 grid-cols-3"
@@ -59,7 +58,7 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
                   : "col-span-1"
               } ${
                 isSublist ? "before:py-[24px]" : "before:py-[27px]"
-              } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-pbg `}
+              } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-primary `}
             >
               <p className="w-full text-center md:text-start capitalize">
                 {entityName == "notes"
@@ -99,13 +98,14 @@ const EntityItem = ({ session, entity, entityName, isSublist }) => {
           {session.roles.includes("ROLE_ADMIN") ||
             (entityName == "users" && entity?.id != session.id) ||
             ((entityName == "patients" || entityName == "notes") &&
-              entity?.user?.id == session.id) && (
+              entity?.user?.id == session.id && (
                 <ActionsTable
+                  session={session}
                   entity={entity}
                   entityName={entityName}
                   isSublist={isSublist}
                 />
-              )}
+              ))}
         </div>
       </td>
     </tr>

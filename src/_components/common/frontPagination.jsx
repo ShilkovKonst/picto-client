@@ -46,7 +46,7 @@ const FrontPagination = ({
             </div>
           )}
         </li>
-        <li className="cursor-default h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] text-pbg bg-[#f9f9f9] border-none outline-none w-auto min-w-10 flex flex-row justify-center items-center">
+        <li className="cursor-default h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] text-primary bg-[#f9f9f9] border-none outline-none w-auto min-w-10 flex flex-row justify-center items-center">
           {currentPage}
         </li>
         <li className="min-w-8 sm:min-w-10 cursor-pointer">

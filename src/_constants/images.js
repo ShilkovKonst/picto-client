@@ -1,4 +1,4 @@
-import logo from '@/_assets/LogoEcam.png'
+import logo from '@/_assets/LogoEcam2.png'
 
 const images = {logo}
 

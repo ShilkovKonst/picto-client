@@ -1,6 +1,6 @@
 import Pictogram from "./Pictogram";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getOneById } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getOneById } from "@/_lib/entityApiUtil";
 import { notFound } from "next/navigation";
 
 const page = async (props) => {

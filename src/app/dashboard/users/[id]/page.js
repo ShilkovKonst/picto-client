@@ -1,6 +1,6 @@
-import getAccessToken from "@/_utils/getAccessTokenUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
 import User from "./User";
-import { getOneById } from "@/_utils/entityApiUtil";
+import { getOneById } from "@/_lib/entityApiUtil";
 import { notFound } from "next/navigation";
 
 const page = async (props) => {

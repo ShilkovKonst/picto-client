@@ -1,6 +1,6 @@
 import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllAsList, getAllAsSimpleList } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getAllAsList, getAllAsSimpleList } from "@/_lib/entityApiUtil";
 
 const page = async () => {
   const { accessToken, session } = getAccessToken();

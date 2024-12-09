@@ -1,4 +1,4 @@
-import { irregularId } from "@/_constants/picto";
+import { irregularId } from "@/_constants/pictoTypes";
 import { Checkbox, Label, TextInput } from "flowbite-react";
 
 const FormAdjFields = ({

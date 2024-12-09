@@ -1,13 +1,12 @@
 "use client";
 
 const NoteField = ({ entity, isSublist }) => {
-  console.log(entity);
   return (
     <>
       <div
         className={`flex justify-center items-center w-full text-sm ${
           isSublist ? "before:py-[24px]" : "before:py-[27px] md:justify-start"
-        } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-pbg`}
+        } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-primary`}
       >
         <p className="w-full text-center md:text-start">
           {isSublist &&

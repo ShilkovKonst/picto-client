@@ -1,5 +1,5 @@
-import getAccessToken from "@/_utils/getAccessTokenUtil";
-import { getAllAsList, getOneById } from "@/_utils/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
+import { getAllAsList, getOneById } from "@/_lib/entityApiUtil";
 import EntityUpdate from "@/_components/dashboard/upnUpdate/EntityUpdate";
 
 const page = async () => {

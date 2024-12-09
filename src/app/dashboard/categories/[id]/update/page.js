@@ -1,11 +1,11 @@
 "use server";
 import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
 import {
   getAllAsList,
   getOneById,
   getAllAsSimpleList,
-} from "@/_utils/entityApiUtil";
+} from "@/_lib/entityApiUtil";
 
 const page = async (props) => {
   const { accessToken, session } = getAccessToken();

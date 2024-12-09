@@ -1,5 +1,5 @@
 "use client";
-import { irregularId } from "@/_constants/picto";
+import { irregularId } from "@/_constants/pictoTypes";
 import { Checkbox, Label, Radio, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 

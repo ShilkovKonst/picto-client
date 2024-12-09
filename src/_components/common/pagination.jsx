@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import { BackwardIcon, ForwardIcon } from "../icons";
 
 const Pagination = ({ data, entityName }) => {
   const searchParams = useSearchParams();
@@ -24,59 +24,27 @@ const Pagination = ({ data, entityName }) => {
         <li className=" min-w-8 sm:min-w-10 cursor-pointer">
           {data.page.number > 0 && (
             <Link
-              href={`/dashboard/${entityName}?page=${data.page.number - 1}&size=${
-                data.page.size
-              }&type=${searchParams.get("type")}`}
+              href={`/dashboard/${entityName}?page=${
+                data.page.number - 1
+              }&size=${data.page.size}&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
-              <svg
-                className="w-4 h-4 sm:w-6 sm:h-6 text-[#f9f9f9]"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m14 8-4 4 4 4"
-                />
-              </svg>
+              <BackwardIcon />
             </Link>
           )}
         </li>
-        <li className="cursor-default h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] text-pbg bg-[#f9f9f9] border-none outline-none w-auto min-w-10 flex flex-row justify-center items-center">
+        <li className="cursor-default h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] text-primary bg-[#f9f9f9] border-none outline-none w-auto min-w-10 flex flex-row justify-center items-center">
           {data.page.number + 1}
         </li>
         <li className="min-w-8 sm:min-w-10 cursor-pointer">
           {data.page.number < data.page.totalPages - 1 && (
             <Link
-              href={`/dashboard/${entityName}?page=${data.page.number + 1}&size=${
-                data.page.size
-              }&type=${searchParams.get("type")}`}
+              href={`/dashboard/${entityName}?page=${
+                data.page.number + 1
+              }&size=${data.page.size}&type=${searchParams.get("type")}`}
               className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
             >
-              <svg
-                className="w-4 h-4 sm:w-6 sm:h-6 text-[#f9f9f9]"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m10 16 4-4-4-4"
-                />
-              </svg>
+              <ForwardIcon />
             </Link>
           )}
         </li>

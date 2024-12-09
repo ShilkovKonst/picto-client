@@ -4,7 +4,7 @@ export const QuestionsIcon = ({ pathname }) => {
   return (
     <svg
       className={`w-8 h-8 md:w-6 md:h-6 transition duration-150 ease-in-out ${
-        pathname.includes("/dashboard/questions") ? "text-pred" : "text-pbg group-hover:text-pred"
+        pathname.includes("/dashboard/questions") ? "text-secondary" : "text-primary group-hover:text-secondary"
       } `}
       xmlns="http://www.w3.org/2000/svg"
       width="24"

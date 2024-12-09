@@ -13,7 +13,7 @@ const ModeInvite = () => {
       >
         <h2 className="switch__title text-2xl sm:text-3xl md:text-4xl font-bold leading-loose md:mb-5 text-center">
           Bienvenue sur <span className="text-pblue">P</span>icto
-          <span className="text-pred">P</span>icto!
+          <span className="text-secondary">P</span>icto!
         </h2>
         <p className="switch__description text-sm text-center tracking-[0.25px] leading-relaxed">
           Destinée à développer la communication à l&apos;aide de pictogrammes,
@@ -36,21 +36,21 @@ const ModeInvite = () => {
       <div className="absolute bottom-3 flex flex-col">
         <div className="font-bold inline-flex text-sm underline ">
           <a
-            className="hover:text-pred transition duration-150"
+            className="hover:text-secondary transition duration-150"
             href="{{ mentions }}"
           >
             Mentions légales
           </a>
           <p className="px-2">|</p>
           <a
-            className="hover:text-pred transition duration-150"
+            className="hover:text-secondary transition duration-150"
             href="{{ partners }}"
           >
             Partenaires
           </a>
           <p className="px-2">|</p>
           <a
-            className="hover:text-pred transition duration-150"
+            className="hover:text-secondary transition duration-150"
             href="{{ apropos }}"
           >
             A Propos
@@ -58,8 +58,8 @@ const ModeInvite = () => {
         </div>
         <div className="inline-flex text-sm mt-1">
           <p>
-            © Tous droits réservés - <span className="text-pblue">P</span>icto
-            <span className="text-pred">P</span>icto® 2021
+            © Tous droits réservés - <span className="text-primary">P</span>icto
+            <span className="text-secondary">P</span>icto® 2021
           </p>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import EntityList from "@/_components/dashboard/EntityList";
-import { getAllAsPage } from "@/_utils/entityApiUtil";
-import getAccessToken from "@/_utils/getAccessTokenUtil";
+import { getAllAsPage } from "@/_lib/entityApiUtil";
+import getAccessToken from "@/_lib/getAccessTokenUtil";
 
 const page = async props => {
   const { accessToken, session } = getAccessToken();

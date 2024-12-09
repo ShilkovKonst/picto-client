@@ -1,34 +1,49 @@
+import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 
 export async function middleware(request) {
+  const refreshToken = request.cookies.get("refreshToken");
+  const accessToken = request.cookies.get("accessToken");
+  const session = accessToken ? jwtDecode(accessToken?.value) : null;
   const { searchParams, pathname } = new URL(request.url);
   // if user is signed in => reroute from landing page to profile
-  if (
-    request.cookies.get("refreshToken") &&
-    request.cookies.get("accessToken") &&
-    pathname == "/"
-  ) {
+  if (refreshToken && accessToken && pathname == "/") {
     return NextResponse.redirect(
       `${process.env.CLIENT_API_BASE_URL}/dashboard/`
     );
   }
   // if user is signed out => reroute to landing page
-  if (
-    !request.cookies.get("refreshToken") &&
-    request.nextUrl.href.includes("dashboard")
-  ) {
+  if (!refreshToken && request.nextUrl.href.includes("dashboard")) {
     return NextResponse.redirect(`${process.env.CLIENT_API_BASE_URL}/`);
   }
   // if user is still authenticated -> gain new access token via refresh api route
-  if (
-    request.cookies.get("refreshToken") &&
-    !request.cookies.get("accessToken")
-  ) {
+  if (refreshToken && !accessToken) {
     return refreshSession(request);
   }
   // correct url format for categories and pictograms if it is incorrect
   if (pathname.includes("categories") || pathname.includes("pictograms")) {
     return correctPathname(request, searchParams, pathname);
+  }
+  // check if user has rights to visit certains routes
+  if (
+    (pathname.includes("users") ||
+      pathname.includes("patients") ||
+      pathname.includes("notes")) &&
+    pathname.split("/").length == 3 &&
+    !session.roles.includes("ROLE_ADMIN")
+  ) {
+    return NextResponse.redirect(
+      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+    );
+  }
+  if (
+    pathname.includes("institutions") &&
+    pathname.split("/").length == 3 &&
+    !session.roles.includes("ROLE_SUPERADMIN")
+  ) {
+    return NextResponse.redirect(
+      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+    );
   }
   return NextResponse.next();
 }
@@ -37,11 +52,35 @@ export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
 
+const restrictAccess = async (pathname, session) => {
+  if (
+    (pathname.includes("users") ||
+      pathname.includes("patients") ||
+      pathname.includes("notes")) &&
+    pathname.split("/").length == 3 &&
+    !session.roles.includes("ROLE_ADMIN")
+  ) {
+    return NextResponse.redirect(
+      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+    );
+  }
+  if (
+    pathname.includes("institutions") &&
+    pathname.split("/").length == 3 &&
+    !session.roles.includes("ROLE_SUPERADMIN")
+  ) {
+    return NextResponse.redirect(
+      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+    );
+  }
+};
+
 const correctPathname = async (request, searchParams, pathname) => {
   {
     const size = Number(searchParams.get("size"));
     const page = Number(searchParams.get("page"));
     const type = searchParams.get("type");
+
     if (
       pathname.includes("dashboard") &&
       pathname.split("/").length == 3 &&

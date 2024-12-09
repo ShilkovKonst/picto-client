@@ -28,7 +28,7 @@ const EntityList = ({ data, session, entityName }) => {
       <table className="table w-full min-h-96">
         <ListHeader
           entityName={entityName}
-          qnty={data?.page.totalElements}
+          qnty={data?.page?.totalElements ?? 0}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
         />

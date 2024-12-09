@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import EntityHead from "@/_components/dashboard/_entityHead";
-
+import Separator from "@/_components/common/separator";
 
 const Pictogram = ({ pictogram }) => {
   return (
@@ -11,12 +11,15 @@ const Pictogram = ({ pictogram }) => {
         {pictogram && (
           <EntityHead entity={pictogram} entityName={"pictograms"} />
         )}
-        <tbody className="flex flex-col gap-2">
-          {pictogram?.media?.imageFileRes && (
-            <>
-              <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-                <th className="text-start w-[40%] lg:w-[20%]">Image</th>
-                <td className="text-start w-[45%] lg:w-[30%]">
+        <tbody className="*:grid *:grid-cols-3">
+          <tr className="text-sm sm:text-base p-2">
+            {pictogram?.media?.imageFileRes && (
+              <>
+                <Separator n={3} />
+                <th className="text-start col-span-1 flex items-center">
+                  Image:
+                </th>
+                <td className="text-start col-span-2">
                   {pictogram?.media?.imageFileRes && (
                     <Image
                       className="h-14 w-14 md:h-16 md:w-16"
@@ -27,106 +30,113 @@ const Pictogram = ({ pictogram }) => {
                     />
                   )}
                 </td>
+                <Separator n={3} />
                 {pictogram.category ? (
                   <>
-                    <th className="text-start flex items-center h-8 w-[40%] lg:w-[20%]">
+                    <th className="text-start col-span-1 flex items-center">
                       Category:{" "}
                     </th>
-                    <td className="text-start flex items-center h-8 w-[45%] lg:w-[30%] ">
-                      <Link href={`/dashboard/categories/${pictogram.category.id}`} className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-pbg hover:bg-pred transition ease-in-out duration-300">
+                    <td className="text-start col-span-2 flex items-center">
+                      <Link
+                        href={`/dashboard/categories/${pictogram.category.id}`}
+                        className="py-1 px-3 rounded-full text-white text-center hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
+                      >
                         {pictogram.category.title}
                       </Link>
                     </td>
+                    <Separator n={3} />
                   </>
                 ) : (
                   <th>Il faut ajouter une categorie !</th>
                 )}
-              </tr>
-              <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-                <th className="text-start w-[40%] lg:w-[20%]">Type</th>
-                <td className="text-start w-[45%] lg:w-[30%]">
+                <th className="text-start col-span-1 flex items-center">
+                  Type:
+                </th>
+                <td className="text-start col-span-2 flex items-center">
                   {pictogram.type}
                 </td>
-              </tr>
-              <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
-                <th className="text-start w-[40%] lg:w-[20%]">Tags</th>
-                <td className="flex flex-row flex-wrap gap-3 text-start w-[45%] lg:w-[30%]">
+                <Separator n={3} />
+                <th className="text-start col-span-1 flex items-center">
+                  Tags:
+                </th>
+                <td className="text-start col-span-2 flex items-center gap-2">
                   {pictogram.tags.map((tag, i) => (
-                      <Link
-                        key={i}
-                        href={`/dashboard/tags/${tag.id}`}
-                        className="bg-pbg hover:bg-pred transition ease-in-out duration-300 text-white w-auto py-1 px-3 rounded-full"
-                      >
-                        {tag.title}
-                      </Link>
+                    <Link
+                      key={i}
+                      href={`/dashboard/tags/${tag.id}`}
+                      className="bg-primary hover:bg-secondary transition ease-in-out duration-300 text-white w-auto py-1 px-3 rounded-full"
+                    >
+                      {tag.title}
+                    </Link>
                   ))}
                 </td>
-              </tr>
-              {pictogram.tags.some((el) => el.id == 3) && (
-                <>
-                  <tr className="flex flex-row flex-wrap gap-1 lg:gap-0 justify-start items-start md:items-center text-sm sm:text-base p-2 border-b">
+                <Separator n={3} />
+                {pictogram.tags.some((el) => el.id == 3) && (
+                  <>
                     {pictogram.type == "verbe" && (
                       <>
-                        <th className="text-start w-[40%] lg:w-[20%]">
-                          Participe passé
+                        <th className="text-start col-span-1 flex items-center">
+                          Participe passé:
                         </th>
-                        <td className="text-start w-[45%] lg:w-[30%]">
+                        <td className="text-start col-span-2 flex items-center">
                           {pictogram.irregular.pastParticiple}
                         </td>
+                        <Separator n={3} />
                       </>
                     )}
                     {pictogram.type == "nom" && (
                       <>
-                        <th className="text-start w-[40%] lg:w-[20%]">
+                        <th className="text-start col-span-1 flex items-center">
                           Pluriel
                         </th>
-                        <td className="text-start w-[45%] lg:w-[30%]">
+                        <td className="text-start col-span-2 flex items-center">
                           {pictogram.irregular.plurial}
                         </td>
+                        <Separator n={3} />
                       </>
                     )}
                     {pictogram.type == "adjectif" && (
                       <>
-                        <th className="text-start w-[40%] lg:w-[20%]">
+                        <th className="text-start col-span-1 flex items-center">
                           Féminin
                         </th>
-                        <td className="text-start w-[45%] lg:w-[30%]">
+                        <td className="text-start col-span-2 flex items-center">
                           {pictogram.irregular.feminin}
                         </td>
-                        <th className="text-start w-[40%] lg:w-[20%]">
+                        <Separator n={3} />
+                        <th className="text-start col-span-1 flex items-center">
                           Féminin pluriel
                         </th>
-                        <td className="text-start w-[45%] lg:w-[30%]">
+                        <td className="text-start col-span-2 flex items-center">
                           {pictogram.irregular.plurial}
                         </td>
+                        <Separator n={3} />
                       </>
                     )}
-                  </tr>
-                </>
-              )}
-            </>
-          )}
+                  </>
+                )}
+              </>
+            )}
+          </tr>
         </tbody>
       </table>
       {pictogram.tags.some((el) => el.id == 3) && pictogram.type == "verbe" && (
         <table className="table w-full">
-          <thead className="flex flex-col gap-2">
-            <tr className="border-b">
-              <th className="text-lg md:text-xl flex justify-center items-center">
+          <thead className="*:grid *:grid-cols-3">
+            <tr className="px-2">
+              <th className="col-span-3 text-lg md:text-xl flex justify-center items-center">
                 Conjugaisons
               </th>
+              <Separator n={3} />
             </tr>
           </thead>
-          <tbody className="flex flex-col lg:flex-row">
+          <tbody className="*:grid *:grid-cols-3">
             {pictogram.irregular.conjugations.map((c, i) => (
-              <tr
-                key={i}
-                className="flex flex-row lg:flex-col gap-1 lg:gap-0 justify-start items-start md:items-start text-sm sm:text-base p-2 border-b w-full"
-              >
-                <th className="text-start capitalize w-[40%] lg:w-[50%]">
+              <tr key={i} className="text-sm sm:text-base px-2">
+                <th className="text-start capitalize col-span-1 flex items-center">
                   {c.tense}
                 </th>
-                <td className="text-start w-[45%] lg:w-[50%]">
+                <td className="text-start col-span-2 flex flex-col items-start">
                   <div>{c.firstSingular}</div>
                   <div>{c.secondSingular}</div>
                   <div>{c.thirdSingular}</div>
@@ -134,6 +144,7 @@ const Pictogram = ({ pictogram }) => {
                   <div>{c.secondPlurial}</div>
                   <div>{c.thirdPlurial}</div>
                 </td>
+                <Separator n={3} />
               </tr>
             ))}
           </tbody>
