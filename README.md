@@ -1,4 +1,4 @@
-### Picto Client
+# Picto Client
 This is the client-side application for a project aimed at enhancing communication through pictograms. 
 Designed exclusively for healthcare professionals, the app allows users to monitor patient progress and customize pictogram sets. 
 A guest mode is also available for non-professionals to explore the app freely.
@@ -6,11 +6,11 @@ A guest mode is also available for non-professionals to explore the app freely.
 The current version is a modernized rewrite of a previous application built with [`Symfony 5`](https://github.com/ShilkovKonst/PictoPictoV2-Symfony5) .
 
 ## Technologies Used
-# Frameworks: 
+### Frameworks: 
 - Next.js
-# Styling: 
+### Styling: 
 - Tailwind CSS with Flowbite plugin
-# Utilities:
+### Utilities:
 - js-cookie for managing cookies
 - jwt-decode for decoding JSON Web Tokens
 
