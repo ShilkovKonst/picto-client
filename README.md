@@ -1,4 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Picto Client
+This is the client-side application for a project aimed at enhancing communication through pictograms. 
+Designed exclusively for healthcare professionals, the app allows users to monitor patient progress and customize pictogram sets. 
+A guest mode is also available for non-professionals to explore the app freely.
+
+The current version is a modernized rewrite of a previous application built with [`Symfony 5`](https://github.com/ShilkovKonst/PictoPictoV2-Symfony5) .
+
+## Technologies Used
+# Frameworks: 
+- Next.js
+# Styling: 
+- Tailwind CSS with Flowbite plugin
+# Utilities:
+- js-cookie for managing cookies
+- jwt-decode for decoding JSON Web Tokens
+
+## Project Structure
+The project follows a modular and organized structure:
+- src/_assets: Media assets like images and icons
+- src/_components: Reusable UI components
+- src/_constants: Constants used throughout the application
+- src/_lib: Utility functions and helpers
+- src/app: The Next.js folder-based routing system for handling pages and APIs
+For more information on Next.js routing, visit the [`official documentation`](https://nextjs.org/docs/14/getting-started/project-structure).
 
 ## Getting Started
 
@@ -15,8 +38,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
