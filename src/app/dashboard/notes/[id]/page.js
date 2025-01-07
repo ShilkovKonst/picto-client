@@ -8,7 +8,7 @@ const page = async (props) => {
   const params = await props.params;
   const note = await getOneById("notes", params.id, accessToken);
   note?.status == 404 && notFound();
-
+  
   return <Note session={session} note={note} />;
 };
 

@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
 import { usePathname } from "next/navigation";
-import EntityForm from "./_entityForm";
-import EntityHead from "../_entityHead";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Form from "@/_components/_forms/upn/Form";
 
 const EntityUpdate = ({
   session,
@@ -18,9 +17,9 @@ const EntityUpdate = ({
   return (
     <>
       <table className="table w-full">
-        <EntityHead session={session} entity={entity} entityName={entityName} />
+        <EntityHeader session={session} entity={entity} entityName={entityName} />
       </table>
-      <EntityForm
+      <Form
         session={session}
         entity={entity}
         entityName={entityName}

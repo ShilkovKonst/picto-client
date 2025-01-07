@@ -14,7 +14,7 @@ const page = async (props) => {
     params.id,
     accessToken
   );
-  return <Question question={question} categories={categories} />;
+  return <Question question={question} categories={categories} session={session} />;
 };
 
 export default page;

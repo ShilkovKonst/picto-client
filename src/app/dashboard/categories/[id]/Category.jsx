@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Accordion from "@/_components/dashboard/_accordion";
-import EntityHead from "@/_components/dashboard/_entityHead";
-import Separator from "@/_components/common/separator";
+import Accordion from "@/_components/dashboard/Accordion";
+import Separator from "@/_components/_shared/atoms/Separator";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
 
 const Category = ({
   session,
@@ -15,7 +15,13 @@ const Category = ({
   return (
     <>
       <table className="table w-full">
-        {category && <EntityHead entity={category} entityName="categories" />}
+        {category && (
+          <EntityHeader
+            entity={category}
+            entityName="categories"
+            session={session}
+          />
+        )}
         <tbody className="*:grid *:grid-cols-3">
           {category && (
             <tr className="text-sm sm:text-base">
@@ -59,9 +65,9 @@ const Category = ({
         session={session}
         initial="pictograms"
         entities={[
-          { name: "pictograms", entityList: pictograms },
+          { name: "pictograms", entityList: pictograms?.sort((a, b) => a.title.localeCompare(b.title)) },
           { name: "questions", entityList: questions },
-          { name: "categories", entityList: subcategories },
+          { name: "categories", entityList: subcategories?.sort((a, b) => a.title.localeCompare(b.title)) },
         ]}
       />
     </>

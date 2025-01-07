@@ -2,13 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  interpolate-size: allow-keywords;
-}
-
 /* /////////////////////////////////////////////////////////////////// */
 body {
   min-width: 480px;
+}
+
+.accordion::-webkit-scrollbar {
+  width: 20px;
+}
+.accordion::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 0px 10px 10px 0px;
+}
+.accordion::-webkit-scrollbar-thumb {
+  background: #1e646f88;
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
+}
+.accordion::-webkit-scrollbar-thumb:hover {
+  background: #1e646faa;
+  box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
 }
 
 @layer components {
@@ -36,8 +49,17 @@ body {
   .input-text {
     @apply z-10 w-full h-10 my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-[#ecf0f3] rounded-lg shadow-inset-2/4 focus:shadow-inset-4/4 transition duration-300 ease-in-out;
   }
+  .input-textarea {
+    @apply z-10 w-full my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-[#ecf0f3] rounded-lg shadow-inset-2/4 focus:shadow-inset-4/4 transition duration-300 ease-in-out;
+  }
+  .input-file {
+    @apply flex justify-center items-center bg-primary hover:bg-secondary z-10 w-full h-10 my-1 text-sm text-white hover:text-black font-semibold text-center tracking-[0.15px] border-none outline-none rounded-lg transition duration-300 ease-in-out;
+  }
   .input-checkbox {
-    @apply w-4 h-4 rounded bg-[#ecf0f3] focus:ring-3 focus:ring-blue-300 shadow-inset-2/4 focus:shadow-inset-4/4 transition duration-300 ease-in-out;
+    @apply w-4 h-4 rounded focus:ring-2 focus:ring-primary checked:bg-primary transition duration-300 ease-in-out;
+  }
+  .input-radio {
+    @apply w-4 h-4 rounded-full focus:ring-2 focus:ring-primary checked:bg-primary transition duration-300 ease-in-out;
   }
 }
 

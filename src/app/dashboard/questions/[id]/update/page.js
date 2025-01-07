@@ -7,7 +7,7 @@ const page = async (props) => {
   const params = await props.params;
   const question = await getOneById("questions", params.id, accessToken);
 
-  return <EntityUpdate entity={question} entityName="questions" />;
+  return <EntityUpdate session={session} entity={question} entityName="questions" />;
 };
 
 export default page;

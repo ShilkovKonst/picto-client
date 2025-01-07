@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import EntityHead from "@/_components/dashboard/_entityHead";
-import Accordion from "@/_components/dashboard/_accordion";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Accordion from "@/_components/dashboard/Accordion";
 
-const Tag = ({ tag, pictograms }) => {
+const Tag = ({ session, tag, pictograms }) => {
   return (
     <>
       <table className="table w-full">
-        <EntityHead entity={tag} entityName="tags" />
+        <EntityHeader session={session} entity={tag} entityName="tags" />
       </table>
       {pictograms && (
         <Accordion
+          session={session}
           initial={"pictograms"}
           entities={[{ name: "pictograms", entityList: pictograms }]}
         />

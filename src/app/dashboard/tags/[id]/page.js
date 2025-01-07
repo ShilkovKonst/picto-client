@@ -15,7 +15,7 @@ const page = async (props) => {
     accessToken
   );
 
-  return <Tag tag={tag} pictograms={pictograms} />;
+  return <Tag session={session} tag={tag} pictograms={pictograms} />;
 };
 
 export default page;

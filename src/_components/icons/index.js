@@ -17,6 +17,11 @@ import NotesIcon from "./notesIcon";
 import InstitutionsIcon from "./institutionsIcon";
 import ForwardIcon from "./forwardIcon";
 import BackwardIcon from "./backwardIcon";
+import SpeechIcon from "./speechIcon";
+import SignoutIcon from "./signoutIcon";
+import BrainIcon from "./brainIcon";
+import CheckedIcon from "./checkedIcon";
+import UnheckedIcon from "./uncheckedIcon";
 
 export {
   HomeIcon,
@@ -38,4 +43,9 @@ export {
   InstitutionsIcon,
   ForwardIcon,
   BackwardIcon,
+  SpeechIcon,
+  SignoutIcon,
+  BrainIcon,
+  CheckedIcon,
+  UnheckedIcon,
 };

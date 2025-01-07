@@ -24,11 +24,7 @@ const page = async (props) => {
       session={session}
       notes={notes.map((note) => ({
         ...note,
-        user: {
-          id: note?.user?.id,
-          name:
-            note?.user?.firstName?.charAt(0) + ". " + note?.patient?.lastName,
-        },
+        user: null,
         patient:
           note.patient.firstName.charAt(0) + ". " + note.patient.lastName,
       }))}

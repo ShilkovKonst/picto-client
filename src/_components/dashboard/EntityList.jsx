@@ -1,8 +1,9 @@
 "use client";
-import ListHeader from "@/_components/common/listHeader";
 import { useState, useEffect } from "react";
-import EntityItem from "./_entityItem";
-import Pagination from "../common/pagination";
+import Pagination from "./Pagination";
+import EntityTableItem from "../_shared/EntityTableItem";
+import EntityTableHeader from "../_shared/EntityTableHeader";
+import EntityListHeader from "@/_components/_shared/molecules/EntityListHeader";
 
 const EntityList = ({ data, session, entityName }) => {
   const [itemsPerPage, setItemsPerPage] = useState(0);
@@ -25,74 +26,18 @@ const EntityList = ({ data, session, entityName }) => {
 
   return (
     <>
-      <table className="table w-full min-h-96">
-        <ListHeader
+      <table className="table w-full min-h-96 *:*:*:border-gray-300">
+        <EntityListHeader
           entityName={entityName}
           qnty={data?.page?.totalElements ?? 0}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
         />
         <tbody className="flex flex-col gap-1">
-          <tr
-            className={`grid justify-between items-center text-sm sm:text-base py-4 border-b ${
-              entityName == "users" || entityName == "patients"
-                ? "grid-cols-8"
-                : entityName == "notes"
-                ? "grid-cols-4"
-                : entityName == "pictograms" || entityName == "categories"
-                ? "grid-cols-3"
-                : "grid-cols-2"
-            }`}
-          >
-            <th
-              className={`text-center md:text-start ${
-                entityName == "users" || entityName == "patients"
-                  ? "col-span-3"
-                  : "col-span-1"
-              }`}
-            >
-              {entityName != "notes" &&
-              entityName != "users" &&
-              entityName != "patients"
-                ? "Titre"
-                : entityName == "patients"
-                ? "Patient"
-                : "Thérapeute"}
-            </th>
-            {(entityName == "categories" || entityName == "pictograms") && (
-              <th className="text-center md:text-start">Image</th>
-            )}
-            {entityName == "notes" && (
-              <>
-                <th className="text-center md:text-start">Patient(e)</th>
-                <th className="text-center md:text-start">Estimation</th>
-              </>
-            )}
-            {entityName == "users" && (
-              <>
-                <th className="text-center md:text-start">Actif</th>
-                <th className="text-center md:text-start">Vérifié</th>
-              </>
-            )}
-            {entityName == "patients" && (
-              <>
-                <th className="text-center md:text-start">Sexe</th>
-                <th className="text-center md:text-start">Grade</th>
-              </>
-            )}
-            {(session.roles.includes("ROLE_ADMIN") || session.roles.includes("ROLE_SUPERADMIN")) && <th
-              className={`text-center ${
-                entityName == "users" || entityName == "patients"
-                  ? "col-span-3"
-                  : "col-span-1"
-              }`}
-            >
-              Actions
-            </th>}
-          </tr>
+          <EntityTableHeader entityName={entityName} session={session} />
           {data?.content &&
             data.content.map((item, i) => (
-              <EntityItem
+              <EntityTableItem
                 key={i}
                 session={session}
                 entity={item}

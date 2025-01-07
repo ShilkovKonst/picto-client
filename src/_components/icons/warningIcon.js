@@ -1,9 +1,7 @@
-import React from 'react'
-
 const WarningIcon = () => {
   return (
     <svg
-      className="cursor-pointer w-6 h-6 text-red-600"
+      className="cursor-pointer w-6 h-6 text-red-600 relative group"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -17,7 +15,7 @@ const WarningIcon = () => {
         clipRule="evenodd"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default WarningIcon
+export default WarningIcon;

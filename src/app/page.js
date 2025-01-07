@@ -1,9 +1,11 @@
 import Accueil from "./Accueil";
 
-export default function Home() {
+export default async function Home(props) {
+  const searchParams = await props.searchParams;
+  const { passwordResetted } = searchParams;
   return (
     <main className="">
-      <Accueil />
+      <Accueil passwordResetted={passwordResetted} />
     </main>
   );
 }

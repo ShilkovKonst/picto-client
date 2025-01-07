@@ -15,6 +15,7 @@ const page = async (props) => {
 
   return (
     <EntityUpdate
+      session={session}
       entity={pictogram}
       entityName={"pictograms"}
       categories={categories}

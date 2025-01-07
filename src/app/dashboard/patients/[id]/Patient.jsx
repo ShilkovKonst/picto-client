@@ -1,8 +1,8 @@
 "use client";
-import EntityHead from "@/_components/dashboard/_entityHead";
-import Accordion from "@/_components/dashboard/_accordion";
 import Link from "next/link";
-import Separator from "@/_components/common/separator";
+import Accordion from "@/_components/dashboard/Accordion";
+import Separator from "@/_components/_shared/atoms/Separator";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
 
 const Patient = ({ patient, notes, session }) => {
   if (patient.user.id != session.id && !session.roles.includes("ROLE_ADMIN"))
@@ -14,7 +14,7 @@ const Patient = ({ patient, notes, session }) => {
   return (
     <>
       <table className="table w-full">
-        <EntityHead session={session} entity={patient} entityName="patients" />
+        <EntityHeader session={session} entity={patient} entityName="patients" />
         <tbody className="w-full">
           <tr className="grid grid-cols-6 text-sm sm:text-base p-2 *:flex *:justify-start *:items-center">
             <Separator n={6} />

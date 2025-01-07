@@ -1,15 +1,15 @@
 "use client";
-import WarningIcon from "@/_components/icons/warningIcon";
-import SuccessIcon from "@/_components/icons/successIcon";
-import { Spinner } from "flowbite-react";
-import UserActions from "@/_components/dashboard/profile/_userActions";
-import Accordion from "@/_components/dashboard/_accordion";
 import { useState } from "react";
 import Link from "next/link";
-import Separator from "@/_components/common/separator";
+import { Spinner } from "flowbite-react";
+import SuccessIcon from "@/_components/icons/successIcon";
+import UserActions from "@/_components/_shared/molecules/UserActions";
+import Accordion from "@/_components/dashboard/Accordion";
+import Separator from "@/_components/_shared/atoms/Separator";
+import PersonWarningBlock from "@/_components/_shared/atoms/PersonWarningBlock";
 
 const UserProfile = ({ session, notes, patients, verify }) => {
-  console.log(session)
+  console.log(notes);
   const [isEmailSent, setIsEmailSent] = useState(false);
   const handleClick = async () => {
     try {
@@ -62,14 +62,11 @@ const UserProfile = ({ session, notes, patients, verify }) => {
                 {session?.active ? (
                   <SuccessIcon />
                 ) : (
-                  <>
-                    <WarningIcon />
-                    <div className="hidden group-hover:block absolute top-6 -right-16 w-52 rounded-lg alert-danger p-4">
-                      <p className="font-normal text-sm text-red-800">
-                        Votre compte est inactif.
-                      </p>
-                    </div>
-                  </>
+                  <PersonWarningBlock
+                    position={"top"}
+                    title={"Votre compte est inactif."}
+                    type={"alert"}
+                  />
                 )}
               </span>
               {session?.active && (
@@ -85,11 +82,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
           {!session && (
             <tr className="h-[205px] flex justify-center items-center">
               <th className="text-start w-[40%] lg:w-[20%]">
-                <Spinner
-                  className=""
-                  size="xl"
-                  aria-label="Loading profile..."
-                />
+                <Spinner size="xl" aria-label="Loading profile..." />
               </th>
             </tr>
           )}
@@ -120,7 +113,15 @@ const UserProfile = ({ session, notes, patients, verify }) => {
                 <td className="col-span-4 text-start">
                   <div className="flex items-center gap-1">
                     {session?.sub}
-                    {session?.verified ? <SuccessIcon /> : <WarningIcon />}
+                    {session?.verified ? (
+                      <SuccessIcon />
+                    ) : (
+                      <PersonWarningBlock
+                        position={"topLeft"}
+                        title={"Votre email n'est pas verifié."}
+                        type={"alert"}
+                      />
+                    )}
                   </div>
                   <div className="">
                     {!session?.verified &&

@@ -9,7 +9,7 @@ const page = async (props) => {
   const pictogram = await getOneById("pictograms", params.id, accessToken);
   pictogram?.status == 404 && notFound();
 
-  return <Pictogram pictogram={pictogram} />;
+  return <Pictogram session={session} pictogram={pictogram} />;
 };
 
 export default page;

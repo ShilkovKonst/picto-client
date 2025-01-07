@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 
-const MediaField = ({ entity, entityName, isSublist }) => {
+const MediaField = ({ entity, isSublist }) => {
   return (
     <div className={`flex justify-center ${!isSublist && "md:justify-start"} items-center`}>
       {entity?.media?.imageFileRes && (

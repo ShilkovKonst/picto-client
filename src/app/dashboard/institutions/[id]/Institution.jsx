@@ -1,7 +1,7 @@
 "use client";
-import Separator from "@/_components/common/separator";
-import Accordion from "@/_components/dashboard/_accordion";
-import EntityHead from "@/_components/dashboard/_entityHead";
+import Separator from "@/_components/_shared/atoms/Separator";
+import Accordion from "@/_components/dashboard/Accordion";
+import EntityHead from "@/_components/_shared/molecules/EntityHeader";
 
 const Institution = ({ institution, users, session }) => {
   return (

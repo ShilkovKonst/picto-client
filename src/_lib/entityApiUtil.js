@@ -119,3 +119,45 @@ export async function getOneById(entityName, id, accessToken) {
   const dataPicto = await responsePicto.json();
   return dataPicto;
 }
+
+// ---------------------CREATE ONE---------------------------
+export async function createOne(formData, entityName) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}`,
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(`${errorDetails.message}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Bad credentials:", error.message);
+  }
+}
+
+// ---------------------UPDATE ONE---------------------------
+export async function updateOne(id, entityName, formData) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
+      {
+        method: "PUT",
+        body: formData,
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(`${errorDetails.message}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Bad credentials:", error.message);
+  }
+}

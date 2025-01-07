@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import EntityHead from "@/_components/dashboard/_entityHead";
-import Separator from "@/_components/common/separator";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Separator from "@/_components/_shared/atoms/Separator";
 
-const Pictogram = ({ pictogram }) => {
+const Pictogram = ({ session, pictogram }) => {
   return (
     <>
       <table className="table w-full">
         {pictogram && (
-          <EntityHead entity={pictogram} entityName={"pictograms"} />
+          <EntityHeader
+            session={session}
+            entity={pictogram}
+            entityName={"pictograms"}
+          />
         )}
         <tbody className="*:grid *:grid-cols-3">
           <tr className="text-sm sm:text-base p-2">

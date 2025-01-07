@@ -1,17 +1,16 @@
 "use client";
-import React from "react";
 import { usePathname } from "next/navigation";
-import EntityForm from "./_entityForm";
-import EntityHead from "../_entityHead";
+import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Form from "@/_components/_forms/cqp/Form";
 
-const EntityUpdate = ({ entity, entityName, categories, questions, tags }) => {
+const EntityUpdate = ({ session, entity, entityName, categories, questions, tags }) => {
   const pathname = usePathname();
   return (
     <>
       <table className="table w-full">
-        <EntityHead entity={entity} entityName={entityName} />
+        <EntityHeader session={session} entity={entity} entityName={entityName} />
       </table>
-      <EntityForm
+      <Form
         entity={entity}
         entityName={entityName}
         pathname={pathname}
