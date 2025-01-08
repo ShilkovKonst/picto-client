@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "../../icons";
-import PasswordDesc from "../../_shared/atoms/PasswordDesc";
+import PasswordDesc from "./PasswordDesc";
 
 const FormPasswordField = ({
   id,
@@ -38,7 +38,7 @@ const FormPasswordField = ({
         ) : (
           <EyeIcon setIsRevealed={setIsRevealed} />
         )}
-        <PasswordDesc defaultValue={defaultValue} />
+        <PasswordDesc defaultValue={defaultValue} invalid={invalid} />
       </div>
     </div>
   );

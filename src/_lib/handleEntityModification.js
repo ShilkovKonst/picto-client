@@ -23,10 +23,11 @@ export const create = async (
 };
 
 export const update = async (
+  router,
+  session,
+  formData,
   entity,
   entityName,
-  router,
-  formData,
   setError,
   setErrorMessage,
   setIsLoading

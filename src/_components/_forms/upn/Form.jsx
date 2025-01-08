@@ -5,7 +5,7 @@ import { create, update } from "@/_lib/handleEntityModification";
 import FormInstitutionBlock from "./FormInstitutionBlock";
 import FormPersonBlock from "./FormPersonBlock";
 import FormNoteBlock from "./FormNoteBlock";
-import ConfirmButton from "@/_components/_shared/atoms/ConfirmButton";
+import ConfirmButton from "@/_components/_shared/ConfirmButton";
 
 const Form = ({
   session,
@@ -89,10 +89,11 @@ const Form = ({
       }
       if (pathname.includes("update")) {
         update(
+          router,
+          session,
+          formData,
           entity,
           entityName,
-          router,
-          formData,
           setError,
           setErrorMessage,
           setIsLoading
@@ -159,91 +160,3 @@ const Form = ({
 };
 
 export default Form;
-
-// const create = async (
-//   router,
-//   formData,
-//   entityName,
-//   setError,
-//   setErrorMessage,
-//   setIsLoading
-// ) => {
-//   const response = await createOne(formData, entityName);
-//   // status 201 - created
-//   if (response.status == 201) {
-//     router.push(`/dashboard/${entityName}/${response.id}`);
-//     router.refresh();
-//   }
-//   if (response.status >= 400) {
-//     setIsLoading(false);
-//     setError(true);
-//     setErrorMessage(response.title);
-//   }
-// };
-
-// const update = async (
-//   entity,
-//   entityName,
-//   router,
-//   formData,
-//   setError,
-//   setErrorMessage,
-//   setIsLoading
-// ) => {
-//   const response = await updateOne(entity.id, entityName, formData);
-//   console.log("response updateOne", response);
-//   // status 202 - accepted
-//   if (response.status == 202) {
-//     entityName == "users" && session.id == entity.id
-//       ? router.push(`/dashboard`)
-//       : router.push(`/dashboard/${entityName}/${response.id}`);
-//     router.refresh();
-//   }
-//   if (response.status >= 400) {
-//     setIsLoading(false);
-//     setError(true);
-//     setErrorMessage(response.title);
-//   }
-// };
-
-// async function createOne(formData, entityName) {
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}`,
-//       {
-//         method: "POST",
-//         body: formData,
-//         credentials: "include",
-//       }
-//     );
-//     if (!response.ok) {
-//       const errorDetails = await response.json();
-//       throw new Error(`${errorDetails.message}`);
-//     }
-//     console.log(response);
-//     return response.json();
-//   } catch (error) {
-//     console.error("Bad credentials:", error.message);
-//   }
-// }
-
-// async function updateOne(id, entityName, formData) {
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
-//       {
-//         method: "PUT",
-//         body: formData,
-//         credentials: "include",
-//       }
-//     );
-//     if (!response.ok) {
-//       const errorDetails = await response.json();
-//       throw new Error(`${errorDetails.message}`);
-//     }
-//     console.log(response);
-//     return response.json();
-//   } catch (error) {
-//     console.error("Bad credentials:", error.message);
-//   }
-// };

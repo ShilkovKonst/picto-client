@@ -9,6 +9,7 @@ const page = async props => {
   const institution = await getOneById("institutions", params.id, accessToken);
   institution?.status == 404 && notFound();
   const users = institution.users;
+  console.log("session", session);
   return <Institution institution={institution} session={session} users={users} />;
 };
 

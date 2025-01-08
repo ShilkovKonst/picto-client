@@ -1,6 +1,6 @@
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 import { getAllAsList, getOneById } from "@/_lib/entityApiUtil";
-import EntityUpdate from "@/_components/dashboard/upnUpdate/EntityUpdate";
+import EntityUpdate from "@/_components/dashboard/upn/EntityUpdate";
 
 const page = async (props) => {
   const { accessToken, session } = getAccessToken();

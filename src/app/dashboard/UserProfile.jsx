@@ -3,14 +3,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { Spinner } from "flowbite-react";
 import SuccessIcon from "@/_components/icons/successIcon";
-import UserActions from "@/_components/_shared/molecules/UserActions";
-import Accordion from "@/_components/dashboard/Accordion";
-import Separator from "@/_components/_shared/atoms/Separator";
-import PersonWarningBlock from "@/_components/_shared/atoms/PersonWarningBlock";
+import UserActions from "@/_components/dashboard/UserActions";
+import Accordion from "@/_components/_shared/Accordion";
+import Separator from "@/_components/_shared/Separator";
+import PersonWarningBlock from "@/_components/dashboard/PersonWarningBlock";
 
 const UserProfile = ({ session, notes, patients, verify }) => {
-  console.log(notes);
   const [isEmailSent, setIsEmailSent] = useState(false);
+
   const handleClick = async () => {
     try {
       const response = await fetch(

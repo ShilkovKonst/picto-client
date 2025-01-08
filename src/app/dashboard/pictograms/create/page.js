@@ -1,4 +1,4 @@
-import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
+import EntityUpdate from "@/_components/dashboard/cqp/EntityUpdate";
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 import { getAllAsList, getAllAsSimpleList } from "@/_lib/entityApiUtil";
 
@@ -9,6 +9,7 @@ const page = async () => {
 
   return (
     <EntityUpdate
+      session={session}
       entity={null}
       entityName={"pictograms"}
       categories={categories}

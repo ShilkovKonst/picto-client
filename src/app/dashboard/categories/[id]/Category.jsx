@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Accordion from "@/_components/dashboard/Accordion";
-import Separator from "@/_components/_shared/atoms/Separator";
-import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Accordion from "@/_components/_shared/Accordion";
+import Separator from "@/_components/_shared/Separator";
+import EntityHeader from "@/_components/dashboard/EntityHeader";
 
 const Category = ({
   session,

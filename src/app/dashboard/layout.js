@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import getAccessToken from "@/_lib/getAccessTokenUtil";
-import DashboardHeader from "@/_components/_shared/blocks/DashboardHeader";
-import DashboardContentList from "@/_components/_shared/molecules/DashboardContentList";
+import DashboardHeader from "@/_components/dashboard/DashboardHeader";
+import DashboardContentList from "@/_components/dashboard/DashboardContentList";
 
 const Layout = ({ children }) => {
   const { accessToken, session } = getAccessToken();

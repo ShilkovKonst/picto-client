@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Label, Spinner } from "flowbite-react";
-import LoadingSpinner from "@/_components/_shared/atoms/LoadingSpinner";
+import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";

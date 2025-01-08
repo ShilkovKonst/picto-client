@@ -1,4 +1,4 @@
-import EntityUpdate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
+import EntityUpdate from "@/_components/dashboard/cqp/EntityUpdate";
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 import {
   getAllAsList,

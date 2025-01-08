@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import Accordion from "@/_components/dashboard/Accordion";
-import Separator from "@/_components/_shared/atoms/Separator";
-import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
+import Accordion from "@/_components/_shared/Accordion";
+import Separator from "@/_components/_shared/Separator";
+import EntityHeader from "@/_components/dashboard/EntityHeader";
 
 const Patient = ({ patient, notes, session }) => {
   if (patient.user.id != session.id && !session.roles.includes("ROLE_ADMIN"))

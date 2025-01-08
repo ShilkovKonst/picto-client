@@ -1,4 +1,4 @@
-import EntityCreate from "@/_components/dashboard/cqpUpdate/EntityUpdate";
+import EntityCreate from "@/_components/dashboard/cqp/EntityUpdate";
 
 const page = () => {
   return <EntityCreate entity={null} entityName="tags" />;

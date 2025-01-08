@@ -1,6 +1,6 @@
 "use client";
-import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
-import Accordion from "@/_components/dashboard/Accordion";
+import EntityHeader from "@/_components/dashboard/EntityHeader";
+import Accordion from "@/_components/_shared/Accordion";
 
 const Question = ({ question, categories, session }) => {
   return (

@@ -1,5 +1,5 @@
 import { Datepicker, Label } from "flowbite-react";
-import LoadingSpinner from "@/_components/_shared/atoms/LoadingSpinner";
+import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
 
 const FormDatepickerField = ({ id, title, defaultValue, handleDateChange }) => {
   return (

@@ -1,4 +1,4 @@
-import LinkButtonForm from "./LinkButtonForm";
+import GuestModeButton from "./GuestModeButton";
 
 
 const GuestMode = () => {
@@ -18,7 +18,7 @@ const GuestMode = () => {
         Vous n&apos;êtes pas un professionnel de santé? Le mode invité vous
         permettra de découvrir notre application en toute liberté
       </p>
-      <LinkButtonForm href={"/seance"} title={"Mode invité"} />
+      <GuestModeButton href={"/seance"} title={"Mode invité"} />
     </div>
   );
 };

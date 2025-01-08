@@ -1,4 +1,4 @@
-import EntityUpdate from "@/_components/dashboard/upnUpdate/EntityUpdate";
+import EntityUpdate from "@/_components/dashboard/upn/EntityUpdate";
 import { getAllAsList } from "@/_lib/entityApiUtil";
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 

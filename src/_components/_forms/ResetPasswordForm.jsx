@@ -1,13 +1,12 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
 import { checkRegex } from "@/_lib/checkRegex";
 import FormEmailField from "./shared/FormEmailField";
 import FormPasswordField from "./shared/FormPasswordField";
-import ConfirmButton from "../_shared/atoms/ConfirmButton";
-import LoadingSpinner from "../_shared/atoms/LoadingSpinner";
+import ConfirmButton from "../_shared/ConfirmButton";
+import LoadingSpinner from "../_shared/LoadingSpinner";
 
 const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
   const router = useRouter();
@@ -156,12 +155,12 @@ const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
           title={token?.id ? "Réinitialiser" : "Verifier"}
         />
       </div>
-      <Link
+      {/* <Link
         href="/"
         className="pl-1 cursor-pointer underline text-sm leading-loose font-bold hover:text-secondary transition duration-150"
       >
-        Retourner à la page d'accueil.
-      </Link>
+        Retourner à la page d'accueil
+      </Link> */}
     </form>
   );
 };

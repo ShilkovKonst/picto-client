@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import Pagination from "./Pagination";
-import EntityTableItem from "../_shared/EntityTableItem";
-import EntityTableHeader from "../_shared/EntityTableHeader";
-import EntityListHeader from "@/_components/_shared/molecules/EntityListHeader";
+import Pagination from "@/_components/_shared/Pagination";
+import EntityTableItem from "@/_components/dashboard/EntityTableItem";
+import EntityTableHeader from "@/_components/dashboard/EntityTableHeader";
+import EntityListHeader from "@/_components/dashboard/EntityListHeader";
 
 const EntityList = ({ data, session, entityName }) => {
   const [itemsPerPage, setItemsPerPage] = useState(0);

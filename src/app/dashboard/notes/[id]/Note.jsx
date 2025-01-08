@@ -1,6 +1,6 @@
 "use client";
-import Separator from "@/_components/_shared/atoms/Separator";
-import EntityHead from "@/_components/_shared/molecules/EntityHeader";
+import Separator from "@/_components/_shared/Separator";
+import EntityHead from "@/_components/dashboard/EntityHeader";
 import Link from "next/link";
 
 const Note = ({ note, session }) => {

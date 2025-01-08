@@ -1,9 +1,9 @@
 "use client";
-import EntityHead from "@/_components/_shared/molecules/EntityHeader";
-import Accordion from "@/_components/dashboard/Accordion";
+import EntityHead from "@/_components/dashboard/EntityHeader";
+import Accordion from "@/_components/_shared/Accordion";
 import { SuccessIcon, WarningIcon } from "@/_components/icons";
 import Link from "next/link";
-import Separator from "@/_components/_shared/atoms/Separator";
+import Separator from "@/_components/_shared/Separator";
 
 const User = ({ user, session, patients, notes }) => {
   return (

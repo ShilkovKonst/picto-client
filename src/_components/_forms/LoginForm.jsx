@@ -6,8 +6,8 @@ import { checkRegex } from "@/_lib/checkRegex";
 import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
 import FormPasswordField from "@/_components/_forms/shared/FormPasswordField";
 import FormEmailField from "@/_components/_forms/shared/FormEmailField";
-import ConfirmButton from "@/_components/_shared/atoms/ConfirmButton";
-import LoadingSpinner from "@/_components/_shared/atoms/LoadingSpinner";
+import ConfirmButton from "@/_components/_shared/ConfirmButton";
+import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
 
 const LoginForm = ({ passwordResetted }) => {
   const router = useRouter();
@@ -93,7 +93,7 @@ const LoginForm = ({ passwordResetted }) => {
               invalid={invalidPassword}
             />
             <Link
-              href="/reset-password"
+              href="/accueil/reset-password"
               className="pl-1 cursor-pointer underline text-sm leading-loose font-bold hover:text-secondary transition duration-150"
             >
               Mot de passe oublié ?
@@ -104,7 +104,10 @@ const LoginForm = ({ passwordResetted }) => {
           </div>
         </form>
       ) : (
-        <LoadingSpinner text={"Signing in..."} size={"xl"} height={244} />
+      <div className="flex justify-center items-center h-[244px]">
+        <LoadingSpinner text={"Signing in..."} size={"xl"}/>
+      </div>
+        
       )}
     </div>
   );

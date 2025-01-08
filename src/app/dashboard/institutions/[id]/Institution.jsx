@@ -1,13 +1,13 @@
 "use client";
-import Separator from "@/_components/_shared/atoms/Separator";
-import Accordion from "@/_components/dashboard/Accordion";
-import EntityHead from "@/_components/_shared/molecules/EntityHeader";
+import Separator from "@/_components/_shared/Separator";
+import Accordion from "@/_components/_shared/Accordion";
+import EntityHead from "@/_components/dashboard/EntityHeader";
 
 const Institution = ({ institution, users, session }) => {
   return (
     <>
       <table className="table w-full">
-        <EntityHead entity={institution} entityName="institutions" />
+        <EntityHead session={session} entity={institution} entityName="institutions" />
         <tbody className="w-full">
           <tr className="grid grid-cols-5 text-sm sm:text-base p-2">
           <Separator n={5} />

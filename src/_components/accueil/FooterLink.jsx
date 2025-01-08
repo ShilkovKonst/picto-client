@@ -2,7 +2,10 @@ import Link from "next/link";
 
 const FooterLink = ({ href, title }) => {
   return (
-    <Link className="hover:text-secondary underline transition duration-150" href={href}>
+    <Link
+      className="pl-1 cursor-pointer underline text-sm leading-loose font-bold hover:text-secondary transition duration-150"
+      href={href}
+    >
       {title}
     </Link>
   );

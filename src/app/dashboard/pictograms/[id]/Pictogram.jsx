@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import EntityHeader from "@/_components/_shared/molecules/EntityHeader";
-import Separator from "@/_components/_shared/atoms/Separator";
+import EntityHeader from "@/_components/dashboard/EntityHeader";
+import Separator from "@/_components/_shared/Separator";
 
 const Pictogram = ({ session, pictogram }) => {
   return (
