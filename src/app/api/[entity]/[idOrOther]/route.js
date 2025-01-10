@@ -1,3 +1,4 @@
+import { getCsrfToken } from "@/_lib/getCsrfToken";
 import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
@@ -23,23 +24,7 @@ export async function PUT(req, props) {
   const params = await props.params;
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
-  const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: cookies,
-      },
-      credentials: "include",
-    }
-  );
-  if (!csrfTokenResponse.ok) {
-    return NextResponse.json(
-      { message: "Failed to fetch csrf-token" },
-      { status: csrfTokenResponse.status }
-    );
-  }
-  const csrfData = await csrfTokenResponse.json();
+  const csrfData = await getCsrfToken(cookies);
   const csrfToken = csrfData.token;
 
   // send request to server with body, update entity
@@ -85,23 +70,7 @@ export async function DELETE(req, props) {
   const params = await props.params;
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
-  const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: cookies,
-      },
-      credentials: "include",
-    }
-  );
-  if (!csrfTokenResponse.ok) {
-    return NextResponse.json(
-      { message: "Failed to fetch csrf-token" },
-      { status: csrfTokenResponse.status }
-    );
-  }
-  const csrfData = await csrfTokenResponse.json();
+  const csrfData = await getCsrfToken(cookies);
   const csrfToken = csrfData.token;
 
   // send request to server, delete entity
@@ -164,7 +133,7 @@ async function getOne(entityName, id, accessToken) {
     //   notFound();
     // }
     return NextResponse.json(
-      { message: "Failed to fetch entity", status: response.status},
+      { message: "Failed to fetch entity", status: response.status },
       { status: response.status }
     );
   }

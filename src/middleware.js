@@ -107,7 +107,7 @@ const refreshSession = async (request) => {
   const cookies = request.headers.get("cookie");
   try {
     const res = await fetch(
-      `${process.env.CLIENT_API_BASE_URL}/api/auth/refresh`,
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/auth/refresh`,
       {
         method: "POST",
         headers: {

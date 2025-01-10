@@ -8,13 +8,13 @@ const page = async (props) => {
   const patients = await getAllByOtherAsList(
     "patients",
     "user",
-    session.id,
+    session?.id,
     accessToken
   );
   const notes = await getAllByOtherAsList(
     "notes",
     "user",
-    session.id,
+    session?.id,
     accessToken
   );
   const { verify } = searchParams;
@@ -22,7 +22,7 @@ const page = async (props) => {
   return (
     <UserProfile
       session={session}
-      notes={notes.map((note) => ({
+      notes={notes?.map((note) => ({
         ...note,
         user: null,
         patient:

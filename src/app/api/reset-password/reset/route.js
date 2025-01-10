@@ -5,7 +5,7 @@ export async function GET(req) {
   const searchParams = req?.nextUrl?.searchParams;
   const { token } = Object.fromEntries(searchParams.entries());
   const response = NextResponse.redirect(
-    `${process.env.CLIENT_API_BASE_URL}/reset-password`
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/reset-password`
   );
   response.cookies.set("reset-token", token, {
     httpOnly: true,
@@ -17,24 +17,6 @@ export async function GET(req) {
 
 export async function POST(req) {
   const cookies = req.headers.get("cookie");
-  // const csrfTokenResponse = await fetch(
-  //   `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-  //   {
-  //     method: "GET",
-  //     headers: {
-  //       "Cookie": cookies,
-  //     },
-  //     credentials: "include",
-  //   }
-  // );
-
-  // if (!csrfTokenResponse.ok) {
-  //   return NextResponse.json(
-  //     { message: "Failed to fetch csrf-token" },
-  //     { status: csrfTokenResponse.status }
-  //   );
-  // }
-  // const csrfData = await csrfTokenResponse.json();
   const csrfData = await getCsrfToken(cookies);
 
   const csrfToken = csrfData.token;
@@ -47,7 +29,7 @@ export async function POST(req) {
       { status: 400 }
     );
   }
-
+  
   try {
     const response = await fetch(
       `${process.env.SERVER_BASE_URL}/auth/reset-password/reset`,

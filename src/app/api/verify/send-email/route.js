@@ -1,3 +1,4 @@
+import { getCsrfToken } from "@/_lib/getCsrfToken";
 import { jwtDecode } from "jwt-decode";
 import { NextResponse } from "next/server";
 
@@ -5,23 +6,7 @@ export async function POST(req) {
   // getting CSRF token
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
-  const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: cookies,
-      },
-      credentials: "include",
-    }
-  );
-  if (!csrfTokenResponse.ok) {
-    return NextResponse.json(
-      { message: "Failed to fetch csrf-token" },
-      { status: csrfTokenResponse.status }
-    );
-  }
-  const csrfData = await csrfTokenResponse.json();
+  const csrfData = await getCsrfToken(cookies);
   const csrfToken = csrfData.token;
 
   // generating verification token

@@ -1,25 +1,9 @@
+import { getCsrfToken } from "@/_lib/getCsrfToken";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const cookies = req.headers.get("cookie");
-  const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-    {
-      method: "GET",
-      headers: {
-        "Cookie": cookies, 
-      },
-      credentials: "include",
-    }
-  );
-
-  if (!csrfTokenResponse.ok) {
-    return NextResponse.json(
-      { message: "Failed to fetch csrf-token" },
-      { status: csrfTokenResponse.status }
-    );
-  }
-  const csrfData = await csrfTokenResponse.json();
+  const csrfData = await getCsrfToken(cookies);
   const csrfToken = csrfData.token;
 
   try {
@@ -45,7 +29,6 @@ export async function POST(req) {
     const res = NextResponse.json(data);
     res.headers.append("Set-Cookie", setCookieHeader);
     return res;
-
   } catch (error) {
     console.error("Error refreshing access-token:", error.message);
     return NextResponse.json(

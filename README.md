@@ -1,4 +1,4 @@
-# Picto Client
+# PictoPicto Client
 This is the client-side application for a project aimed at enhancing communication through pictograms. 
 Designed exclusively for healthcare professionals, the app allows users to monitor patient progress and customize pictogram sets. 
 A guest mode is also available for non-professionals to explore the app freely.

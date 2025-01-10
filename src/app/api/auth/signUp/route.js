@@ -3,25 +3,9 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
-  const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
-    {
-      method: "GET",
-      headers: {
-        Cookie: cookies,
-      },
-      credentials: "include",
-    }
-  );
-  if (!csrfTokenResponse.ok) {
-    return NextResponse.json(
-      { message: "Failed to fetch csrf-token" },
-      { status: csrfTokenResponse.status }
-    );
-  }
-  const csrfData = await csrfTokenResponse.json();
+  const csrfData = await getCsrfToken(cookies);
   const csrfToken = csrfData.token;
-  
+
   let requestBody;
   try {
     requestBody = await req.json(); // parse request body to apropriate format
@@ -33,7 +17,7 @@ export async function POST(req) {
   }
 
   try {
-    console.log("requestBody from sign up api route", requestBody)
+    console.log("requestBody from sign up api route", requestBody);
     const response = await fetch(`${process.env.SERVER_BASE_URL}/auth/signUp`, {
       method: "POST",
       body: JSON.stringify(requestBody),
@@ -44,9 +28,8 @@ export async function POST(req) {
       },
       credentials: "include",
     });
-    const data = await response.json()
+    const data = await response.json();
     return NextResponse.json(data);
-
   } catch (error) {
     console.error("Error creating user:", error.message);
     return NextResponse.json(

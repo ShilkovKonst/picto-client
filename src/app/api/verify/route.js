@@ -7,7 +7,7 @@ export async function GET(req) {
   const session = jwtDecode(accessToken.value);
   if (session.verified){
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard`
     );
   }
 
@@ -15,7 +15,7 @@ export async function GET(req) {
   const cookies = req.headers.get("cookie");
   // retrieve CSRF token from server
   const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/csrf`,
     {
       method: "GET",
       headers: {
@@ -49,7 +49,7 @@ export async function GET(req) {
   console.log("verify api route verifyTokenResponse", verifyTokenResponse);
   if (verifyTokenResponse.ok) {
     const response = NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard?verify=success`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard?verify=success`
     );
     response.cookies.set("accessToken", "", {
       httpOnly: true,
@@ -61,7 +61,7 @@ export async function GET(req) {
     return response;
   } else {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard?verify=failure`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard?verify=failure`
     );
   }
 }
