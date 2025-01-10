@@ -3,6 +3,7 @@ import Link from "next/link";
 import Accordion from "@/_components/_shared/Accordion";
 import Separator from "@/_components/_shared/Separator";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
+import { FaMars, FaVenus } from "react-icons/fa6";
 
 const Patient = ({ patient, notes, session }) => {
   if (patient.user.id != session.id && !session.roles.includes("ROLE_ADMIN"))
@@ -14,12 +15,27 @@ const Patient = ({ patient, notes, session }) => {
   return (
     <>
       <table className="table w-full">
-        <EntityHeader session={session} entity={patient} entityName="patients" />
+        <EntityHeader
+          session={session}
+          entity={patient}
+          entityName="patients"
+        />
         <tbody className="w-full">
           <tr className="grid grid-cols-6 text-sm sm:text-base p-2 *:flex *:justify-start *:items-center">
             <Separator n={6} />
             <th className="col-span-2 text-sm text-start py-1">Sexe</th>
-            <td className="col-span-4 text-start ml-2 py-1">{patient?.sex}</td>
+            <td className="col-span-4 text-start ml-2 py-1">
+              {patient?.sex == "homme" && (
+                <FaMars
+                  className={"w-6 h-6"}
+                />
+              )}
+              {patient?.sex == "femme" && (
+                <FaVenus
+                  className={"w-6 h-6"}
+                />
+              )}
+            </td>
             <Separator n={6} />
             <th className="col-span-2 text-sm text-start py-1">Grade</th>
             <td className="col-span-4 text-start ml-2 py-1">

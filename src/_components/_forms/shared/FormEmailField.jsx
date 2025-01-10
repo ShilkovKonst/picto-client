@@ -9,7 +9,7 @@ const FormEmailField = ({
 }) => {
   return (
     <div>
-      {withLabel != false && <label htmlFor={id}>{title}</label>}
+      {withLabel != false && <label className="text-sm font-medium text-gray-900" htmlFor={id}>{title}</label>}
       <input
         id={id}
         name={id}

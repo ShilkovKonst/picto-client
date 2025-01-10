@@ -12,11 +12,6 @@ import {
 
 export const userRolelist = (pathname, perPage, catType, pictoType) => [
   {
-    title: "Profile",
-    url: "/dashboard",
-    icon: <HomeIcon pathname={pathname} />,
-  },
-  {
     title: "Questions",
     url: `/dashboard/questions?size=${perPage}`,
     icon: <QuestionsIcon pathname={pathname} />,

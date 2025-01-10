@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export const getCsrfToken = async (cookies) => {
   const csrfTokenResponse = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/csrf`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/csrf`,
     {
       method: "GET",
       headers: {

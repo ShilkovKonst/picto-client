@@ -2,24 +2,22 @@ import { BrainIcon, SpeechIcon, UpdateIcon } from "@/_components/icons";
 import LinkAction from "../_shared/LinkAction";
 import DeleteAction from "../_shared/DeleteAction";
 import ButtonAction from "../_shared/ButtonAction";
-import { textToSpeech } from "@/_lib/textToSpeechUtil";
+import { textToSpeech } from "@/_lib/textToSpeech";
+import {
+  isAdmin,
+  isSuperAdmin,
+  isNotInstitutionsOrUsersOrPatients,
+  isSessionsInstitution,
+  isSessionsPatientOrNote,
+} from "@/_lib/checkConditions";
 
 const EntityHeaderActions = ({ session, entity, entityName }) => {
-  const isAdmin = session.roles.includes("ROLE_ADMIN");
-  const isSuperAdmin = session.roles.includes("ROLE_SUPERADMIN");
-  const isNotSessionUser = entityName == "users" && entity?.id != session.id;
-  const isSessionsInstitution =
-    entityName == "users" && entity?.institution.id == session.institution.id;
-  const isSessionsPatientOrNote =
-    (entityName == "patients" || entityName == "notes") &&
-    entity?.user?.id == session.id;
-  const isSessionsInstitutionsPatientOrNote =
-    (entityName == "patients" || entityName == "notes") &&
-    entity?.user?.institution?.id == session.institution.id;
-  const isNotInstitutionsOrUsersOrPatients =
-    entityName != "institutions" &&
-    entityName != "users" &&
-    entityName != "patients";
+  const updateDeleteCondition =
+    isSuperAdmin(session) ||
+    isSessionsPatientOrNote(session, entityName, entity) ||
+    (isAdmin(session) &&
+      (isSessionsInstitution(session, entityName, entity) ||
+        isNotInstitutionsOrUsersOrPatients(entityName)));
 
   return (
     <div className="flex ml-3 flex-row items-center justify-evenly md:justify-end gap-3">
@@ -46,30 +44,19 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
           type="info"
         />
       )}
-      {session.active &&
-        session.verified &&
-        (isSuperAdmin ||
-          isSessionsPatientOrNote ||
-          (isSessionsInstitution && isAdmin) ||
-          (isNotInstitutionsOrUsersOrPatients && isAdmin)) && (
-          <LinkAction
-            isSublist={false}
-            href={`/dashboard/${entityName}/${entity.id}/update`}
-            icon={<UpdateIcon isSublist={false} />}
-            title={"Modifier"}
-            position={"top"}
-            type="info"
-          />
-        )}
-      {session.active &&
-        session.verified &&
-        (isSuperAdmin ||
-          isSessionsPatientOrNote ||
-          (isSessionsInstitution && isAdmin) ||
-          (isNotInstitutionsOrUsersOrPatients && isAdmin) ||
-          (isSessionsInstitutionsPatientOrNote && isAdmin)) && (
-          <DeleteAction entity={entity} entityName={entityName} />
-        )}
+      {session.active && session.verified && updateDeleteCondition && (
+        <LinkAction
+          isSublist={false}
+          href={`/dashboard/${entityName}/${entity.id}/update`}
+          icon={<UpdateIcon isSublist={false} />}
+          title={"Modifier"}
+          position={"top"}
+          type="info"
+        />
+      )}
+      {session.active && session.verified && updateDeleteCondition && (
+        <DeleteAction entity={entity} entityName={entityName} />
+      )}
     </div>
   );
 };

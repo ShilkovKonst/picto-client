@@ -7,6 +7,7 @@ import {
   userRolelist,
 } from "@/_constants/contentLists";
 import DashboardContentItem from "./DashboardContentItem";
+import { HomeIcon } from "../icons";
 
 const DashboardContentList = ({ session }) => {
   const pathname = usePathname();
@@ -32,20 +33,44 @@ const DashboardContentList = ({ session }) => {
 
   return (
     <ul className="flex flex-row justify-between items-center w-full md:w-auto md:block mb-3 md:mb-0 md:mr-3 p-4 bg-pform shadow-inset-5/5 rounded-xl border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059] md:space-y-4 text-left text-gray-500">
-      {session &&
-        session.roles.includes("ROLE_USER") &&
-        userRolelist(pathname, perPage, catType, pictoType).map((item, i) => (
-          <DashboardContentItem key={i} item={item} pathname={pathname} />
-        ))}
+      <DashboardContentItem
+        title={"Profile"}
+        url={"/dashboard"}
+        icon={<HomeIcon pathname={pathname} />}
+        pathname={pathname}
+      />
       {session &&
         session.roles.includes("ROLE_SUPERADMIN") &&
         superAdminRoleList(pathname, perPage).map((item, i) => (
-          <DashboardContentItem key={i} item={item} pathname={pathname} />
+          <DashboardContentItem
+            key={i}
+            title={item.title}
+            url={item.url}
+            icon={item.icon}
+            pathname={pathname}
+          />
         ))}
       {session &&
         session.roles.includes("ROLE_ADMIN") &&
         adminRoleList(pathname, perPage).map((item, i) => (
-          <DashboardContentItem key={i} item={item} pathname={pathname} />
+          <DashboardContentItem
+            key={i}
+            title={item.title}
+            url={item.url}
+            icon={item.icon}
+            pathname={pathname}
+          />
+        ))}
+      {session &&
+        session.roles.includes("ROLE_USER") &&
+        userRolelist(pathname, perPage, catType, pictoType).map((item, i) => (
+          <DashboardContentItem
+            key={i}
+            title={item.title}
+            url={item.url}
+            icon={item.icon}
+            pathname={pathname}
+          />
         ))}
     </ul>
   );

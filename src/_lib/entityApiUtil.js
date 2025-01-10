@@ -1,7 +1,7 @@
 // ---------------------GET ALL---------------------------
 export async function getAllAsPage(entityName, page, size, accessToken) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}?page=${page}&size=${size}`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}?page=${page}&size=${size}`,
     {
       method: "GET",
       headers: {
@@ -16,7 +16,7 @@ export async function getAllAsPage(entityName, page, size, accessToken) {
 }
 export async function getAllAsList(entityName, accessToken) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}?asList=true`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}?asList=true`,
     {
       method: "GET",
       headers: {
@@ -32,7 +32,7 @@ export async function getAllAsList(entityName, accessToken) {
 
 export async function getAllAsSimpleList(entityName, accessToken) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}?asList=true&simple=true`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}?asList=true&simple=true`,
     {
       method: "GET",
       headers: {
@@ -48,7 +48,7 @@ export async function getAllAsSimpleList(entityName, accessToken) {
 
 export async function getAllAsSimpleListForSignUp(entityName) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}?signup=true`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}?signup=true`,
     {
       method: "GET",
       next: { revalidate: parseInt(process.env.REVALIDATE) }
@@ -68,7 +68,7 @@ export async function getAllByOtherAsPage(
   accessToken
 ) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?page=${page}&size=${size}`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?page=${page}&size=${size}`,
     {
       method: "GET",
       headers: {
@@ -89,7 +89,7 @@ export async function getAllByOtherAsList(
   accessToken
 ) {
   const response = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?asList=true`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?asList=true`,
     {
       method: "GET",
       headers: {
@@ -106,7 +106,7 @@ export async function getAllByOtherAsList(
 // ---------------------GET ONE---------------------------
 export async function getOneById(entityName, id, accessToken) {
   const responsePicto = await fetch(
-    `${process.env.CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
     {
       method: "GET",
       headers: {
@@ -149,6 +149,27 @@ export async function updateOne(id, entityName, formData) {
       {
         method: "PUT",
         body: formData,
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      const errorDetails = await response.json();
+      throw new Error(`${errorDetails.message}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error("Bad credentials:", error.message);
+  }
+}
+
+// ---------------------DELETE ONE---------------------------
+
+export async function deleteOneById(id, entityName) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
+      {
+        method: "DELETE",
         credentials: "include",
       }
     );

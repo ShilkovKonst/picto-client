@@ -2,8 +2,9 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteModal from "./DeleteModal";
-import ButtonButtonAction from "./ButtonAction";
+import ButtonAction from "./ButtonAction";
 import { RemoveIcon } from "@/_components/icons";
+import { deleteOneById } from "@/_lib/entityApiUtil";
 
 const DeleteAction = ({ entity, entityName, isSublist }) => {
   const pathname = usePathname();
@@ -29,7 +30,7 @@ const DeleteAction = ({ entity, entityName, isSublist }) => {
 
   return (
     <>
-      <ButtonButtonAction
+      <ButtonAction
         handleClick={() => setToDelete(true)}
         isSublist={isSublist}
         icon={<RemoveIcon isSublist={isSublist} />}
@@ -49,21 +50,21 @@ const DeleteAction = ({ entity, entityName, isSublist }) => {
 
 export default DeleteAction;
 
-async function deleteOneById(id, entityName) {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
-    if (!response.ok) {
-      const errorDetails = await response.json();
-      throw new Error(`${errorDetails.message}`);
-    }
-    return response.json();
-  } catch (error) {
-    console.error("Bad credentials:", error.message);
-  }
-}
+// async function deleteOneById(id, entityName) {
+//   try {
+//     const response = await fetch(
+//       `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
+//       {
+//         method: "DELETE",
+//         credentials: "include",
+//       }
+//     );
+//     if (!response.ok) {
+//       const errorDetails = await response.json();
+//       throw new Error(`${errorDetails.message}`);
+//     }
+//     return response.json();
+//   } catch (error) {
+//     console.error("Bad credentials:", error.message);
+//   }
+// }

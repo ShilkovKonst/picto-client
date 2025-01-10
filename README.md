@@ -23,9 +23,16 @@ The project follows a modular and organized structure:
 - src/app: The Next.js folder-based routing system for handling pages and APIs
 For more information on Next.js routing, visit the [`official documentation`](https://nextjs.org/docs/14/getting-started/project-structure).
 
-## Getting Started
+## Getting Started on local machine
+First, create *.env.local* file with 
+```bash
+SERVER_BASE_URL=http://localhost:8080/api/gateway
+NEXT_PUBLIC_CLIENT_API_BASE_URL=http://localhost:3000
+REVALIDATE=0
+```
+This project works only when [`application server`](https://gitlab.com/ShilkovKonst/picto_microservices_spring/-/tree/konstantin) is up and running!
 
-First, run the development server:
+Second, run the development server:
 
 ```bash
 npm run dev

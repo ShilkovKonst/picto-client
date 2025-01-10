@@ -5,7 +5,7 @@ import LinkButtonAction from "../_shared/LinkAction";
 const EntityTableHeader = ({ entityName, session }) => {
   return (
     <tr
-      className={`grid justify-between items-center text-sm sm:text-base pt-4 pb-2 border-b border-gray-300 ${
+      className={`grid justify-between items-center *:text-sm *:md:text-base pt-4 pb-2 border-b border-gray-300 ${
         entityName == "users" || entityName == "patients"
           ? "grid-cols-8"
           : entityName == "notes"
@@ -17,8 +17,11 @@ const EntityTableHeader = ({ entityName, session }) => {
     >
       <th
         className={`text-center md:text-start ${
-          entityName == "users" || entityName == "patients"
-            ? "col-span-3"
+          (entityName == "users" || entityName == "patients") &&
+          session.roles.includes("ROLE_SUPERADMIN")
+            ? "col-span-2"
+            : entityName == "users" || entityName == "patients"
+            ? "col-span-4"
             : "col-span-1"
         }`}
       >
@@ -30,6 +33,9 @@ const EntityTableHeader = ({ entityName, session }) => {
           ? "Patient"
           : "Thérapeute"}
       </th>
+      {(entityName == "users" || entityName == "patients") && session.roles.includes("ROLE_SUPERADMIN") && (
+        <th className="text-center md:text-start col-span-2">Institution</th>
+      )}
       {(entityName == "categories" || entityName == "pictograms") && (
         <th className="text-center md:text-start">Image</th>
       )}
@@ -54,11 +60,11 @@ const EntityTableHeader = ({ entityName, session }) => {
       <th
         className={`relative text-center ${
           entityName == "users" || entityName == "patients"
-            ? "col-span-3"
+            ? "col-span-2"
             : "col-span-1"
         }`}
       >
-        <p>Actions</p>
+        <p className="mr-2 md:mr-0">Actions</p>
         {/* !!!!! UNCOMMENT AFTER TESTS !!!!! */}
         {session.active &&
           session.verified &&

@@ -6,6 +6,7 @@ import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
 import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormDatepickerField from "../shared/FormDatepickerField";
+import FormEmailField from "../shared/FormEmailField";
 
 const FormPersonBlock = ({
   session,
@@ -22,6 +23,7 @@ const FormPersonBlock = ({
     entityName == "users" &&
       setForm({
         ...form,
+        email: entity?.email ?? "",
         lastName: entity?.lastName ?? "",
         firstName: entity?.firstName ?? "",
         phoneNumber: entity?.phoneNumber ?? "",
@@ -174,7 +176,7 @@ const FormPersonBlock = ({
               )}
             </div>
           )}
-          {(session?.roles?.includes("ROLE_ADMIN") || //  <-- ROLE_SUPERADMIN
+          {(session?.roles?.includes("ROLE_ADMIN") || 
             entity?.user?.id == session?.id) &&
           (entity == null || form.active != undefined) ? (
             <FormCheckboxField
@@ -188,7 +190,7 @@ const FormPersonBlock = ({
             <Spinner size={"sm"} aria-label="Loading active..." />
           )}
           {entityName == "users" &&
-            session?.roles?.includes("ROLE_ADMIN") && // <-- ROLE_SUPERADMIN
+            session?.roles?.includes("ROLE_ADMIN") && 
             (entity == null || form.verified != undefined ? (
               <FormCheckboxField
                 id={"verified"}
@@ -209,6 +211,15 @@ const FormPersonBlock = ({
             handleDateChange={handleDateChange}
           />
         )}
+        {entityName == "users" &&
+          session?.roles?.includes("ROLE_SUPERADMIN") && (
+            <FormEmailField
+              id={"email"}
+              title={"Email"}
+              defaultValue={form.email}
+              handleChange={handleChange}
+            />
+          )}
       </div>
 
       {entityName == "users" && (
@@ -225,9 +236,9 @@ const FormPersonBlock = ({
           ) : (
             <LoadingSpinner text={"Loading Institution..."} />
           )}
-          {session?.roles?.includes("ROLE_ADMIN") && ( // <-- ROLE_SUPERADMIN
+          {session?.roles?.includes("ROLE_ADMIN") && ( 
             <div>
-              <p>Rôles:</p>
+              <p className="text-sm font-medium text-gray-900">Rôles:</p>
               {form?.roles ? (
                 roles
                   ?.filter((r) => {

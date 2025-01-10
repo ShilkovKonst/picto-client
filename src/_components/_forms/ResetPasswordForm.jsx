@@ -65,7 +65,7 @@ const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
         console.error("Bad credentials:", error.message);
       }
     }
-    if (token.id && isTokenValid(token.exp)) {
+    if (token && isTokenValid(token.exp)) {
       console.log("reset password after receiving email with token");
       try {
         const responseApi = await fetch("/api/reset-password/reset", {
@@ -85,10 +85,9 @@ const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
         }
       } catch (error) {
         console.error("Bad credentials:", error.message);
+        setIsError(true);
+        setErrorMessage("Le token est expiré");
       }
-    } else {
-      setIsError(true);
-      setErrorMessage("Le token est expiré");
     }
   };
 
@@ -155,12 +154,6 @@ const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
           title={token?.id ? "Réinitialiser" : "Verifier"}
         />
       </div>
-      {/* <Link
-        href="/"
-        className="pl-1 cursor-pointer underline text-sm leading-loose font-bold hover:text-secondary transition duration-150"
-      >
-        Retourner à la page d'accueil
-      </Link> */}
     </form>
   );
 };

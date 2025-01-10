@@ -41,7 +41,7 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
                 ? "col-span-2 grid-cols-2"
                 : "grid-cols-1"
               : entityName == "users" || entityName == "patients"
-              ? "col-span-5 grid-cols-5"
+              ? "col-span-6 grid-cols-6"
               : entityName == "notes"
               ? "col-span-3 grid-cols-3"
               : entityName == "pictograms" || entityName == "categories"
@@ -52,14 +52,17 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
           {entityName != "notes" && (
             <div
               className={`flex justify-center items-center text-center md:text-start ${
-                entityName == "users" || entityName == "patients"
-                  ? "col-span-3"
+                (entityName == "users" || entityName == "patients") &&
+                session.roles.includes("ROLE_SUPERADMIN")
+                  ? "col-span-2"
+                  : entityName == "users" || entityName == "patients"
+                  ? "col-span-4"
                   : "col-span-1"
               } ${
                 isSublist ? "before:py-[24px]" : "before:py-[27px]"
               } before:me-1 before:h-0 before:w-1 before:bg-transparent group-hover/item:before:bg-primary `}
             >
-              <p className="w-full text-center md:text-start capitalize">
+              <p className="w-full text-sm md:text-base text-center md:text-start capitalize">
                 {entityName == "notes"
                   ? entity.user.firstName.slice(0, 1) +
                     ". " +
@@ -68,6 +71,11 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
                   ? entity.firstName.slice(0, 1) + ". " + entity.lastName
                   : entity?.title}
               </p>
+            </div>
+          )}
+          {(entityName == "users" || entityName == "patients") && session.roles.includes("ROLE_SUPERADMIN") && (
+            <div className="flex justify-center md:justify-start items-center text-sm md:text-base col-span-2">
+              {entityName == "users" ? entity?.institution?.title : entity?.user?.institution?.title}
             </div>
           )}
           {(entityName == "categories" || entityName == "pictograms") && (
@@ -90,7 +98,7 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
         <div
           className={`flex items-center justify-center ${
             !isSublist && (entityName == "users" || entityName == "patients")
-              ? "col-span-3"
+              ? "col-span-2"
               : "col-span-1"
           }`}
         >

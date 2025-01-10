@@ -3,6 +3,11 @@ import getAccessToken from "@/_lib/getAccessTokenUtil";
 import DashboardHeader from "@/_components/dashboard/DashboardHeader";
 import DashboardContentList from "@/_components/dashboard/DashboardContentList";
 
+export const metadata = {
+  title: "Tableau de bord | PictoPicto",
+  description: "Tableau de bord",
+};
+
 const Layout = ({ children }) => {
   const { accessToken, session } = getAccessToken();
   return (

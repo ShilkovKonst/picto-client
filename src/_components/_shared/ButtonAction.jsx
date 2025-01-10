@@ -14,7 +14,7 @@ const ButtonAction = ({
     "font-bold tracking-[1.25px] outline-none text-xs sm:text-sm";
   const appearenceClasses =
     "bg-primary hover:bg-secondary transition ease-in-out duration-300 rounded-3xl border-none";
-  const conditionClasses = isSublist ? "w-6 h-6 md:w-8" : "w-8 h-8";
+  const conditionClasses = isSublist ? "w-6 h-6 md:w-8" : "w-6 h-6 md:w-8 md:h-8";
 
   return (
     <button
