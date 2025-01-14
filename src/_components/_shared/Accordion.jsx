@@ -3,7 +3,7 @@ import EntityTableItem from "../dashboard/EntityTableItem";
 import { usePathname } from "next/navigation";
 import { CreateIcon } from "@/_components/icons";
 import AccordionHeaderButton from "./AccordionHeaderButton";
-import LinkButtonAction from "./LinkAction";
+import LinkAction from "./LinkAction";
 
 const Accordion = ({ initial, entities, session, user, patient }) => {
   const pathname = usePathname();
@@ -36,7 +36,7 @@ const Accordion = ({ initial, entities, session, user, patient }) => {
                   : entList.name == "categories" || entList.name == "pictograms"
                   ? "3"
                   : "2"
-              } *:border-l-0 *:border-r-0 *:border-t-0 *:border-b-0 mb-1`}
+              } *:border-l-0 *:border-r-0 *:border-t-0 *:border-b-0 *:text-sm md:*:text-base my-1`}
             >
               <th className="flex justify-center items-center gap-1">
                 {entList.name == "notes" &&
@@ -68,7 +68,7 @@ const Accordion = ({ initial, entities, session, user, patient }) => {
                   (session.roles.includes("ROLE_ADMIN") ||
                     session.id == user?.id) && (
                     <div className="absolute right-3 top-0 bottom-0 flex justify-center items-center">
-                      <LinkButtonAction
+                      <LinkAction
                         icon={<CreateIcon isSublist={true} />}
                         isSublist={true}
                         title={"Créer"}

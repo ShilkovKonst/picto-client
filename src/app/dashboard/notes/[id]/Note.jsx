@@ -2,6 +2,7 @@
 import Separator from "@/_components/_shared/Separator";
 import EntityHead from "@/_components/dashboard/EntityHeader";
 import Link from "next/link";
+import NoteItem from "./NoteItem";
 
 const Note = ({ note, session }) => {
   if (note.user.id != session.id && !session?.roles?.includes("ROLE_ADMIN"))
@@ -12,38 +13,23 @@ const Note = ({ note, session }) => {
     );
   return (
     <>
-      <table className="table w-full">
+      <section className="table w-full">
         <EntityHead session={session} entity={note} entityName="notes" />
-        <tbody className="w-full">
-          <tr className="grid grid-cols-6 text-sm sm:text-base p-2 *:flex *:justify-start">
-            <Separator n={6} />
-            <th className="items-center col-span-2 text-sm text-start py-1">
-              Estimation
-            </th>
-            <td className="col-span-4 text-start ml-2 py-1">
-              {note?.estimation}
-            </td>
-            <Separator n={6} />
-            <th className="items-center col-span-6 text-sm text-start py-1">
-              Commentaire
-            </th>
-            <td className="flex-col col-span-6 text-sm text-start py-1">
-              {note?.comment?.split("\n").map((c, i) => (
-                <p key={i}>{c}</p>
-              ))}
-            </td>
-            <Separator n={6} />
-            <th className="items-center col-span-2 text-sm text-start py-1">
-              Date de création
-            </th>
-            <td className="col-span-4 text-start ml-2 py-1">
-              {new Date(note?.createdAt).toLocaleDateString("fr-FR")}
-            </td>
-            <Separator n={6} />
-            <th className="items-center col-span-2 text-sm text-start py-1">
-              Thérapeute
-            </th>
-            <td className="col-span-4 text-start ml-2 py-1">
+        <div className="w-full *:grid *:grid-cols-6 *:text-sm *:sm:text-base">
+          <NoteItem title={"Estimation"} content={note?.estimation} />
+          <NoteItem
+            title={"Commentaire"}
+            content={note?.comment?.split("\n").map((c, i) => (
+              <p key={i}>{c}</p>
+            ))}
+          />
+          <NoteItem
+            title={"Date de création"}
+            content={new Date(note?.createdAt).toLocaleDateString("fr-FR")}
+          />
+          <NoteItem
+            title={"Thérapeute"}
+            content={
               <Link
                 href={
                   note?.user?.id == session.id
@@ -54,25 +40,24 @@ const Note = ({ note, session }) => {
               >
                 {note?.user.firstName.charAt(0) + ". " + note?.user.lastName}
               </Link>
-            </td>
-            <Separator n={6} />
-            <th className="items-center col-span-2 text-sm text-start py-1">
-              Patient
-            </th>
-            <td className="col-span-4 text-start ml-2 py-1">
+            }
+          />
+          <NoteItem
+            title={"Patient"}
+            content={
               <Link
                 href={`/dashboard/patients/${note?.patient?.id}`}
-                className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
+                className="w-auto py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
               >
                 {note?.patient.firstName.charAt(0) +
                   ". " +
                   note?.patient.lastName}
               </Link>
-            </td>
-            <Separator n={6} />
-          </tr>
-        </tbody>
-      </table>
+            }
+          />
+          <Separator n={6} />
+        </div>
+      </section>
     </>
   );
 };

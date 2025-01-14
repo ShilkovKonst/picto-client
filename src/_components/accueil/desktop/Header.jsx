@@ -3,7 +3,7 @@ import images from "@/_constants/images";
 
 const Header = () => {
   return (
-    <div className="grid grid-cols-5 *:p-4">
+    <header className="grid grid-cols-5 *:p-4">
       <div className="col-span-2 flex justify-center items-center">
         <Image
           src={images.logo}
@@ -19,7 +19,7 @@ const Header = () => {
           <span className="text-secondary">P</span>icto!
         </h2>
       </div>
-    </div>
+    </header>
   );
 };
 

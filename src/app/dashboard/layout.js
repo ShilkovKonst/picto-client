@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 const Layout = ({ children }) => {
-  const { accessToken, session } = getAccessToken();
+  const { session } = getAccessToken();
   return (
     <div
       className="relative w-full md:w-[100%] lg:w-[90%] xl:w-[80%] bg-pbg md:rounded-xl p-3 md:pb-20 ml-auto mr-auto"

@@ -16,14 +16,14 @@ const EntityHeader = ({ entity, entityName, session }) => {
   };
 
   return (
-    <thead>
-      <tr className="">
+    <div>
+      <div className="">
         {entity ? (
-          <th className="text-lg md:text-xl flex justify-center items-center min-h-[50px]">
+          <div className="text-lg md:text-xl flex justify-center items-center min-h-[50px]">
             <span className="flex justify-center items-center mx-auto">
               {preTitle[entityName]}
               <Link
-                className="hover:text-pred trasition duration-150 ease-in-out ml-3 me-1"
+                className="hover:text-secondary font-semibold trasition duration-150 ease-in-out ml-3 me-1"
                 href={
                   entityName == "users" && entity.id == session.id
                     ? "/dashboard"
@@ -50,14 +50,14 @@ const EntityHeader = ({ entity, entityName, session }) => {
                 entityName={entityName}
               />
             )}
-          </th>
+          </div>
         ) : (
-          <th className="text-lg md:text-xl flex justify-center items-center">
+          <div className="text-lg md:text-xl flex justify-center items-center">
             <span className=" mx-auto">{noTitle[entityName]}</span>
-          </th>
+          </div>
         )}
-      </tr>
-    </thead>
+      </div>
+    </div>
   );
 };
 

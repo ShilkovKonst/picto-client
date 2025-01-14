@@ -7,6 +7,7 @@ import UserActions from "@/_components/dashboard/UserActions";
 import Accordion from "@/_components/_shared/Accordion";
 import Separator from "@/_components/_shared/Separator";
 import PersonWarningBlock from "@/_components/dashboard/PersonWarningBlock";
+import UserItem from "./users/[id]/UserItem";
 
 const UserProfile = ({ session, notes, patients, verify }) => {
   const [isEmailSent, setIsEmailSent] = useState(false);
@@ -33,7 +34,7 @@ const UserProfile = ({ session, notes, patients, verify }) => {
       console.error("Bad credentials:", error.message);
     }
   };
-
+  
   return (
     <>
       {!session.verified &&
@@ -53,10 +54,10 @@ const UserProfile = ({ session, notes, patients, verify }) => {
             </button>
           </div>
         ))}
-      <table className="table w-full">
-        <thead>
-          <tr className="w-auto">
-            <th className="text-lg flex justify-center items-center">
+      <section className="table w-full">
+        <div>
+          <div className="w-auto">
+            <div className="text-lg flex justify-center items-center">
               <span className="font-bold mx-auto flex justify-center items-center gap-1 relative group">
                 Profil
                 {session?.active ? (
@@ -75,86 +76,78 @@ const UserProfile = ({ session, notes, patients, verify }) => {
                   path2="/dashboard/profile/deactivate"
                 />
               )}
-            </th>
-          </tr>
-        </thead>
-        <tbody className="flex flex-col w-full">
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col w-full">
           {!session && (
-            <tr className="h-[205px] flex justify-center items-center">
-              <th className="text-start w-[40%] lg:w-[20%]">
+            <div className="h-[205px] flex justify-center items-center">
+              <div className="text-start w-[40%] lg:w-[20%]">
                 <Spinner size="xl" aria-label="Loading profile..." />
-              </th>
-            </tr>
+              </div>
+            </div>
           )}
           {session && (
             <>
-              <tr className="grid grid-cols-6 gap-1 lg:gap-0 text-sm sm:text-base p-2">
-                <Separator n={6} />
-                <th className="col-span-2 text-start">Nom</th>
-                <td className="col-span-4 text-start">{session?.lastName}</td>
-                <Separator n={6} />
-                <th className="col-span-2 text-start">Prénom</th>
-                <td className="col-span-4 text-start">{session?.firstName}</td>
-                <Separator n={6} />
-                <th className="col-span-2 text-start">Fonction</th>
-                <td className="col-span-4 text-start">{session?.job}</td>
-                <Separator n={6} />
-                <th className="col-span-2 text-start">Institution</th>
-                <td className="col-span-4 text-start flex items-center">
+              <UserItem
+                title={"Nom"}
+                content={session?.lastName + " " + session?.firstName}
+              />
+              <UserItem title={"Fonction"} content={session?.job} />
+              <UserItem
+                title={"Institution"}
+                content={
                   <Link
                     href={`/dashboard/institutions/${session?.institution?.id}`}
                     className="py-1 px-3 rounded-full text-white text-center text-xs hover:text-black bg-primary hover:bg-secondary transition ease-in-out duration-300"
                   >
                     {session?.institution?.title}
                   </Link>
-                </td>
-                <Separator n={6} />
-                <th className="col-span-2 text-start">Email</th>
-                <td className="col-span-4 text-start">
-                  <div className="flex items-center gap-1">
-                    {session?.sub}
-                    {session?.verified ? (
-                      <SuccessIcon />
-                    ) : (
-                      <PersonWarningBlock
-                        position={"topLeft"}
-                        title={"Votre email n'est pas verifié."}
-                        type={"alert"}
-                      />
-                    )}
-                  </div>
-                  <div className="">
-                    {!session?.verified &&
-                      (!isEmailSent ? (
-                        <p className="text-red-800 text-xs font-light">
-                          Votre email n&apos;est pas vérifié.{" "}
-                          <button
-                            className="font-normal underline decoration-1"
-                            onClick={handleClick}
-                          >
-                            Envoyer l&apos;email de vérification
-                          </button>
-                        </p>
+                }
+              />
+              <UserItem
+                title={"Email"}
+                content={
+                  <>
+                    <p>{session?.sub}</p>
+                    <div className="relative group text-center w-auto ml-1">
+                      {session?.verified ? (
+                        <SuccessIcon />
                       ) : (
-                        <p className="text-yellow-800 text-xs font-light">
-                          L'émail de vérification à été envoyé. Vérifiez votre
-                          boîte de lettres.{" "}
-                          <button
-                            className="font-normal underline decoration-1"
-                            onClick={handleClick}
-                          >
-                            Renvoyer l&apos;email de vérification
-                          </button>
-                        </p>
-                      ))}
-                  </div>
-                </td>
-                <Separator n={6} />
-              </tr>
+                        <>
+                          <WarningIcon />
+                          <div className="hidden group-hover:block absolute bottom-6 -right-0 lg:-right-36 w-72 rounded-lg alert-danger p-4">
+                            <p className="text-red-800">
+                              Email n&apos;est pas vérifié.
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </>
+                }
+              />
+              <UserItem title={"Téléphone"} content={session?.phoneNumber} />
+              <UserItem
+                title={"Rôles"}
+                content={
+                  <>
+                    {session?.roles?.map((r, i) => (
+                      <div
+                        key={i}
+                        className="cursor-default text-xs bg-primary hover:bg-secondary transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
+                      >
+                        {r}
+                      </div>
+                    ))}
+                  </>
+                }
+              />
+              <Separator n={5} />
             </>
           )}
-        </tbody>
-      </table>
+        </div>
+      </section>
       <Accordion
         user={session}
         session={session}
