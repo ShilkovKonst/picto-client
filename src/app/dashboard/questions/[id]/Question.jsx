@@ -5,7 +5,7 @@ import Accordion from "@/_components/_shared/Accordion";
 const Question = ({ question, categories, session }) => {
   return (
     <>
-      <table className="table w-full">
+      <section className="table w-full">
         {question && (
           <EntityHeader
             entity={question}
@@ -13,11 +13,11 @@ const Question = ({ question, categories, session }) => {
             session={session}
           />
         )}
-      </table>
+      </section>
       <Accordion
         session={session}
         initial={"categories"}
-        entities={[{ name: "categories", entityList: categories }]}
+        entities={[{ name: "categories", list: categories }]}
       />
     </>
   );

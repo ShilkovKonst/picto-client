@@ -4,9 +4,20 @@ import Pagination from "@/_components/_shared/Pagination";
 import EntityTableItem from "@/_components/dashboard/EntityTableItem";
 import EntityTableHeader from "@/_components/dashboard/EntityTableHeader";
 import EntityListHeader from "@/_components/dashboard/EntityListHeader";
+import {
+  isAdmin,
+  isNotInstitutionsOrUsersOrPatientsorNotes,
+  isSessionsInstitution,
+  isSuperAdmin,
+} from "@/_lib/checkConditions";
 
 const EntityList = ({ data, session, entityName }) => {
+  const accessCondition = (entity) =>
+    isAdmin(session) && isSessionsInstitution(session, entityName, entity);
   const [itemsPerPage, setItemsPerPage] = useState(0);
+
+
+
   useEffect(() => {
     if (
       localStorage.getItem("itemsPerPage") == null ||
@@ -36,15 +47,18 @@ const EntityList = ({ data, session, entityName }) => {
         <tbody className="flex flex-col gap-1">
           <EntityTableHeader entityName={entityName} session={session} />
           {data?.content &&
-            data.content.map((item, i) => (
-              <EntityTableItem
-                key={i}
-                session={session}
-                entity={item}
-                entityName={entityName}
-                isSublist={false}
-              />
-            ))}
+            data.content.map(
+              (item, i) =>
+                (isSuperAdmin(session) || accessCondition(item) || isNotInstitutionsOrUsersOrPatientsorNotes(entityName)) && (
+                  <EntityTableItem
+                    key={i}
+                    session={session}
+                    entity={item}
+                    entityName={entityName}
+                    isSublist={false}
+                  />
+                )
+            )}
         </tbody>
       </table>
       {data?.content?.length > 0 && (

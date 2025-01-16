@@ -1,6 +1,7 @@
 "use client";
 import { CreateIcon } from "../icons";
 import LinkButtonAction from "../_shared/LinkAction";
+import { isAdmin, isSuperAdmin } from "@/_lib/checkConditions";
 
 const EntityTableHeader = ({ entityName, session }) => {
   return (
@@ -18,7 +19,7 @@ const EntityTableHeader = ({ entityName, session }) => {
       <th
         className={`text-center md:text-start ${
           (entityName == "users" || entityName == "patients") &&
-          session.roles.includes("ROLE_SUPERADMIN")
+          (isSuperAdmin(session) || isAdmin(session))
             ? "col-span-2"
             : entityName == "users" || entityName == "patients"
             ? "col-span-4"
@@ -33,7 +34,7 @@ const EntityTableHeader = ({ entityName, session }) => {
           ? "Patient"
           : "Thérapeute"}
       </th>
-      {(entityName == "users" || entityName == "patients") && session.roles.includes("ROLE_SUPERADMIN") && (
+      {(entityName == "users" || entityName == "patients") && (isSuperAdmin(session) || isAdmin(session)) && (
         <th className="text-center md:text-start col-span-2">Institution</th>
       )}
       {(entityName == "categories" || entityName == "pictograms") && (
@@ -65,7 +66,6 @@ const EntityTableHeader = ({ entityName, session }) => {
         }`}
       >
         <p className="mr-2 md:mr-0">Actions</p>
-        {/* !!!!! UNCOMMENT AFTER TESTS !!!!! */}
         {session.active &&
           session.verified &&
           (session.roles.includes("ROLE_ADMIN") ||

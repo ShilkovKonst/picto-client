@@ -32,7 +32,7 @@ const DashboardContentList = ({ session }) => {
   }, [searchParams]);
 
   return (
-    <ul className="flex flex-row justify-between items-center w-full md:w-auto md:block mb-3 md:mb-0 md:mr-3 p-4 bg-pform shadow-inset-5/5 rounded-xl border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059] md:space-y-4 text-left text-gray-500">
+    <nav className="flex flex-row justify-between items-center w-full md:w-auto md:block mb-3 md:mb-0 md:mr-3 p-4 bg-pform shadow-inset-5/5 rounded-xl border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059] md:space-y-4 text-left text-gray-500">
       <DashboardContentItem
         title={"Profile"}
         url={"/dashboard"}
@@ -72,7 +72,7 @@ const DashboardContentList = ({ session }) => {
             pathname={pathname}
           />
         ))}
-    </ul>
+    </nav>
   );
 };
 

@@ -6,24 +6,38 @@ import ButtonAction from "@/_components/_shared/ButtonAction";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import {
   isAdmin,
-  isNotInstitutionsOrUsersOrPatients,
+  isNotInstitutionsOrUsersOrPatientsorNotes,
   isSessionsInstitution,
   isSessionsPatientOrNote,
   isSuperAdmin,
 } from "@/_lib/checkConditions";
 
-const EntityTableActions = ({ session, entity, entityName, isSublist }) => {
+const EntityTableActions = ({
+  session,
+  entity,
+  entityName,
+  isSublist,
+  user,
+  institution,
+}) => {
+  const isSessionInstitutionByUser =
+    isSublist && user?.institution?.id == session.institution.id;
+  const isSessionInstitutionByInstitution =
+    isSublist && institution?.id == session.institution.id;
   const updateDeleteCondition =
     isSuperAdmin(session) ||
     isSessionsPatientOrNote(session, entityName, entity) ||
     (isAdmin(session) &&
       (isSessionsInstitution(session, entityName, entity) ||
-        isNotInstitutionsOrUsersOrPatients(entityName)));
+        isSessionInstitutionByUser ||
+        isSessionInstitutionByInstitution ||
+        isNotInstitutionsOrUsersOrPatientsorNotes(entityName)));
+
   return (
     <div
-      className={`flex flex-row items-center justify-evenly ${!isSublist ? "w-full md:w-auto" : ""} gap-1 md:gap-3 ${
-        isSublist ? "mt-2" : ""
-      }`}
+      className={`flex flex-row items-center justify-evenly ${
+        !isSublist ? "w-full md:w-auto" : ""
+      } gap-1 md:gap-3 ${isSublist ? "mt-2" : ""}`}
     >
       {session.active &&
         session.verified &&

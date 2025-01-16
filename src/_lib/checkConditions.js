@@ -7,16 +7,18 @@ export const isNotSessionUser = (session, entityName, entity) =>
   entityName == "users" && entity?.id != session?.id;
 
 export const isSessionsInstitution = (session, entityName, entity) =>
-  (entityName == "users" ||
+  ((entityName == "users" ||
     entityName == "patients" ||
     entityName == "notes") &&
-  entity?.institution?.id == session?.institution?.id;
+    entity?.institution?.id == session?.institution?.id) ||
+  entity?.user?.institution?.id == session?.institution?.id;
 
 export const isSessionsPatientOrNote = (session, entityName, entity) =>
   (entityName == "patients" || entityName == "notes") &&
   entity?.user?.id == session?.id;
 
-export const isNotInstitutionsOrUsersOrPatients = (entityName) =>
+export const isNotInstitutionsOrUsersOrPatientsorNotes = (entityName) =>
   entityName != "institutions" &&
   entityName != "users" &&
-  entityName != "patients";
+  entityName != "patients" &&
+  entityName != "notes";

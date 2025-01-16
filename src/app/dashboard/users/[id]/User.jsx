@@ -74,8 +74,8 @@ const User = ({ user, session, patients, notes }) => {
         session={session}
         initial={"patients"}
         entities={[
-          { name: "patients", entityList: patients },
-          { name: "notes", entityList: notes },
+          { name: "patients", list: patients },
+          { name: "notes", list: notes },
         ]}
       />
     </>

@@ -4,8 +4,16 @@ import TableNoteField from "@/_components/dashboard/TableNoteField";
 import TableUserField from "@/_components/dashboard/TableUserField";
 import TablePatientField from "@/_components/dashboard/TablePatientField";
 import EntityTableActions from "@/_components/dashboard/EntityTableActions";
+import { isAdmin, isSuperAdmin } from "@/_lib/checkConditions";
 
-const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
+const EntityTableItem = ({
+  session,
+  entity,
+  entityName,
+  isSublist,
+  user,
+  institution,
+}) => {
   return (
     <tr className="grid grid-cols-1">
       <td
@@ -53,7 +61,7 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
             <div
               className={`flex justify-center items-center text-center md:text-start ${
                 (entityName == "users" || entityName == "patients") &&
-                session.roles.includes("ROLE_SUPERADMIN")
+                (isSuperAdmin(session) || isAdmin(session))
                   ? "col-span-2"
                   : entityName == "users" || entityName == "patients"
                   ? "col-span-4"
@@ -73,11 +81,15 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
               </p>
             </div>
           )}
-          {(entityName == "users" || entityName == "patients") && session.roles.includes("ROLE_SUPERADMIN") && (
-            <div className="flex justify-center md:justify-start items-center text-sm md:text-base col-span-2">
-              {entityName == "users" ? entity?.institution?.title : entity?.user?.institution?.title}
-            </div>
-          )}
+          {!isSublist &&
+            (entityName == "users" || entityName == "patients") &&
+            (isSuperAdmin(session) || isAdmin(session)) && (
+              <div className="flex justify-center md:justify-start items-center text-sm md:text-base col-span-2">
+                {entityName == "users"
+                  ? entity?.institution?.title
+                  : entity?.user?.institution?.title}
+              </div>
+            )}
           {(entityName == "categories" || entityName == "pictograms") && (
             <TableMediaField
               entity={entity}
@@ -107,6 +119,8 @@ const EntityTableItem = ({ session, entity, entityName, isSublist }) => {
             entity={entity}
             entityName={entityName}
             isSublist={isSublist}
+            user={user}
+            institution={institution}
           />
         </div>
       </td>

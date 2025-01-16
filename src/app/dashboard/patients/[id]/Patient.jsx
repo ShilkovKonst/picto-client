@@ -70,7 +70,7 @@ const Patient = ({ patient, notes, session }) => {
         entities={[
           {
             name: "notes",
-            entityList: notes,
+            list: notes,
           },
         ]}
       />

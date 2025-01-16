@@ -6,9 +6,9 @@ import { textToSpeech } from "@/_lib/textToSpeech";
 import {
   isAdmin,
   isSuperAdmin,
-  isNotInstitutionsOrUsersOrPatients,
   isSessionsInstitution,
   isSessionsPatientOrNote,
+  isNotInstitutionsOrUsersOrPatientsorNotes,
 } from "@/_lib/checkConditions";
 
 const EntityHeaderActions = ({ session, entity, entityName }) => {
@@ -17,7 +17,7 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
     isSessionsPatientOrNote(session, entityName, entity) ||
     (isAdmin(session) &&
       (isSessionsInstitution(session, entityName, entity) ||
-        isNotInstitutionsOrUsersOrPatients(entityName)));
+        isNotInstitutionsOrUsersOrPatientsorNotes(entityName)));
 
   return (
     <div className="flex ml-3 flex-row items-center justify-evenly md:justify-end gap-3">

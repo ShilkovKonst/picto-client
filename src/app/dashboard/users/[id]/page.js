@@ -8,7 +8,7 @@ const page = async (props) => {
   const params = await props.params;
   const user = await getOneById("users", params.id, accessToken);
   user?.status == 404 && notFound();
-
+console.log(user.patients);
   return (
     <User
       user={user}
