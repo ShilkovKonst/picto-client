@@ -1,9 +1,12 @@
-import React from 'react'
+import { getAllAsList } from "@/_lib/entityApiUtil";
+import Dialogue from "./Dialogue";
 
-const page = () => {
+const page = async () => {
+  const questions = await getAllAsList("questions", null);
+    
   return (
-    <div className='bg-secondary'>page</div>
-  )
-}
+    <Dialogue questions={questions} />
+  );
+};
 
-export default page
+export default page;

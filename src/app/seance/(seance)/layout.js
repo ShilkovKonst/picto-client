@@ -7,10 +7,11 @@ export const metadata = {
 };
 
 const Layout = ({ children }) => {
+  const { session } = getAccessToken();
   return (
     <main className="relative w-full h-screen">
-      <section className="w-[calc(100%-6rem)]">{children}</section>
-      <LayoutNav />
+      <section className="w-[calc(100%-6rem)] p-3">{children}</section>
+      <LayoutNav session={session} />
     </main>
   );
 };

@@ -4,9 +4,9 @@ import Seance from "./Seance";
 const page = async (props) => {
   const searchParams = await props.searchParams;
   const { accessToken, session } = getAccessToken();
-  const { user, patient } = searchParams;
+  const { patient } = searchParams;
 
-  return <Seance user={user} patient={patient} />;
+  return <Seance session={session} patient={session ? patient : null} />;
 };
 
 export default page;

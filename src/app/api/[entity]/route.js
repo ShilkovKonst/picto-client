@@ -107,7 +107,7 @@ async function getAllAsList(entityName, accessToken) {
     `${process.env.SERVER_BASE_URL}/${entityName}?asList=true`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization: accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }
