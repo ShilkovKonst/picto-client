@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
 import FormTextAreaField from "@/_components/_forms/shared/FormTextAreaField";
 import FormTextField from "@/_components/_forms/shared/FormTextField";

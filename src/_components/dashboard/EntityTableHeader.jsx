@@ -1,6 +1,6 @@
 "use client";
 import { CreateIcon } from "../icons";
-import LinkButtonAction from "../_shared/LinkAction";
+import LinkButtonAction from "../shared/LinkAction";
 import { isAdmin, isSuperAdmin } from "@/_lib/checkConditions";
 
 const EntityTableHeader = ({ entityName, session }) => {

@@ -7,7 +7,7 @@ import FormPictogramBlock from "./FormPictogramBlock";
 import FormTextAreaField from "@/_components/_forms/shared/FormTextAreaField";
 import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormImageField from "@/_components/_forms/shared/FormImageField";
-import ConfirmButton from "@/_components/_shared/ConfirmButton";
+import ConfirmButton from "@/_components/shared/ConfirmButton";
 
 const Form = ({
   session,

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Spinner } from "flowbite-react";
 import SuccessIcon from "@/_components/icons/successIcon";
 import UserActions from "@/_components/dashboard/UserActions";
-import Accordion from "@/_components/_shared/Accordion";
-import Separator from "@/_components/_shared/Separator";
+import Accordion from "@/_components/shared/Accordion";
+import Separator from "@/_components/shared/Separator";
 import PersonWarningBlock from "@/_components/dashboard/PersonWarningBlock";
 import UserItem from "./users/[id]/UserItem";
 

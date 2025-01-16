@@ -1,6 +1,6 @@
 "use client";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
-import Accordion from "@/_components/_shared/Accordion";
+import Accordion from "@/_components/shared/Accordion";
 
 const Tag = ({ session, tag, pictograms }) => {
   return (

@@ -1,6 +1,6 @@
 "use client";
-import Separator from "@/_components/_shared/Separator";
-import Accordion from "@/_components/_shared/Accordion";
+import Separator from "@/_components/shared/Separator";
+import Accordion from "@/_components/shared/Accordion";
 import EntityHead from "@/_components/dashboard/EntityHeader";
 import InstitutionItem from "./InstitutionItem";
 

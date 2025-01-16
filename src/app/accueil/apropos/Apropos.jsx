@@ -1,4 +1,4 @@
-import Separator from "@/_components/_shared/Separator";
+import Separator from "@/_components/shared/Separator";
 import AproposItem from "./AproposItem";
 
 const apropos = [

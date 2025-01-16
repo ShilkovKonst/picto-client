@@ -1,6 +1,6 @@
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
-import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 import { Label } from "flowbite-react";
 import { useEffect } from "react";
 

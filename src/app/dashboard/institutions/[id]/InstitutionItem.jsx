@@ -1,4 +1,4 @@
-import Separator from "@/_components/_shared/Separator";
+import Separator from "@/_components/shared/Separator";
 
 const InstitutionItem = ({ title, content }) => {
   return (

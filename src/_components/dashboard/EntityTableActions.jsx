@@ -1,8 +1,8 @@
 "use client";
 import { BrainIcon, SpeechIcon, UpdateIcon } from "@/_components/icons";
-import DeleteAction from "@/_components/_shared/DeleteAction";
-import LinkAction from "@/_components/_shared/LinkAction";
-import ButtonAction from "@/_components/_shared/ButtonAction";
+import DeleteAction from "@/_components/shared/DeleteAction";
+import LinkAction from "@/_components/shared/LinkAction";
+import ButtonAction from "@/_components/shared/ButtonAction";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import {
   isAdmin,

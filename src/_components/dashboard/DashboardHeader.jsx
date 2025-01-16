@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import images from "@/_constants/images";
 import DashboardWelcomeBlock from "@/_components/dashboard/DashboardWelcomeBlock";
+import HeaderImage from "../shared/HeaderImage";
 
 const DashboardHeader = ({ session }) => {
   const router = useRouter();
@@ -15,15 +14,12 @@ const DashboardHeader = ({ session }) => {
 
   return (
     <div className="flex flex-row justify-between items-center w-full sm:p-4">
-      <Image
-        src={images.logo}
-        alt="LogoEcam2.png"
-        width={140}
-        className="z-10 "
-        priority={true}
-      />
+      <div><HeaderImage width={140} /></div>
       {session && (
-        <DashboardWelcomeBlock session={session} handleSignOut={handleSignOut} />
+        <DashboardWelcomeBlock
+          session={session}
+          handleSignOut={handleSignOut}
+        />
       )}
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import EntityListHeaderPerPageSelector from "../_shared/EntityListHeaderPerPageSelector";
-import EntityListHeaderTypeSelector from "../_shared/EntityListHeaderTypeSelector";
+import EntityListHeaderPerPageSelector from "../shared/EntityListHeaderPerPageSelector";
+import EntityListHeaderTypeSelector from "../shared/EntityListHeaderTypeSelector";
 
 const EntityListHeader = ({ entityName, qnty }) => {
   const router = useRouter();

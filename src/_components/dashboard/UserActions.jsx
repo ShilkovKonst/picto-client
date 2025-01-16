@@ -1,5 +1,5 @@
 import { RemoveIcon, UpdateProfileIcon } from "@/_components/icons";
-import LinkButtonAction from "../_shared/LinkAction";
+import LinkButtonAction from "../shared/LinkAction";
 
 const UserActions = ({ path1, path2 }) => {
   return (

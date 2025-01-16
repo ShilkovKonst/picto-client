@@ -1,7 +1,7 @@
 import { BrainIcon, SpeechIcon, UpdateIcon } from "@/_components/icons";
-import LinkAction from "../_shared/LinkAction";
-import DeleteAction from "../_shared/DeleteAction";
-import ButtonAction from "../_shared/ButtonAction";
+import LinkAction from "../shared/LinkAction";
+import DeleteAction from "../shared/DeleteAction";
+import ButtonAction from "../shared/ButtonAction";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import {
   isAdmin,

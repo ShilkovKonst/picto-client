@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import Accordion from "@/_components/_shared/Accordion";
-import Separator from "@/_components/_shared/Separator";
+import Accordion from "@/_components/shared/Accordion";
+import Separator from "@/_components/shared/Separator";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
 import { SuccessIcon, WarningIcon } from "@/_components/icons";
 import UserItem from "./UserItem";

@@ -9,12 +9,12 @@ export async function middleware(request) {
   // if user is signed in => reroute from landing page to profile
   if (refreshToken && accessToken && pathname == "/") {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard/`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard/`
     );
   }
   // if user is signed out => reroute to landing page
   if (!refreshToken && request.nextUrl.href.includes("dashboard")) {
-    return NextResponse.redirect(`${process.env.CLIENT_API_BASE_URL}/`);
+    return NextResponse.redirect(`${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/`);
   }
   // if user is still authenticated -> gain new access token via refresh api route
   if (refreshToken && !accessToken) {
@@ -33,7 +33,7 @@ export async function middleware(request) {
     !session.roles.includes("ROLE_ADMIN")
   ) {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard`
     );
   }
   if (
@@ -42,7 +42,7 @@ export async function middleware(request) {
     !session.roles.includes("ROLE_SUPERADMIN")
   ) {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard`
     );
   }
   return NextResponse.next();
@@ -61,7 +61,7 @@ const restrictAccess = async (pathname, session) => {
     !session.roles.includes("ROLE_ADMIN")
   ) {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard`
     );
   }
   if (
@@ -70,7 +70,7 @@ const restrictAccess = async (pathname, session) => {
     !session.roles.includes("ROLE_SUPERADMIN")
   ) {
     return NextResponse.redirect(
-      `${process.env.CLIENT_API_BASE_URL}/dashboard`
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/dashboard`
     );
   }
 };

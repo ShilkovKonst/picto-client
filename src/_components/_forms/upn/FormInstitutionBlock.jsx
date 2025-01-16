@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 import FormTextField from "@/_components/_forms/shared/FormTextField";
 
 const FormInstitutionBlock = ({

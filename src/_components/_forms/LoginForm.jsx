@@ -6,8 +6,8 @@ import { checkRegex } from "@/_lib/checkRegex";
 import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
 import FormPasswordField from "@/_components/_forms/shared/FormPasswordField";
 import FormEmailField from "@/_components/_forms/shared/FormEmailField";
-import ConfirmButton from "@/_components/_shared/ConfirmButton";
-import LoadingSpinner from "@/_components/_shared/LoadingSpinner";
+import ConfirmButton from "@/_components/shared/ConfirmButton";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 
 const LoginForm = ({ passwordResetted }) => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Pagination from "@/_components/_shared/Pagination";
+import Pagination from "@/_components/shared/Pagination";
 import EntityTableItem from "@/_components/dashboard/EntityTableItem";
 import EntityTableHeader from "@/_components/dashboard/EntityTableHeader";
 import EntityListHeader from "@/_components/dashboard/EntityListHeader";

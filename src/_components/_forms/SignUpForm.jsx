@@ -7,7 +7,7 @@ import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
 import FormPasswordField from "@/_components/_forms/shared/FormPasswordField";
 import FormEmailField from "@/_components/_forms/shared/FormEmailField";
-import ConfirmButton from "@/_components/_shared/ConfirmButton";
+import ConfirmButton from "@/_components/shared/ConfirmButton";
 
 const SignUpForm = ({ institutions, isError, setIsError, setErrorMessage }) => {
   const router = useRouter();

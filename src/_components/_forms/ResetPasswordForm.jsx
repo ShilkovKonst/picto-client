@@ -5,8 +5,8 @@ import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
 import { checkRegex } from "@/_lib/checkRegex";
 import FormEmailField from "./shared/FormEmailField";
 import FormPasswordField from "./shared/FormPasswordField";
-import ConfirmButton from "../_shared/ConfirmButton";
-import LoadingSpinner from "../_shared/LoadingSpinner";
+import ConfirmButton from "../shared/ConfirmButton";
+import LoadingSpinner from "../shared/LoadingSpinner";
 
 const ResetPasswordForm = ({ isLoading, setIsLoading, token }) => {
   const router = useRouter();

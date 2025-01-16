@@ -1,5 +1,5 @@
 import { WarningIcon } from "@/_components/icons";
-import ButtonTooltip from "../_shared/ButtonTooltip";
+import ButtonTooltip from "../shared/ButtonTooltip";
 
 const PersonWarningBlock = ({ position, title, type }) => {
   return (

@@ -4,7 +4,8 @@ import images from "@/_constants/images";
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col w-full lg:w-3/4 xl:w-2/3 min-h-svh md:min-h-0 h-full lg:h-[95%] bg-pform lg:rounded-xl overflow-hidden relative ml-auto mr-auto px-8">
+    <div className="flex w-full lg:w-3/4 xl:w-2/3 min-h-svh md:min-h-0 h-full lg:h-[95%] bg-pform lg:rounded-xl overflow-hidden relative ml-auto mr-auto px-8">
+      <HeaderImage width={240} />
       <Image
         src={images.logo}
         alt="LogoEcam.png"

@@ -1,4 +1,4 @@
-const ButtonTooltip = ({ position, title, type = "info" }) => {
+const ButtonTooltip = ({ position = "top", title, type = "info" }) => {
   const tooltipContainerPosition = {
     bottom: "top-[calc(100%+0.25rem)] left-1/2 -translate-x-1/2",
     bottomRight: "top-[calc(100%+0.25rem)] left-1/4 -translate-x-1/4",

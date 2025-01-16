@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
-import Separator from "@/_components/_shared/Separator";
+import Separator from "@/_components/shared/Separator";
 import PictogramItem from "./PictogramItem";
 
 const Pictogram = ({ session, pictogram }) => {

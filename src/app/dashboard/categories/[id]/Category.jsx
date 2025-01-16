@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import Accordion from "@/_components/_shared/Accordion";
-import Separator from "@/_components/_shared/Separator";
+import Accordion from "@/_components/shared/Accordion";
+import Separator from "@/_components/shared/Separator";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
 import CategoryItem from "./CategoryItem";
 

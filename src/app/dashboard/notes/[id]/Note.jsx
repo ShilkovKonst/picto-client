@@ -1,5 +1,5 @@
 "use client";
-import Separator from "@/_components/_shared/Separator";
+import Separator from "@/_components/shared/Separator";
 import EntityHead from "@/_components/dashboard/EntityHeader";
 import Link from "next/link";
 import NoteItem from "./NoteItem";

@@ -1,4 +1,4 @@
-import SignoutButton from "../_shared/SignoutButton";
+import SignoutButton from "../shared/SignoutButton";
 
 const DashboardWelcomeBlock = ({ session, handleSignOut }) => {
   return (

@@ -5,7 +5,7 @@ import { create, update } from "@/_lib/handleEntityModification";
 import FormInstitutionBlock from "./FormInstitutionBlock";
 import FormPersonBlock from "./FormPersonBlock";
 import FormNoteBlock from "./FormNoteBlock";
-import ConfirmButton from "@/_components/_shared/ConfirmButton";
+import ConfirmButton from "@/_components/shared/ConfirmButton";
 
 const Form = ({
   session,
