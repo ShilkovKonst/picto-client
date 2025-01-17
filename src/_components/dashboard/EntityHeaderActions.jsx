@@ -15,9 +15,8 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
   const updateDeleteCondition =
     isSuperAdmin(session) ||
     isSessionsPatientOrNote(session, entityName, entity) ||
-    (isAdmin(session) &&
-      (isSessionsInstitution(session, entityName, entity) ||
-        isNotInstitutionsOrUsersOrPatientsorNotes(entityName)));
+    (isAdmin(session) && isSessionsInstitution(session, entityName, entity)) ||
+    isNotInstitutionsOrUsersOrPatientsorNotes(entityName);
 
   return (
     <div className="flex ml-3 flex-row items-center justify-evenly md:justify-end gap-3">

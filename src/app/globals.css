@@ -24,6 +24,30 @@ body {
   box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
 }
 
+.arrow {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  fill: #fff;
+  cursor: pointer;
+}
+
+.arrow--left {
+  left: 5px;
+}
+
+.arrow--right {
+  left: auto;
+  right: 5px;
+}
+
+.arrow--disabled {
+  fill: rgba(255, 255, 255, 0.5);
+}
+
 @layer components {
   .alert {
     @apply z-50 p-4 pr-7 text-sm w-full;

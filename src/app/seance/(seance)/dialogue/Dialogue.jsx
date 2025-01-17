@@ -1,63 +1,74 @@
 "use client";
+import ImageSlider from "@/_components/seance/ImageSlider";
 import { getAllAsList } from "@/_lib/entityApiUtil";
 import { useEffect, useState } from "react";
 
-const Dialogue = ({ questions }) => {
+const Dialogue = ({ questions, categories, pictograms }) => {
+  const [questionModal, setQuestionModal] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPictogram, setSelectedPictogram] = useState(null);
 
-  const [categories, setCategories] = useState([]);
-  const [pictograms, setPictograms] = useState([]);
-
-  useEffect(() => {
-    async function fetchCategories() {
-      const response = await getAllAsList("categories", null);
-      setCategories(response);
-    }
-    selectedQuestion && fetchCategories();
-  }, [selectedQuestion]);
-
-  useEffect(() => {
-    async function fetchPictograms() {
-      const response = await getAllAsList("pictograms", null);
-      setPictograms(response);
-    }
-    selectedCategory && fetchPictograms();
-  }, [selectedCategory]);
-
-  const handleClick = (entityList, setState) => {
-    const randomIndex = Math.floor(Math.random() * entityList.length);
-    setState(entityList[randomIndex]);
+  const handleClick = (entity, setState) => {
+    setState(entity);
   };
 
   return (
     <div className="">
       <button
-        onClick={() => handleClick(questions, setSelectedQuestion)}
-        className="bg-pform w-full font-bold py-2 px-4 rounded-full"
+        onClick={() => setQuestionModal((prev) => !prev)}
+        className="z-20 relative bg-pform w-full h-12 font-bold py-2 px-4 rounded-full"
       >
-        {selectedQuestion ? selectedQuestion.title : "Select question"}
+        <p>
+          {selectedQuestion
+            ? selectedQuestion.title
+            : "Choisir une question..."}
+        </p>
+        <div
+          className={`absolute bg-pform w-[calc(100%-3rem)] h-80 overflow-y-scroll top-full left-[1.5rem] ${
+            questionModal
+              ? "z-20 flex flex-col justify-center items-center"
+              : "hidden"
+          }`}
+        >
+          {questions.map((question, i) => (
+            <div
+              key={i}
+              className="bg-secondary w-full my-1"
+              onClick={() => handleClick(question, setSelectedQuestion)}
+            >
+              {question.title}
+            </div>
+          ))}
+        </div>
+        <div
+          className={`absolute -top-[0.75rem] -left-[0.75rem] bg-primary-trans-30 w-screen h-screen z-10 ${
+            questionModal
+              ? "block"
+              : "hidden"
+          }`}
+        ></div>
       </button>
 
       {selectedQuestion && (
-        <button
-          onClick={() => handleClick(categories, setSelectedCategory)}
-          className="bg-pform w-full font-bold py-2 px-4 rounded-full"
-        >
-          {selectedCategory ? selectedCategory.title : "Select category"}
-        </button>
+        <ImageSlider
+          handleClick={handleClick}
+          setState={setSelectedCategory}
+          slides={categories.filter((cat) =>
+            cat.questions.includes(selectedQuestion.id)
+          )}
+        />
       )}
 
       {selectedCategory && (
-        <button
-          onClick={() => handleClick(pictograms, setSelectedPictogram)}
-          className="bg-pform w-full font-bold py-2 px-4 rounded-full"
-        >
-          {selectedPictogram ? selectedPictogram.title : "Select pictogram"}
-        </button>
+        <ImageSlider
+          handleClick={handleClick}
+          setState={setSelectedPictogram}
+          slides={pictograms.filter(
+            (picto) => picto.category.id == selectedCategory.id
+          )}
+        />
       )}
-      {selectedQuestion?.title}, {selectedCategory?.title}, {selectedPictogram?.title}
     </div>
   );
 };

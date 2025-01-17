@@ -30,8 +30,8 @@ const EntityTableActions = ({
     (isAdmin(session) &&
       (isSessionsInstitution(session, entityName, entity) ||
         isSessionInstitutionByUser ||
-        isSessionInstitutionByInstitution ||
-        isNotInstitutionsOrUsersOrPatientsorNotes(entityName)));
+        isSessionInstitutionByInstitution)) ||
+    isNotInstitutionsOrUsersOrPatientsorNotes(entityName);
 
   return (
     <div

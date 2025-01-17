@@ -13,6 +13,7 @@ const Category = ({
   questions,
   subcategories,
 }) => {
+  
   return (
     <>
       <section className="table w-full">
