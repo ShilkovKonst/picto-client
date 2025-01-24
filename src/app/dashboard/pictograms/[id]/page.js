@@ -8,7 +8,7 @@ const page = async (props) => {
   const params = await props.params;
   const pictogram = await getOneById("pictograms", params.id, accessToken);
   pictogram?.status == 404 && notFound();
-
+console.log(pictogram)
   return <Pictogram session={session} pictogram={pictogram} />;
 };
 

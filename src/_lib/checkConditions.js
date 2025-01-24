@@ -17,7 +17,7 @@ export const isSessionsPatientOrNote = (session, entityName, entity) =>
   (entityName == "patients" || entityName == "notes") &&
   entity?.user?.id == session?.id;
 
-export const isNotInstitutionsOrUsersOrPatientsorNotes = (entityName) =>
+export const isNotInstitutionsOrUsersOrPatientsOrNotes = (entityName) =>
   entityName != "institutions" &&
   entityName != "users" &&
   entityName != "patients" &&

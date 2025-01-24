@@ -6,7 +6,7 @@ import ButtonAction from "@/_components/shared/ButtonAction";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import {
   isAdmin,
-  isNotInstitutionsOrUsersOrPatientsorNotes,
+  isNotInstitutionsOrUsersOrPatientsOrNotes,
   isSessionsInstitution,
   isSessionsPatientOrNote,
   isSuperAdmin,
@@ -31,7 +31,7 @@ const EntityTableActions = ({
       (isSessionsInstitution(session, entityName, entity) ||
         isSessionInstitutionByUser ||
         isSessionInstitutionByInstitution)) ||
-    isNotInstitutionsOrUsersOrPatientsorNotes(entityName);
+    isNotInstitutionsOrUsersOrPatientsOrNotes(entityName);
 
   return (
     <div

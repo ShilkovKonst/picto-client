@@ -10,15 +10,15 @@ export const create = async (
   setIsLoading
 ) => {
   const response = await createOne(formData, entityName);
-  // status 201 - created
-  if (response.status == 201) {
-    router.push(`/dashboard/${entityName}/${response.id}`);
-    router.refresh();
-  }
-  if (response.status >= 400) {
+  if (!response) {
     setIsLoading(false);
     setError(true);
-    setErrorMessage(response.title);
+    setErrorMessage(response?.title);
+  }
+  // status 201 - created
+  if (response?.status == 201) {
+    router.push(`/dashboard/${entityName}/${response.id}`);
+    router.refresh();
   }
 };
 

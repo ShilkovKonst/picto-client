@@ -12,7 +12,7 @@ const LayoutNavModal = ({ session }) => {
 
   return (
     <div
-      className={`w-0 opacity-100 group-hover:opacity-100 group-hover:w-72 right-[calc(100%-0.1rem)] group-hover:right-full block absolute  top-0 bg-pform rounded-l-lg overflow-hidden transition-all ease-in-out duration-300`}
+      className={`w-0 group-hover:opacity-100 group-hover:w-72 right-[calc(100%-0.1rem)] group-hover:right-full block absolute top-0 bg-pform rounded-l-lg overflow-hidden transition-all ease-in-out duration-300 border-gray-300 border-l-2`}
     >
       <Separator />
       <div className="flex flex-col gap-5 my-5 px-3 w-72">

@@ -6,7 +6,7 @@ import EntityTableHeader from "@/_components/dashboard/EntityTableHeader";
 import EntityListHeader from "@/_components/dashboard/EntityListHeader";
 import {
   isAdmin,
-  isNotInstitutionsOrUsersOrPatientsorNotes,
+  isNotInstitutionsOrUsersOrPatientsOrNotes,
   isSessionsInstitution,
   isSuperAdmin,
 } from "@/_lib/checkConditions";
@@ -49,7 +49,7 @@ const EntityList = ({ data, session, entityName }) => {
           {data?.content &&
             data.content.map(
               (item, i) =>
-                (isSuperAdmin(session) || accessCondition(item) || isNotInstitutionsOrUsersOrPatientsorNotes(entityName)) && (
+                (isSuperAdmin(session) || accessCondition(item) || isNotInstitutionsOrUsersOrPatientsOrNotes(entityName)) && (
                   <EntityTableItem
                     key={i}
                     session={session}
