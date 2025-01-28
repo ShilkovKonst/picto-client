@@ -5,6 +5,7 @@ export async function GET(req, props) {
   const entityName = params.entity;
   const otherName = params.idOrOther;
   const id = params.otherId;
+  console.log(id)
   const accessToken = req?.cookies?.get("accessToken");
   const searchParams = req?.nextUrl?.searchParams;
   const {
@@ -18,7 +19,7 @@ export async function GET(req, props) {
     }
     return await getAllByOtherAsPage(entityName, otherName, id, page, size, accessToken);
   } catch (error) {
-    console.error("Error fetching pictograms:", error.message);
+    console.error("Error fetching entity:", error.message);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }
@@ -42,7 +43,7 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
       // TODO: create logic
     }
     return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
+      { message: "Failed to fetch entity: " + entityName },
       { status: response.status }
     );
   }
@@ -52,7 +53,7 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
 
 async function getAllByOtherAsList(entityName, otherName, otherId, accessToken) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}?asList=true`,
+    `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,
@@ -67,7 +68,7 @@ async function getAllByOtherAsList(entityName, otherName, otherId, accessToken) 
       // TODO: create logic
     }
     return NextResponse.json(
-      { message: "Failed to fetch pictograms" },
+      { message: "Failed to fetch entity: " + entityName },
       { status: response.status }
     );
   }

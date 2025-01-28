@@ -15,6 +15,8 @@ const FormVerbBlock = ({
   handleChange,
   handleRadioChange,
   handleCheckboxChange,
+  add,
+  remove,
 }) => {
   const verbTagsPool = tags.filter(
     (t) => t.title == "auxiliaire_avoir" || t.title == "auxiliaire_etre"
@@ -83,7 +85,7 @@ const FormVerbBlock = ({
             }
             handleChange={(e) => {
               setIsIrregular((prev) => !prev);
-              return handleCheckboxChange(e);
+              return handleCheckboxChange(e, "tags", add, remove);
             }}
           />
           {isIrregular && (

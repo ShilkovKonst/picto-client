@@ -5,6 +5,9 @@ import FormNounBlock from "./FormNounBlock";
 import FormAdjectiveBlock from "./FormAdjectiveBlock";
 import FormPronounBlock from "./FormPronounBlock";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
+import { Label } from "flowbite-react";
+import LoadingSpinner from "@/_components/shared/LoadingSpinner";
+import FormCheckboxField from "../shared/FormCheckboxField";
 
 const FormPictogramBlock = ({
   pictogram,
@@ -13,14 +16,17 @@ const FormPictogramBlock = ({
   handleChange,
   categories,
   tags,
+  questions,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
+  console.log(form)
   useEffect(() => {
     setForm({
       ...form,
       type: pictogram?.type ?? -1,
       categoryId: pictogram?.category.id ?? -1,
       tags: pictogram?.tags?.map((t) => t.id.toString()) ?? [],
+      questions: pictogram?.questions.map((q) => q?.toString()) ?? [],
       irregular: {
         pastParticiple: pictogram?.irregular?.pastParticiple ?? "",
         feminin: pictogram?.irregular?.feminin ?? "",
@@ -89,23 +95,24 @@ const FormPictogramBlock = ({
     setIsIrregular(form?.tags?.includes("3"));
   }, [form]);
 
-  const addTag = (tagId) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      tags: [...prevForm.tags, tagId],
-    }));
+  const remove = (field, value) => {
+    setForm({
+      ...form,
+      [field]: form[field].filter((item) => item != value),
+    });
   };
-  const removeTag = (tagId) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      tags: prevForm.tags.filter((t) => t != tagId),
-    }));
+  const add = (field, value) => {
+    console.log(value);
+    setForm({
+      ...form,
+      [field]: [...form[field], value],
+    });
   };
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e, field, add, remove) => {
     if (e.target.checked) {
-      addTag(e.target.value);
+      add(field, e.target.value);
     } else {
-      removeTag(e.target.value);
+      remove(field, e.target.value);
     }
   };
 
@@ -162,6 +169,8 @@ const FormPictogramBlock = ({
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
+          add={add}
+          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -174,6 +183,8 @@ const FormPictogramBlock = ({
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
+          add={add}
+          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -184,6 +195,8 @@ const FormPictogramBlock = ({
           tags={tags}
           handleChange={handleIrregularChange}
           handleCheckboxChange={handleCheckboxChange}
+          add={add}
+          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -196,6 +209,30 @@ const FormPictogramBlock = ({
           handleRadioChange={handleRadioChange}
         />
       )}
+      <div className={`lg:flex lg:justify-between lg:gap-3`}>
+        <div>
+          <label>Questions:</label>
+          {form?.questions ? (
+            questions.length > 0 &&
+            questions.map((q, i) => (
+              <FormCheckboxField
+                key={i}
+                id={"q" + q.id}
+                value={q.id}
+                title={q.title}
+                checked={
+                  form?.questions?.includes(q.id.toString()) ? true : false
+                }
+                handleChange={(e) =>
+                  handleCheckboxChange(e, "questions", add, remove)
+                }
+              />
+            ))
+          ) : (
+            <LoadingSpinner text={"Loading questions..."} />
+          )}
+        </div>
+      </div>
     </>
   );
 };

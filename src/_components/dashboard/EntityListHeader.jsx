@@ -44,9 +44,9 @@ const EntityListHeader = ({ entityName, qnty }) => {
   }, []);
 
   return (
-    <thead>
-      <tr className="border-b grid grid-cols-8">
-        <th className="col-span-2 flex flex-col lg:flex-row gap-1 lg:gap-2">
+    <div>
+      <div className="border-b grid grid-cols-8">
+        <div className="col-span-2 flex flex-col lg:flex-row gap-1 lg:gap-2">
           <EntityListHeaderPerPageSelector
             id={"itemsPerPage"}
             title={"Par page"}
@@ -55,16 +55,16 @@ const EntityListHeader = ({ entityName, qnty }) => {
             searchParams={searchParams}
           />
           
-        </th>
-        <th className="col-span-4 text-lg flex justify-between items-center">
+        </div>
+        <div className="col-span-4 text-lg flex justify-between items-center">
           <span className=" mx-auto">
             {entityName == "pictograms"
               ? "PICTOGRAMMES"
               : entityName.toUpperCase()}{" "}
             {"(" + qnty + ")"}
           </span>
-        </th>
-        <th className="col-span-2 text-lg flex justify-end items-center">
+        </div>
+        <div className="col-span-2 text-lg flex justify-end items-center">
         {(entityName == "categories" || entityName == "pictograms") && (
             <EntityListHeaderTypeSelector
               entityName={entityName}
@@ -75,9 +75,9 @@ const EntityListHeader = ({ entityName, qnty }) => {
               searchParams={searchParams}
             />
           )}
-        </th>
-      </tr>
-    </thead>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -14,12 +14,6 @@ const page = async (props) => {
     params.id,
     accessToken
   );
-  const questions = await getAllByOtherAsList(
-    "questions",
-    "category",
-    params.id,
-    accessToken
-  );
   const subcategories = await getAllByOtherAsList(
     "categories",
     "supercategory",
@@ -32,7 +26,6 @@ const page = async (props) => {
       session={session}
       category={category}
       pictograms={pictograms.length > 0 ? pictograms : null}
-      questions={questions.length > 0 ? questions : null}
       subcategories={subcategories.length > 0 ? subcategories : null}
     />
   );

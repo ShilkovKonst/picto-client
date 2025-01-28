@@ -9,6 +9,8 @@ const FormAdjectiveBlock = ({
   setIsIrregular,
   handleChange,
   handleCheckboxChange,
+  add,
+  remove,
 }) => {
   return (
     <div className={`lg:flex lg:justify-between lg:gap-3`}>
@@ -26,7 +28,7 @@ const FormAdjectiveBlock = ({
           checked={form?.tags?.includes(irregularId(tags)?.toString()) ?? false}
           handleChange={(e) => {
             setIsIrregular((prev) => !prev);
-            return handleCheckboxChange(e);
+            return handleCheckboxChange(e, "tags", add, remove);
           }}
         />
         {isIrregular && (

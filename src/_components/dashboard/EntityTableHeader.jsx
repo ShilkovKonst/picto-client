@@ -15,7 +15,7 @@ const EntityTableHeader = ({ entityName, session }) => {
     isAdmin(session) ||
     isNotInstitutionsOrUsersOrPatientsOrNotes(entityName);
   return (
-    <tr
+    <div
       className={`grid justify-between items-center *:text-sm *:md:text-base pt-4 pb-2 border-b border-gray-300 ${
         entityName == "users" || entityName == "patients"
           ? "grid-cols-8"
@@ -26,7 +26,7 @@ const EntityTableHeader = ({ entityName, session }) => {
           : "grid-cols-2"
       }`}
     >
-      <th
+      <div
         className={`text-center md:text-start ${
           (entityName == "users" || entityName == "patients") &&
           (isSuperAdmin(session) || isAdmin(session))
@@ -43,33 +43,33 @@ const EntityTableHeader = ({ entityName, session }) => {
           : entityName == "patients"
           ? "Patient"
           : "Thérapeute"}
-      </th>
+      </div>
       {(entityName == "users" || entityName == "patients") &&
         (isSuperAdmin(session) || isAdmin(session)) && (
-          <th className="text-center md:text-start col-span-2">Institution</th>
+          <p className="text-center md:text-start col-span-2">Institution</p>
         )}
       {(entityName == "categories" || entityName == "pictograms") && (
-        <th className="text-center md:text-start">Image</th>
+        <p className="text-center md:text-start">Image</p>
       )}
       {entityName == "notes" && (
         <>
-          <th className="text-center md:text-start">Patient(e)</th>
-          <th className="text-center md:text-start">Estimation</th>
+          <p className="text-center md:text-start">Patient(e)</p>
+          <p className="text-center md:text-start">Estimation</p>
         </>
       )}
       {entityName == "users" && (
         <>
-          <th className="text-center md:text-start">Actif</th>
-          <th className="text-center md:text-start">Vérifié</th>
+          <p className="text-center md:text-start">Actif</p>
+          <p className="text-center md:text-start">Vérifié</p>
         </>
       )}
       {entityName == "patients" && (
         <>
-          <th className="text-center md:text-start">Sexe</th>
-          <th className="text-center md:text-start">Grade</th>
+          <p className="text-center md:text-start">Sexe</p>
+          <p className="text-center md:text-start">Grade</p>
         </>
       )}
-      <th
+      <div
         className={`relative text-center ${
           entityName == "users" || entityName == "patients"
             ? "col-span-2"
@@ -89,8 +89,8 @@ const EntityTableHeader = ({ entityName, session }) => {
             />
           </div>
         )}
-      </th>
-    </tr>
+      </div>
+    </div>
   );
 };
 

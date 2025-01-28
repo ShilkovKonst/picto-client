@@ -10,17 +10,18 @@ const EntityUpdate = ({
   categories,
   questions,
   tags,
+  pictograms,
 }) => {
   const pathname = usePathname();
   return (
     <>
-      <table className="table w-full">
+      <div className="table w-full">
         <EntityHeader
           session={session}
           entity={entity}
           entityName={entityName}
         />
-      </table>
+      </div>
       <Form
         session={session}
         entity={entity}
@@ -28,6 +29,7 @@ const EntityUpdate = ({
         pathname={pathname}
         categories={categories}
         questions={questions}
+        pictograms={pictograms}
         tags={tags}
       />
     </>

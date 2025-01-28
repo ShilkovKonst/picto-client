@@ -14,6 +14,8 @@ const FormNounBlock = ({
   handleChange,
   handleRadioChange,
   handleCheckboxChange,
+  add,
+  remove,
 }) => {
   const nounTagsPool = tags.filter(
     (t) => t.title == "masculin" || t.title == "feminin"
@@ -69,7 +71,7 @@ const FormNounBlock = ({
           checked={form?.tags?.includes(irregularId(tags)?.toString()) ?? false}
           handleChange={(e) => {
             setIsIrregular((prev) => !prev);
-            return handleCheckboxChange(e);
+            return handleCheckboxChange(e, "tags", add, remove);
           }}
         />
         {isIrregular && (

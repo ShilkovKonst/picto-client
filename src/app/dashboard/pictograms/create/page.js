@@ -6,6 +6,7 @@ const page = async () => {
   const { accessToken, session } = getAccessToken();
   const categories = await getAllAsSimpleList("categories", accessToken);
   const tags = await getAllAsList("tags", accessToken);
+  const questions = await getAllAsList("questions", accessToken);
 
   return (
     <EntityUpdate
@@ -14,6 +15,7 @@ const page = async () => {
       entityName={"pictograms"}
       categories={categories}
       tags={tags}
+      questions={questions}
     />
   );
 };

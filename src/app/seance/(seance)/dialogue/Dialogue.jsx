@@ -13,7 +13,7 @@ const Dialogue = ({ questions, categories, pictograms }) => {
   const [selectedPictogram, setSelectedPictogram] = useState(null);
   const [dropZones, setDropZones] = useState(Array(10).fill(null));
   const [draggedItem, setDraggedItem] = useState(null);
-
+  
   const handleClick = (entity, setState) => {
     setState(entity);
     questionModal && setQuestionModal(false);
@@ -44,13 +44,13 @@ const Dialogue = ({ questions, categories, pictograms }) => {
         <ImageSlider
           cursorClass="cursor-grab"
           handleClick={handleClick}
-          handleDragStart={handleDragStart}
-          setDraggedItem={setDraggedItem}
-          setDropZones={setDropZones}
           setState={setSelectedPictogram}
           slides={pictograms.filter(
             (picto) => picto.category.id == selectedCategory.id
           )}
+          handleDragStart={handleDragStart}
+          setDraggedItem={setDraggedItem}
+          setDropZones={setDropZones}
         />
       )}
       <Dropzone
@@ -60,9 +60,22 @@ const Dialogue = ({ questions, categories, pictograms }) => {
       />
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
         <p className="dropzone flex justify-center items-center overflow-hidden h-16 md:h-20 lg:h-24 xl:mx-auto rounded-xl border-2 border-primary">
-          {dropZones.map((slide) => (slide ? slide.title + " " : " "))}
+          {dropZones?.map((slide) => (slide ? slide.title + " " : " "))}
         </p>
       </div>
+      {dropZones?.map((slide, i) =>
+        slide ? (
+          <div key={i} className="">
+            <div>id: {slide.id}</div>
+            <div>title: {slide.title}</div>
+            <div>type: {slide.type}</div>
+            <div>tags: {slide.tags.map((tag) => tag.title + ", ")}</div>
+            <div>irregular: {slide.irregular ? "true" : "false"}</div>
+          </div>
+        ) : (
+          ""
+        )
+      )}
     </div>
   );
 };

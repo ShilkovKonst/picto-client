@@ -45,6 +45,7 @@ export async function POST(req, props) {
   // send request to server with body, create new entity
   const accessToken = req?.cookies?.get("accessToken");
   const formData = await req.formData();
+  console.log(formData)
   try {
     const response = await fetch(
       `${process.env.SERVER_BASE_URL}/${entityName}`,

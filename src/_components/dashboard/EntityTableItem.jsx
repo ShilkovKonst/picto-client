@@ -15,8 +15,8 @@ const EntityTableItem = ({
   institution,
 }) => {
   return (
-    <tr className="grid grid-cols-1">
-      <td
+    <div className="grid grid-cols-1">
+      <div
         className={`grid ${
           isSublist
             ? entityName == "notes"
@@ -123,8 +123,8 @@ const EntityTableItem = ({
             institution={institution}
           />
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };
 

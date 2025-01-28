@@ -4,8 +4,9 @@ import Link from "next/link";
 import EntityHeader from "@/_components/dashboard/EntityHeader";
 import Separator from "@/_components/shared/Separator";
 import PictogramItem from "./PictogramItem";
+import Accordion from "@/_components/shared/Accordion";
 
-const Pictogram = ({ session, pictogram }) => {
+const Pictogram = ({ session, pictogram, questions }) => {
   return (
     <>
       <section className="table w-full">
@@ -136,6 +137,11 @@ const Pictogram = ({ session, pictogram }) => {
           <Separator n={3} />
         </section>
       )}
+      <Accordion
+        session={session}
+        initial={"questions"}
+        entities={[{ name: "questions", list: questions }]}
+      />
     </>
   );
 };

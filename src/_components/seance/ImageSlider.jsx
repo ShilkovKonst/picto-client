@@ -5,13 +5,13 @@ import Image from "next/image";
 import Slider from "react-slick";
 
 const ImageSlider = ({
-  slides,
+  cursorClass,
   handleClick,
   setState,
+  slides,
   handleDragStart,
   setDraggedItem,
   setDropZones,
-  cursorClass,
 }) => {
   const settings = {
     infinite: slides.length > 1,

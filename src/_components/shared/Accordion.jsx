@@ -21,7 +21,7 @@ const Accordion = ({ initial, entities, session, user, patient, institution }) =
         ))}
       </div>
       {entities?.map((entity, i) => (
-        <table
+        <section
           key={i}
           className={`table w-full *:*:*:border-gray-300 border-t border-secondary  ${
             isOpen != entity.name ? "hidden" : "block"
@@ -34,8 +34,8 @@ const Accordion = ({ initial, entities, session, user, patient, institution }) =
             patient={patient}
             user={user}
           />
-          <tbody className="accordion flex flex-col gap-1 max-h-80 overflow-y-auto rounded-br-[9px] rounded-tr-[9px] border-t border-b border-gray-300">
-            <tr className="grid grid-cols-1"></tr>
+          <div className="accordion flex flex-col gap-1 max-h-80 overflow-y-auto rounded-br-[9px] rounded-tr-[9px] border-t border-b border-gray-300">
+            <div className="grid grid-cols-1"></div>
             {entity.list?.length > 0 &&
               entity.list.map((el, j) => (
                 <EntityTableItem
@@ -48,9 +48,9 @@ const Accordion = ({ initial, entities, session, user, patient, institution }) =
                   institution={institution}
                 />
               ))}
-            <tr className="grid grid-cols-1"></tr>
-          </tbody>
-        </table>
+            <div className="grid grid-cols-1"></div>
+          </div>
+        </section>
       ))}
     </>
   );

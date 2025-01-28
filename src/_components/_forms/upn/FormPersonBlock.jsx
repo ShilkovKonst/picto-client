@@ -19,19 +19,20 @@ const FormPersonBlock = ({
   setForm,
   handleChange,
 }) => {
+  console.log(form.firstName != undefined && 1)
   useEffect(() => {
     entityName == "users" &&
       setForm({
         ...form,
-        email: entity?.email ?? "",
-        lastName: entity?.lastName ?? "",
-        firstName: entity?.firstName ?? "",
-        phoneNumber: entity?.phoneNumber ?? "",
-        job: entity?.job ?? "",
-        active: entity?.active ?? true,
-        verified: entity?.verified ?? undefined,
-        roles: entity?.roles?.map((r) => r.id) ?? [],
-        institutionId: entity?.institution?.id ?? -1,
+        email: entity ? entity?.email : "",
+        lastName: entity ? entity?.lastName : "",
+        firstName: entity ? entity?.firstName : "",
+        phoneNumber: entity ? entity?.phoneNumber : "",
+        job: entity ? entity?.job : "",
+        active: entity ? entity?.active : true,
+        verified: entity ? entity?.verified : false,
+        roles: entity ? entity?.roles : [],
+        institutionId: entity ? entity?.institution?.id : -1,
       });
     entityName == "patients" &&
       setForm({
@@ -47,23 +48,23 @@ const FormPersonBlock = ({
       });
   }, []);
 
-  const addRole = (roleId) => {
+  const addRole = (role) => {
     setForm({
       ...form,
-      roles: [...form.roles, roleId],
+      roles: [...form.roles, role],
     });
   };
-  const removeRole = (roleId) => {
+  const removeRole = (role) => {
     setForm({
       ...form,
-      roles: form.roles.filter((r) => r != roleId),
+      roles: form.roles.filter((r) => r != role),
     });
   };
   const handleRoleChange = (e, role) => {
     if (e.target.checked) {
-      addRole(role.id);
+      addRole(role);
     } else {
-      removeRole(role.id);
+      removeRole(role);
     }
   };
   const handleCheckboxChange = (e) => {
@@ -90,7 +91,7 @@ const FormPersonBlock = ({
           <FormTextField
             id={"lastName"}
             title={"Nom:"}
-            defaultValue={form.lastName}
+            defaultValue={form.lastName ?? ""}
             handleChange={handleChange}
           />
         ) : (
@@ -100,7 +101,7 @@ const FormPersonBlock = ({
           <FormTextField
             id={"firstName"}
             title={"Prénom:"}
-            defaultValue={form.firstName}
+            defaultValue={form.firstName ?? ""}
             handleChange={handleChange}
           />
         ) : (
@@ -113,7 +114,7 @@ const FormPersonBlock = ({
             <FormTextField
               id={"code"}
               title={"Code:"}
-              defaultValue={form.code}
+              defaultValue={form.code ?? ""}
               handleChange={handleChange}
             />
           ) : (
@@ -123,7 +124,7 @@ const FormPersonBlock = ({
             <FormTextField
               id={"grade"}
               title={"Grade:"}
-              defaultValue={form.grade}
+              defaultValue={form.grade ?? ""}
               handleChange={handleChange}
             />
           ) : (
@@ -137,7 +138,7 @@ const FormPersonBlock = ({
             <FormTextField
               id={"phoneNumber"}
               title={"Numéro de téléphone:"}
-              defaultValue={form.phoneNumber}
+              defaultValue={form.phoneNumber ?? ""}
               handleChange={handleChange}
             />
           ) : (
@@ -147,7 +148,7 @@ const FormPersonBlock = ({
             <FormTextField
               id={"job"}
               title={"Fonction:"}
-              defaultValue={form.job}
+              defaultValue={form.job ?? ""}
               handleChange={handleChange}
             />
           ) : (
@@ -212,11 +213,11 @@ const FormPersonBlock = ({
           />
         )}
         {entityName == "users" &&
-          session?.roles?.includes("ROLE_SUPERADMIN") && (
+          session?.roles?.includes("ROLE_ADMIN") && (
             <FormEmailField
               id={"email"}
               title={"Email"}
-              defaultValue={form.email}
+              defaultValue={form.email ?? ""}
               handleChange={handleChange}
             />
           )}
@@ -231,7 +232,7 @@ const FormPersonBlock = ({
               defaultValue={form.institutionId}
               handleChange={handleChange}
               zeroListElement={"Choisir une institution"}
-              list={institutions}
+              list={institutions.filter((i) => i.id == session.institution.id)}
             />
           ) : (
             <LoadingSpinner text={"Loading Institution..."} />
@@ -246,17 +247,17 @@ const FormPersonBlock = ({
                       return true;
                     }
                     if (session.roles.includes("ROLE_ADMIN")) {
-                      return r.title !== "ROLE_SUPERADMIN";
+                      return r !== "ROLE_SUPERADMIN";
                     }
                     return false;
                   })
                   ?.map((r, i) => (
                     <FormCheckboxField
                       key={i}
-                      id={r.id}
-                      value={r.id}
-                      title={r.title}
-                      checked={form?.roles?.includes(r.id) ? true : false}
+                      id={r}
+                      value={r}
+                      title={r}
+                      checked={form?.roles?.includes(r) ? true : false}
                       handleChange={(e) => handleRoleChange(e, r)}
                     />
                   ))

@@ -37,14 +37,14 @@ const EntityList = ({ data, session, entityName }) => {
 
   return (
     <>
-      <table className="table w-full min-h-96 *:*:*:border-gray-300">
+      <div className="table w-full min-h-96 *:*:*:border-gray-300">
         <EntityListHeader
           entityName={entityName}
           qnty={data?.page?.totalElements ?? 0}
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
         />
-        <tbody className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
           <EntityTableHeader entityName={entityName} session={session} />
           {data?.content &&
             data.content.map(
@@ -59,8 +59,8 @@ const EntityList = ({ data, session, entityName }) => {
                   />
                 )
             )}
-        </tbody>
-      </table>
+        </div>
+      </div>
       {data?.content?.length > 0 && (
         <Pagination data={data} entityName={entityName} />
       )}

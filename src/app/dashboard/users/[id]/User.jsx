@@ -58,9 +58,9 @@ const User = ({ user, session, patients, notes }) => {
                 {user?.roles?.map((r, i) => (
                   <div
                     key={i}
-                    className="cursor-default text-xs bg-primary hover:bg-secondary transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
+                    className="cursor-default text-xs bg-primary transition ease-in-out duration-300 text-white py-1 px-3 rounded-full"
                   >
-                    {r.title}
+                    {r}
                   </div>
                 ))}
               </>

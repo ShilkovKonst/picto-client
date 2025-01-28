@@ -8,6 +8,7 @@ import FormTextAreaField from "@/_components/_forms/shared/FormTextAreaField";
 import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormImageField from "@/_components/_forms/shared/FormImageField";
 import ConfirmButton from "@/_components/shared/ConfirmButton";
+import FormQuestionBlock from "./FormQuestionBlock";
 
 const Form = ({
   session,
@@ -16,6 +17,7 @@ const Form = ({
   pathname,
   categories,
   questions,
+  pictograms,
   tags,
 }) => {
   const router = useRouter();
@@ -40,13 +42,13 @@ const Form = ({
       case "categories":
         form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
         formData.append("supercategoryId", form.supercategoryId);
-        formData.append("questions", JSON.stringify(form.questions));
         break;
       case "pictograms":
         form.imageFileReq && formData.append("imageFileReq", form.imageFileReq);
         formData.append("type", form.type);
         formData.append("categoryId", form.categoryId);
         formData.append("tags", JSON.stringify(form.tags));
+        formData.append("questions", JSON.stringify(form.questions));
         form.tags.includes("3") &&
           formData.append("irregular", JSON.stringify(form.irregular));
         break;
@@ -128,7 +130,6 @@ const Form = ({
         <FormCategoryBlock
           category={entity}
           categories={categories}
-          questions={questions}
           form={form}
           setForm={setForm}
           handleChange={handleChange}
@@ -140,6 +141,17 @@ const Form = ({
           pictogram={entity}
           categories={categories}
           tags={tags}
+          questions={questions}
+          form={form}
+          setForm={setForm}
+          handleChange={handleChange}
+        />
+      )}
+
+      {entityName == "questions" && (
+        <FormQuestionBlock
+          question={entity}
+          pictograms={pictograms}
           form={form}
           setForm={setForm}
           handleChange={handleChange}

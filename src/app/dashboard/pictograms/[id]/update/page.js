@@ -12,7 +12,8 @@ const page = async (props) => {
   const pictogram = await getOneById("pictograms", params.id, accessToken);
   const categories = await getAllAsSimpleList("categories", accessToken);
   const tags = await getAllAsList("tags", accessToken);
-
+  const questions = await getAllAsList("questions", accessToken);
+  
   return (
     <EntityUpdate
       session={session}
@@ -20,6 +21,7 @@ const page = async (props) => {
       entityName={"pictograms"}
       categories={categories}
       tags={tags}
+      questions={questions}
     />
   );
 };

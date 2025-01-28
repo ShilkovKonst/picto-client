@@ -18,8 +18,8 @@ const AccordionHeader = ({ entityName, pathname, session, user, patient }) => {
     isSessionUser ||
     isNotInstitutionsOrUsersOrPatientsOrNotes(entityName);
   return (
-    <thead className="relative">
-      <tr
+    <div className="relative">
+      <div
         className={`h-8 grid grid-cols-${
           entityName == "notes"
             ? "4"
@@ -28,7 +28,7 @@ const AccordionHeader = ({ entityName, pathname, session, user, patient }) => {
             : "2"
         } *:border-l-0 *:border-r-0 *:border-t-0 *:border-b-0 *:text-sm md:*:text-base my-1`}
       >
-        <th className="flex justify-center items-center gap-1">
+        <p className="flex justify-center items-center gap-1">
           {entityName == "notes" &&
           (pathname.includes("users") || pathname.split("/").length == 2)
             ? "Patient"
@@ -37,20 +37,20 @@ const AccordionHeader = ({ entityName, pathname, session, user, patient }) => {
             : entityName == "patients" || entityName == "users"
             ? "Nom"
             : "Titre"}
-        </th>
+        </p>
         {(entityName == "notes" ||
           entityName == "pictograms" ||
           entityName == "categories") && (
-          <th className="flex justify-center items-center gap-1">
+          <p className="flex justify-center items-center gap-1">
             {entityName == "notes" ? "Estimation" : "Image"}
-          </th>
+          </p>
         )}
         {entityName == "notes" && (
-          <th className="flex justify-center items-center gap-1">
+          <p className="flex justify-center items-center gap-1">
             {entityName == "notes" ? "Date" : "Titre"}
-          </th>
+          </p>
         )}
-        <th className="relative flex justify-center items-center gap-1">
+        <div className="relative flex justify-center items-center gap-1">
           <p className="mr-6 lg:mr-0">Actions</p>
           {session.active && session.verified && updateDeleteCondition && (
             <div className="absolute right-3 top-0 bottom-0 flex justify-center items-center">
@@ -66,9 +66,9 @@ const AccordionHeader = ({ entityName, pathname, session, user, patient }) => {
               />
             </div>
           )}
-        </th>
-      </tr>
-    </thead>
+        </div>
+      </div>
+    </div>
   );
 };
 
