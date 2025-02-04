@@ -2,6 +2,7 @@
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import { irregularId } from "@/_constants/pictoTypes";
+import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 
@@ -13,9 +14,6 @@ const FormNounBlock = ({
   setIsIrregular,
   handleChange,
   handleRadioChange,
-  handleCheckboxChange,
-  add,
-  remove,
 }) => {
   const nounTagsPool = tags.filter(
     (t) => t.title == "masculin" || t.title == "feminin"
@@ -71,7 +69,7 @@ const FormNounBlock = ({
           checked={form?.tags?.includes(irregularId(tags)?.toString()) ?? false}
           handleChange={(e) => {
             setIsIrregular((prev) => !prev);
-            return handleCheckboxChange(e, "tags", add, remove);
+            return handleCheckboxChange(e, "tags", form, setForm);
           }}
         />
         {isIrregular && (

@@ -1,16 +1,15 @@
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import { irregularId } from "@/_constants/pictoTypes";
+import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import { Label, TextInput } from "flowbite-react";
 
 const FormAdjectiveBlock = ({
   form,
+  setForm,
   tags,
   isIrregular,
   setIsIrregular,
   handleChange,
-  handleCheckboxChange,
-  add,
-  remove,
 }) => {
   return (
     <div className={`lg:flex lg:justify-between lg:gap-3`}>
@@ -28,7 +27,7 @@ const FormAdjectiveBlock = ({
           checked={form?.tags?.includes(irregularId(tags)?.toString()) ?? false}
           handleChange={(e) => {
             setIsIrregular((prev) => !prev);
-            return handleCheckboxChange(e, "tags", add, remove);
+            return handleCheckboxChange(e, "tags", form, setForm);
           }}
         />
         {isIrregular && (

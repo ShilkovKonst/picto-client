@@ -86,10 +86,11 @@ export async function getAllByOtherAsList(
   entityName,
   otherName,
   otherId,
-  accessToken
+  accessToken, 
+  simple = false
 ) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?asList=true`,
+    `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${otherName}/${otherId}?asList=true&simple=${simple ? "true" : "false" }`,
     {
       method: "GET",
       headers: {

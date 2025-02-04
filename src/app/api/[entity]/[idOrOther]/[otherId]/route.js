@@ -5,17 +5,18 @@ export async function GET(req, props) {
   const entityName = params.entity;
   const otherName = params.idOrOther;
   const id = params.otherId;
-  console.log(id)
   const accessToken = req?.cookies?.get("accessToken");
   const searchParams = req?.nextUrl?.searchParams;
   const {
     asList,
+    simple,
     page = 0,
     size = 5,
   } = Object.fromEntries(searchParams.entries());
+  // console.log("searchParams.entries()", searchParams.entries())
   try {
     if (asList) {
-      return await getAllByOtherAsList(entityName, otherName, id, accessToken);
+      return await getAllByOtherAsList(entityName, otherName, id, accessToken, simple);
     }
     return await getAllByOtherAsPage(entityName, otherName, id, page, size, accessToken);
   } catch (error) {
@@ -51,9 +52,9 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
   return NextResponse.json(data);
 }
 
-async function getAllByOtherAsList(entityName, otherName, otherId, accessToken) {
+async function getAllByOtherAsList(entityName, otherName, otherId, accessToken, simple) {
   const response = await fetch(
-    `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}`,
+    `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}${simple == "true" ? "?simple" : ""}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken.value}`,

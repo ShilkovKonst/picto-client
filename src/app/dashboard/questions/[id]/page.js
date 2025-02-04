@@ -14,7 +14,15 @@ const page = async (props) => {
     params.id,
     accessToken
   );
-  return <Question question={question} pictograms={pictograms} session={session} />;
+  return (
+    <Question
+      question={question}
+      pictograms={pictograms.sort((a, b) =>
+        a.category.title.toLowerCase() > b.category.title.toLowerCase() ? 1 : -1
+      )}
+      session={session}
+    />
+  );
 };
 
 export default page;

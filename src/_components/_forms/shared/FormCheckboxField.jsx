@@ -6,7 +6,7 @@ const FormCheckboxField = ({
   title,
 }) => {
   return (
-    <div className="flex items-center gap-3 my-1">
+    <div className="flex items-center gap-3 m-1">
       <input
         type="checkbox"
         id={id}

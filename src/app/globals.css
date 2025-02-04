@@ -43,6 +43,22 @@ body {
   box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
 }
 
+/* update/create question pictograms list scrollbar */
+.pictogramList::-webkit-scrollbar {
+  width: 15px;
+}
+.pictogramList::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+}
+.pictogramList::-webkit-scrollbar-thumb {
+  background: #1e646f88;
+  box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
+}
+.pictogramList::-webkit-scrollbar-thumb:hover {
+  background: #1e646faa;
+  box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
+}
+
 /* Arrows */
 .slick-prev,
 .slick-next {

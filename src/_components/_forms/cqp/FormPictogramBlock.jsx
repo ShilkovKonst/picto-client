@@ -5,9 +5,9 @@ import FormNounBlock from "./FormNounBlock";
 import FormAdjectiveBlock from "./FormAdjectiveBlock";
 import FormPronounBlock from "./FormPronounBlock";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
-import { Label } from "flowbite-react";
 import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 import FormCheckboxField from "../shared/FormCheckboxField";
+import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 
 const FormPictogramBlock = ({
   pictogram,
@@ -19,7 +19,7 @@ const FormPictogramBlock = ({
   questions,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
-  console.log(form)
+  
   useEffect(() => {
     setForm({
       ...form,
@@ -95,27 +95,6 @@ const FormPictogramBlock = ({
     setIsIrregular(form?.tags?.includes("3"));
   }, [form]);
 
-  const remove = (field, value) => {
-    setForm({
-      ...form,
-      [field]: form[field].filter((item) => item != value),
-    });
-  };
-  const add = (field, value) => {
-    console.log(value);
-    setForm({
-      ...form,
-      [field]: [...form[field], value],
-    });
-  };
-  const handleCheckboxChange = (e, field, add, remove) => {
-    if (e.target.checked) {
-      add(field, e.target.value);
-    } else {
-      remove(field, e.target.value);
-    }
-  };
-
   const handleTypeChange = (e) => {
     setIsIrregular(false);
     setForm((prevForm) => ({
@@ -169,8 +148,6 @@ const FormPictogramBlock = ({
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
-          add={add}
-          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -183,8 +160,6 @@ const FormPictogramBlock = ({
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
           handleCheckboxChange={handleCheckboxChange}
-          add={add}
-          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -192,11 +167,10 @@ const FormPictogramBlock = ({
       {form.type == "adjectif" && (
         <FormAdjectiveBlock
           form={form}
+          setForm={setForm}
           tags={tags}
           handleChange={handleIrregularChange}
           handleCheckboxChange={handleCheckboxChange}
-          add={add}
-          remove={remove}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -224,7 +198,7 @@ const FormPictogramBlock = ({
                   form?.questions?.includes(q.id.toString()) ? true : false
                 }
                 handleChange={(e) =>
-                  handleCheckboxChange(e, "questions", add, remove)
+                  handleCheckboxChange(e, "questions", form, setForm)
                 }
               />
             ))

@@ -8,7 +8,7 @@ const page = async (props) => {
   const page = searchParams.page ?? 0;
   const size = searchParams.size ?? 5;
   const data = await getAllAsPage("questions", page, size, accessToken);
-
+  
   return (
     <EntityList session={session} data={data ?? []} entityName="questions" />
   );

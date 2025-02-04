@@ -35,13 +35,13 @@ export const update = async (
   const response = await updateOne(entity.id, entityName, formData);
   console.log("response updateOne", response);
   // status 202 - accepted
-  if (response.status == 202) {
+  if (response?.status == 202) {
     entityName == "users" && session.id == entity.id
       ? router.push(`/dashboard`)
       : router.push(`/dashboard/${entityName}/${response.id}`);
     router.refresh();
   }
-  if (response.status >= 400) {
+  if (response?.status >= 400) {
     setIsLoading(false);
     setError(true);
     setErrorMessage(response.title);

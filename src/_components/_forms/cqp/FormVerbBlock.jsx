@@ -5,6 +5,7 @@ import { irregularId } from "@/_constants/pictoTypes";
 import FormConjugationBlock from "./FormConjugationBlock";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
+import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 
 const FormVerbBlock = ({
   form,
@@ -14,9 +15,6 @@ const FormVerbBlock = ({
   setIsIrregular,
   handleChange,
   handleRadioChange,
-  handleCheckboxChange,
-  add,
-  remove,
 }) => {
   const verbTagsPool = tags.filter(
     (t) => t.title == "auxiliaire_avoir" || t.title == "auxiliaire_etre"
@@ -85,7 +83,7 @@ const FormVerbBlock = ({
             }
             handleChange={(e) => {
               setIsIrregular((prev) => !prev);
-              return handleCheckboxChange(e, "tags", add, remove);
+              return handleCheckboxChange(e, "tags", form, setForm);
             }}
           />
           {isIrregular && (

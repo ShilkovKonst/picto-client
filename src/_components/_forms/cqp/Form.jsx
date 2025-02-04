@@ -34,6 +34,7 @@ const Form = ({
   };
 
   const handleSubmit = async (e) => {
+    console.log("form after submit", form);
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData();
@@ -52,7 +53,12 @@ const Form = ({
         form.tags.includes("3") &&
           formData.append("irregular", JSON.stringify(form.irregular));
         break;
+      case "questions":
+        formData.append("tense", form.tense);
+        formData.append("pictograms", JSON.stringify(form.pictograms));
+        break;
     }
+    console.log("formData after submit", formData.get("pictograms"));
     try {
       // on create
       if (pathname.includes("create")) {
@@ -80,6 +86,7 @@ const Form = ({
       }
       router.refresh();
     } catch (error) {
+      setIsLoading(false);
       throw new Error(
         "Une erreur s'est produite lors de l'envoi du message. " + error.message
       );
@@ -151,7 +158,7 @@ const Form = ({
       {entityName == "questions" && (
         <FormQuestionBlock
           question={entity}
-          pictograms={pictograms}
+          categories={categories}
           form={form}
           setForm={setForm}
           handleChange={handleChange}
