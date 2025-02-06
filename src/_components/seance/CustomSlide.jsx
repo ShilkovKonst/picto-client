@@ -1,11 +1,12 @@
+import { handleDragStart } from "@/_lib/DragNDrop";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import Image from "next/image";
 
 const CustomSlide = ({
   slide,
-  handleDragStart,
   setDraggedItem,
   setDropZones,
+  setPhrase,
   cursorClass,
 }) => {
   return (
@@ -17,9 +18,9 @@ const CustomSlide = ({
         <Image
           {...(handleDragStart && {
             onMouseDown: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones),
+              handleDragStart(e, slide, setDraggedItem, setDropZones, setPhrase),
             onTouchStart: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones),
+              handleDragStart(e, slide, setDraggedItem, setDropZones, setPhrase),
           })}
           className={cursorClass}
           src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}

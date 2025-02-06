@@ -13,7 +13,11 @@ const Dialogue = ({ questions }) => {
   const [pictograms, setPictograms] = useState(null);
   const [dropZones, setDropZones] = useState(Array(10).fill(null));
   const [draggedItem, setDraggedItem] = useState(null);
-  const [sentence, setSentence] = useState("");
+  const [phrase, setPhrase] = useState({
+    text: null,
+    words: Array(10).fill(null),
+    audio: null,
+  });
 
   const handleClick = (entity) => {
     setSelectedQuestion(entity);
@@ -36,6 +40,8 @@ const Dialogue = ({ questions }) => {
     selectedQuestion && fetchPictos();
   }, [selectedQuestion]);
 
+
+  console.log(phrase)
   return (
     <div className="relative">
       <DialogueQuestionSelector
@@ -48,15 +54,18 @@ const Dialogue = ({ questions }) => {
       {pictograms && (
         <ImageSlider
           cursorClass="cursor-grab"
-          slides={pictograms.sort((a, b) => (a.category.title < b.category.title ? -1 : 1))}
-          handleDragStart={handleDragStart}
+          slides={pictograms.sort((a, b) =>
+            a.category.title < b.category.title ? -1 : 1
+          )}
           setDraggedItem={setDraggedItem}
           setDropZones={setDropZones}
+          setPhrase={setPhrase}
         />
       )}
       <Dropzone
         dropZones={dropZones}
         setDropZones={setDropZones}
+        setPhrase={setPhrase}
         draggedItem={draggedItem}
       />
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">

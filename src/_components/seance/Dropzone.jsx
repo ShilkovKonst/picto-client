@@ -1,12 +1,21 @@
 import { textToSpeech } from "@/_lib/textToSpeech";
 import Image from "next/image";
 
-const Dropzone = ({ dropZones, setDropZones, draggedItem }) => {
+const Dropzone = ({ dropZones, setDropZones, setPhrase, draggedItem }) => {
   const handleClick = (e, i, slide) => {
     setDropZones((prev) => {
       const newDropZones = [...prev];
       newDropZones[i] = null;
       return newDropZones;
+    });
+    setPhrase((prev) => {
+      const newWords = [...prev.words];
+      newWords[i] = null;
+      const newText = newWords
+        .filter((word) => word != null)
+        .map((word) => word.pictogram.title)
+        .join(" ");
+      return { ...prev, text: newText, words: newWords };
     });
   };
 

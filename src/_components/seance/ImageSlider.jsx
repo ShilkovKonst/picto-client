@@ -7,7 +7,7 @@ import CustomSlide from "./CustomSlide";
 const ImageSlider = ({
   cursorClass,
   slides,
-  handleDragStart,
+  setPhrase,
   setDraggedItem,
   setDropZones,
 }) => {
@@ -48,9 +48,9 @@ const ImageSlider = ({
             key={i}
             cursorClass={cursorClass}
             slide={slide}
-            handleDragStart={handleDragStart}
             setDraggedItem={setDraggedItem}
             setDropZones={setDropZones}
+            setPhrase={setPhrase}
           />
         ))}
       </Slider>
