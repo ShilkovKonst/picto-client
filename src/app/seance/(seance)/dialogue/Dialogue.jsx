@@ -69,12 +69,14 @@ const Dialogue = ({ questions }) => {
       <Dropzone
         dropZones={dropZones}
         setDropZones={setDropZones}
+        phrase={phrase}
         setPhrase={setPhrase}
         draggedItem={draggedItem}
       />
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
         <p className="dropzone flex text-xl justify-center items-center overflow-hidden h-16 md:h-20 lg:h-24 xl:mx-auto rounded-xl">
-          {dropZones?.map((slide) => (slide ? slide.title + " " : " "))}
+          {/* {dropZones?.map((slide) => (slide ? slide.title + " " : " "))} */}
+          {phrase.text}
         </p>
       </div>
     </div>

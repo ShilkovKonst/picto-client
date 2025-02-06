@@ -19,7 +19,7 @@ const FormPictogramBlock = ({
   questions,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
-  
+
   useEffect(() => {
     setForm({
       ...form,
@@ -180,31 +180,32 @@ const FormPictogramBlock = ({
           form={form}
           setForm={setForm}
           tags={tags}
-          handleRadioChange={handleRadioChange}
         />
       )}
       <div className={`lg:flex lg:justify-between lg:gap-3`}>
         <div>
           <label>Questions:</label>
-          {form?.questions ? (
-            questions.length > 0 &&
-            questions.map((q, i) => (
-              <FormCheckboxField
-                key={i}
-                id={"q" + q.id}
-                value={q.id}
-                title={q.title}
-                checked={
-                  form?.questions?.includes(q.id.toString()) ? true : false
-                }
-                handleChange={(e) =>
-                  handleCheckboxChange(e, "questions", form, setForm)
-                }
-              />
-            ))
-          ) : (
-            <LoadingSpinner text={"Loading questions..."} />
-          )}
+          <div className="max-h-60 overflow-y-scroll">
+            {form?.questions ? (
+              questions.length > 0 &&
+              questions.map((q, i) => (
+                <FormCheckboxField
+                  key={i}
+                  id={"q" + q.id}
+                  value={q.id}
+                  title={q.title}
+                  checked={
+                    form?.questions?.includes(q.id.toString()) ? true : false
+                  }
+                  handleChange={(e) =>
+                    handleCheckboxChange(e, "questions", form, setForm)
+                  }
+                />
+              ))
+            ) : (
+              <LoadingSpinner text={"Loading questions..."} />
+            )}
+          </div>
         </div>
       </div>
     </>

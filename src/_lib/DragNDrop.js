@@ -75,11 +75,11 @@ export const handleDragStart = (
 
     if (dropzone) {
       const index = parseInt(dropzone.id.split("-")[1], 10);
-      setDropZones((prev) => {
-        const newDropZones = [...prev];
-        newDropZones[index] = item;
-        return newDropZones;
-      });
+      // setDropZones((prev) => {
+      //   const newDropZones = [...prev];
+      //   newDropZones[index] = item;
+      //   return newDropZones;
+      // });
       setPhrase((prev) => {
         const newWords = [...prev.words];
         newWords[index] = { place: index, pictogram: item };
