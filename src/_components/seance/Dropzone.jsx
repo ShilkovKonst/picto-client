@@ -11,11 +11,15 @@ const Dropzone = ({ dropZones, setDropZones, setPhrase, draggedItem }) => {
     setPhrase((prev) => {
       const newWords = [...prev.words];
       newWords[i] = null;
-      const newText = newWords
-        .filter((word) => word != null)
-        .map((word) => word.pictogram.title)
-        .join(" ");
-      return { ...prev, text: newText, words: newWords };
+      return {
+        ...prev,
+        text: newWords
+          .filter((w) => w != null)
+          .map((w) => w?.pictogram?.title)
+          .join(" ")
+          .trim(),
+        words: newWords,
+      };
     });
   };
 

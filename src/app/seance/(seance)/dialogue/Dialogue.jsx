@@ -40,8 +40,12 @@ const Dialogue = ({ questions }) => {
     selectedQuestion && fetchPictos();
   }, [selectedQuestion]);
 
+  useEffect(() => {
+    phrase.text && console.log(phrase.text)
+    //TODO phrase correction logic
+  }, [phrase.text]);
 
-  console.log(phrase)
+  console.log(phrase);
   return (
     <div className="relative">
       <DialogueQuestionSelector
