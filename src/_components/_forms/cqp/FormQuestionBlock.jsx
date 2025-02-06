@@ -10,7 +10,7 @@ import FormRadioField from "../shared/FormRadioField";
 const FormQuestionBlock = ({ question, categories, form, setForm }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
-
+  console.log(form);
   useEffect(() => {
     setForm({
       ...form,
@@ -27,7 +27,7 @@ const FormQuestionBlock = ({ question, categories, form, setForm }) => {
     <div>
       <div className={`flex flex-col lg:justify-between`}>
         <p>Choisir un temps de réponse:</p>
-        {form?.tense &&
+        {form.tense != null || form.tense != undefined ?
           tenses.map((tense, i) => (
             <FormRadioField
               key={i}
@@ -39,7 +39,9 @@ const FormQuestionBlock = ({ question, categories, form, setForm }) => {
                 setForm({ ...form, [e.target.name]: e.target.value })
               }
             />
-          ))}
+          )) : (
+            <LoadingSpinner text={"Loading tenses..."} />
+          )}
       </div>
       <div className={`flex flex-col lg:justify-between`}>
         <p>Ajouter des pictogrammes des catégories suivantes:</p>

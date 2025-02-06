@@ -59,6 +59,36 @@ body {
   box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
 }
 
+/* Seance application buttons color style*/
+.play {
+  background: #20c997;
+  border-color: #33d4a8;
+  &:hover {
+    background: #1aa179;
+  }
+}
+.play_step {
+  background: #007bff;
+  border-color: #3399ff;
+  &:hover {
+    background: #0066cc;
+  }
+}
+.delete {
+  background: #b00707;
+  border-color: #d91a1a;
+  &:hover {
+    background: #8a0505;
+  }
+}
+.legend {
+  background: #57c0b7;
+  border-color: #6fd2c9;
+  &:hover {
+    background: #46a29a;
+  }
+}
+
 /* Arrows */
 .slick-prev,
 .slick-next {
@@ -80,7 +110,6 @@ body {
   cursor: pointer;
 
   color: transparent;
-  /* border: solid black 1px !important; */
   border: none;
   outline: none;
   background: transparent;

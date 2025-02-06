@@ -1,8 +1,6 @@
 import {
   isAdmin,
   isNotInstitutionsOrUsersOrPatientsOrNotes,
-  isSessionsInstitution,
-  isSessionsPatientOrNote,
   isSuperAdmin,
 } from "@/_lib/checkConditions";
 import { CreateIcon } from "../icons";
@@ -58,8 +56,6 @@ const AccordionHeader = ({ entityName, pathname, session, user, patient }) => {
                 icon={<CreateIcon isSublist={true} />}
                 isSublist={true}
                 title={"Créer"}
-                position="top"
-                type="info"
                 href={`/dashboard/${entityName}/create?user=${session?.id}${
                   patient ? "&patient=" + patient?.id : ""
                 }`}

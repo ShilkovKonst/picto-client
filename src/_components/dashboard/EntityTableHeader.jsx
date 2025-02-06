@@ -84,8 +84,6 @@ const EntityTableHeader = ({ entityName, session }) => {
               icon={<CreateIcon />}
               isSublist={false}
               title={"Créer"}
-              position="top"
-              type="info"
             />
           </div>
         )}

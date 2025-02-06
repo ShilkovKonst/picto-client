@@ -31,7 +31,7 @@ const DialogueQuestionSelector = ({
             <button
               key={i}
               className="text-lg hover:font-bold bg-pform my-1 w-full shadow-inset-5/5 rounded-full border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]"
-              onClick={() => handleClick(question, setSelectedQuestion)}
+              onClick={() => handleClick(question)}
             >
               {question.title}
             </button>

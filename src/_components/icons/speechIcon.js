@@ -1,9 +1,9 @@
-import React from "react";
-
 const SpeechIcon = ({ isSublist }) => {
   return (
     <svg
-      className={isSublist ? "w-5 h-5 text-white" : "w-5 h-5 md:w-6 md:h-6 text-white"}
+      className={
+        isSublist ? "w-5 h-5 text-white" : "w-5 h-5 md:w-6 md:h-6 text-white"
+      }
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"

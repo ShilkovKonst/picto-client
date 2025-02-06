@@ -1,5 +1,6 @@
 import HeaderImage from "../shared/HeaderImage";
-import LayoutNavButton from "./LayoutNavButton";
+import LayoutManagement from "./LayoutManagement";
+import LayoutNavModal from "./LayoutNavModal";
 
 const LayoutNav = ({ session }) => {
   return (
@@ -7,7 +8,8 @@ const LayoutNav = ({ session }) => {
       <div className="p-1 md:p-3">
         <HeaderImage width={240} />
       </div>
-      <LayoutNavButton session={session} />
+      <LayoutNavModal session={session} />
+      <LayoutManagement />
     </nav>
   );
 };

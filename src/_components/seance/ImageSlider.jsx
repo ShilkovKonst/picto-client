@@ -1,13 +1,11 @@
 "use client";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Image from "next/image";
 import Slider from "react-slick";
+import CustomSlide from "./CustomSlide";
 
 const ImageSlider = ({
   cursorClass,
-  handleClick,
-  setState,
   slides,
   handleDragStart,
   setDraggedItem,
@@ -50,11 +48,9 @@ const ImageSlider = ({
             key={i}
             cursorClass={cursorClass}
             slide={slide}
-            setState={setState}
             handleDragStart={handleDragStart}
             setDraggedItem={setDraggedItem}
             setDropZones={setDropZones}
-            handleClick={handleClick}
           />
         ))}
       </Slider>
@@ -62,36 +58,3 @@ const ImageSlider = ({
   );
 };
 export default ImageSlider;
-
-const CustomSlide = ({
-  slide,
-  setState,
-  handleDragStart,
-  setDraggedItem,
-  setDropZones,
-  handleClick,
-  cursorClass,
-}) => {
-  return (
-    <div className="pb-6">
-      <button
-        onClick={() => handleClick(slide, setState)}
-        className={`flex justify-center items-center overflow-hidden h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 mx-auto rounded-xl border-2 border-primary`}
-      >
-        <Image
-          {...(handleDragStart && {
-            onMouseDown: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones),
-            onTouchStart: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones),
-          })}
-          className={cursorClass}
-          src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}
-          alt={slide?.media?.imageName}
-          width={96}
-          height={96}
-        />
-      </button>
-    </div>
-  );
-};

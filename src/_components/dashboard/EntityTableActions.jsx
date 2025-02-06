@@ -44,32 +44,26 @@ const EntityTableActions = ({
         entityName == "patients" &&
         entity.active && (
           <LinkAction
-            isSublist={false}
+            title={"Lancer une séance"}
+            isSublist={isSublist}
             href={`/seance?patient=${entity.id}`}
             icon={<BrainIcon isSublist={isSublist} />}
-            title={"Lancer une séance"}
-            position={"top"}
-            type="info"
           />
         )}
       {(entityName == "pictograms" || entityName == "categories") && (
         <ButtonAction
-          handleClick={() => textToSpeech(entity.title)}
-          icon={<SpeechIcon isSublist={isSublist} />}
           title={"Voix"}
           isSublist={isSublist}
-          position={"top"}
-          type="info"
+          icon={<SpeechIcon isSublist={isSublist} />}
+          handleClick={() => textToSpeech(entity.title)}
         />
       )}
       {session.active && session.verified && updateDeleteCondition && (
         <LinkAction
-          isSublist={isSublist}
-          href={`/dashboard/${entityName}/${entity.id}/update`}
-          icon={<UpdateIcon isSublist={isSublist} />}
           title={"Modifier"}
-          position={"top"}
-          type="info"
+          isSublist={isSublist}
+          icon={<UpdateIcon isSublist={isSublist} />}
+          href={`/dashboard/${entityName}/${entity.id}/update`}
         />
       )}
       {session.active && session.verified && updateDeleteCondition && (

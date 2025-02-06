@@ -29,8 +29,6 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
             href={`/seance?patient=${entity.id}`}
             icon={<BrainIcon isSublist={false} />}
             title={"Lancer une séance"}
-            position={"top"}
-            type="info"
           />
         )}
       {(entityName == "pictograms" || entityName == "categories") && (
@@ -39,8 +37,6 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
           icon={<SpeechIcon isSublist={false} />}
           title={"Voix"}
           isSublist={false}
-          position="top"
-          type="info"
         />
       )}
       {session.active && session.verified && updateDeleteCondition && (
@@ -49,8 +45,6 @@ const EntityHeaderActions = ({ session, entity, entityName }) => {
           href={`/dashboard/${entityName}/${entity.id}/update`}
           icon={<UpdateIcon isSublist={false} />}
           title={"Modifier"}
-          position={"top"}
-          type="info"
         />
       )}
       {session.active && session.verified && updateDeleteCondition && (

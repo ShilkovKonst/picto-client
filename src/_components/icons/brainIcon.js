@@ -1,9 +1,9 @@
 const BrainIcon = ({ isSublist }) => {
   return (
     <svg
-      className={`${
-        isSublist ? "w-5 h-5" : "w-5 h-5 md:w-6 md:h-6"
-      }  text-[#f9f9f9]`}
+      className={
+        isSublist ? "w-5 h-5 text-white" : "w-5 h-5 md:w-6 md:h-6 text-white"
+      }
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
