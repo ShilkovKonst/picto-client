@@ -1,29 +1,12 @@
 import { textToSpeech } from "@/_lib/textToSpeech";
 import Image from "next/image";
-import { FaRightToBracket, FaRotate, FaXmark } from "react-icons/fa6";
+import { FaRightToBracket, FaRotate } from "react-icons/fa6";
 
 const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
   const handleClick = (i) => {
     setPhrase((prev) => {
       let prevWords = [...prev.words];
       prevWords[i] = null;
-      prevWords = prevWords.filter((w) => w != null);
-      prevWords.push(null);
-      return {
-        ...prev,
-        text: prevWords
-          .filter((w) => w != null)
-          .map((w) => w?.pictogram?.title)
-          .join(" ")
-          .trim(),
-        words: prevWords,
-      };
-    });
-  };
-
-  const deleteZone = () => {
-    setPhrase((prev) => {
-      let prevWords = [...prev.words];
       prevWords = prevWords.filter((w) => w != null);
       prevWords.push(null);
       return {
@@ -67,24 +50,16 @@ const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
                 X
               </button>
               {draggedItem && (
-                <div
-                className="absolute h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] right-0 top-0 flex items-center justify-center font-bold rounded-bl-xl border-l-2 border-b-2 text-secondary bg-white opacity-65">
+                <div className="absolute h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] right-0 top-0 flex items-center justify-center font-bold rounded-bl-xl border-l-2 border-b-2 text-secondary bg-white opacity-65">
                   <FaRotate size={50} />
                 </div>
               )}
             </>
-          ) : draggedItem ? (
-            <div className="flex items-center justify-center w-full h-full font-bold text-secondary rotate-90">
-              <FaRightToBracket size={50} />
-            </div>
           ) : (
-            i < phrase?.words.length - 1 && (
-              <button
-                onClick={() => deleteZone(i)}
-                className="flex items-center justify-center w-full h-full font-bold  text-primary hover:text-secondary"
-              >
-                <FaXmark size={50} />
-              </button>
+            draggedItem && (
+              <div className="flex items-center justify-center w-full h-full font-bold text-secondary rotate-90">
+                <FaRightToBracket size={50} />
+              </div>
             )
           )}
         </div>
