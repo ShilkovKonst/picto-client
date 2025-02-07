@@ -5,7 +5,6 @@ import Image from "next/image";
 const CustomSlide = ({
   slide,
   setDraggedItem,
-  setDropZones,
   setPhrase,
   cursorClass,
 }) => {
@@ -18,9 +17,9 @@ const CustomSlide = ({
         <Image
           {...(handleDragStart && {
             onMouseDown: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones, setPhrase),
+              handleDragStart(e, slide, setDraggedItem, setPhrase),
             onTouchStart: (e) =>
-              handleDragStart(e, slide, setDraggedItem, setDropZones, setPhrase),
+              handleDragStart(e, slide, setDraggedItem, setPhrase),
           })}
           className={cursorClass}
           src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}

@@ -10,7 +10,7 @@ const FormPronounBlock = ({ form, setForm, tags }) => {
   const pronounTagsPool = pronounTagGroups.map((group) =>
     tags.filter((t) => group.includes(t.title))
   );
-  
+
   const handleRadioChange = (e, i) => {
     setForm((prev) => {
       const prevTags = [...prev.tags];
@@ -38,41 +38,6 @@ const FormPronounBlock = ({ form, setForm, tags }) => {
               ))}
             </div>
           ))}
-          {/* <div className="flex flex-col gap-2">
-            {tags?.map(
-              (t, i) =>
-                (t.title == "masculin" || t.title == "feminin") && (
-                  <FormRadioField
-                    key={i}
-                    name={"tags1"}
-                    id={t.id}
-                    title={t.title}
-                    checked={form?.tags?.includes(t.id.toString())}
-                    handleChange={(e) =>
-                      handleRadioChange(e, pronounTag1, setPronounTag1)
-                    }
-                  />
-                )
-            )}
-          </div>
-          <div className="border-r-2"></div>
-          <div className="flex flex-col gap-2">
-            {tags?.map(
-              (t, i) =>
-                (t.title == "singulier" || t.title == "pluriel") && (
-                  <FormRadioField
-                    key={i}
-                    name={"tags2"}
-                    id={t.id}
-                    title={t.title}
-                    checked={form?.tags?.includes(t.id.toString())}
-                    handleChange={(e) =>
-                      handleRadioChange(e, pronounTag2, setPronounTag2)
-                    }
-                  />
-                )
-            )}
-          </div> */}
         </div>
       </div>
     </div>
@@ -80,25 +45,3 @@ const FormPronounBlock = ({ form, setForm, tags }) => {
 };
 
 export default FormPronounBlock;
-
-// for (let i = 0; i < pronounTags.length; i++) {
-//   console.log(
-//     "pronounTags[i] && prevTags.includes(pronounTags[i])",
-//     pronounTags[i],
-//     prevTags.includes(pronounTags[i]),
-//     pronounTags[i] && !prevTags.includes(pronounTags[i])
-//   );
-//   if (pronounTags[i] && !prevTags.includes(pronounTags[i])) {
-//     const excludeIds = new Set(
-//       pronounTagsPool[i]
-//         .filter((e) => e.id !== pronounTagsPool[i].id)
-//         .map((e) => e.id)
-//     );
-//     prevTags.push(pronounTags[i]);
-//     return {
-//       ...prev,
-//       tags: prevTags.filter((t) => !excludeIds.has(Number(t))),
-//     };
-//   }
-// }
-// return prev;

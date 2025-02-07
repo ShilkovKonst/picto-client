@@ -1,7 +1,7 @@
 "use client";
 import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { irregularId } from "@/_constants/pictoTypes";
+import { irregularId } from "@/_constants/types";
 import FormConjugationBlock from "./FormConjugationBlock";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";

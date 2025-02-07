@@ -13,7 +13,6 @@ const remove = (field, value, form, setForm) => {
   });
 };
 const add = (field, value, form, setForm) => {
-  console.log(value);
   setForm({
     ...form,
     [field]: [...form[field], value],

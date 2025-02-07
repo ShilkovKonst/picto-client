@@ -1,10 +1,4 @@
-export const handleDragStart = (
-  e,
-  item,
-  setDraggedItem,
-  setDropZones,
-  setPhrase
-) => {
+export const handleDragStart = (e, item, setDraggedItem, setPhrase) => {
   e.type === "mousedown" && e.preventDefault();
   setDraggedItem(item);
 
@@ -75,14 +69,10 @@ export const handleDragStart = (
 
     if (dropzone) {
       const index = parseInt(dropzone.id.split("-")[1], 10);
-      // setDropZones((prev) => {
-      //   const newDropZones = [...prev];
-      //   newDropZones[index] = item;
-      //   return newDropZones;
-      // });
       setPhrase((prev) => {
         const newWords = [...prev.words];
         newWords[index] = { place: index, pictogram: item };
+        index == newWords.length - 1 && newWords.push(null);
         return {
           ...prev,
           words: newWords,

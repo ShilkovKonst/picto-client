@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { types } from "@/_constants/pictoTypes";
+import { pictoTypes } from "@/_constants/types";
 import FormVerbBlock from "./FormVerbBlock";
 import FormNounBlock from "./FormNounBlock";
 import FormAdjectiveBlock from "./FormAdjectiveBlock";
@@ -129,14 +129,14 @@ const FormPictogramBlock = ({
             list={categories}
           />
         )}
-        {form.type && types && (
+        {form.type && pictoTypes && (
           <FormSelectListField
             id={"type"}
             title={"Type:"}
             defaultValue={form.type}
             handleChange={handleTypeChange}
             zeroListElement={"Choisir une type"}
-            list={types}
+            list={pictoTypes}
           />
         )}
       </div>
@@ -147,7 +147,6 @@ const FormPictogramBlock = ({
           tags={tags}
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
-          handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -159,7 +158,6 @@ const FormPictogramBlock = ({
           tags={tags}
           handleChange={handleIrregularChange}
           handleRadioChange={handleRadioChange}
-          handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
@@ -170,12 +168,11 @@ const FormPictogramBlock = ({
           setForm={setForm}
           tags={tags}
           handleChange={handleIrregularChange}
-          handleCheckboxChange={handleCheckboxChange}
           isIrregular={isIrregular}
           setIsIrregular={setIsIrregular}
         />
       )}
-      {form.type == "pronom_ou_determinant" && (
+      {(form.type == "pronom" || form.type == "determinant") && (
         <FormPronounBlock
           form={form}
           setForm={setForm}

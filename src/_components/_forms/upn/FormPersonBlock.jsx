@@ -7,6 +7,7 @@ import FormSelectListField from "@/_components/_forms/shared/FormSelectListField
 import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormDatepickerField from "../shared/FormDatepickerField";
 import FormEmailField from "../shared/FormEmailField";
+import { roleTypes } from "@/_constants/types";
 
 const FormPersonBlock = ({
   session,
@@ -14,12 +15,11 @@ const FormPersonBlock = ({
   entityName,
   institutions,
   users,
-  roles,
   form,
   setForm,
   handleChange,
 }) => {
-  console.log(form.firstName != undefined && 1)
+  console.log(form.firstName != undefined && 1);
   useEffect(() => {
     entityName == "users" &&
       setForm({
@@ -177,7 +177,7 @@ const FormPersonBlock = ({
               )}
             </div>
           )}
-          {(session?.roles?.includes("ROLE_ADMIN") || 
+          {(session?.roles?.includes("ROLE_ADMIN") ||
             entity?.user?.id == session?.id) &&
           (entity == null || form.active != undefined) ? (
             <FormCheckboxField
@@ -191,7 +191,7 @@ const FormPersonBlock = ({
             <Spinner size={"sm"} aria-label="Loading active..." />
           )}
           {entityName == "users" &&
-            session?.roles?.includes("ROLE_ADMIN") && 
+            session?.roles?.includes("ROLE_ADMIN") &&
             (entity == null || form.verified != undefined ? (
               <FormCheckboxField
                 id={"verified"}
@@ -212,15 +212,14 @@ const FormPersonBlock = ({
             handleDateChange={handleDateChange}
           />
         )}
-        {entityName == "users" &&
-          session?.roles?.includes("ROLE_ADMIN") && (
-            <FormEmailField
-              id={"email"}
-              title={"Email"}
-              defaultValue={form.email ?? ""}
-              handleChange={handleChange}
-            />
-          )}
+        {entityName == "users" && session?.roles?.includes("ROLE_ADMIN") && (
+          <FormEmailField
+            id={"email"}
+            title={"Email"}
+            defaultValue={form.email ?? ""}
+            handleChange={handleChange}
+          />
+        )}
       </div>
 
       {entityName == "users" && (
@@ -237,11 +236,11 @@ const FormPersonBlock = ({
           ) : (
             <LoadingSpinner text={"Loading Institution..."} />
           )}
-          {session?.roles?.includes("ROLE_ADMIN") && ( 
+          {session?.roles?.includes("ROLE_ADMIN") && (
             <div>
               <p className="text-sm font-medium text-gray-900">Rôles:</p>
               {form?.roles ? (
-                roles
+                roleTypes
                   ?.filter((r) => {
                     if (session.roles.includes("ROLE_SUPERADMIN")) {
                       return true;

@@ -9,7 +9,6 @@ const ImageSlider = ({
   slides,
   setPhrase,
   setDraggedItem,
-  setDropZones,
 }) => {
   const settings = {
     infinite: slides.length > 1,
@@ -49,7 +48,6 @@ const ImageSlider = ({
             cursorClass={cursorClass}
             slide={slide}
             setDraggedItem={setDraggedItem}
-            setDropZones={setDropZones}
             setPhrase={setPhrase}
           />
         ))}

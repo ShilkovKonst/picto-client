@@ -1,5 +1,4 @@
 import EntityUpdate from "@/_components/dashboard/upn/EntityUpdate";
-import { roles } from "@/_constants/rolesTypes";
 import { getAllAsList } from "@/_lib/entityApiUtil";
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 
@@ -13,7 +12,6 @@ const page = async () => {
       session={session}
       entity={null}
       institutions={institutions}
-      roles={roles}
       entityName={"users"}
     />
   );

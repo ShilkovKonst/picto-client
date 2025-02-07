@@ -14,7 +14,6 @@ const Form = ({
   pathname,
   institutions,
   users,
-  roles,
   patients,
   patient,
 }) => {
@@ -133,7 +132,6 @@ const Form = ({
           entityName={entityName}
           users={users}
           institutions={institutions}
-          roles={roles}
           form={form}
           setForm={setForm}
           handleChange={handleChange}

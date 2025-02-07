@@ -1,36 +1,51 @@
 import { textToSpeech } from "@/_lib/textToSpeech";
 import Image from "next/image";
+import { FaRightToBracket, FaRotate, FaXmark } from "react-icons/fa6";
 
-const Dropzone = ({ dropZones, setDropZones, phrase, setPhrase, draggedItem }) => {
-  const handleClick = (e, i, slide) => {
-    // setDropZones((prev) => {
-    //   const newDropZones = [...prev];
-    //   newDropZones[i] = null;
-    //   return newDropZones;
-    // });
+const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
+  const handleClick = (i) => {
     setPhrase((prev) => {
-      const newWords = [...prev.words];
-      newWords[i] = null;
+      let prevWords = [...prev.words];
+      prevWords[i] = null;
+      prevWords = prevWords.filter((w) => w != null);
+      prevWords.push(null);
       return {
         ...prev,
-        text: newWords
+        text: prevWords
           .filter((w) => w != null)
           .map((w) => w?.pictogram?.title)
           .join(" ")
           .trim(),
-        words: newWords,
+        words: prevWords,
+      };
+    });
+  };
+
+  const deleteZone = () => {
+    setPhrase((prev) => {
+      let prevWords = [...prev.words];
+      prevWords = prevWords.filter((w) => w != null);
+      prevWords.push(null);
+      return {
+        ...prev,
+        text: prevWords
+          .filter((w) => w != null)
+          .map((w) => w?.pictogram?.title)
+          .join(" ")
+          .trim(),
+        words: prevWords,
       };
     });
   };
 
   return (
-    <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-2 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
+    <div className="bg-pform flex flex-wrap justify-start xl:justify-center px-8 py-2 mb-3 gap-2 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
       {/* {dropZones.map((slide, i) => ( */}
       {phrase?.words?.map((slide, i) => (
         <div
           key={i}
           id={`place-${i}`}
-          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] xl:mx-auto rounded-xl border-2 ${
+          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] xl:mx-5 rounded-xl border-2 ${
             draggedItem ? "border-secondary" : "border-primary"
           } `}
         >
@@ -39,9 +54,6 @@ const Dropzone = ({ dropZones, setDropZones, phrase, setPhrase, draggedItem }) =
             <>
               <Image
                 className="cursor-pointer"
-                // onClick={() => textToSpeech(slide.title)}
-                // src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}
-                // alt={slide?.media?.imageName}
                 onClick={() => textToSpeech(slide?.pictogram?.title)}
                 src={`data:${slide?.pictogram?.media?.imageFileRes?.type};base64,${slide?.pictogram?.media?.imageFileRes?.imageBase64}`}
                 alt={slide?.pictogram?.media?.imageName}
@@ -49,14 +61,31 @@ const Dropzone = ({ dropZones, setDropZones, phrase, setPhrase, draggedItem }) =
                 height={96}
               />
               <button
-                onClick={(e) => handleClick(e, i)}
+                onClick={() => handleClick(i)}
                 className="absolute h-6 w-6 right-0 top-0 font-bold rounded-bl-xl border-l-2 border-b-2 border-primary hover:bg-secondary bg-white"
               >
                 X
               </button>
+              {draggedItem && (
+                <div
+                className="absolute h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] right-0 top-0 flex items-center justify-center font-bold rounded-bl-xl border-l-2 border-b-2 text-secondary bg-white opacity-65">
+                  <FaRotate size={50} />
+                </div>
+              )}
             </>
+          ) : draggedItem ? (
+            <div className="flex items-center justify-center w-full h-full font-bold text-secondary rotate-90">
+              <FaRightToBracket size={50} />
+            </div>
           ) : (
-            i
+            i < phrase?.words.length - 1 && (
+              <button
+                onClick={() => deleteZone(i)}
+                className="flex items-center justify-center w-full h-full font-bold  text-primary hover:text-secondary"
+              >
+                <FaXmark size={50} />
+              </button>
+            )
           )}
         </div>
       ))}

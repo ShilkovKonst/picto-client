@@ -1,4 +1,4 @@
-import { catTypeList, pictoTypeList } from "@/_constants/sortLists";
+import { catListTypes, pictoListTypes } from "@/_constants/types";
 import { Label, Select } from "flowbite-react";
 
 const EntityListHeaderTypeSelector = ({
@@ -20,13 +20,13 @@ const EntityListHeaderTypeSelector = ({
       >
         <option value={"all"}>tous</option>
         {entityName == "categories" &&
-          catTypeList.map((type, i) => (
+          catListTypes.map((type, i) => (
             <option key={i} value={type.value}>
               {type.title}
             </option>
           ))}
         {entityName == "pictograms" &&
-          pictoTypeList.map((type, i) => (
+          pictoListTypes.map((type, i) => (
             <option key={i} value={type.value}>
               {type.title}
             </option>

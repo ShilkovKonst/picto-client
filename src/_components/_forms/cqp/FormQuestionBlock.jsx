@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import FormQuestionBlockItem from "./FormQuestionBlockItem";
 import Separator from "@/_components/shared/Separator";
-import { tenses } from "@/_constants/questionsTenses";
+import { tensesTypes } from "@/_constants/types";
 import FormRadioField from "../shared/FormRadioField";
 
 const FormQuestionBlock = ({ question, categories, form, setForm }) => {
@@ -28,7 +28,7 @@ const FormQuestionBlock = ({ question, categories, form, setForm }) => {
       <div className={`flex flex-col lg:justify-between`}>
         <p>Choisir un temps de réponse:</p>
         {form.tense != null || form.tense != undefined ?
-          tenses.map((tense, i) => (
+          tensesTypes.map((tense, i) => (
             <FormRadioField
               key={i}
               id={tense}

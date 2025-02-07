@@ -3,7 +3,7 @@ import SeanceItem from "./SeanceItem";
 import { usePathname, useSearchParams } from "next/navigation";
 import { FaHouse } from "react-icons/fa6";
 import Separator from "../shared/Separator";
-import { types } from "@/_constants/seanceTypes";
+import { seanceTypes } from "@/_constants/types";
 
 const LayoutNavModalBody = ({ session, isOpen }) => {
   const pathname = usePathname();
@@ -18,7 +18,7 @@ const LayoutNavModalBody = ({ session, isOpen }) => {
     >
       <Separator />
       <div className="flex flex-col gap-5 my-5 px-3 w-72">
-        {types(session ? patient : null).map(
+        {seanceTypes(session ? patient : null).map(
           (type, i) =>
             !pathname.includes(type.title.toLowerCase()) && (
               <SeanceItem

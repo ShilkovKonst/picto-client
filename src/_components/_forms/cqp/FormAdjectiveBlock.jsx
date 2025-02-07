@@ -1,5 +1,5 @@
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
-import { irregularId } from "@/_constants/pictoTypes";
+import { irregularId } from "@/_constants/types";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import { Label, TextInput } from "flowbite-react";
 

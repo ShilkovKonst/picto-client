@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        sm: "360px",
+        sm: "480px",
         smm: "640px",
       },
       keyframes: {
