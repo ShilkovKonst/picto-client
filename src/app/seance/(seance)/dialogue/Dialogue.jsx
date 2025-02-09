@@ -3,20 +3,18 @@ import Dropzone from "@/_components/seance/Dropzone";
 import ImageSlider from "@/_components/seance/ImageSlider";
 import DialogueQuestionSelector from "@/_components/seance/DialogueQuestionSelector";
 import { textToSpeech } from "@/_lib/textToSpeech";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAllByOtherAsList } from "@/_lib/entityApiUtil";
+import { SeanceContext } from "@/_context/SeanceContext";
 
 const Dialogue = ({ questions }) => {
   const [questionModal, setQuestionModal] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [pictograms, setPictograms] = useState(null);
   const [draggedItem, setDraggedItem] = useState(null);
-  const [phraseToShow, setPhraseToShow] = useState("");
-  const [phrase, setPhrase] = useState({
-    text: null,
-    words: Array(1).fill(null),
-    audio: null,
-  });
+
+  const { phrase, setPhrase } = useContext(SeanceContext);
+  const { phraseToShow, setPhraseToShow } = useContext(SeanceContext);
 
   const handleClick = (entity) => {
     setSelectedQuestion(entity);
@@ -34,14 +32,15 @@ const Dialogue = ({ questions }) => {
     selectedQuestion && fetchPictos();
   }, [selectedQuestion]);
 
-      console.log(phrase.words);
+  console.log(phrase.words);
   useEffect(() => {
     setPhraseToShow("");
     if (phrase.text) {
       const words = phrase.words;
       for (let i = 0; i < words.length; i++) {
         if (words[i] != null && i == 0) {
-          (words[i].pictogram.type == "pronom" || words[i].pictogram.type == "determinant")
+          words[i].pictogram.type == "pronom" ||
+          words[i].pictogram.type == "determinant"
             ? console.log("i = " + i + ", so far so good")
             : console.log(
                 "i = " + i + ", so far not so good: " + words[i].pictogram.type
@@ -49,11 +48,11 @@ const Dialogue = ({ questions }) => {
           setPhraseToShow(words[i].pictogram.title);
         }
         if (words[i] != null && i != 0) {
-          console.log("i = " + i)
+          console.log("i = " + i);
           switch (words[i].pictogram.type) {
             case "verbe":
               for (let j = i - 1; j >= 0; j--) {
-                console.log("j = " + j)
+                console.log("j = " + j);
                 if (
                   words[j].pictogram.type == "pronom" ||
                   (words[j].pictogram.type == "nom" &&

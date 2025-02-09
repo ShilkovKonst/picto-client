@@ -23,16 +23,14 @@ const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
 
   return (
     <div className="bg-pform flex flex-wrap justify-start xl:justify-center px-8 py-2 mb-3 gap-2 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
-      {/* {dropZones.map((slide, i) => ( */}
       {phrase?.words?.map((slide, i) => (
         <div
           key={i}
           id={`place-${i}`}
-          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] xl:mx-5 rounded-xl border-2 ${
+          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem] xl:mx-5 rounded-xl border-2 ${
             draggedItem ? "border-secondary" : "border-primary"
           } `}
         >
-          {/* {slide ? ( */}
           {slide?.pictogram ? (
             <>
               <Image
@@ -56,11 +54,13 @@ const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
               )}
             </>
           ) : (
-            draggedItem && (
-              <div className="flex items-center justify-center w-full h-full font-bold text-secondary rotate-90">
-                <FaRightToBracket size={50} />
-              </div>
-            )
+            <div
+              className={`flex items-center justify-center w-full h-full font-bold ${
+                draggedItem ? "text-secondary" : "text-primary"
+              } rotate-90`}
+            >
+              <FaRightToBracket size={50} />
+            </div>
           )}
         </div>
       ))}

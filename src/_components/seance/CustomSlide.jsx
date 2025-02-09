@@ -12,7 +12,7 @@ const CustomSlide = ({
     <div className="pb-6">
       <button
         onClick={() => textToSpeech(slide.title)}
-        className={`flex justify-center items-center overflow-hidden h-16 w-16 md:h-20 md:w-20 lg:h-24 lg:w-24 mx-auto rounded-xl border-2 border-primary`}
+        className={`flex justify-center items-center overflow-hidden h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem] mx-auto rounded-xl border-2 border-primary`}
       >
         <Image
           {...(handleDragStart && {
@@ -21,7 +21,7 @@ const CustomSlide = ({
             onTouchStart: (e) =>
               handleDragStart(e, slide, setDraggedItem, setPhrase),
           })}
-          className={cursorClass}
+          className={`${cursorClass} h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] lg:h-[6rem] lg:w-[6rem]`}
           src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}
           alt={slide?.media?.imageName}
           width={96}
