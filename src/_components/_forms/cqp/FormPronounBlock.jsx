@@ -1,11 +1,12 @@
 "use client";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
+import { tagsMap } from "@/_constants/types";
 
 const FormPronounBlock = ({ form, setForm, tags }) => {
   const pronounTagGroups = [
-    ["masculin", "feminin", "indifférent"],
-    ["singulier", "pluriel"],
-    ["premier", "deuxième", "troisième"],
+    ["MASCULIN", "FEMININ", "INDIFFERENT"],
+    ["SINGULIER", "PLURIEL"],
+    ["PREMIER", "DEUXIEME", "TROISIEME"],
   ];
   const pronounTagsPool = pronounTagGroups.map((group) =>
     tags.filter((t) => group.includes(t.title))
@@ -31,7 +32,7 @@ const FormPronounBlock = ({ form, setForm, tags }) => {
                   key={i}
                   name={`tags${j}`}
                   id={t.id}
-                  title={t.title}
+                  title={tagsMap[t.title]}
                   checked={form?.tags?.includes(t.id.toString())}
                   handleChange={(e) => handleRadioChange(e, j)}
                 />

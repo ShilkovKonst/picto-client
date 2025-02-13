@@ -53,13 +53,14 @@ const Dialogue = ({ questions }) => {
             case "verbe":
               for (let j = i - 1; j >= 0; j--) {
                 console.log("j = " + j);
+                if (words[j].pictogram.type == "pronom") {
+                  const conjugation = words[i].pictogram.conjugations.find(c => c.tense == selectedQuestion.tense)
+                }
                 if (
-                  words[j].pictogram.type == "pronom" ||
-                  (words[j].pictogram.type == "nom" &&
-                    words[j - 1] != null &&
-                    words[j - 1].pictogram.type == "determinant")
+                  words[j].pictogram.type == "nom" &&
+                  words[j - 1] != null &&
+                  words[j - 1].pictogram.type == "determinant"
                 ) {
-                  continue;
                 }
               }
               break;
@@ -67,7 +68,9 @@ const Dialogue = ({ questions }) => {
               break;
             case "adjectif":
               break;
-            case "pronom_ou_determinant":
+            case "pronom":
+              break;
+            case "determinant":
               break;
             case "nombre":
               break;

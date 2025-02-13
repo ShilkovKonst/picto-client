@@ -1,7 +1,7 @@
 "use client";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
-import { irregularId } from "@/_constants/types";
+import { irregularId, tagsMap } from "@/_constants/types";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ const FormNounBlock = ({
   handleRadioChange,
 }) => {
   const nounTagsPool = tags.filter(
-    (t) => t.title == "masculin" || t.title == "feminin"
+    (t) => t.title == "MASCULIN" || t.title == "FEMININ"
   );
   const [nounTag, setNounTag] = useState(null);
 
@@ -46,12 +46,12 @@ const FormNounBlock = ({
           {tags &&
             tags.map(
               (t, i) =>
-                (t.title == "masculin" || t.title == "feminin") && (
+                (t.title == "MASCULIN" || t.title == "FEMININ") && (
                   <FormRadioField
                     key={i}
                     id={t.id}
                     name={"tags"}
-                    title={t.title}
+                    title={tagsMap[t.title]}
                     checked={form.tags.includes(t.id.toString())}
                     handleChange={(e) =>
                       handleRadioChange(e, nounTag, setNounTag)

@@ -17,7 +17,7 @@ const DeleteAction = ({ entity, entityName, isSublist }) => {
       if (response.status == 205) {
         setToDelete(false);
         pathname.split("/").length > 3 &&
-          router.push(`/dashboard/${entityName}?`);
+          router.push(`/dashboard/${entityName}`);
         router.refresh();
       }
     } catch (error) {
@@ -49,22 +49,3 @@ const DeleteAction = ({ entity, entityName, isSublist }) => {
 };
 
 export default DeleteAction;
-
-// async function deleteOneById(id, entityName) {
-//   try {
-//     const response = await fetch(
-//       `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/api/${entityName}/${id}`,
-//       {
-//         method: "DELETE",
-//         credentials: "include",
-//       }
-//     );
-//     if (!response.ok) {
-//       const errorDetails = await response.json();
-//       throw new Error(`${errorDetails.message}`);
-//     }
-//     return response.json();
-//   } catch (error) {
-//     console.error("Bad credentials:", error.message);
-//   }
-// }

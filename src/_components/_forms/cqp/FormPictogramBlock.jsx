@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { pictoTypes } from "@/_constants/types";
+import {
+  conjugationNumbers,
+  conjugationPersons,
+  conjugationTenses,
+  irregularId,
+  pictoTypes,
+} from "@/_constants/types";
 import FormVerbBlock from "./FormVerbBlock";
 import FormNounBlock from "./FormNounBlock";
 import FormAdjectiveBlock from "./FormAdjectiveBlock";
@@ -19,7 +25,15 @@ const FormPictogramBlock = ({
   questions,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
-
+  const conjugations = {};
+  for (let t of conjugationTenses) {
+    for (let n of conjugationNumbers) {
+      for (let p of conjugationPersons) {
+        conjugations[t + "_" + n + "_" + p] =
+          pictogram?.irregular?.conjugations[t + "_" + n + "_" + p] ?? "";
+      }
+    }
+  }
   useEffect(() => {
     setForm({
       ...form,
@@ -31,68 +45,13 @@ const FormPictogramBlock = ({
         pastParticiple: pictogram?.irregular?.pastParticiple ?? "",
         feminin: pictogram?.irregular?.feminin ?? "",
         plurial: pictogram?.irregular?.plurial ?? "",
-        conjugations: [
-          {
-            tense: "present",
-            firstSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.firstSingular ?? "",
-            secondSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.secondSingular ?? "",
-            thirdSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.thirdSingular ?? "",
-            firstPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.firstPlurial ?? "",
-            secondPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.secondPlurial ?? "",
-            thirdPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "present"
-              )?.thirdPlurial ?? "",
-          },
-          {
-            tense: "futur",
-            firstSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.firstSingular ?? "",
-            secondSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.secondSingular ?? "",
-            thirdSingular:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.thirdSingular ?? "",
-            firstPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.firstPlurial ?? "",
-            secondPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.secondPlurial ?? "",
-            thirdPlurial:
-              pictogram?.irregular?.conjugations?.find(
-                (c) => c.tense == "futur"
-              )?.thirdPlurial ?? "",
-          },
-        ],
+        conjugations: conjugations,
       },
     });
   }, []);
 
   useEffect(() => {
-    setIsIrregular(form?.tags?.includes("3"));
+    setIsIrregular(form?.tags?.includes(irregularId(tags)?.toString()));
   }, [form]);
 
   const handleTypeChange = (e) => {
@@ -110,6 +69,7 @@ const FormPictogramBlock = ({
   };
 
   const handleIrregularChange = (e) => {
+    console.log(e.target.name, e.target.value)
     setForm({
       ...form,
       irregular: { ...form.irregular, [e.target.name]: e.target.value },
@@ -173,11 +133,7 @@ const FormPictogramBlock = ({
         />
       )}
       {(form.type == "pronom" || form.type == "determinant") && (
-        <FormPronounBlock
-          form={form}
-          setForm={setForm}
-          tags={tags}
-        />
+        <FormPronounBlock form={form} setForm={setForm} tags={tags} />
       )}
       <div className={`lg:flex lg:justify-between lg:gap-3`}>
         <div>

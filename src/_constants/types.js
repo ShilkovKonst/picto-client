@@ -22,6 +22,10 @@ export const tensesTypes = ["PRESENT", "PASSE", "FUTUR"];
 
 export const roleTypes = ["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPERADMIN"];
 
+export const conjugationTenses = ["PRESENT", "FUTUR"];
+export const conjugationNumbers = ["SINGULIER", "PLURIEL"];
+export const conjugationPersons = ["PREMIER", "DEUXIEME", "TROISIEME"];
+
 export const pictoTypes = [
   "verbe",
   "nom",
@@ -52,4 +56,18 @@ export const pictoListTypes = [
 ];
 
 export const irregularId = (tags) =>
-  tags?.find((t) => t.title == "irregulier").id;
+  tags?.find((t) => t.title == "IRREGULIER").id;
+
+export const tagsMap = {
+  AUXILIAIRE_AVOIR: "auxiliare avoir",
+  AUXILIAIRE_ETRE: "auxiliare être",
+  IRREGULIER: "irrégulier",
+  MASCULIN: "masculin",
+  FEMININ: "féminin",
+  INDIFFERENT: "indifférent",
+  SINGULIER: "singulier",
+  PLURIEL: "pluriel",
+  PREMIER: "premier",
+  DEUXIEME: "deuxième",
+  TROISIEME: "troisième",
+};

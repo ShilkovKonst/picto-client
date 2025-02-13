@@ -14,7 +14,7 @@ const page = async (props) => {
     params.id,
     accessToken
   );
-  
+
   return (
     <Pictogram session={session} pictogram={pictogram} questions={questions} />
   );

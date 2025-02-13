@@ -52,13 +52,14 @@ const Form = ({
         formData.append("questions", JSON.stringify(form.questions));
         form.tags.includes("3") &&
           formData.append("irregular", JSON.stringify(form.irregular));
+        // console.log("formData submit start", formData.get("irregular"));
         break;
       case "questions":
         formData.append("tense", form.tense);
         formData.append("pictograms", JSON.stringify(form.pictograms));
+        // console.log("formData submit start", formData.get("pictograms"));
         break;
     }
-    console.log("formData after submit", formData.get("pictograms"));
     try {
       // on create
       if (pathname.includes("create")) {

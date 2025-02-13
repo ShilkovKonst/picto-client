@@ -1,105 +1,58 @@
+import {
+  conjugationNumbers,
+  conjugationPersons,
+  conjugationTenses,
+} from "@/_constants/types";
 import { Label, TextInput } from "flowbite-react";
 
-const FormConjugationBlock = ({ form, isIrregular, handleChange }) => {
-  const conjugations = [
-    {
-      tense: "present",
-      conjugation: [
-        {
-          name: "firstSingular",
-          value: form.irregular.conjugations[0].firstSingular,
+const FormConjugationBlock = ({ form, setForm, isIrregular }) => {
+  const handleConjugationChange = (e) => {
+    setForm({
+      ...form,
+      irregular: {
+        ...form.irregular,
+        conjugations: {
+          ...form.irregular.conjugations,
+          [e.target.name]: e.target.value,
         },
-        {
-          name: "secondSingular",
-          value: form.irregular.conjugations[0].secondSingular,
-        },
-        {
-          name: "thirdSingular",
-          value: form.irregular.conjugations[0].thirdSingular,
-        },
-        {
-          name: "firstPlurial",
-          value: form.irregular.conjugations[0].firstPlurial,
-        },
-        {
-          name: "secondPlurial",
-          value: form.irregular.conjugations[0].secondPlurial,
-        },
-        {
-          name: "thirdPlurial",
-          value: form.irregular.conjugations[0].thirdPlurial,
-        },
-      ],
-    },
-    {
-      tense: "futur",
-      conjugation: [
-        {
-          name: "firstSingular",
-          value: form.irregular.conjugations[1].firstSingular,
-        },
-        {
-          name: "secondSingular",
-          value: form.irregular.conjugations[1].secondSingular,
-        },
-        {
-          name: "thirdSingular",
-          value: form.irregular.conjugations[1].thirdSingular,
-        },
-        {
-          name: "firstPlurial",
-          value: form.irregular.conjugations[1].firstPlurial,
-        },
-        {
-          name: "secondPlurial",
-          value: form.irregular.conjugations[1].secondPlurial,
-        },
-        {
-          name: "thirdPlurial",
-          value: form.irregular.conjugations[1].thirdPlurial,
-        },
-      ],
-    },
-  ];
-  
+      },
+    });
+  };
+
   return (
-    <div className={`lg:flex lg:justify-between`}>
-      {conjugations.map((tense, i) => (
-        <div key={i} className="mt-5 lg:w-2/5 flex flex-col gap-1">
-          <Label value={tense.tense == "present" ? "Présent" : "Futur"} />
-          {tense.conjugation.map((item, j) => (
-            <TextInput
-              key={j}
-              id={item.name}
-              name={item.name}
-              onChange={(e) =>
-                handleChange(e, tense.tense == "present" ? "present" : "futur")
-              }
-              value={
-                tense.tense == "present"
-                  ? form.irregular.conjugations[0][item.name]
-                  : form.irregular.conjugations[1][item.name]
-              }
-              placeholder={
-                item.name == "firstSingular"
-                  ? "Je / J'"
-                  : item.name == "secondSingular"
-                  ? "Tu"
-                  : item.name == "thirdSingular"
-                  ? "Il / Elle / On"
-                  : item.name == "firstPlurial"
-                  ? "Nous"
-                  : item.name == "secondPlurial"
-                  ? "Vous"
-                  : item.name == "thirdPlurial"
-                  ? "Ils / Elles"
-                  : ""
-              }
-              type="text"
-              sizing="sm"
-              required={isIrregular}
-            />
-          ))}
+    <div className={`lg:flex lg:gap-3 lg:justify-between`}>
+      {conjugationTenses.map((t, i) => (
+        <div key={i} className="mt-5 flex flex-col gap-1">
+          <Label value={t == "PRESENT" ? "Présent" : "Futur"} />
+          {conjugationNumbers.map((n, j) =>
+            conjugationPersons.map((p, k) => (
+              <TextInput
+                key={j+k}
+                id={t + "_" + n + "_" + p}
+                name={t + "_" + n + "_" + p}
+                onChange={handleConjugationChange}
+                value={form.irregular.conjugations[t + "_" + n + "_" + p]}
+                placeholder={
+                  n == "SINGULIER" && p == "PREMIER"
+                    ? "Je / J'"
+                    : n == "SINGULIER" && p == "DEUXIEME"
+                    ? "Tu"
+                    : n == "SINGULIER" && p == "TROISIEME"
+                    ? "Il / Elle / On"
+                    : n == "PLURIEL" && p == "PREMIER"
+                    ? "Nous"
+                    : n == "PLURIEL" && p == "DEUXIEME"
+                    ? "Vous"
+                    : n == "PLURIEL" && p == "TROISIEME"
+                    ? "Ils / Elles"
+                    : ""
+                }
+                type="text"
+                sizing="sm"
+                required={isIrregular}
+              />
+            ))
+          )}
         </div>
       ))}
     </div>

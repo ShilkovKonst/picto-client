@@ -5,8 +5,15 @@ import EntityHeader from "@/_components/dashboard/EntityHeader";
 import Separator from "@/_components/shared/Separator";
 import PictogramItem from "./PictogramItem";
 import Accordion from "@/_components/shared/Accordion";
+import {
+  conjugationNumbers,
+  conjugationPersons,
+  conjugationTenses,
+  tagsMap,
+} from "@/_constants/types";
 
 const Pictogram = ({ session, pictogram, questions }) => {
+  console.log(pictogram);
   return (
     <>
       <section className="table w-full">
@@ -62,7 +69,7 @@ const Pictogram = ({ session, pictogram, questions }) => {
                     href={`/dashboard/tags/${tag.id}`}
                     className="bg-primary hover:bg-secondary transition ease-in-out duration-300 text-white w-auto py-1 px-3 rounded-full"
                   >
-                    {tag.title}
+                    {tagsMap[tag.title]}
                   </Link>
                 ))}
               />
@@ -105,38 +112,43 @@ const Pictogram = ({ session, pictogram, questions }) => {
           )}
         </div>
       </section>
-      {pictogram.tags.some((el) => el.id == 3) && pictogram.type == "verbe" && (
-        <section className="table w-full">
-          <div className="">
-            <div className="px-2">
-              <div className="col-span-3 text-lg md:text-xl flex justify-center items-center font-semibold">
-                Conjugaisons
+      {pictogram.tags.some((t) => t.title == "IRREGULIER") &&
+        pictogram.type == "verbe" && (
+          <section className="table w-full">
+            <div className="">
+              <div className="px-2">
+                <div className="col-span-3 text-lg md:text-xl flex justify-center items-center font-semibold">
+                  Conjugaisons
+                </div>
               </div>
             </div>
-          </div>
-          {pictogram.irregular.conjugations.map((c, i) => (
-            <div
-              key={i}
-              className="text-sm sm:text-base px-2 *:grid *:grid-cols-3"
-            >
-              <PictogramItem
-                title={c.tense}
-                content={
-                  <div>
-                    <div>{c.firstSingular}</div>
-                    <div>{c.secondSingular}</div>
-                    <div>{c.thirdSingular}</div>
-                    <div>{c.firstPlurial}</div>
-                    <div>{c.secondPlurial}</div>
-                    <div>{c.thirdPlurial}</div>
-                  </div>
-                }
-              />
-            </div>
-          ))}
-          <Separator n={3} />
-        </section>
-      )}
+            {conjugationTenses.map((t, i) => (
+              <div
+                key={i}
+                className="text-sm sm:text-base px-2 *:grid *:grid-cols-3"
+              >
+                <PictogramItem
+                  title={t}
+                  cls="grid grid-cols-2"
+                  content={conjugationNumbers.map((n, j) => (
+                    <div className="" key={j}>
+                      {conjugationPersons.map((p, k) => (
+                        <div key={k}>
+                          {
+                            pictogram.irregular.conjugations[
+                              t + "_" + n + "_" + p
+                            ]
+                          }
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                />
+              </div>
+            ))}
+            <Separator n={3} />
+          </section>
+        )}
       <Accordion
         session={session}
         initial={"questions"}

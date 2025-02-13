@@ -1,11 +1,11 @@
 "use client";
 import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { irregularId } from "@/_constants/types";
 import FormConjugationBlock from "./FormConjugationBlock";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
+import { irregularId, tagsMap } from "@/_constants/types";
 
 const FormVerbBlock = ({
   form,
@@ -17,7 +17,7 @@ const FormVerbBlock = ({
   handleRadioChange,
 }) => {
   const verbTagsPool = tags.filter(
-    (t) => t.title == "auxiliaire_avoir" || t.title == "auxiliaire_etre"
+    (t) => t.title == "AUXILIAIRE_AVOIR" || t.title == "AUXILIAIRE_ETRE"
   );
 
   const [verbTag, setVerbTag] = useState(null);
@@ -34,20 +34,6 @@ const FormVerbBlock = ({
     }
   }, [verbTag]);
 
-  const handleConjugationChange = (e, tense) => {
-    setForm({
-      ...form,
-      irregular: {
-        ...form.irregular,
-        conjugations: form.irregular.conjugations.map((conjugation) =>
-          conjugation.tense === tense
-            ? { ...conjugation, [e.target.name]: e.target.value }
-            : conjugation
-        ),
-      },
-    });
-  };
-
   return (
     <>
       <div className={`lg:flex lg:justify-between lg:gap-3`}>
@@ -57,13 +43,13 @@ const FormVerbBlock = ({
             {tags &&
               tags.map(
                 (t, i) =>
-                  (t.title == "auxiliaire_avoir" ||
-                    t.title == "auxiliaire_etre") && (
+                  (t.title == "AUXILIAIRE_AVOIR" ||
+                    t.title == "AUXILIAIRE_ETRE") && (
                     <FormRadioField
                       key={i}
                       name={"tags"}
                       id={t.id}
-                      title={t.title}
+                      title={tagsMap[t.title]}
                       checked={form?.tags?.includes(t.id.toString()) ?? false}
                       handleChange={(e) =>
                         handleRadioChange(e, verbTag, setVerbTag)
@@ -104,7 +90,7 @@ const FormVerbBlock = ({
       {isIrregular && (
         <FormConjugationBlock
           form={form}
-          handleChange={handleConjugationChange}
+          setForm={setForm}
           isIrregular={isIrregular}
         />
       )}
