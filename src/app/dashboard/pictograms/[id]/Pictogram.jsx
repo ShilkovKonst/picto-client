@@ -9,11 +9,12 @@ import {
   conjugationNumbers,
   conjugationPersons,
   conjugationTenses,
+  irregularId,
+  pictoTypesMap,
   tagsMap,
 } from "@/_constants/types";
 
 const Pictogram = ({ session, pictogram, questions }) => {
-  console.log(pictogram);
   return (
     <>
       <section className="table w-full">
@@ -60,7 +61,10 @@ const Pictogram = ({ session, pictogram, questions }) => {
               ) : (
                 <div>Il faut ajouter une categorie !</div>
               )}
-              <PictogramItem title={"Type:"} content={pictogram.type} />
+              <PictogramItem
+                title={"Type:"}
+                content={pictoTypesMap[pictogram.type]}
+              />
               <PictogramItem
                 title={"Tags:"}
                 content={pictogram.tags.map((tag, i) => (
@@ -73,9 +77,25 @@ const Pictogram = ({ session, pictogram, questions }) => {
                   </Link>
                 ))}
               />
-              {pictogram.tags.some((el) => el.id == 3) && (
+              {pictogram.type == "ADJECTIF" && (
+                <PictogramItem
+                  title={"Positionnement:"}
+                  content={pictogram.tags
+                    .filter((t) => t.title != "IRREGULIER")
+                    .map((tag, i) => (
+                      <p key={i}>
+                        {tag.title == "AVANT"
+                          ? "avant le nom"
+                          : tag.title == "APRES"
+                          ? "après le nom"
+                          : ""}
+                      </p>
+                    ))}
+                />
+              )}
+              {irregularId(pictogram.tags) && (
                 <>
-                  {pictogram.type == "verbe" && (
+                  {pictogram.type == "VERBE" && (
                     <>
                       <PictogramItem
                         title={"Participe passé:"}
@@ -84,7 +104,7 @@ const Pictogram = ({ session, pictogram, questions }) => {
                       <Separator n={3} />
                     </>
                   )}
-                  {pictogram.type == "nom" && (
+                  {pictogram.type == "NOM" && (
                     <>
                       <PictogramItem
                         title={"Pluriel:"}
@@ -93,15 +113,19 @@ const Pictogram = ({ session, pictogram, questions }) => {
                       <Separator n={3} />
                     </>
                   )}
-                  {pictogram.type == "adjectif" && (
+                  {pictogram.type == "ADJECTIF" && (
                     <>
                       <PictogramItem
+                        title={"Pluriel:"}
+                        content={pictogram?.irregular?.plurial}
+                      />
+                      <PictogramItem
                         title={"Féminin:"}
-                        content={pictogram.irregular.feminin}
+                        content={pictogram?.irregular?.feminin}
                       />
                       <PictogramItem
                         title={"Féminin pluriel:"}
-                        content={pictogram.irregular.plurial}
+                        content={pictogram?.irregular?.femininPlurial}
                       />
                       <Separator n={3} />
                     </>
@@ -112,43 +136,42 @@ const Pictogram = ({ session, pictogram, questions }) => {
           )}
         </div>
       </section>
-      {pictogram.tags.some((t) => t.title == "IRREGULIER") &&
-        pictogram.type == "verbe" && (
-          <section className="table w-full">
-            <div className="">
-              <div className="px-2">
-                <div className="col-span-3 text-lg md:text-xl flex justify-center items-center font-semibold">
-                  Conjugaisons
-                </div>
+      {irregularId(pictogram.tags) && pictogram.type == "VERBE" && (
+        <section className="table w-full">
+          <div className="">
+            <div className="px-2">
+              <div className="col-span-3 text-lg md:text-xl flex justify-center items-center font-semibold">
+                Conjugaisons
               </div>
             </div>
-            {conjugationTenses.map((t, i) => (
-              <div
-                key={i}
-                className="text-sm sm:text-base px-2 *:grid *:grid-cols-3"
-              >
-                <PictogramItem
-                  title={t}
-                  cls="grid grid-cols-2"
-                  content={conjugationNumbers.map((n, j) => (
-                    <div className="" key={j}>
-                      {conjugationPersons.map((p, k) => (
-                        <div key={k}>
-                          {
-                            pictogram.irregular.conjugations[
-                              t + "_" + n + "_" + p
-                            ]
-                          }
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                />
-              </div>
-            ))}
-            <Separator n={3} />
-          </section>
-        )}
+          </div>
+          {conjugationTenses.map((t, i) => (
+            <div
+              key={i}
+              className="text-sm sm:text-base px-2 *:grid *:grid-cols-3"
+            >
+              <PictogramItem
+                title={t}
+                cls="grid grid-cols-2"
+                content={conjugationNumbers.map((n, j) => (
+                  <div className="" key={j}>
+                    {conjugationPersons.map((p, k) => (
+                      <div key={k}>
+                        {
+                          pictogram.irregular.conjugations[
+                            t + "_" + n + "_" + p
+                          ]
+                        }
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              />
+            </div>
+          ))}
+          <Separator n={3} />
+        </section>
+      )}
       <Accordion
         session={session}
         initial={"questions"}

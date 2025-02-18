@@ -25,6 +25,7 @@ const FormPictogramBlock = ({
   questions,
 }) => {
   const [isIrregular, setIsIrregular] = useState(false);
+
   const conjugations = {};
   for (let t of conjugationTenses) {
     for (let n of conjugationNumbers) {
@@ -44,8 +45,9 @@ const FormPictogramBlock = ({
       irregular: {
         pastParticiple: pictogram?.irregular?.pastParticiple ?? "",
         feminin: pictogram?.irregular?.feminin ?? "",
+        femininPlurial: pictogram?.irregular?.femininPlurial ?? "",
         plurial: pictogram?.irregular?.plurial ?? "",
-        conjugations: conjugations,
+        conjugations: pictogram?.irregular?.conjugations ?? {},
       },
     });
   }, []);
@@ -100,7 +102,7 @@ const FormPictogramBlock = ({
           />
         )}
       </div>
-      {form.type == "verbe" && (
+      {form.type == "VERBE" && (
         <FormVerbBlock
           form={form}
           setForm={setForm}
@@ -111,7 +113,7 @@ const FormPictogramBlock = ({
           setIsIrregular={setIsIrregular}
         />
       )}
-      {form.type == "nom" && (
+      {form.type == "NOM" && (
         <FormNounBlock
           form={form}
           setForm={setForm}
@@ -122,7 +124,7 @@ const FormPictogramBlock = ({
           setIsIrregular={setIsIrregular}
         />
       )}
-      {form.type == "adjectif" && (
+      {form.type == "ADJECTIF" && (
         <FormAdjectiveBlock
           form={form}
           setForm={setForm}
@@ -132,7 +134,7 @@ const FormPictogramBlock = ({
           setIsIrregular={setIsIrregular}
         />
       )}
-      {(form.type == "pronom" || form.type == "determinant") && (
+      {(form.type == "PRONOM" || form.type == "DETERMINANT") && (
         <FormPronounBlock form={form} setForm={setForm} tags={tags} />
       )}
       <div className={`lg:flex lg:justify-between lg:gap-3`}>

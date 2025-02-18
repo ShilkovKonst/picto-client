@@ -27,11 +27,11 @@ const FormConjugationBlock = ({ form, setForm, isIrregular }) => {
           {conjugationNumbers.map((n, j) =>
             conjugationPersons.map((p, k) => (
               <TextInput
-                key={j+k}
+                key={j+k*10}
                 id={t + "_" + n + "_" + p}
                 name={t + "_" + n + "_" + p}
                 onChange={handleConjugationChange}
-                value={form.irregular.conjugations[t + "_" + n + "_" + p]}
+                value={form.irregular.conjugations[t + "_" + n + "_" + p] ?? ""}
                 placeholder={
                   n == "SINGULIER" && p == "PREMIER"
                     ? "Je / J'"

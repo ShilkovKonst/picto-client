@@ -11,12 +11,30 @@ const FormAdjectiveBlock = ({
   setIsIrregular,
   handleChange,
 }) => {
+  const adjTagsPool = tags.filter(
+    (t) => t.title == "AVANT" || t.title == "APRES"
+  );
   return (
     <div className={`lg:flex lg:justify-between lg:gap-3`}>
       <div>
         <Label value={`Tags:`} />
         <div>
-          <p>Il n'y a rien à choisir</p>
+          {adjTagsPool.map((t, i) => (
+            <FormCheckboxField
+            key={i}
+              id={t.title}
+              value={t.id}
+              title={
+                t.title == "AVANT"
+                  ? "Est-ce que l'adjectif peut être positionné avant le nom?"
+                  : "Est-ce que l'adjectif peut être positionné après le nom?"
+              }
+              checked={form?.tags?.includes(t.id?.toString()) ?? false}
+              handleChange={(e) =>
+                handleCheckboxChange(e, "tags", form, setForm)
+              }
+            />
+          ))}
         </div>
       </div>
       <div>
@@ -33,6 +51,16 @@ const FormAdjectiveBlock = ({
         {isIrregular && (
           <div className="flex flex-col gap-1 mt-2">
             <TextInput
+              id="plurial"
+              type="text"
+              sizing="sm"
+              placeholder="Pluriel"
+              name="plurial"
+              onChange={handleChange}
+              value={form.irregular.plurial}
+              required={isIrregular}
+            />
+            <TextInput
               id="feminin"
               type="text"
               sizing="sm"
@@ -43,13 +71,13 @@ const FormAdjectiveBlock = ({
               required={isIrregular}
             />
             <TextInput
-              id="plurial"
+              id="femininPlurial"
               type="text"
               sizing="sm"
-              placeholder="Pluriel"
-              name="plurial"
+              placeholder="Feminin Pluriel"
+              name="femininPlurial"
               onChange={handleChange}
-              value={form.irregular.plurial}
+              value={form.irregular.femininPlurial}
               required={isIrregular}
             />
           </div>

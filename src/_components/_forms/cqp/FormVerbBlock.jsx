@@ -19,7 +19,6 @@ const FormVerbBlock = ({
   const verbTagsPool = tags.filter(
     (t) => t.title == "AUXILIAIRE_AVOIR" || t.title == "AUXILIAIRE_ETRE"
   );
-
   const [verbTag, setVerbTag] = useState(null);
 
   useEffect(() => {

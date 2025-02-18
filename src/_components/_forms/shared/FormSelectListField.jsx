@@ -44,8 +44,8 @@ const FormSelectListField = ({
                   : e.title}
               </option>
             ) : (
-              <option key={i} value={e}>
-                {e}
+              <option key={i} value={e?.value ?? e}>
+                {e?.title ?? e}
               </option>
             )
           )}

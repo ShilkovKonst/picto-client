@@ -9,6 +9,7 @@ import FormTextField from "@/_components/_forms/shared/FormTextField";
 import FormImageField from "@/_components/_forms/shared/FormImageField";
 import ConfirmButton from "@/_components/shared/ConfirmButton";
 import FormQuestionBlock from "./FormQuestionBlock";
+import { irregularId } from "@/_constants/types";
 
 const Form = ({
   session,
@@ -17,7 +18,6 @@ const Form = ({
   pathname,
   categories,
   questions,
-  pictograms,
   tags,
 }) => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const Form = ({
         formData.append("categoryId", form.categoryId);
         formData.append("tags", JSON.stringify(form.tags));
         formData.append("questions", JSON.stringify(form.questions));
-        form.tags.includes("3") &&
+        form.tags.includes(irregularId(tags).toString()) &&
           formData.append("irregular", JSON.stringify(form.irregular));
         // console.log("formData submit start", formData.get("irregular"));
         break;
