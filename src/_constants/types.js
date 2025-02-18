@@ -27,15 +27,28 @@ export const conjugationNumbers = ["SINGULIER", "PLURIEL"];
 export const conjugationPersons = ["PREMIER", "DEUXIEME", "TROISIEME"];
 
 export const pictoTypes = [
-  "verbe",
-  "nom",
-  "nombre",
-  "adjectif",
-  "invariable",
-  "interrogatif",
-  "pronom",
-  "determinant",
+  "PRONOM",
+  "DETERMINANT",
+  "NOM",
+  "ADJECTIF",
+  "PREPOSITION",
+  "VERBE",
+  "NOMBRE",
+  "INVARIABLE",
+  "INTERROGATIF",
 ];
+
+export const pictoTypesMap = {
+  PRONOM: "pronom",
+  DETERMINANT: "déterminant",
+  NOM: "nom",
+  ADJECTIF: "adjectif",
+  PREPOSITION: "préposition",
+  VERBE: "verbe",
+  NOMBRE: "nombre",
+  INVARIABLE: "invariable",
+  INTERROGATIF: "interrogatif",
+};
 
 export const catListTypes = [
   { title: "super-catégories", value: "supercategories" },
@@ -43,20 +56,20 @@ export const catListTypes = [
 ];
 
 export const pictoListTypes = [
-  { title: "verbe", value: "verbe" },
-  { title: "nom", value: "nom" },
-  { title: "nombre", value: "nombre" },
-  { title: "adjectif", value: "adjectif" },
-  { title: "invariable", value: "invariable" },
-  { title: "interrogatif", value: "interrogatif" },
-  { title: "pronom", value: "pronom" },
-  { title: "determinant", value: "determinant" },
-  { title: "pronom / determinant", value: "pronom_ou_determinant" },
+  { title: "pronom", value: "PRONOM" },
+  { title: "déterminant", value: "DETERMINANT" },
+  { title: "nom", value: "NOM" },
+  { title: "adjectif", value: "ADJECTIF" },
+  { title: "préposition", value: "PREPOSITION" },
+  { title: "verbe", value: "VERBE" },
+  { title: "nombre", value: "NOMBRE" },
+  { title: "invariable", value: "INVARIABLE" },
+  { title: "interrogatif", value: "INTERROGATIF" },
   { title: "sans catégorie", value: "orphan" },
 ];
 
 export const irregularId = (tags) =>
-  tags?.find((t) => t.title == "IRREGULIER").id;
+  tags?.find((t) => t.title == "IRREGULIER")?.id;
 
 export const tagsMap = {
   AUXILIAIRE_AVOIR: "auxiliare avoir",
@@ -70,4 +83,9 @@ export const tagsMap = {
   PREMIER: "premier",
   DEUXIEME: "deuxième",
   TROISIEME: "troisième",
+  AVANT: "avant",
+  APRES: "après",
 };
+
+export const generateConjugationKey = (tense, number, person) =>
+  `${tense}_${number}_${person}`;
