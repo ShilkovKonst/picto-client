@@ -7,6 +7,7 @@ import CustomSlide from "./CustomSlide";
 const ImageSlider = ({
   cursorClass,
   slides,
+  phrase,
   setPhrase,
   setDraggedItem,
 }) => {
@@ -51,6 +52,7 @@ const ImageSlider = ({
             cursorClass={cursorClass}
             slide={slide}
             setDraggedItem={setDraggedItem}
+            phrase={phrase}
             setPhrase={setPhrase}
           />
         ))}

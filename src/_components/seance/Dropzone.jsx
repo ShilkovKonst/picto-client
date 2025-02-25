@@ -1,8 +1,9 @@
+import { handleDragStart } from "@/_lib/dragNDrop";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import Image from "next/image";
 import { FaRightToBracket, FaRotate } from "react-icons/fa6";
 
-const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
+const Dropzone = ({ phrase, setPhrase, draggedItem, setDraggedItem }) => {
   const handleClick = (i) => {
     setPhrase((prev) => {
       let prevWords = [...prev.words];
@@ -34,6 +35,12 @@ const Dropzone = ({ phrase, setPhrase, draggedItem }) => {
           {slide?.pictogram ? (
             <>
               <Image
+                {...(handleDragStart && {
+                  onMouseDown: (e) =>
+                    handleDragStart(e, slide, setDraggedItem, phrase, setPhrase),
+                  onTouchStart: (e) =>
+                    handleDragStart(e, slide, setDraggedItem, setPhrase),
+                })}
                 className="cursor-pointer"
                 onClick={() => textToSpeech(slide?.pictogram?.title)}
                 src={`data:${slide?.pictogram?.media?.imageFileRes?.type};base64,${slide?.pictogram?.media?.imageFileRes?.imageBase64}`}

@@ -1,6 +1,13 @@
-export const handleDragStart = (e, item, setDraggedItem, setPhrase) => {
+export const handleDragStart = (
+  e,
+  sourceItem,
+  setDraggedItem,
+  phrase,
+  setPhrase
+) => {
   e.type === "mousedown" && e.preventDefault();
-  setDraggedItem(item);
+  setDraggedItem(sourceItem);
+  console.log("initial sourceItem", sourceItem);
 
   const clone = e.target.cloneNode(true);
   clone.style.position = "absolute";
@@ -10,6 +17,12 @@ export const handleDragStart = (e, item, setDraggedItem, setPhrase) => {
   clone.style.borderRadius = "0.75rem";
   document.body.appendChild(clone);
   clone.hidden = true;
+
+  const sourceDropzone = defineDropzone(e, clone, "mousedown", "touchstart");
+  let sourceIndex = -1;
+  if (sourceDropzone) {
+    sourceIndex = parseInt(sourceDropzone.id.split("-")[1], 10);
+  }
 
   let offsetX;
   let offsetY;
@@ -51,38 +64,39 @@ export const handleDragStart = (e, item, setDraggedItem, setPhrase) => {
 
   const handleDragEnd = (e) => {
     clone.hidden = true;
-    let dropzone;
-    if (e.type === "mouseup") {
-      dropzone = document
-        .elementFromPoint(e.clientX, e.clientY)
-        ?.closest(".dropzone");
-    }
-    if (e.type === "touchend") {
-      dropzone = document
-        .elementFromPoint(
-          e.changedTouches[0].clientX,
-          e.changedTouches[0].clientY
-        )
-        ?.closest(".dropzone");
-    }
-    clone.hidden = false;
+    const dropzone = defineDropzone(e, clone, "mouseup", "touchend");
 
     if (dropzone) {
       const index = parseInt(dropzone.id.split("-")[1], 10);
-      setPhrase((prev) => {
-        const newWords = [...prev.words];
-        newWords[index] = { place: index, pictogram: item };
-        index == newWords.length - 1 && newWords.push(null);
-        return {
-          ...prev,
-          words: newWords,
-          text: newWords
-            .filter((w) => w != null)
-            .map((w) => w?.pictogram?.title ?? "")
-            .join(" ")
-            .trim(),
-        };
-      });
+      if (index != sourceIndex)
+        setPhrase((prev) => {
+          const newWords = [...prev.words];
+          if (sourceIndex != -1) {
+            const item = newWords.find((item) => item?.place == index);
+            if (item) {
+              newWords[sourceIndex] = {
+                ...newWords[sourceIndex],
+                pictogram: item?.pictogram,
+              };
+              newWords[index] = {
+                ...newWords[index],
+                pictogram: sourceItem.pictogram,
+              };
+            }
+          } else {
+            newWords[index] = { place: index, pictogram: sourceItem };
+          }
+          index == newWords.length - 1 && newWords.push(null);
+          return {
+            ...prev,
+            words: newWords,
+            text: newWords
+              .filter((w) => w != null)
+              .map((w) => w?.pictogram?.title ?? "")
+              .join(" ")
+              .trim(),
+          };
+        });
     }
 
     if (e.type === "mouseup") {
@@ -105,4 +119,23 @@ export const handleDragStart = (e, item, setDraggedItem, setPhrase) => {
     document.addEventListener("touchmove", handleDragging);
     document.addEventListener("touchend", handleDragEnd);
   }
+};
+
+const defineDropzone = (e, clone, mouseType, touchType) => {
+  let dropzone;
+  if (e.type === mouseType) {
+    dropzone = document
+      .elementFromPoint(e.clientX, e.clientY)
+      ?.closest(".dropzone");
+  }
+  if (e.type === touchType) {
+    dropzone = document
+      .elementFromPoint(
+        e.changedTouches[0].clientX,
+        e.changedTouches[0].clientY
+      )
+      ?.closest(".dropzone");
+  }
+  clone.hidden = false;
+  return dropzone;
 };
