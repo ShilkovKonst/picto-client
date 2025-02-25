@@ -31,15 +31,30 @@ const Dialogue = ({ questions }) => {
 
   useEffect(() => {
     selectedQuestion && fetchPictos();
+    setPhrase({
+      text: "",
+      words: Array(1).fill(null),
+      audio: null,
+    });
   }, [selectedQuestion]);
+
+  const capitalizeWords = (str) => {
+    return str
+      .split(" ")
+      .map((word, i) =>
+        i == 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
+      )
+      .join(" ");
+  };
 
   useEffect(() => {
     setPhraseToShow("");
-    console.log("phrase", phrase)
-    console.log("phraseToShow", phraseToShow)
+    console.log("phrase", phrase);
+    console.log("phraseToShow", phraseToShow);
     processPhrase(phrase, setPhraseToShow, selectedQuestion?.tense);
-  }, [phrase.text]);
-
+    setPhraseToShow((prev) => capitalizeWords(prev));
+  }, [phrase?.text]);
+  console.log(phrase);
   return (
     <div className="relative">
       <DialogueQuestionSelector
@@ -73,7 +88,7 @@ const Dialogue = ({ questions }) => {
       </div>
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
         <div className="flex justify-center items-start gap-3 border overflow-hidden xl:mx-auto rounded-xl">
-          {phrase.words.map(
+          {phrase?.words.map(
             (w, i) =>
               w && (
                 <div key={i}>

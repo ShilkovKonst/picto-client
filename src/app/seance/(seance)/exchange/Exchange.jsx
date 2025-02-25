@@ -4,7 +4,7 @@ import ImageSlider from "@/_components/seance/ImageSlider";
 import DialogueQuestionSelector from "@/_components/seance/DialogueQuestionSelector";
 import { textToSpeech } from "@/_lib/textToSpeech";
 import { useEffect, useState } from "react";
-import { handleDragStart } from "@/_lib/DragNDrop";
+import { handleDragStart } from "@/_lib/ddragNDrop";
 
 const Exchange = ({ questions, categories, pictograms }) => {
   const [questionModal, setQuestionModal] = useState(false);
