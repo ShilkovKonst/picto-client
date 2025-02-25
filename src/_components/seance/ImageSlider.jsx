@@ -15,29 +15,29 @@ const ImageSlider = ({
     infinite: slides.length == 1,
     speed: 500,
     slidesToShow: slides.length < 10 ? slides.length : 10,
-    slidesToScroll: 5,
+    slidesToScroll: slides.length < 10 ? slides.length - 1 : 9,
     swipeToSlide: true,
-    draggable: true,
+    draggable: false,
     responsive: [
       {
         breakpoint: 768,
         settings: {
           slidesToShow: slides.length < 4 ? slides.length : 4,
-          slidesToScroll: 2,
+          slidesToScroll: slides.length < 4 ? slides.length - 1 : 3,
         },
       },
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: slides.length < 6 ? slides.length : 6,
-          slidesToScroll: 3,
+          slidesToScroll: slides.length < 6 ? slides.length - 1 : 5,
         },
       },
       {
         breakpoint: 1250,
         settings: {
           slidesToShow: slides.length < 8 ? slides.length : 8,
-          slidesToScroll: 4,
+          slidesToScroll: slides.length < 8 ? slides.length - 1 : 7,
         },
       },
     ],

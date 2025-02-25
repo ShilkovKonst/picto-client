@@ -23,12 +23,12 @@ const Dropzone = ({ phrase, setPhrase, draggedItem, setDraggedItem }) => {
   };
 
   return (
-    <div className="bg-pform flex flex-wrap justify-start xl:justify-center px-8 py-2 mb-3 gap-2 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
+    <div className="bg-pform flex flex-wrap justify-start xl:justify-center px-8 py-2 mb-3 gap-2 lg:gap-3 xl:gap-5 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
       {phrase?.words?.map((slide, i) => (
         <div
           key={i}
           id={`place-${i}`}
-          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem] xl:mx-5 rounded-xl border-2 ${
+          className={`relative dropzone flex justify-center items-center overflow-hidden h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem] rounded-xl border-2 ${
             draggedItem ? "border-secondary" : "border-primary"
           } `}
         >
@@ -55,7 +55,7 @@ const Dropzone = ({ phrase, setPhrase, draggedItem, setDraggedItem }) => {
                 X
               </button>
               {draggedItem && (
-                <div className="absolute h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] right-0 top-0 flex items-center justify-center font-bold rounded-bl-xl border-l-2 border-b-2 text-secondary bg-white opacity-65">
+                <div className="absolute h-[4.125rem] w-[4.125rem] md:h-[5.125rem] md:w-[5.125rem] lg:h-[6.125rem] lg:w-[6.125rem] right-0 top-0 flex items-center justify-center font-bold rounded-bl-xl border-l-2 border-b-2 text-secondary bg-white opacity-50">
                   <FaRotate size={50} />
                 </div>
               )}
