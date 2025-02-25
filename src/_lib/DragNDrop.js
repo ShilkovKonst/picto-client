@@ -7,7 +7,6 @@ export const handleDragStart = (
 ) => {
   e.type === "mousedown" && e.preventDefault();
   setDraggedItem(sourceItem);
-  console.log("initial sourceItem", sourceItem);
 
   const clone = e.target.cloneNode(true);
   clone.style.position = "absolute";
@@ -82,11 +81,12 @@ export const handleDragStart = (
                 ...newWords[index],
                 pictogram: sourceItem.pictogram,
               };
+              index == newWords.length - 1 && newWords.push(null);
             }
           } else {
             newWords[index] = { place: index, pictogram: sourceItem };
+            index == newWords.length - 1 && newWords.push(null);
           }
-          index == newWords.length - 1 && newWords.push(null);
           return {
             ...prev,
             words: newWords,
