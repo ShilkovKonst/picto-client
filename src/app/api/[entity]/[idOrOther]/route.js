@@ -118,7 +118,7 @@ async function getOne(entityName, id, accessToken) {
     `${process.env.SERVER_BASE_URL}/${entityName}/${id}`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization: accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }

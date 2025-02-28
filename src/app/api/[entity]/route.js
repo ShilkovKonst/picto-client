@@ -45,7 +45,7 @@ export async function POST(req, props) {
   // send request to server with body, create new entity
   const accessToken = req?.cookies?.get("accessToken");
   const formData = await req.formData();
-  console.log(formData)
+  console.log(formData);
   try {
     const response = await fetch(
       `${process.env.SERVER_BASE_URL}/${entityName}`,
@@ -84,7 +84,7 @@ async function getAllAsPage(entityName, page, size, accessToken) {
     `${process.env.SERVER_BASE_URL}/${entityName}?page=${page}&size=${size}`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization: accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }
@@ -132,7 +132,7 @@ async function getAllAsSimpleList(entityName, accessToken) {
     `${process.env.SERVER_BASE_URL}/${entityName}?asList=true&simple=true`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization: accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }

@@ -33,7 +33,7 @@ async function getAllByOtherAsPage(entityName, otherName, otherId, page, size, a
     `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}?page=${page}&size=${size}`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization:  accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }
@@ -57,14 +57,14 @@ async function getAllByOtherAsList(entityName, otherName, otherId, accessToken, 
     `${process.env.SERVER_BASE_URL}/${entityName}/${otherName}/${otherId}${simple == "true" ? "?simple" : ""}`,
     {
       headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+        Authorization:  accessToken ? `Bearer ${accessToken.value}` : "",
       },
       credentials: "include",
     }
   );
 
   if (!response.ok) {
-    console.log("picto API !response.ok: ", response.statusText);
+    console.log("picto API !response.ok: ", response);
     if (response.status == 401) {
       // TODO: create logic
     }
