@@ -86,7 +86,7 @@ export async function getAllByOtherAsList(
   entityName,
   otherName,
   otherId,
-  accessToken, 
+  accessToken = null, 
   simple = false
 ) {
   const response = await fetch(

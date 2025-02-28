@@ -64,7 +64,7 @@ async function getAllByOtherAsList(entityName, otherName, otherId, accessToken, 
   );
 
   if (!response.ok) {
-    console.log("picto API !response.ok: ", response);
+    console.log("picto API !response.ok: ", response.statusText);
     if (response.status == 401) {
       // TODO: create logic
     }
