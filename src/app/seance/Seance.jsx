@@ -1,7 +1,7 @@
 import SeanceItem from "../../_components/seance/SeanceItem";
 import FooterLink from "@/_components/accueil/FooterLink";
 import HeaderImage from "@/_components/shared/HeaderImage";
-import { types } from "@/_constants/seanceTypes";
+import { seanceTypes } from "@/_constants/types";
 
 const Seance = ({ session, patient }) => {
   console.log("session", session);
@@ -16,7 +16,7 @@ const Seance = ({ session, patient }) => {
           Quel type de séance voudriez-vous lancer?
         </h1>
         <div className="flex flex-col gap-5 my-5">
-          {types(patient).map((type, i) => (
+          {seanceTypes(patient).map((type, i) => (
             <SeanceItem
               key={i}
               title={type.title}
