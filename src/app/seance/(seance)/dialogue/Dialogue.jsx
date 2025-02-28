@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { getAllByOtherAsList } from "@/_lib/entityApiUtil";
 import { SeanceContext } from "@/_context/SeanceContext";
 import { processPhrase } from "@/_lib/grammar";
+import { capitalizeWords } from "@/_lib/capitalizeWord";
 
 const Dialogue = ({ questions }) => {
   const [questionModal, setQuestionModal] = useState(false);
@@ -30,6 +31,15 @@ const Dialogue = ({ questions }) => {
   };
 
   useEffect(() => {
+    setPhrase({
+      text: "",
+      words: Array(1).fill(null),
+      audio: null,
+    });
+    setPhraseToShow("");
+  }, []);
+
+  useEffect(() => {
     selectedQuestion && fetchPictos();
     setPhrase({
       text: "",
@@ -38,15 +48,6 @@ const Dialogue = ({ questions }) => {
     });
   }, [selectedQuestion]);
 
-  const capitalizeWords = (str) => {
-    return str
-      .split(" ")
-      .map((word, i) =>
-        i == 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
-      )
-      .join(" ");
-  };
-
   useEffect(() => {
     setPhraseToShow("");
     console.log("phrase", phrase);
@@ -54,7 +55,7 @@ const Dialogue = ({ questions }) => {
     processPhrase(phrase, setPhraseToShow, selectedQuestion?.tense);
     setPhraseToShow((prev) => capitalizeWords(prev));
   }, [phrase?.text]);
-  
+
   return (
     <div className="relative">
       <DialogueQuestionSelector
