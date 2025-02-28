@@ -3,16 +3,19 @@ import { FaComments, FaGamepad, FaQuestion } from "react-icons/fa6";
 export const seanceTypes = (patient) => [
   {
     title: "Echange",
+    path: "exchange",
     link: `/seance/exchange${patient ? "?patient=" + patient : ""}`,
     icon: <FaComments size={"2rem"} />,
   },
   {
     title: "Dialogue",
+    path: "dialogue",
     link: `/seance/dialogue${patient ? "?patient=" + patient : ""}`,
     icon: <FaQuestion size={"2rem"} />,
   },
   {
     title: "Jeux de mémoire",
+    path: "games",
     link: `/seance/games${patient ? "?patient=" + patient : ""}`,
     icon: <FaGamepad size={"2rem"} />,
   },
