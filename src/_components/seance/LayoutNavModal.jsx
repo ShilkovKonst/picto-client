@@ -3,12 +3,15 @@ import { useState } from "react";
 import LayoutNavModalBody from "./LayoutNavModalBody";
 import LayoutNavModalButton from "./LayoutNavModalButton";
 
-const LayoutNavModal = ({ session }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const LayoutNavModal = ({ session, isOpen, setIsOpen }) => {
   return (
     <div className="relative group">
       <LayoutNavModalButton isOpen={isOpen} setIsOpen={setIsOpen} />
-      <LayoutNavModalBody session={session} isOpen={isOpen} />
+      <LayoutNavModalBody
+        session={session}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </div>
   );
 };

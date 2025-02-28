@@ -21,7 +21,7 @@ const LayoutManagementItem = ({
           setStepNumber(0);
         }
         textToSpeech(phraseSplit[stepNumber]);
-        setStepNumber((prev) => prev++);
+        setStepNumber((prev) => ++prev);
         break;
       case "delete":
         setPhrase({
