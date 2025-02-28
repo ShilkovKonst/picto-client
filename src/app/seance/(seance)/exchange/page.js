@@ -1,15 +1,10 @@
-import { getAllAsList } from "@/_lib/entityApiUtil";
-import Dialogue from "./Exchange";
+import { getAllAsList, getAllByOtherAsList } from "@/_lib/entityApiUtil";
 import Exchange from "./Exchange";
 
 const page = async () => {
-  const questions = await getAllAsList("questions", null);
-  const categories = await getAllAsList("categories", null);
-  const pictograms = await getAllAsList("pictograms", null);
-    
-  return (
-    <Exchange questions={questions} categories={categories} pictograms={pictograms}  />
-  );
+  const categories = await getAllByOtherAsList("categories", "type", "supercategories", null);
+
+  return <Exchange categories={categories} />;
 };
 
 export default page;

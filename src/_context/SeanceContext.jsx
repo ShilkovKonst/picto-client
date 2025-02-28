@@ -4,6 +4,7 @@ import { createContext, useState } from "react";
 export const SeanceContext = createContext();
 
 export default function SeanceProvider({ children }) {
+  const [tense, setTense] = useState("PRESENT");
   const [phraseToShow, setPhraseToShow] = useState("");
   const [phrase, setPhrase] = useState({
     text: "",
@@ -11,6 +12,8 @@ export default function SeanceProvider({ children }) {
     audio: null,
   });
   const value = {
+    tense,
+    setTense,
     phrase,
     setPhrase,
     phraseToShow,
