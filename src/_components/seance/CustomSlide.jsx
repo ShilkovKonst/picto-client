@@ -8,25 +8,42 @@ const CustomSlide = ({
   phrase,
   setPhrase,
   cursorClass,
+  handleClick,
+  setState,
+  selectedItem,
 }) => {
   return (
-    <div className="pb-6">
+    <div className="">
       <button
-        onClick={() => textToSpeech(slide.title)}
-        className={`flex justify-center items-center overflow-hidden h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem] mx-auto rounded-xl border-2 border-primary`}
+        {...(handleClick && { onClick: () => textToSpeech(slide.title) })}
+        className={`group flex justify-center items-center overflow-hidden mx-auto rounded-xl ${
+          selectedItem?.id != slide?.id
+            ? "border-primary border-2 h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem]"
+            : "border-secondary border-8 h-[5rem] w-[5rem] md:h-[6rem] md:w-[6rem] lg:h-[7rem] lg:w-[7rem]"
+        } transition-all duration-100 ease-in-out ${
+          selectedItem?.id != slide?.id &&
+          "hover:h-[5rem] hover:w-[5rem] hover:md:h-[6rem] hover:md:w-[6rem] hover:lg:h-[7rem] hover:lg:w-[7rem]"
+        } `}
       >
         <Image
-          {...(handleDragStart && {
-            onMouseDown: (e) =>
-              handleDragStart(e, slide, setDraggedItem, phrase, setPhrase),
-            onTouchStart: (e) =>
-              handleDragStart(e, slide, setDraggedItem, phrase, setPhrase),
-          })}
-          className={`${cursorClass} h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] lg:h-[6rem] lg:w-[6rem]`}
+          {...(!handleClick
+            ? {
+                onMouseDown: (e) =>
+                  handleDragStart(e, slide, setDraggedItem, phrase, setPhrase),
+                onTouchStart: (e) =>
+                  handleDragStart(e, slide, setDraggedItem, phrase, setPhrase),
+              }
+            : {
+                onClick: (e) => handleClick(slide, setState, selectedItem),
+              })}
+          className={`${cursorClass} transition-all duration-100 ease-in-out h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] lg:h-[6rem] lg:w-[6rem] ${
+            selectedItem?.id != slide?.id &&
+            "group-hover:h-[4.75rem] group-hover:w-[4.75rem] group-hover:md:h-[5.75rem] group-hover:md:w-[5.75rem] group-hover:lg:h-[6.75rem] group-hover:lg:w-[6.75rem]"
+          }`}
           src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}
           alt={slide?.media?.imageName}
-          width={96}
-          height={96}
+          width={112}
+          height={112}
         />
       </button>
     </div>

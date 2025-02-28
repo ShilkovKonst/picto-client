@@ -1,3 +1,5 @@
+import { textToSpeech } from "./textToSpeech";
+
 export const handleDragStart = (
   e,
   sourceItem,
@@ -7,8 +9,11 @@ export const handleDragStart = (
 ) => {
   e.type === "mousedown" && e.preventDefault();
   setDraggedItem(sourceItem);
+  textToSpeech(sourceItem?.pictogram?.title ?? sourceItem?.title)
 
   const clone = e.target.cloneNode(true);
+  clone.removeAttribute("class")
+  clone.setAttribute("class", "h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] lg:h-[6rem] lg:w-[6rem]");
   clone.style.position = "absolute";
   clone.style.zIndex = 1000;
   clone.style.pointerEvents = "none";
@@ -16,7 +21,7 @@ export const handleDragStart = (
   clone.style.borderRadius = "0.75rem";
   document.body.appendChild(clone);
   clone.hidden = true;
-
+  
   const sourceDropzone = defineDropzone(e, clone, "mousedown", "touchstart");
   let sourceIndex = -1;
   if (sourceDropzone) {

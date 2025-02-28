@@ -10,15 +10,26 @@ const ImageSlider = ({
   phrase,
   setPhrase,
   setDraggedItem,
+  handleClick,
+  setState,
+  selectedItem,
 }) => {
   const settings = {
-    infinite: slides.length == 1,
+    className: "h-20 md:h-24 lg:h-28",
+    infinite: false,
     speed: 500,
     slidesToShow: slides.length < 10 ? slides.length : 10,
     slidesToScroll: slides.length < 10 ? slides.length - 1 : 9,
     swipeToSlide: true,
     draggable: false,
     responsive: [
+      {
+        breakpoint: 530,
+        settings: {
+          slidesToShow: slides.length < 3 ? slides.length : 3,
+          slidesToScroll: slides.length < 3 ? slides.length - 1 : 2,
+        },
+      },
       {
         breakpoint: 768,
         settings: {
@@ -34,7 +45,7 @@ const ImageSlider = ({
         },
       },
       {
-        breakpoint: 1250,
+        breakpoint: 1440,
         settings: {
           slidesToShow: slides.length < 8 ? slides.length : 8,
           slidesToScroll: slides.length < 8 ? slides.length - 1 : 7,
@@ -44,7 +55,7 @@ const ImageSlider = ({
   };
 
   return (
-    <div className="slider-container bg-pform px-8 pt-2 mb-3 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
+    <div className="slider-container bg-pform px-8 py-2 mb-3 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
       <Slider {...settings}>
         {slides.map((slide, i) => (
           <CustomSlide
@@ -54,6 +65,9 @@ const ImageSlider = ({
             setDraggedItem={setDraggedItem}
             phrase={phrase}
             setPhrase={setPhrase}
+            handleClick={handleClick}
+            setState={setState}
+            selectedItem={selectedItem}
           />
         ))}
       </Slider>

@@ -21,7 +21,7 @@ const Dropzone = ({ phrase, setPhrase, draggedItem, setDraggedItem }) => {
       };
     });
   };
-
+  
   return (
     <div className="bg-pform flex flex-wrap justify-start xl:justify-center px-8 py-2 mb-3 gap-2 lg:gap-3 xl:gap-5 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
       {phrase?.words?.map((slide, i) => (
@@ -42,7 +42,6 @@ const Dropzone = ({ phrase, setPhrase, draggedItem, setDraggedItem }) => {
                     handleDragStart(e, slide, setDraggedItem, setPhrase),
                 })}
                 className="cursor-pointer"
-                onClick={() => textToSpeech(slide?.pictogram?.title)}
                 src={`data:${slide?.pictogram?.media?.imageFileRes?.type};base64,${slide?.pictogram?.media?.imageFileRes?.imageBase64}`}
                 alt={slide?.pictogram?.media?.imageName}
                 width={96}
