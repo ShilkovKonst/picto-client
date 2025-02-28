@@ -54,7 +54,7 @@ const Dialogue = ({ questions }) => {
     processPhrase(phrase, setPhraseToShow, selectedQuestion?.tense);
     setPhraseToShow((prev) => capitalizeWords(prev));
   }, [phrase?.text]);
-  console.log(phrase);
+  
   return (
     <div className="relative">
       <DialogueQuestionSelector

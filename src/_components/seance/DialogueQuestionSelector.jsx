@@ -3,7 +3,6 @@ const DialogueQuestionSelector = ({
   questionModal,
   setQuestionModal,
   selectedQuestion,
-  setSelectedQuestion,
   handleClick,
 }) => {
   return (
