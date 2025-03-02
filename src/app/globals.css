@@ -67,7 +67,7 @@ body {
     background: #1aa179;
   }
 }
-.play_step {
+.step {
   background: #007bff;
   border-color: #3399ff;
   &:hover {
@@ -86,6 +86,27 @@ body {
   border-color: #6fd2c9;
   &:hover {
     background: #46a29a;
+  }
+}
+.tense {
+  background: #87db4b;
+  border-color: #9eef5c;
+  &:hover {
+    background: #75c33f;
+  }
+}
+.positive {
+  background: #38b000;
+  border-color: #42c500;
+  &:hover {
+    background: #2e8f00;
+  }
+}
+.negative {
+  background: #a02b37;
+  border-color: #be3241;
+  &:hover {
+    background: #8c232d;
   }
 }
 

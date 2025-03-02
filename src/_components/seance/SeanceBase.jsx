@@ -12,9 +12,16 @@ const SeanceBase = ({ questions, categories, seanceType }) => {
   const [pictograms, setPictograms] = useState(null);
   const [draggedItem, setDraggedItem] = useState(null);
 
-  const { phrase, setPhrase } = useContext(SeanceContext);
-  const { phraseToShow, setPhraseToShow } = useContext(SeanceContext);
-  const { tense, setTense } = useContext(SeanceContext);
+  const {
+    phrase,
+    setPhrase,
+    phraseToShow,
+    setPhraseToShow,
+    tense,
+    setTense,
+    form,
+    setForm,
+  } = useContext(SeanceContext);
 
   const fetch = async (entitytName, otherName, setState, id) => {
     setState(await getAllByOtherAsList(entitytName, otherName, id));
@@ -33,9 +40,9 @@ const SeanceBase = ({ questions, categories, seanceType }) => {
     setPhraseToShow("");
     console.log("phrase", phrase);
     console.log("phraseToShow", phraseToShow);
-    processPhrase(phrase, setPhraseToShow, tense);
+    processPhrase(phrase, setPhraseToShow, tense, form);
     setPhraseToShow((prev) => capitalizeWords(prev));
-  }, [phrase?.text]);
+  }, [phrase?.text, tense, form]);
 
   return (
     <div className="relative">
