@@ -13,6 +13,7 @@ const ImageSlider = ({
   handleClick,
   setState,
   selectedItem,
+  slideType,
 }) => {
   const settings = {
     className: "h-20 md:h-24 lg:h-28",
@@ -68,6 +69,7 @@ const ImageSlider = ({
             handleClick={handleClick}
             setState={setState}
             selectedItem={selectedItem}
+            slideType={slideType}
           />
         ))}
       </Slider>
