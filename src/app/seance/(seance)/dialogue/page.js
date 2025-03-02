@@ -1,11 +1,11 @@
 import { getAllAsList } from "@/_lib/entityApiUtil";
-import Dialogue from "./Dialogue";
+import SeanceBase from "@/_components/seance/SeanceBase";
 
 const page = async () => {
   const questions = await getAllAsList("questions", null);
     
   return (
-    <Dialogue questions={questions} />
+    <SeanceBase questions={questions} seanceType={"dialogue"} />
   );
 };
 

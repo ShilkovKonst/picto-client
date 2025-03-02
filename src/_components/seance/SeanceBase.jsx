@@ -1,27 +1,20 @@
 "use client";
-import Dropzone from "@/_components/seance/Dropzone";
-import ImageSlider from "@/_components/seance/ImageSlider";
-import { useContext, useEffect, useState } from "react";
-import { getAllByOtherAsList } from "@/_lib/entityApiUtil";
 import { SeanceContext } from "@/_context/SeanceContext";
+import { getAllByOtherAsList } from "@/_lib/entityApiUtil";
 import { processPhrase } from "@/_lib/grammar";
+import { useContext, useEffect, useState } from "react";
+import Dropzone from "./Dropzone";
+import SeanceDialogue from "./SeanceDialogue";
+import SeanceExchange from "./SeanceExchange";
 import { capitalizeWords } from "@/_lib/capitalizeWord";
 
-const Exchange = ({ categories }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedSubcategory, setSelectedSubcategory] = useState(null);
+const SeanceBase = ({ questions, categories, seanceType }) => {
   const [pictograms, setPictograms] = useState(null);
-  const [subcategories, setSubcategories] = useState(null);
-  const [subpictograms, setSubpictograms] = useState(null);
   const [draggedItem, setDraggedItem] = useState(null);
 
-  const { tense, setTense } = useContext(SeanceContext);
   const { phrase, setPhrase } = useContext(SeanceContext);
   const { phraseToShow, setPhraseToShow } = useContext(SeanceContext);
-
-  const handleClick = (entity, setState, selectedItem) => {
-    entity.id == selectedItem?.id ? setState(null) : setState(entity);
-  };
+  const { tense, setTense } = useContext(SeanceContext);
 
   const fetch = async (entitytName, otherName, setState, id) => {
     setState(await getAllByOtherAsList(entitytName, otherName, id));
@@ -37,31 +30,6 @@ const Exchange = ({ categories }) => {
   }, []);
 
   useEffect(() => {
-    selectedCategory
-      ? fetch("pictograms", "category", setPictograms, selectedCategory.id)
-      : setPictograms(null);
-    selectedCategory
-      ? fetch(
-          "categories",
-          "supercategory",
-          setSubcategories,
-          selectedCategory.id
-        )
-      : setSubcategories(null);
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    selectedSubcategory
-      ? fetch(
-          "pictograms",
-          "category",
-          setSubpictograms,
-          selectedSubcategory.id
-        )
-      : setSubpictograms(null);
-  }, [selectedSubcategory]);
-
-  useEffect(() => {
     setPhraseToShow("");
     console.log("phrase", phrase);
     console.log("phraseToShow", phraseToShow);
@@ -71,38 +39,27 @@ const Exchange = ({ categories }) => {
 
   return (
     <div className="relative">
-      <ImageSlider
-        cursorClass="cursor-pointer"
-        handleClick={handleClick}
-        setState={setSelectedCategory}
-        slides={categories.sort((a, b) => (a.title < b.title ? -1 : 1))}
-        selectedItem={selectedCategory}
-      />
-      {selectedCategory && subcategories?.length > 0 && (
-        <ImageSlider
-          cursorClass="cursor-pointer"
-          handleClick={handleClick}
-          setState={setSelectedSubcategory}
-          slides={subcategories.sort((a, b) => (a.title < b.title ? -1 : 1))}
-          selectedItem={selectedSubcategory}
+      {seanceType == "dialogue" && (
+        <SeanceDialogue
+          fetch={fetch}
+          questions={questions}
+          pictograms={pictograms}
+          setPictograms={setPictograms}
+          phrase={phrase}
+          setPhrase={setPhrase}
+          setDraggedItem={setDraggedItem}
+          setTense={setTense}
         />
       )}
-      {selectedCategory && pictograms?.length > 0 && (
-        <ImageSlider
-          cursorClass="cursor-grab"
-          slides={pictograms.sort((a, b) => (a.title < b.title ? -1 : 1))}
+      {seanceType == "exchange" && (
+        <SeanceExchange
+          fetch={fetch}
+          categories={categories}
+          pictograms={pictograms}
+          setPictograms={setPictograms}
           phrase={phrase}
-          setDraggedItem={setDraggedItem}
           setPhrase={setPhrase}
-        />
-      )}
-      {selectedCategory && subpictograms?.length > 0 && (
-        <ImageSlider
-          cursorClass="cursor-grab"
-          slides={subpictograms.sort((a, b) => (a.title < b.title ? -1 : 1))}
-          phrase={phrase}
           setDraggedItem={setDraggedItem}
-          setPhrase={setPhrase}
         />
       )}
       <Dropzone
@@ -135,4 +92,4 @@ const Exchange = ({ categories }) => {
   );
 };
 
-export default Exchange;
+export default SeanceBase;
