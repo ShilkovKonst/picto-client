@@ -19,7 +19,6 @@ const FormPersonBlock = ({
   setForm,
   handleChange,
 }) => {
-  console.log(form.firstName != undefined && 1);
   useEffect(() => {
     entityName == "users" &&
       setForm({
@@ -83,7 +82,8 @@ const FormPersonBlock = ({
         })
       : setForm({ ...form, birthDate: date });
   };
-
+  console.log(session?.roles);
+  console.log(entity, session?.id);
   return (
     <>
       <div className="flex flex-col lg:flex-row justify-evenly items-center gap-0 lg:gap-3">
@@ -178,7 +178,8 @@ const FormPersonBlock = ({
             </div>
           )}
           {(session?.roles?.includes("ROLE_ADMIN") ||
-            entity?.user?.id == session?.id) &&
+            entity?.user?.id == session?.id ||
+            entity?.id == session?.id) &&
           (entity == null || form.active != undefined) ? (
             <FormCheckboxField
               id={"active"}

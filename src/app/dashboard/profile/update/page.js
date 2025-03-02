@@ -6,7 +6,6 @@ const page = async () => {
   const { accessToken, session } = getAccessToken();
   const user = await getOneById("users", session.id, accessToken);
   const institutions = await getAllAsList("institutions", accessToken);
-  const roles = await getAllAsList("roles", accessToken);
 
   return (
     <EntityUpdate

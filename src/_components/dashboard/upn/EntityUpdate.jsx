@@ -9,7 +9,6 @@ const EntityUpdate = ({
   entityName,
   institutions,
   users,
-  roles,
   patients,
   patient,
 }) => {
@@ -26,7 +25,6 @@ const EntityUpdate = ({
         pathname={pathname}
         institutions={institutions}
         users={users}
-        roles={roles}
         patients={patients}
         patient={patient}
       />
