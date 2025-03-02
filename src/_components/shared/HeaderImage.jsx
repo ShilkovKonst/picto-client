@@ -4,8 +4,8 @@ import Image from "next/image";
 const HeaderImage = ({ width }) => {
   return (
     <Image
-      src={images.logo}
-      alt="LogoEcam.png"
+      src={images.logo.src}
+      alt={images.logo.alt}
       width={width}
       className="z-10 mx-auto"
       priority={true}
