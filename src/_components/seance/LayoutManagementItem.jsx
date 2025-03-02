@@ -61,7 +61,7 @@ const LayoutManagementItem = ({
       className={`text-white ${
         usage.split("_")[0]
       } w-12 h-12 border rounded-full ${
-        selected && "border-2 border-black border-dotted"
+        selected && "border-2 !border-black border-dotted"
       } transition ease-in-out duration-300`}
     >
       <div className={`flex justify-center items-center`}>{icon}</div>

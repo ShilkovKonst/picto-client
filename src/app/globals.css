@@ -115,21 +115,16 @@ body {
 .slick-next {
   font-size: 0;
   line-height: 0;
-
   position: absolute;
   top: 50%;
-
   display: block !important;
-
   width: 2rem !important;
   height: 1.5rem !important;
   padding: 0;
   -webkit-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
   transform: translate(0, -50%);
-
   cursor: pointer;
-
   color: transparent;
   border: none;
   outline: none;
@@ -142,10 +137,8 @@ body {
   line-height: 1.675rem !important;
   margin-left: auto !important;
   margin-right: auto !important;
-
   opacity: 0.75;
   color: #1e646f !important;
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -155,30 +148,6 @@ body {
 .slick-next {
   right: -2rem !important;
 }
-
-/* .arrow {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  fill: #fff;
-  cursor: pointer;
-}
-
-.arrow--left {
-  left: 5px;
-}
-
-.arrow--right {
-  left: auto;
-  right: 5px;
-}
-
-.arrow--disabled {
-  fill: rgba(255, 255, 255, 0.5);
-} */
 
 @layer components {
   .alert {

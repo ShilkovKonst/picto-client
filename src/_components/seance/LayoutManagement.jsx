@@ -15,8 +15,8 @@ import Image from "next/image";
 import images from "@/_constants/images";
 
 const LayoutManagement = ({ setIsOpen }) => {
-  const { phraseToShow, setPhrase } = useContext(SeanceContext);
-  const { tense, setTense, form, setForm } = useContext(SeanceContext);
+  const { phraseToShow, setPhrase, tense, setTense, form, setForm } =
+    useContext(SeanceContext);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">
