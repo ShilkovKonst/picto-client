@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import DialogueQuestionSelector from "./DialogueQuestionSelector";
 import ImageSlider from "./ImageSlider";
+import { textToSpeech } from "@/_lib/textToSpeech";
 
 const SeanceDialogue = ({
   fetch,
