@@ -1,4 +1,5 @@
 import { irregularId } from "@/_constants/types";
+import { auxMap, pronominalMap, verbEndingMap } from "@/_constants/verbMaps";
 
 export const processAuxVerb = (
   word,
@@ -38,6 +39,7 @@ export const processAuxVerb = (
 
 export const processMainVerb = (
   tense,
+  form,
   words,
   index,
   j = 0,
@@ -45,23 +47,18 @@ export const processMainVerb = (
 ) => {
   // if it is main verb - find subject and conjugate this verb
   const accordKey = {
+    form: form,
     tense: tense,
     number: "",
     person: "",
     regular: "",
     aux: "",
   };
-  accordVerb(accordKey, words[index], "aux", [
+  setAccordKey(words[index].pictogram, accordKey, "aux", [
     "AUXILIAIRE_ETRE",
     "AUXILIAIRE_AVOIR",
   ]);
-  if (irregularId(words[index].pictogram.tags)) {
-    accordKey["regular"] = "IRREGULIER";
-  } else {
-    const firstWord = words[index].pictogram.title.split(" ")[0];
-    const wordEnd = firstWord.split(" ")[0].slice(firstWord.length - 2);
-    accordKey["regular"] = wordEnd == "er" ? "ER" : "IR";
-  }
+  setAccordKey(words[index].pictogram, accordKey, "regular");
   switch (words[j].pictogram.type) {
     case "PRONOM":
       //conjugate according to number and person of pronom and tense of question
@@ -95,237 +92,96 @@ export const processMainVerb = (
   }
 };
 
-const accordVerb = (accordKey, word, key, values) => {
-  for (let i = 0; i < values.length; i++) {
-    if (word.pictogram.tags.some((t) => t.title == values[i]))
-      accordKey[key] = values[i];
-  }
-};
-
 const formPhrase = (accordKey, words, k, index, setPhraseToShow) => {
-  accordVerb(accordKey, words[k], "number", ["SINGULIER", "PLURIEL"]);
-  accordVerb(accordKey, words[k], "person", [
+  setAccordKey(words[k].pictogram, accordKey, "number", [
+    "SINGULIER",
+    "PLURIEL",
+  ]);
+  setAccordKey(words[k].pictogram, accordKey, "person", [
     "PREMIER",
     "DEUXIEME",
     "TROISIEME",
   ]);
-  if (accordKey.tense == "PASSE") {
-    setPhraseToShow(
-      (phrase) =>
-        phrase +
-        " " +
-        auxMap[accordKey.aux][accordKey.number][accordKey.person] +
-        " " +
-        verbMap(words[index])["PAST_PARTICIPLE"][accordKey.regular]
-    );
+  setPhraseToShow(
+    (phrase) => phrase + " " + formVerb(words[index].pictogram, accordKey)
+  );
+};
+
+const setAccordKey = (picto, accordKey, key, values) => {
+  if (key == "regular") {
+    if (irregularId(picto.tags)) {
+      accordKey[key] = "IRREGULIER";
+    } else {
+      const verbArray = picto.title.split(/['\s]/);
+      const wordEnd = !isPronominal(verbArray[0])
+        ? verbArray[0].slice(verbArray[0].length - 2)
+        : verbArray[1].slice(verbArray[1].length - 2);
+      accordKey["regular"] = wordEnd == "er" ? "ER" : "IR";
+    }
   } else {
-    setPhraseToShow(
-      (phrase) =>
-        phrase +
-        " " +
-        verbMap(words[index])[accordKey.tense][accordKey.number][
-          accordKey.person
-        ][accordKey.regular]
-    );
+    for (let i = 0; i < values.length; i++) {
+      if (picto.tags.some((t) => t.title == values[i]))
+        accordKey[key] = values[i];
+    }
   }
 };
 
-const verbMap = (word) => ({
-  PRESENT: {
-    SINGULIER: {
-      PREMIER: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "e",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "is",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["PRESENT_SINGULIER_PREMIER"],
-      },
-      DEUXIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "es",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "is",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations[
-            "PRESENT_SINGULIER_DEUXIEME"
-          ],
-      },
-      TROISIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "e",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "it",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations[
-            "PRESENT_SINGULIER_TROISIEME"
-          ],
-      },
-    },
-    PLURIEL: {
-      PREMIER: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "ons",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "issons",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["PRESENT_PLURIEL_PREMIER"],
-      },
-      DEUXIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "ez",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "issez",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["PRESENT_PLURIEL_DEUXIEME"],
-      },
-      TROISIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "ent",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "issent",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["PRESENT_PLURIEL_TROISIEME"],
-      },
-    },
-  },
-  FUTUR: {
-    SINGULIER: {
-      PREMIER: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "erai",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "irai",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_SINGULIER_PREMIER"],
-      },
-      DEUXIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "eras",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "iras",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_SINGULIER_DEUXIEME"],
-      },
-      TROISIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "era",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "ira",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_SINGULIER_TROISIEME"],
-      },
-    },
-    PLURIEL: {
-      PREMIER: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "erons",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "irons",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_PLURIEL_PREMIER"],
-      },
-      DEUXIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "erez",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "irez",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_PLURIEL_DEUXIEME"],
-      },
-      TROISIEME: {
-        ER:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "eront",
-        IR:
-          word?.pictogram?.title
-            ?.toLowerCase()
-            ?.slice(0, word?.pictogram?.title.length - 2) + "iront",
-        IRREGULIER:
-          word?.pictogram?.irregular?.conjugations["FUTUR_PLURIEL_TROISIEME"],
-      },
-    },
-  },
-  PAST_PARTICIPLE: {
-    ER:
-      word?.pictogram?.title
-        ?.toLowerCase()
-        ?.slice(0, word?.pictogram?.title.length - 2) + "é",
-    IR:
-      word?.pictogram?.title
-        ?.toLowerCase()
-        ?.slice(0, word?.pictogram?.title.length - 2) + "i",
-    IRREGULIER: word?.pictogram?.irregular?.pastParticiple?.toLowerCase(),
-  },
-});
-const auxMap = {
-  AUXILIAIRE_ETRE: {
-    SINGULIER: {
-      PREMIER: "suis",
-      DEUXIEME: "es",
-      TROISIEME: "est",
-    },
-    PLURIEL: {
-      PREMIER: "sommes",
-      DEUXIEME: "êtes",
-      TROISIEME: "sont",
-    },
-  },
-  AUXILIAIRE_AVOIR: {
-    SINGULIER: {
-      PREMIER: "ai",
-      DEUXIEME: "as",
-      TROISIEME: "a",
-    },
-    PLURIEL: {
-      PREMIER: "avons",
-      DEUXIEME: "avez",
-      TROISIEME: "ont",
-    },
-  },
+const isPronominal = (word) =>
+  word.toLowerCase() == "se" || word.toLowerCase() == "s";
+
+const verbing = (word, picto, accordKey) => {
+  const { form, tense, person, number, regular, aux } = accordKey;
+  if (tense == "PASSE") {
+    return regular == "IRREGULIER"
+      ? auxMap[aux][number][person] +
+          (form == "NEGATIVE" ? " pas " : " ") +
+          picto.irregular?.pastParticiple?.toLowerCase()
+      : auxMap[aux][number][person] +
+          (form == "NEGATIVE" ? " pas " : " ") +
+          word.toLowerCase().slice(0, word.length - 2) +
+          verbEndingMap["PAST_PARTICIPLE"][regular];
+  }
+  return regular == "IRREGULIER"
+    ? picto?.irregular?.conjugations[`${tense}_${number}_${person}`] +
+        (form == "NEGATIVE" ? " pas " : " ")
+    : word.toLowerCase().slice(0, word.length - 2) +
+        verbEndingMap[tense][number][person][regular] +
+        (form == "NEGATIVE" ? " pas " : " ");
+  if (tense == "PASSE") {
+    return regular == "IRREGULIER"
+      ? auxMap[aux][number][person] +
+          " " +
+          picto.irregular?.pastParticiple?.toLowerCase()
+      : auxMap[aux][number][person] +
+          " " +
+          word.toLowerCase().slice(0, word.length - 2) +
+          verbEndingMap["PAST_PARTICIPLE"][regular];
+  }
+  return regular == "IRREGULIER"
+    ? picto?.irregular?.conjugations[`${tense}_${number}_${person}`]
+    : word.toLowerCase().slice(0, word.length - 2) +
+        verbEndingMap[tense][number][person][regular];
+};
+
+const formVerb = (picto, accordKey) => {
+  const { form, person, number } = accordKey;
+  const verbSplitted = picto.title?.split(/['\s]/);
+  return verbSplitted
+    ?.map((word, i) => {
+      if (i == 0) {
+        if (isPronominal(word)) {
+          return (
+            (form == "NEGATIVE" ? "ne " : " ") + pronominalMap[number][person]
+          );
+        }
+        return (
+          (form == "NEGATIVE" ? "ne " : " ") + verbing(word, picto, accordKey)
+        );
+      }
+      if (i == 1 && isPronominal(verbSplitted[0])) {
+        return verbing(word, picto, accordKey);
+      }
+      return (form == "NEGATIVE" ? "ne " : " ") + word;
+    })
+    .join(" ");
 };
