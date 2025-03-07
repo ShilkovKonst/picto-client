@@ -88,6 +88,7 @@ export const tagsMap = {
   TROISIEME: "troisième",
   AVANT: "avant",
   APRES: "après",
+  H_ASPIRE: "h aspiré",
 };
 
 export const generateConjugationKey = (tense, number, person) =>
