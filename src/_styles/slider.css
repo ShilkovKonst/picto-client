@@ -1,0 +1,40 @@
+
+
+/* Arrows */
+.slick-prev,
+.slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block !important;
+  width: 2rem !important;
+  height: 1.5rem !important;
+  padding: 0;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+.slick-prev:before,
+.slick-next:before {
+  font-family: "slick";
+  font-size: 1.5rem !important;
+  line-height: 1.675rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  opacity: 0.75;
+  color: #1e646f !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.slick-prev {
+  left: -2rem !important;
+}
+.slick-next {
+  right: -2rem !important;
+}

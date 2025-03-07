@@ -1,3 +1,6 @@
+@import "../_styles/scrollbars.css";
+@import "../_styles/seance.css";
+@import "../_styles/slider.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,148 +8,6 @@
 /* /////////////////////////////////////////////////////////////////// */
 body {
   min-width: 480px;
-}
-
-/* dashboard accordion scrollbar */
-.accordion::-webkit-scrollbar {
-  width: 20px;
-}
-.accordion::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 0px 10px 10px 0px;
-}
-.accordion::-webkit-scrollbar-thumb {
-  background: #1e646f88;
-  border-radius: 0px 10px 10px 0px;
-  box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
-}
-.accordion::-webkit-scrollbar-thumb:hover {
-  background: #1e646faa;
-  box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
-}
-
-/* dialogue questions list scrollbar */
-#questionList::-webkit-scrollbar {
-  width: 10px;
-}
-#questionList::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 0px 0px 10px 0px;
-}
-#questionList::-webkit-scrollbar-thumb {
-  background: #1e646f88;
-  border-radius: 0px 0px 10px 0px;
-  box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
-}
-#questionList::-webkit-scrollbar-thumb:hover {
-  background: #1e646faa;
-  box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
-}
-
-/* update/create question pictograms list scrollbar */
-.pictogramList::-webkit-scrollbar {
-  width: 15px;
-}
-.pictogramList::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-}
-.pictogramList::-webkit-scrollbar-thumb {
-  background: #1e646f88;
-  box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
-}
-.pictogramList::-webkit-scrollbar-thumb:hover {
-  background: #1e646faa;
-  box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
-}
-
-/* Seance application buttons color style*/
-.play {
-  background: #20c997;
-  border-color: #33d4a8;
-  &:hover {
-    background: #1aa179;
-  }
-}
-.step {
-  background: #007bff;
-  border-color: #3399ff;
-  &:hover {
-    background: #0066cc;
-  }
-}
-.delete {
-  background: #b00707;
-  border-color: #d91a1a;
-  &:hover {
-    background: #8a0505;
-  }
-}
-.legend {
-  background: #57c0b7;
-  border-color: #6fd2c9;
-  &:hover {
-    background: #46a29a;
-  }
-}
-.tense {
-  background: #87db4b;
-  border-color: #9eef5c;
-  &:hover {
-    background: #75c33f;
-  }
-}
-.positive {
-  background: #38b000;
-  border-color: #42c500;
-  &:hover {
-    background: #2e8f00;
-  }
-}
-.negative {
-  background: #a02b37;
-  border-color: #be3241;
-  &:hover {
-    background: #8c232d;
-  }
-}
-
-/* Arrows */
-.slick-prev,
-.slick-next {
-  font-size: 0;
-  line-height: 0;
-  position: absolute;
-  top: 50%;
-  display: block !important;
-  width: 2rem !important;
-  height: 1.5rem !important;
-  padding: 0;
-  -webkit-transform: translate(0, -50%);
-  -ms-transform: translate(0, -50%);
-  transform: translate(0, -50%);
-  cursor: pointer;
-  color: transparent;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-.slick-prev:before,
-.slick-next:before {
-  font-family: "slick";
-  font-size: 1.5rem !important;
-  line-height: 1.675rem !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  opacity: 0.75;
-  color: #1e646f !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.slick-prev {
-  left: -2rem !important;
-}
-.slick-next {
-  right: -2rem !important;
 }
 
 @layer components {
@@ -162,29 +23,20 @@ body {
   .alert-success {
     @apply text-green-800 bg-green-50 shadow-success-inset-2/4;
   }
-  .btn-b {
-    @apply cursor-pointer shadow-outset-8/16 hover:shadow-outset-6/10 transition ease-in-out duration-300 scale-100 hover:scale-95 w-44 h-12 rounded-3xl mb-12 mt-6 font-bold text-sm tracking-[1.25px] bg-primary text-[#f9f9f9] border-none outline-none;
-  }
-  .btn-a {
-    @apply shadow-outset-8/16 hover:shadow-outset-6/10 transition ease-in-out duration-300 scale-100 hover:scale-95 h-8 sm:h-10 rounded-3xl px-2 my-3 font-bold text-sm tracking-[1.25px] bg-primary text-[#f9f9f9] border-none outline-none;
-  }
-  .btn-a-table {
-    @apply relative bg-primary hover:bg-secondary transition ease-in-out duration-300 h-5 sm:h-10 sm:w-10 rounded-3xl px-2 font-bold tracking-[1.25px] border-none outline-none flex flex-row justify-center items-center text-xs sm:text-sm my-1;
-  }
   .input-text {
-    @apply z-10 w-full h-10 my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-[#ecf0f3] rounded-lg shadow-inset-2/4 focus:shadow-inset-4/4 transition duration-300 ease-in-out;
-  }
-  .input-textarea {
-    @apply z-10 w-full my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-[#ecf0f3] rounded-lg shadow-inset-2/4 focus:shadow-inset-4/4 transition duration-300 ease-in-out;
+    @apply z-10 w-full my-1 pl-6 h-9 text-sm tracking-[0.15px] outline-none bg-white rounded-lg border border-gray-300 focus:border-primary transition duration-100 ease-in-out;
   }
   .input-file {
-    @apply flex justify-center items-center bg-primary hover:bg-secondary z-10 w-full h-10 my-1 text-sm text-white hover:text-black font-semibold text-center tracking-[0.15px] border-none outline-none rounded-lg transition duration-300 ease-in-out;
+    @apply z-10 w-full my-1 h-9 text-sm text-white flex justify-center items-center bg-primary hover:bg-secondary hover:text-black font-semibold text-center tracking-[0.15px] border-none outline-none rounded-lg transition duration-300 ease-in-out;
+  }
+  .input-textarea {
+    @apply z-10 w-full my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-white rounded-lg border-gray-300 focus:border-primary transition duration-100 ease-in-out;
   }
   .input-checkbox {
-    @apply w-4 h-4 rounded focus:ring-2 focus:ring-primary checked:bg-primary transition duration-300 ease-in-out;
+    @apply w-4 h-4 rounded focus:ring-2 focus:ring-primary checked:bg-primary transition duration-100 ease-in-out;
   }
   .input-radio {
-    @apply w-4 h-4 rounded-full focus:ring-2 focus:ring-primary checked:bg-primary transition duration-300 ease-in-out;
+    @apply w-4 h-4 rounded-full focus:ring-2 focus:ring-primary checked:bg-primary transition duration-100 ease-in-out;
   }
 }
 

@@ -1,0 +1,50 @@
+/* Seance application buttons color style*/
+.play {
+  background: #20c997;
+  border-color: #33d4a8;
+  &:hover {
+    background: #1aa179;
+  }
+}
+.step {
+  background: #007bff;
+  border-color: #3399ff;
+  &:hover {
+    background: #0066cc;
+  }
+}
+.delete {
+  background: #b00707;
+  border-color: #d91a1a;
+  &:hover {
+    background: #8a0505;
+  }
+}
+.legend {
+  background: #57c0b7;
+  border-color: #6fd2c9;
+  &:hover {
+    background: #46a29a;
+  }
+}
+.tense {
+  background: #87db4b;
+  border-color: #9eef5c;
+  &:hover {
+    background: #75c33f;
+  }
+}
+.positive {
+  background: #38b000;
+  border-color: #42c500;
+  &:hover {
+    background: #2e8f00;
+  }
+}
+.negative {
+  background: #a02b37;
+  border-color: #be3241;
+  &:hover {
+    background: #8c232d;
+  }
+}
