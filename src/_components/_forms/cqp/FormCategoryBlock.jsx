@@ -1,7 +1,5 @@
-import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
+"use client";
 import FormSelectListField from "@/_components/_forms/shared/FormSelectListField";
-import LoadingSpinner from "@/_components/shared/LoadingSpinner";
-import { Label } from "flowbite-react";
 import { useEffect } from "react";
 
 const FormCategoryBlock = ({

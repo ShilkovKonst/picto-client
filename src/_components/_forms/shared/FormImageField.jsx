@@ -2,7 +2,10 @@
 import { useState } from "react";
 
 const FormImageField = ({ entity, form, setForm, pathname }) => {
-  const [fileName, setFileName] = useState("Image non sélectionnée");
+  const [fileName, setFileName] = useState(
+    (pathname.includes("create") ? "Image" : "Nouvelle image") +
+      " non sélectionnée"
+  );
 
   const handleFileChange = (e) => {
     const file = e?.target?.files[0];
@@ -27,11 +30,13 @@ const FormImageField = ({ entity, form, setForm, pathname }) => {
         onChange={handleFileChange}
       />
       <label htmlFor="imageName" className="input-file cursor-pointer">
-      {pathname.includes("create")
+        {pathname.includes("create")
           ? `Choisir une image`
           : `Choisir une nouvelle image`}
       </label>
-      <span className="text-sm font-medium text-gray-900 cursor-default">{fileName}</span>
+      <span className="text-sm font-medium text-gray-900 cursor-default">
+        {fileName}
+      </span>
     </div>
   );
 };

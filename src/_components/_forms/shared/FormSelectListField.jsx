@@ -1,4 +1,4 @@
-import { Label, Select } from "flowbite-react";
+import { pictoTypesMap } from "@/_constants/types";
 
 const FormSelectListField = ({
   id,
@@ -10,13 +10,13 @@ const FormSelectListField = ({
 }) => {
   return (
     <div>
-      <Label htmlFor={id} value={title} />
-      <Select
+      <label htmlFor={id}>{title}</label>
+      <select
         id={id}
         name={id}
         defaultValue={defaultValue}
         onChange={handleChange}
-        className="*:*:input-text focus:*:*:ring-primary *:*:cursor-pointer"
+        className="input-text text-sm leading-none focus:ring-primary cursor-pointer"
         required
       >
         <option value={-1}>{zeroListElement}</option>
@@ -45,11 +45,11 @@ const FormSelectListField = ({
               </option>
             ) : (
               <option key={i} value={e?.value ?? e}>
-                {e?.title ?? e}
+                {id == "type" ? (pictoTypesMap[e] ?? e) : (e?.title ?? e)}
               </option>
             )
           )}
-      </Select>
+      </select>
     </div>
   );
 };

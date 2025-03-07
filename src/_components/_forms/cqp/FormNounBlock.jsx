@@ -3,8 +3,8 @@ import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import { irregularId, tagsMap } from "@/_constants/types";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
-import { Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
+import FormTextField from "../shared/FormTextField";
 
 const FormNounBlock = ({
   form,
@@ -18,6 +18,7 @@ const FormNounBlock = ({
   const nounTagsPool = tags.filter(
     (t) => t.title == "MASCULIN" || t.title == "FEMININ"
   );
+  const hTagId = tags.find((t) => t.title == "H_ASPIRE").id;
   const [nounTag, setNounTag] = useState(null);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const FormNounBlock = ({
   return (
     <div className={`lg:flex lg:justify-between lg:gap-3`}>
       <div>
-        <Label value={`Tags:`} />
+        <label>Tags:</label>
         <div className="flex flex-col gap-2 mt-2">
           {tags &&
             tags.map(
@@ -59,6 +60,17 @@ const FormNounBlock = ({
                   />
                 )
             )}
+          {tags && form?.title?.charAt(0)?.toLowerCase() == "h" && (
+            <FormCheckboxField
+              id={"hAspire"}
+              value={hTagId}
+              title={"Est-ce que le mot commence par h aspiré?"}
+              checked={form?.tags?.includes(hTagId.toString()) ?? false}
+              handleChange={(e) => {
+                return handleCheckboxChange(e, "tags", form, setForm);
+              }}
+            />
+          )}
         </div>
       </div>
       <div>
@@ -73,16 +85,12 @@ const FormNounBlock = ({
           }}
         />
         {isIrregular && (
-          <TextInput
-            id="plurial"
-            onChange={handleChange}
-            value={form.irregular.plurial}
-            type="text"
-            sizing="sm"
-            placeholder="Pluriel"
-            name="plurial"
-            className="mt-2"
-            required={isIrregular}
+          <FormTextField
+            id={"plurial"}
+            defaultValue={form.irregular.plurial}
+            title={"Pluriel"}
+            withLabel={false}
+            handleChange={handleChange}
           />
         )}
       </div>

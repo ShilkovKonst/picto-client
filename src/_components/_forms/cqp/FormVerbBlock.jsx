@@ -6,6 +6,7 @@ import FormRadioField from "@/_components/_forms/shared/FormRadioField";
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import { irregularId, tagsMap } from "@/_constants/types";
+import FormTextField from "../shared/FormTextField";
 
 const FormVerbBlock = ({
   form,
@@ -72,17 +73,25 @@ const FormVerbBlock = ({
             }}
           />
           {isIrregular && (
-            <TextInput
-              id="pastParticiple"
-              type="text"
-              sizing="sm"
-              placeholder="Participe passe"
-              name="pastParticiple"
-              onChange={handleChange}
-              value={form.irregular.pastParticiple}
-              className="mt-2"
-              required
+            <FormTextField
+              id={"pastParticiple"}
+              title={"Participe passe"}
+              withLabel={false}
+              additional={true}
+              defaultValue={form.irregular.pastParticiple}
+              handleChange={handleChange}
             />
+            // <TextInput
+            //   id="pastParticiple"
+            //   type="text"
+            //   sizing="sm"
+            //   placeholder="Participe passe"
+            //   name="pastParticiple"
+            //   onChange={handleChange}
+            //   value={form.irregular.pastParticiple}
+            //   className="mt-2"
+            //   required
+            // />
           )}
         </div>
       </div>

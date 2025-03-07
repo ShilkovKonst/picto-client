@@ -4,6 +4,7 @@ const FormTextField = ({
   defaultValue,
   handleChange,
   withLabel,
+  additional,
 }) => {
   return (
     <div>
@@ -17,10 +18,10 @@ const FormTextField = ({
         name={id}
         placeholder={withLabel == false ? title : ""}
         type={`text`}
-        sizing="md"
+        size={additional ? "sm" : "md"}
         onChange={handleChange}
         value={defaultValue}
-        className="input-text focus:ring-primary"
+        className={`${additional ? "text-xs" : "text-sm"} input-text focus:ring-primary`}
         required
       />
     </div>

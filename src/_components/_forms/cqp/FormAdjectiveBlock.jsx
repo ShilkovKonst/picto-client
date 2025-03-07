@@ -1,7 +1,7 @@
 import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import { irregularId } from "@/_constants/types";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
-import { Label, TextInput } from "flowbite-react";
+import FormTextField from "../shared/FormTextField";
 
 const FormAdjectiveBlock = ({
   form,
@@ -17,11 +17,11 @@ const FormAdjectiveBlock = ({
   return (
     <div className={`lg:flex lg:justify-between lg:gap-3`}>
       <div>
-        <Label value={`Tags:`} />
+        <label>Tags:</label>
         <div>
           {adjTagsPool.map((t, i) => (
             <FormCheckboxField
-            key={i}
+              key={i}
               id={t.title}
               value={t.id}
               title={
@@ -50,35 +50,26 @@ const FormAdjectiveBlock = ({
         />
         {isIrregular && (
           <div className="flex flex-col gap-1 mt-2">
-            <TextInput
-              id="plurial"
-              type="text"
-              sizing="sm"
-              placeholder="Pluriel"
-              name="plurial"
-              onChange={handleChange}
-              value={form.irregular.plurial}
-              required={isIrregular}
+            <FormTextField
+              id={"plurial"}
+              defaultValue={form.irregular.plurial}
+              title={"Pluriel"}
+              withLabel={false}
+              handleChange={handleChange}
             />
-            <TextInput
-              id="feminin"
-              type="text"
-              sizing="sm"
-              placeholder="Feminin"
-              name="feminin"
-              onChange={handleChange}
-              value={form.irregular.feminin}
-              required={isIrregular}
+            <FormTextField
+              id={"feminin"}
+              defaultValue={form.irregular.feminin}
+              title={"Feminin"}
+              withLabel={false}
+              handleChange={handleChange}
             />
-            <TextInput
-              id="femininPlurial"
-              type="text"
-              sizing="sm"
-              placeholder="Feminin Pluriel"
-              name="femininPlurial"
-              onChange={handleChange}
-              value={form.irregular.femininPlurial}
-              required={isIrregular}
+            <FormTextField
+              id={"femininPlurial"}
+              defaultValue={form.irregular.femininPlurial}
+              title={"Feminin Pluriel"}
+              withLabel={false}
+              handleChange={handleChange}
             />
           </div>
         )}

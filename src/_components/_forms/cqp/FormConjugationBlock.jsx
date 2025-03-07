@@ -3,9 +3,9 @@ import {
   conjugationPersons,
   conjugationTenses,
 } from "@/_constants/types";
-import { Label, TextInput } from "flowbite-react";
+import FormTextField from "../shared/FormTextField";
 
-const FormConjugationBlock = ({ form, setForm, isIrregular }) => {
+const FormConjugationBlock = ({ form, setForm }) => {
   const handleConjugationChange = (e) => {
     setForm({
       ...form,
@@ -23,16 +23,17 @@ const FormConjugationBlock = ({ form, setForm, isIrregular }) => {
     <div className={`lg:flex lg:gap-3 lg:justify-between`}>
       {conjugationTenses.map((t, i) => (
         <div key={i} className="mt-5 flex flex-col gap-1">
-          <Label value={t == "PRESENT" ? "Présent" : "Futur"} />
+          <label>{t == "PRESENT" ? "Présent" : "Futur"}</label>
           {conjugationNumbers.map((n, j) =>
             conjugationPersons.map((p, k) => (
-              <TextInput
-                key={j+k*10}
+              <FormTextField
+                key={i * 100 + j * 10 + k}
                 id={t + "_" + n + "_" + p}
-                name={t + "_" + n + "_" + p}
-                onChange={handleConjugationChange}
-                value={form.irregular.conjugations[t + "_" + n + "_" + p] ?? ""}
-                placeholder={
+                defaultValue={
+                  form.irregular.conjugations[t + "_" + n + "_" + p] ?? ""
+                }
+                handleChange={handleConjugationChange}
+                title={
                   n == "SINGULIER" && p == "PREMIER"
                     ? "Je / J'"
                     : n == "SINGULIER" && p == "DEUXIEME"
@@ -47,10 +48,34 @@ const FormConjugationBlock = ({ form, setForm, isIrregular }) => {
                     ? "Ils / Elles"
                     : ""
                 }
-                type="text"
-                sizing="sm"
-                required={isIrregular}
+                withLabel={false}
+                additional={true}
               />
+              // <TextInput
+              //   key={j + k * 10}
+              //   id={t + "_" + n + "_" + p}
+              //   name={t + "_" + n + "_" + p}
+              //   onChange={handleConjugationChange}
+              //   value={form.irregular.conjugations[t + "_" + n + "_" + p] ?? ""}
+              // placeholder={
+              //   n == "SINGULIER" && p == "PREMIER"
+              //     ? "Je / J'"
+              //     : n == "SINGULIER" && p == "DEUXIEME"
+              //     ? "Tu"
+              //     : n == "SINGULIER" && p == "TROISIEME"
+              //     ? "Il / Elle / On"
+              //     : n == "PLURIEL" && p == "PREMIER"
+              //     ? "Nous"
+              //     : n == "PLURIEL" && p == "DEUXIEME"
+              //     ? "Vous"
+              //     : n == "PLURIEL" && p == "TROISIEME"
+              //     ? "Ils / Elles"
+              //     : ""
+              //   }
+              //   type="text"
+              //   sizing="sm"
+              //   required={isIrregular}
+              // />
             ))
           )}
         </div>

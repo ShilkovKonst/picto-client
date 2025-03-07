@@ -15,7 +15,7 @@ const PaginationButton = ({
           href={`/dashboard/${entityName}?page=${page}&size=${size}&type=${searchParams.get(
             "type"
           )}`}
-          className="btn-a w-auto min-w-5 sm:min-w-10 flex flex-row justify-center items-center"
+          className="flex flex-row justify-center items-center text-white bg-primary hover:bg-secondary transition ease-in-out duration-300 h-10 rounded-full px-2 my-3 font-bold text-sm tracking-[1.25px] w-auto min-w-5 sm:min-w-10"
         >
           {content}
         </Link>
