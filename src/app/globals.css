@@ -24,13 +24,13 @@ body {
     @apply text-green-800 bg-green-50 shadow-success-inset-2/4;
   }
   .input-text {
-    @apply z-10 w-full my-1 pl-6 h-9 text-sm tracking-[0.15px] outline-none bg-white rounded-lg border border-gray-300 focus:border-primary transition duration-100 ease-in-out;
+    @apply z-10 w-full my-1 pl-6 h-9 bg-white rounded-lg border border-gray-300 focus:border-primary transition duration-100 ease-in-out;
   }
   .input-file {
-    @apply z-10 w-full my-1 h-9 text-sm text-white flex justify-center items-center bg-primary hover:bg-secondary hover:text-black font-semibold text-center tracking-[0.15px] border-none outline-none rounded-lg transition duration-300 ease-in-out;
+    @apply z-10 w-full my-1 h-9 text-sm text-white flex justify-center items-center bg-primary hover:bg-secondary hover:text-black font-semibold text-center border-none rounded-lg transition duration-300 ease-in-out;
   }
   .input-textarea {
-    @apply z-10 w-full my-1 pl-6 text-sm tracking-[0.15px] border-none outline-none bg-white rounded-lg border-gray-300 focus:border-primary transition duration-100 ease-in-out;
+    @apply z-10 w-full my-1 pl-6 text-sm border-none bg-white rounded-lg border-gray-300 focus:border-primary transition duration-100 ease-in-out;
   }
   .input-checkbox {
     @apply w-4 h-4 rounded focus:ring-2 focus:ring-primary checked:bg-primary transition duration-100 ease-in-out;
