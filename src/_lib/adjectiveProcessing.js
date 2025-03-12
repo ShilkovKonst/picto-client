@@ -1,5 +1,15 @@
 import { irregularId } from "@/_constants/types";
 
+/**
+ * Processes an adjective in a sentence.
+ * Determines the correct form of the adjective based on the surrounding words and updates the phrase to show.
+ *
+ * @param {Object} word - The current word object containing the pictogram.
+ * @param {Object} prev - The previous word object.
+ * @param {Object} prevPrev - The word object before the previous word.
+ * @param {Object} next - The next word object.
+ * @param {Function} setPhraseToShow - Function to update the phrase to show.
+ */
 export const processAdjective = (
   word,
   prev,
@@ -7,54 +17,56 @@ export const processAdjective = (
   next,
   setPhraseToShow
 ) => {
-  const key = [];
-  irregularId(word.pictogram.tags)
-    ? key.push("IRREGULIER")
-    : key.push("REGULIER");
+  const accordKey = {
+    genre: "",
+    number: "",
+    regular: "",
+  };
+  accordKey["regular"] = irregularId(word.pictogram.tags) ? false : true;
   switch (prev.pictogram.type) {
     case "DETERMINANT":
-      // 0 - check if it is possible to place before nom
       if (!word.pictogram.tags.some((t) => t.title == "AVANT")) {
         setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
         break;
       }
-      // 1 - check if there is nom after
-      // 2 - insert according to number of determinant and genre of nom
       if (next && next.pictogram.type == "NOM") {
-        fullAccordAdjective(key, word, next, prev);
-        setPhraseToShow(
-          (phrase) => phrase + " " + adjectiveMap(word)[key[0]][key[1]][key[2]]
+        formPhrase(
+          word.pictogram,
+          next.pictogram,
+          prev.pictogram,
+          accordKey,
+          setPhraseToShow
         );
       } else {
-        // treat for determinant only
-        partialAccordAdjective(key, word, prev);
-        console.log(adjectiveMap(word)[key[0]]["MASCULIN"][key[1]]);
-        setPhraseToShow(
-          (phrase) =>
-            phrase + " " + adjectiveMap(word)[key[0]]["MASCULIN"][key[1]]
+        formPhrase(
+          word.pictogram,
+          null,
+          prev.pictogram,
+          accordKey,
+          setPhraseToShow
         );
       }
       break;
     case "NOM":
-      // 0 - check if it is possible to place before nom
       if (!word.pictogram.tags.some((t) => t.title == "APRES")) {
         setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
         break;
       }
-      // 1 - check if there is determinant before nom
-      // 2 - insert according to number of determinant and genre of nom
       if (prevPrev && prevPrev.pictogram.type == "DETERMINANT") {
-        fullAccordAdjective(key, prev, prevPrev);
-        setPhraseToShow(
-          (phrase) => phrase + " " + adjectiveMap(word)[key[0]][key[1]][key[2]]
+        formPhrase(
+          word.pictogram,
+          prev.pictogram,
+          prevPrev.pictogram,
+          accordKey,
+          setPhraseToShow
         );
       } else {
-        // treat for nom only
-        partialAccordAdjective(key, prev);
-        console.log(adjectiveMap(word)[key[0]][key[1]]["SINGULIER"]);
-        setPhraseToShow(
-          (phrase) =>
-            phrase + " " + adjectiveMap(word)[key[0]][key[1]]["SINGULIER"]
+        formPhrase(
+          word.pictogram,
+          prev.pictogram,
+          null,
+          accordKey,
+          setPhraseToShow
         );
       }
       break;
@@ -64,50 +76,72 @@ export const processAdjective = (
   }
 };
 
-const fullAccordAdjective = (key, nom, determinant) => {
-  nom.pictogram.tags.some((t) => t.title == "MASCULIN") && key.push("MASCULIN");
-  nom.pictogram.tags.some((t) => t.title == "FEMININ") && key.push("FEMININ");
-  determinant.pictogram.tags.some((t) => t.title == "SINGULIER") &&
-    key.push("SINGULIER");
-  determinant.pictogram.tags.some((t) => t.title == "PLURIEL") &&
-    key.push("PLURIEL");
-  console.log(key);
-};
-const partialAccordAdjective = (key, prev) => {
-  if (prev.pictogram.title == "NOM") {
-    prev.pictogram.tags.some((t) => t.title == "MASCULIN") &&
-      key.push("MASCULIN");
-    prev.pictogram.tags.some((t) => t.title == "FEMININ") &&
-      key.push("FEMININ");
-  }
-  if (prev.pictogram.title == "DETERMINANT") {
-    prev.pictogram.tags.some((t) => t.title == "SINGULIER") &&
-      key.push("SINGULIER");
-    prev.pictogram.tags.some((t) => t.title == "PLURIEL") &&
-      key.push("PLURIEL");
-  }
-  console.log(key);
+/**
+ * Forms a phrase with the correct adjective form.
+ *
+ * @param {Object} picto - The adjective pictogram object.
+ * @param {Object} nounPicto - The noun pictogram object.
+ * @param {Object} determPicto - The determiner pictogram object.
+ * @param {Object} accordKey - The object containing conjugation details.
+ * @param {Function} setPhraseToShow - Function to update the phrase to show.
+ */
+const formPhrase = (
+  picto,
+  nounPicto,
+  determPicto,
+  accordKey,
+  setPhraseToShow
+) => {
+  setAccordKey(nounPicto, determPicto, accordKey);
+  setPhraseToShow((phrase) => phrase + " " + adjectiving(picto, accordKey));
 };
 
-const adjectiveMap = (word, aux) => ({
-  REGULIER: {
-    MASCULIN: {
-      SINGULIER: word?.pictogram?.title,
-      PLURIEL: word?.pictogram?.title + "s",
-    },
-    FEMININ: {
-      SINGULIER: word?.pictogram?.title + "e",
-      PLURIEL: word?.pictogram?.title + "es",
-    },
+/**
+ * Conjugates an adjective based on the accordKey object.
+ *
+ * @param {Object} adjPicto - The adjective pictogram object.
+ * @param {Object} accordKey - The object containing conjugation details.
+ * @returns {string} - The conjugated adjective.
+ */
+const adjectiving = (adjPicto, accordKey) => {
+  const lowerCased = adjPicto.title?.toLowerCase();
+  const { genre, number, regular } = accordKey;
+  if (regular) {
+    return lowerCased + adjEndingMap[genre][number];
+  }
+  if (genre == "MASCULIN") {
+    return number == "PLURIEL" ? adjPicto.irregular?.plurial : lowerCased;
+  }
+  if (genre == "FEMININ") {
+    return number == "PLURIEL"
+      ? adjPicto.irregular?.femininPlurial
+      : adjPicto.irregular?.feminin;
+  }
+};
+
+/**
+ * Sets the accord key for an adjective based on the noun and determiner pictograms.
+ *
+ * @param {Object} nounPicto - The noun pictogram object.
+ * @param {Object} determPicto - The determiner pictogram object.
+ * @param {Object} accordKey - The object containing conjugation details.
+ */
+const setAccordKey = (nounPicto, determPicto, accordKey) => {
+  accordKey["genre"] = nounPicto?.tags?.some((t) => t.title == "FEMININ")
+    ? "FEMININ"
+    : "MASCULIN";
+  accordKey["number"] = determPicto?.tags?.some((t) => t.title == "PLURIEL")
+    ? "PLURIEL"
+    : "SINGULIER";
+};
+
+const adjEndingMap = {
+  MASCULIN: {
+    SINGULIER: "",
+    PLURIEL: "s",
   },
-  IRREGULIER: {
-    MASCULIN: {
-      SINGULIER: word?.pictogram?.title,
-      PLURIEL: word?.pictogram?.irregular?.plurial,
-    },
-    FEMININ: {
-      SINGULIER: word?.pictogram?.irregular?.feminin,
-      PLURIEL: word?.pictogram?.irregular?.femininPlurial,
-    },
+  FEMININ: {
+    SINGULIER: "e",
+    PLURIEL: "es",
   },
-});
+};
