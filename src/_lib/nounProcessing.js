@@ -1,61 +1,50 @@
 import { irregularId } from "@/_constants/types";
 
+/**
+ * Processes a noun in a sentence.
+ * Determines the correct form of the noun based on the previous word and updates the phrase to show.
+ *
+ * @param {Object} word - The current word object containing the pictogram.
+ * @param {Object} prev - The previous word object.
+ * @param {Object} prevPrev - The word object before the previous word.
+ * @param {Function} setPhraseToShow - Function to update the phrase to show.
+ */
 export const processNom = (word, prev, prevPrev, setPhraseToShow) => {
-  const key = [];
+  const accordKey = {
+    number: "",
+    regular: "",
+  };
+
   switch (prev.pictogram.type) {
     case "DETERMINANT":
-      // 1 - check conformity of genre of nom and determinant or if it doesn't matter
-      if (
-        prev.pictogram.tags.some(
-          (pTag) =>
-            pTag.title == "INDIFFERENT" ||
-            word.pictogram.tags.some((wTag) => wTag.title == pTag.title)
-        )
-      ) {
-        // 2a - if ok: insert according to number of determinant
-        prev.pictogram.tags.some((pTag) => pTag.title == "SINGULIER") &&
-          key.push("SINGULIER");
-        prev.pictogram.tags.some((pTag) => pTag.title == "PLURIEL") &&
-          key.push("PLURIEL");
-        if (key[0] == "SINGULIER") {
-          setPhraseToShow((phrase) => phrase + " " + nomMap(word)[key[0]]);
+      if (!isNounConformed(word.pictogram, prev.pictogram)) {
+        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        break;
+      }
+
+      setAccordKey(word.pictogram, prev.pictogram, accordKey);
+      const lowerCased = word?.pictogram?.title?.toLowerCase();
+      if (accordKey.number == "SINGULIER") {
+        setPhraseToShow((phrase) => phrase + " " + lowerCased);
+        break;
+      }
+      if (accordKey.regular == "IRREGULIER") {
+        setPhraseToShow(
+          (phrase) => phrase + " " + word?.pictogram?.irregular?.plurial
+        );
+      } else {
+        const lowerCasedSplitted = lowerCased.split(" ");
+        const { regular } = accordKey;
+        if (regular == "IMMUTABLE") {
+          setPhraseToShow((phrase) => phrase + " " + lowerCased);
           break;
         }
-        irregularId(word.pictogram.tags)
-          ? key.push("IRREGULIER")
-          : key.push("REGULIER");
-        console.log(key);
-        if (key[0] == "PLURIEL") {
-          if (key[1] == "IRREGULIER") {
-            setPhraseToShow(
-              (phrase) => phrase + " " + nomMap(word)[key[0]][key[1]]
-            );
-          }
-          if (key[1] == "REGULIER") {
-            const firstWord = word?.pictogram?.title?.split(" ")[0];
-            const wordEnd = firstWord.slice(firstWord.length - 2);
-            if (["au", "eu"].includes(wordEnd)) {
-              key.push("AU_EU");
-            } else if (wordEnd == "al") {
-              key.push("AL");
-            } else if (["s", "x", "z"].includes(wordEnd[1])) {
-              key.push("IMMUTABLE");
-            } else {
-              key.push("PLUPART");
-            }
-            console.log(key);
-            setPhraseToShow(
-              (phrase) => phrase + " " + nomMap(word)[key[0]][key[1]][key[2]]
-            );
-          }
-        }
-      } else {
-        // if not - TODO error logic
-        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        setPhraseToShow(
+          (phrase) => phrase + " " + nouning(lowerCasedSplitted, regular)
+        );
       }
       break;
     case "ADJECTIF":
-      // 2 - check if word before adjectif is determinant -> *1
       if (prevPrev && prevPrev?.pictogram.type == "DETERMINANT") {
         processNom(word, prevPrev, null, setPhraseToShow);
       } else {
@@ -68,29 +57,79 @@ export const processNom = (word, prev, prevPrev, setPhraseToShow) => {
   }
 };
 
-const nomMap = (word) => ({
-  SINGULIER: word?.pictogram?.title?.toLowerCase(),
-  PLURIEL: {
-    IRREGULIER: word?.pictogram?.irregular?.plurial,
-    REGULIER: {
-      IMMUTABLE: word?.pictogram?.title?.toLowerCase(),
-      PLUPART: word?.pictogram?.title
-        ?.split(" ")
-        ?.map((item, i) => (i == 0 ? item + "s" : item))
-        ?.join(" ")
-        .toLowerCase(),
-      AU_EU: word?.pictogram?.title
-        ?.split(" ")
-        ?.map((item, i) => (i == 0 ? item + "x" : item))
-        ?.join(" ")
-        .toLowerCase(),
-      AL: word?.pictogram?.title
-        ?.split(" ")
-        ?.map((item, i) =>
-          i == 0 ? item.slice(0, item.length - 1) + "ux" : item
-        )
-        ?.join(" ")
-        .toLowerCase(),
-    },
-  },
-});
+/**
+ * Processes a noun in a sentence.
+ * Determines the correct form of the noun based on the previous word and updates the phrase to show.
+ *
+ * @param {Object} word - The current word object containing the pictogram.
+ * @param {Object} prev - The previous word object.
+ * @param {Object} prevPrev - The word object before the previous word.
+ * @param {Function} setPhraseToShow - Function to update the phrase to show.
+ */
+const nouning = (splittedNoun, endingType) => {
+  return splittedNoun
+    ?.map((item, i) =>
+      i == 0
+        ? endingType == "AL"
+          ? item.slice(0, item.length - 1) + nomEndingMap[endingType]
+          : item + nomEndingMap[endingType]
+        : item
+    )
+    ?.join(" ");
+};
+
+/**
+ * Checks if a noun conforms to the previous word's tags.
+ * Returns true if the noun's tags match the previous word's tags or if the previous word's tag is "INDIFFERENT".
+ *
+ * @param {Object} picto - The current word's pictogram object.
+ * @param {Object} prevPicto - The previous word's pictogram object.
+ * @returns {boolean} - True if the noun conforms, false otherwise.
+ */
+const isNounConformed = (picto, prevPicto) => {
+  return prevPicto.tags.some(
+    (pTag) =>
+      pTag.title == "INDIFFERENT" ||
+      picto.tags.some((wTag) => wTag.title == pTag.title)
+  );
+};
+
+/**
+ * Sets the accord key for a noun based on its properties and the previous word's tags.
+ * Determines if the noun is regular or irregular and sets the appropriate pluralization rules.
+ *
+ * @param {Object} picto - The current word's pictogram object.
+ * @param {Object} prevPicto - The previous word's pictogram object.
+ * @param {Object} accordKey - The object to store the noun's conjugation details.
+ */
+const setAccordKey = (picto, prevPicto, accordKey) => {
+  if (irregularId(picto.tags)) {
+    accordKey["regular"] = "IRREGULIER";
+  } else {
+    const firstWord = picto.title?.split(" ")[0];
+    const wordEnd = firstWord.slice(firstWord.length - 2);
+    if (["s", "x", "z"].includes(wordEnd[1])) {
+      accordKey["regular"] = "IMMUTABLE";
+    } else if (["au", "eu"].includes(wordEnd)) {
+      accordKey["regular"] = "AU_EU";
+    } else if (wordEnd == "al") {
+      accordKey["regular"] = "AL";
+    } else {
+      accordKey["regular"] = "PLUPART";
+    }
+  }
+
+  accordKey["number"] = prevPicto.tags.some((pTag) => pTag.title == "PLURIEL")
+    ? "PLURIEL"
+    : "SINGULIER";
+};
+
+/**
+ * An object that maps noun types to their plural endings.
+ * Provides the plural endings for different types of nouns.
+ */
+const nomEndingMap = {
+  PLUPART: "s",
+  AU_EU: "x",
+  AL: "ux",
+};
