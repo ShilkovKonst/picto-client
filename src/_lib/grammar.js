@@ -2,7 +2,7 @@ import { processAdjective } from "./adjectiveProcessing";
 import { processNom } from "./nounProcessing";
 import { processAuxVerb, processMainVerb } from "./verbProcessing";
 
-export const processPhrase = (phrase, setPhraseToShow, tense ="PRESENT", form = "POSITIVE") => {
+export const processPhrase = (phrase, setPhraseToShow, tense ="PRESENT", form = "AFFIRMATIVE") => {
   const words = phrase?.words;
   for (let i = 0; i < words?.length - 1; i++) {
     console.log("words[i]?.pictogram.type", words[i]?.pictogram.type);
@@ -46,3 +46,7 @@ export const processPhrase = (phrase, setPhraseToShow, tense ="PRESENT", form = 
     }
   }
 };
+
+const checkElisionPhrase = (phrase, setPhraseToShow) => {
+
+}
