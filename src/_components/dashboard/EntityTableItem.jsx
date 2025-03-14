@@ -32,7 +32,7 @@ const EntityTableItem = ({
             ? "grid-cols-3"
             : "grid-cols-2"
         } ${
-          isSublist ? "h-[50px]" : "h-16 md:h-14"
+          isSublist ? "h-[50px]" : "h-[66px] md:h-[58px]"
         } border-t border-b group/item p-0`}
       >
         <Link

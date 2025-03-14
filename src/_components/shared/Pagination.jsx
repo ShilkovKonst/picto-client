@@ -6,7 +6,7 @@ import PaginationButton from "./PaginationButton";
 const Pagination = ({ data, entityName }) => {
   const searchParams = useSearchParams();
   return (
-    <nav className=" pt-4">
+    <nav className=" md:absolute bottom-2 left-1/2 right-1/2 pt-4">
       <ul className="flex flex-row items-center justify-center gap-3">
         <PaginationButton
           content={1}

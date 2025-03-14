@@ -34,7 +34,7 @@ const Accordion = ({ initial, entities, session, user, patient, institution }) =
             patient={patient}
             user={user}
           />
-          <div className="accordion flex flex-col gap-1 overflow-y-auto rounded-br-[9px] rounded-tr-[9px] border-t border-b border-gray-300">
+          <div className="pictogramList max-h-[calc(100vh-28.5rem)] md:max-h-[calc(100vh-24rem)] flex flex-col gap-1 overflow-y-auto rounded-br-[9px] rounded-tr-[9px] border-t border-b border-gray-300">
             <div className="grid grid-cols-1"></div>
             {entity.list?.length > 0 &&
               entity.list.map((el, j) => (
