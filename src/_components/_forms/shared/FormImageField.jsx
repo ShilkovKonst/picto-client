@@ -17,7 +17,7 @@ const FormImageField = ({ entity, form, setForm, pathname }) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
       <label htmlFor="imageName" className="text-sm font-medium text-gray-900">
         {pathname.includes("create")
           ? `Image:`

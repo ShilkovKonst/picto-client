@@ -140,7 +140,7 @@ const FormPictogramBlock = ({
       <div className={`lg:flex lg:justify-between lg:gap-3`}>
         <div>
           <label>Questions:</label>
-          <div className="max-h-60 overflow-y-scroll">
+          <div className="">
             {form?.questions ? (
               questions.length > 0 &&
               questions.map((q, i) => (

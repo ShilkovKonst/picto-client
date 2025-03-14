@@ -1,17 +1,17 @@
-/* dashboard accordion scrollbar */
-.accordion::-webkit-scrollbar {
+/* dashboard scrollbar */
+.dashboard::-webkit-scrollbar {
   width: 20px;
 }
-.accordion::-webkit-scrollbar-track {
+.dashboard::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
   border-radius: 0px 10px 10px 0px;
 }
-.accordion::-webkit-scrollbar-thumb {
+.dashboard::-webkit-scrollbar-thumb {
   background: #1e646f88;
   border-radius: 0px 10px 10px 0px;
   box-shadow: inset 2px 2px 4px #1e646fbb, inset -2px -2px 4px #1e646fbb;
 }
-.accordion::-webkit-scrollbar-thumb:hover {
+.dashboard::-webkit-scrollbar-thumb:hover {
   background: #1e646faa;
   box-shadow: inset 2px 2px 4px #1e646f88, inset -2px -2px 4px #1e646f88;
 }

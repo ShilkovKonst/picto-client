@@ -16,7 +16,11 @@ const EntityUpdate = ({
   return (
     <>
       <div className="table w-full">
-        <EntityHeader session={session} entity={entity} entityName={entityName} />
+        <EntityHeader
+          session={session}
+          entity={entity}
+          entityName={entityName}
+        />
       </div>
       <Form
         session={session}

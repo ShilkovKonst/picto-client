@@ -1,7 +1,6 @@
 import getAccessToken from "@/_lib/getAccessTokenUtil";
 import { getAllAsList, getOneById } from "@/_lib/entityApiUtil";
 import EntityUpdate from "@/_components/dashboard/upn/EntityUpdate";
-import { roles } from "@/_constants/rolesTypes";
 
 const page = async (props) => {
   const { accessToken, session } = getAccessToken();
@@ -14,7 +13,6 @@ const page = async (props) => {
     <EntityUpdate
       entity={user}
       institutions={institutions}
-      roles={roles}
       session={session}
       entityName="users"
     />

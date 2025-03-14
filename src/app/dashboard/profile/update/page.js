@@ -11,7 +11,6 @@ const page = async () => {
     <EntityUpdate
       entity={user}
       institutions={institutions}
-      roles={roles}
       session={session}
       entityName="users"
     />

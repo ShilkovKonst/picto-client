@@ -107,52 +107,55 @@ const Form = ({
 
   return (
     <form
-      className={`mx-auto min-w-[75%] *:*:mt-5 *:*:w-full`}
+      className={`relative mx-auto md:grid md:grid-cols-4 lg:grid-cols-5 items-start justify-between`}
       onSubmit={handleSubmit}
     >
-      {error && (
-        <div className="text-red-600 mx-auto">
-          <span className="font-semibold pr-1">Invalid credentials:</span>
-          {errorMessage}
-        </div>
-      )}
-      {entityName == "institutions" && (
-        <FormInstitutionBlock
-          institution={entity}
-          form={form}
-          setForm={setForm}
-          handleChange={handleChange}
-        />
-      )}
+      <div className="col-span-3 lg:col-span-4 pr-3 lg:*:*:mt-5 *:*:w-full pictogramList overflow-y-auto h-[calc(100vh-21.5rem)] md:h-[calc(100vh-13rem)]">
+        {error && (
+          <div className="text-red-600 mx-auto">
+            <span className="font-semibold pr-1">Invalid credentials:</span>
+            {errorMessage}
+          </div>
+        )}
+        {entityName == "institutions" && (
+          <FormInstitutionBlock
+            institution={entity}
+            form={form}
+            setForm={setForm}
+            handleChange={handleChange}
+          />
+        )}
 
-      {(entityName == "users" || entityName == "patients") && (
-        <FormPersonBlock
-          session={session}
-          entity={entity}
-          entityName={entityName}
-          users={users}
-          institutions={institutions}
-          form={form}
-          setForm={setForm}
-          handleChange={handleChange}
-        />
-      )}
+        {(entityName == "users" || entityName == "patients") && (
+          <FormPersonBlock
+            session={session}
+            entity={entity}
+            entityName={entityName}
+            users={users}
+            institutions={institutions}
+            form={form}
+            setForm={setForm}
+            handleChange={handleChange}
+          />
+        )}
 
-      {entityName == "notes" && (
-        <FormNoteBlock
-          session={session}
-          note={entity}
-          users={users}
-          patients={patients}
-          patient={patient}
-          form={form}
-          setForm={setForm}
-          handleChange={handleChange}
-        />
-      )}
-      <div className="pt-5">
+        {entityName == "notes" && (
+          <FormNoteBlock
+            session={session}
+            note={entity}
+            users={users}
+            patients={patients}
+            patient={patient}
+            form={form}
+            setForm={setForm}
+            handleChange={handleChange}
+          />
+        )}
+      </div>
+      <div className="col-span-1 md:pl-5">
         <ConfirmButton isLoading={isLoading} />
       </div>
+      <div className="hidden md:block absolute md:left-[75%]  lg:left-[80%]  top-0 bottom-0 overflow-hidden shadow-outset-vert-4/10 h-full px-[4px] bg-primary-trans-10 z-20"></div>
     </form>
   );
 };

@@ -16,47 +16,46 @@ const EntityHeader = ({ entity, entityName, session }) => {
   };
 
   return (
-    <div>
-      <div className="">
-        {entity ? (
-          <div className="text-lg md:text-xl flex justify-center items-center min-h-[50px]">
-            <span className="flex justify-center items-center mx-auto">
-              {preTitle[entityName]}
-              <Link
-                className="hover:text-secondary font-semibold trasition duration-150 ease-in-out ml-3 me-1"
-                href={
-                  entityName == "users" && entity.id == session.id
-                    ? "/dashboard"
-                    : `/dashboard/${entityName}/${entity?.id}`
-                }
-              >
-                {title[entityName]}
-              </Link>
-              {(entityName == "users" || entityName == "patients") &&
-                (entity?.active ? (
-                  <SuccessIcon />
-                ) : (
-                  <PersonWarningBlock
-                    position={"top"}
-                    title={"Ce patient est inactif."}
-                    type={"alert"}
-                  />
-                ))}
-            </span>
-            {(entityName != "users" || (entityName == "users" && session?.id != entity?.id)) && (
-              <EntityHeaderActions
-                session={session}
-                entity={entity}
-                entityName={entityName}
-              />
-            )}
-          </div>
-        ) : (
-          <div className="text-lg md:text-xl flex justify-center items-center">
-            <span className=" mx-auto">{noTitle[entityName]}</span>
-          </div>
-        )}
-      </div>
+    <div className="">
+      {entity ? (
+        <div className="text-lg md:text-xl flex justify-center items-center min-h-12">
+          <span className="flex justify-center items-center mx-auto">
+            {preTitle[entityName]}
+            <Link
+              className="hover:text-secondary font-semibold trasition duration-150 ease-in-out ml-3 me-1"
+              href={
+                entityName == "users" && entity.id == session.id
+                  ? "/dashboard"
+                  : `/dashboard/${entityName}/${entity?.id}`
+              }
+            >
+              {title[entityName]}
+            </Link>
+            {(entityName == "users" || entityName == "patients") &&
+              (entity?.active ? (
+                <SuccessIcon />
+              ) : (
+                <PersonWarningBlock
+                  position={"top"}
+                  title={"Ce patient est inactif."}
+                  type={"alert"}
+                />
+              ))}
+          </span>
+          {(entityName != "users" ||
+            (entityName == "users" && session?.id != entity?.id)) && (
+            <EntityHeaderActions
+              session={session}
+              entity={entity}
+              entityName={entityName}
+            />
+          )}
+        </div>
+      ) : (
+        <div className="text-lg md:text-xl flex justify-center items-center min-h-12">
+          <span className=" mx-auto">{noTitle[entityName]}</span>
+        </div>
+      )}
     </div>
   );
 };

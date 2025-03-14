@@ -13,7 +13,7 @@ const DashboardHeader = ({ session }) => {
   };
 
   return (
-    <div className="flex flex-row justify-between items-center w-full">
+    <div className="flex h-20 flex-row justify-between items-center w-full">
       <div><HeaderImage width={100} /></div>
       {session && (
         <DashboardWelcomeBlock
