@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { checkRegex } from "@/_lib/checkRegex";
-import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
+import { emailRegex, passwordRegex } from "@/_constants/regex";
 import FormPasswordField from "@/_components/_forms/shared/FormPasswordField";
 import FormEmailField from "@/_components/_forms/shared/FormEmailField";
 import ConfirmButton from "@/_components/shared/ConfirmButton";

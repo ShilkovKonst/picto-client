@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { emailRegex, passwordRegex } from "@/_constants/emailRegex";
+import { emailRegex, passwordRegex } from "@/_constants/regex";
 import { checkRegex } from "@/_lib/checkRegex";
 import FormEmailField from "./shared/FormEmailField";
 import FormPasswordField from "./shared/FormPasswordField";
