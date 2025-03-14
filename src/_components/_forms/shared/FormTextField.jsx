@@ -7,7 +7,7 @@ const FormTextField = ({
   additional,
 }) => {
   return (
-    <div>
+    <div className="">
       {withLabel != false && (
         <label className="text-sm font-medium text-gray-900" htmlFor={id}>
           {title}

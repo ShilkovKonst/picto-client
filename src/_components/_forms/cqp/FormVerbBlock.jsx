@@ -36,7 +36,7 @@ const FormVerbBlock = ({
 
   return (
     <>
-      <div className={`lg:flex lg:justify-between lg:gap-3`}>
+      <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
         <div>
           <Label value={`Tags:`} />
           <div className="flex flex-col gap-2 mt-2">
@@ -81,17 +81,6 @@ const FormVerbBlock = ({
               defaultValue={form.irregular.pastParticiple}
               handleChange={handleChange}
             />
-            // <TextInput
-            //   id="pastParticiple"
-            //   type="text"
-            //   sizing="sm"
-            //   placeholder="Participe passe"
-            //   name="pastParticiple"
-            //   onChange={handleChange}
-            //   value={form.irregular.pastParticiple}
-            //   className="mt-2"
-            //   required
-            // />
           )}
         </div>
       </div>

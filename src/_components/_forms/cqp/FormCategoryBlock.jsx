@@ -17,7 +17,7 @@ const FormCategoryBlock = ({
   }, []);
 
   return (
-    <div className={`lg:flex lg:justify-between lg:gap-3`}>
+    <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
       {form.supercategoryId && categories && (
         <FormSelectListField
           id={"supercategoryId"}

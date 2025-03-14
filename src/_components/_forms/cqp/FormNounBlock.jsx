@@ -40,10 +40,10 @@ const FormNounBlock = ({
   }, [nounTag]);
 
   return (
-    <div className={`lg:flex lg:justify-between lg:gap-3`}>
+    <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
       <div>
         <label>Tags:</label>
-        <div className="flex flex-col gap-2 mt-2">
+        <div className="flex flex-col mt-2">
           {tags &&
             tags.map(
               (t, i) =>
@@ -64,7 +64,7 @@ const FormNounBlock = ({
             <FormCheckboxField
               id={"hAspire"}
               value={hTagId}
-              title={"Est-ce que le mot commence par h aspiré?"}
+              title={"Est-ce que le mot commence par \"h aspiré\"?"}
               checked={form?.tags?.includes(hTagId.toString()) ?? false}
               handleChange={(e) => {
                 return handleCheckboxChange(e, "tags", form, setForm);
@@ -73,7 +73,7 @@ const FormNounBlock = ({
           )}
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-2">
         <FormCheckboxField
           id={"irregulier"}
           value={irregularId(tags)}

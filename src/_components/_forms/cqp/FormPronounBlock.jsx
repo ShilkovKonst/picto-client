@@ -21,10 +21,10 @@ const FormPronounBlock = ({ form, setForm, tags }) => {
   };
 
   return (
-    <div className={`lg:flex lg:justify-between lg:gap-3`}>
+    <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
       <div>
         <label>Tags:</label>
-        <div className="flex gap-5 mt-2">
+        <div className="flex justify-between gap-5 mt-2 pr-1">
           {pronounTagsPool.map((group, j) => (
             <div key={j} className="flex flex-col gap-2">
               {group?.map((t, i) => (

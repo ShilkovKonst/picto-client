@@ -3,6 +3,7 @@ const FormCheckboxField = ({
   value = id,
   checked,
   handleChange,
+  required,
   title,
 }) => {
   return (
@@ -14,6 +15,7 @@ const FormCheckboxField = ({
         checked={checked}
         onChange={handleChange}
         className="input-checkbox"
+        required={required ?? false}
       />
       <label htmlFor={id} className="text-sm font-medium text-gray-900">{title}</label>
     </div>

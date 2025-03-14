@@ -10,7 +10,9 @@ const FormSelectListField = ({
 }) => {
   return (
     <div>
-      <label htmlFor={id}>{title}</label>
+      <label className="text-sm font-medium text-gray-900" htmlFor={id}>
+        {title}
+      </label>
       <select
         id={id}
         name={id}
@@ -45,7 +47,7 @@ const FormSelectListField = ({
               </option>
             ) : (
               <option key={i} value={e?.value ?? e}>
-                {id == "type" ? (pictoTypesMap[e] ?? e) : (e?.title ?? e)}
+                {id == "type" ? pictoTypesMap[e] ?? e : e?.title ?? e}
               </option>
             )
           )}

@@ -14,6 +14,7 @@ import FormSelectListField from "@/_components/_forms/shared/FormSelectListField
 import LoadingSpinner from "@/_components/shared/LoadingSpinner";
 import FormCheckboxField from "../shared/FormCheckboxField";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
+import Separator from "@/_components/shared/Separator";
 
 const FormPictogramBlock = ({
   pictogram,
@@ -71,7 +72,7 @@ const FormPictogramBlock = ({
   };
 
   const handleIrregularChange = (e) => {
-    console.log(e.target.name, e.target.value)
+    console.log(e.target.name, e.target.value);
     setForm({
       ...form,
       irregular: { ...form.irregular, [e.target.name]: e.target.value },
@@ -80,7 +81,7 @@ const FormPictogramBlock = ({
 
   return (
     <>
-      <div className={`lg:flex lg:justify-between lg:gap-3`}>
+      <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
         {form.categoryId && categories && (
           <FormSelectListField
             id={"categoryId"}
@@ -137,9 +138,10 @@ const FormPictogramBlock = ({
       {(form.type == "PRONOM" || form.type == "DETERMINANT") && (
         <FormPronounBlock form={form} setForm={setForm} tags={tags} />
       )}
-      <div className={`lg:flex lg:justify-between lg:gap-3`}>
+      <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
         <div>
           <label>Questions:</label>
+          <Separator />
           <div className="">
             {form?.questions ? (
               questions.length > 0 &&

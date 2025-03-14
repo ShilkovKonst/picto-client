@@ -20,9 +20,9 @@ const FormConjugationBlock = ({ form, setForm }) => {
   };
 
   return (
-    <div className={`lg:flex lg:gap-3 lg:justify-between`}>
+    <div className={`lg:flex lg:gap-3 lg:justify-between lg:mt-5`}>
       {conjugationTenses.map((t, i) => (
-        <div key={i} className="mt-5 flex flex-col gap-1">
+        <div key={i} className="flex flex-col gap-1">
           <label>{t == "PRESENT" ? "Présent" : "Futur"}</label>
           {conjugationNumbers.map((n, j) =>
             conjugationPersons.map((p, k) => (

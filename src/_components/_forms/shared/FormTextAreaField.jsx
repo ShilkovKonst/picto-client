@@ -7,7 +7,7 @@ const FormTextAreaField = ({
   length,
 }) => {
   return (
-    <div>
+    <div className="">
       <label htmlFor={id}>{title}</label>
       <textarea
         id={id}

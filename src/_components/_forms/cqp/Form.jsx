@@ -99,14 +99,14 @@ const Form = ({
       className={`relative mx-auto md:grid md:grid-cols-4 lg:grid-cols-5 items-start justify-between`}
       onSubmit={handleSubmit}
     >
-      <div className="col-span-3 lg:col-span-4 pr-3 lg:*:*:mt-5 *:*:w-full pictogramList overflow-y-auto h-[calc(100vh-21.5rem)] md:h-[calc(100vh-13rem)]">
+      <div className="col-span-3 lg:col-span-4 pr-3 *:*:w-full pictogramList overflow-y-auto h-[calc(100vh-21.5rem)] md:h-[calc(100vh-13rem)]">
         {error && (
           <div className="text-red-600 mx-auto">
             <span className="font-semibold pr-1">Invalid credentials:</span>
             {errorMessage}
           </div>
         )}
-        <div className={`lg:flex lg:justify-between lg:gap-3`}>
+        <div className={`lg:flex lg:justify-between lg:mt-5 lg:gap-3`}>
           {(entityName == "categories" || entityName == "pictograms") && (
             <FormImageField
               entity={entity}
@@ -170,7 +170,7 @@ const Form = ({
       <div className="col-span-1 md:pl-5">
         <ConfirmButton isLoading={isLoading} />
       </div>
-      <div className="hidden md:block absolute md:left-[75%]  lg:left-[80%]  top-0 bottom-0 overflow-hidden shadow-outset-vert-4/10 h-full px-[4px] bg-primary-trans-10 z-20"></div>
+      <div className="hidden md:block absolute md:left-[75%] lg:left-[80%] top-0 bottom-0 border-gray-300 border-l border-r mr-[1px] px-[1px] h-full"></div>
     </form>
   );
 };

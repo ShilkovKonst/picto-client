@@ -34,8 +34,8 @@ const FormImageField = ({ entity, form, setForm, pathname }) => {
           ? `Choisir une image`
           : `Choisir une nouvelle image`}
       </label>
-      <span className="text-sm font-medium text-gray-900 cursor-default">
-        {fileName}
+      <span className="text-xs font-medium text-gray-900 cursor-default">
+        <i>{fileName}</i>
       </span>
     </div>
   );

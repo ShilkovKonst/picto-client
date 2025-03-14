@@ -5,7 +5,7 @@ export const SeanceContext = createContext();
 
 export default function SeanceProvider({ children }) {
   const [tense, setTense] = useState("PRESENT");
-  const [form, setForm] = useState("POSITIVE");
+  const [form, setForm] = useState("AFFIRMATIVE");
   const [phraseToShow, setPhraseToShow] = useState("");
   const [phrase, setPhrase] = useState({
     text: "",

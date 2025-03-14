@@ -2,6 +2,9 @@ import FormCheckboxField from "@/_components/_forms/shared/FormCheckboxField";
 import { irregularId } from "@/_constants/types";
 import { handleCheckboxChange } from "@/_lib/handleCheckboxChange";
 import FormTextField from "../shared/FormTextField";
+import { useEffect, useState } from "react";
+import { hRegex } from "@/_constants/regex";
+import Separator from "@/_components/shared/Separator";
 
 const FormAdjectiveBlock = ({
   form,
@@ -11,37 +14,80 @@ const FormAdjectiveBlock = ({
   setIsIrregular,
   handleChange,
 }) => {
-  const adjTagsPool = tags.filter(
-    (t) => t.title == "AVANT" || t.title == "APRES"
+  const [adjTagsPool, setAdjTagsPool] = useState(
+    tags.filter((t) => ["AVANT", "APRES"].some((e) => e == t.title))
   );
+
+  useEffect(() => {
+    hRegex.test(form.title)
+      ? setAdjTagsPool(
+          tags.filter((t) =>
+            ["AVANT", "APRES", "H_ASPIRE"].some((e) => e == t.title)
+          )
+        )
+      : setAdjTagsPool(
+          tags.filter((t) => ["AVANT", "APRES"].some((e) => e == t.title))
+        );
+  }, [form.title[0]]);
+
   return (
-    <div className={`lg:flex lg:justify-between lg:gap-3`}>
-      <div>
-        <label>Tags:</label>
+    <div className={`lg:flex lg:justify-between lg:gap-3 lg:mt-5`}>
+      <div className="flex flex-col lg:mt-5">
+        <label>{"Est-ce que l'adjectif:"}</label>
         <div>
+          <Separator />
           {adjTagsPool.map((t, i) => (
-            <FormCheckboxField
-              key={i}
-              id={t.title}
-              value={t.id}
-              title={
-                t.title == "AVANT"
-                  ? "Est-ce que l'adjectif peut être positionné avant le nom?"
-                  : "Est-ce que l'adjectif peut être positionné après le nom?"
-              }
-              checked={form?.tags?.includes(t.id?.toString()) ?? false}
-              handleChange={(e) =>
-                handleCheckboxChange(e, "tags", form, setForm)
-              }
-            />
+            <>
+              {t.title != "H_ASPIRE" && (
+                <FormCheckboxField
+                  key={i}
+                  id={t.title}
+                  value={t.id}
+                  required={
+                    !form.tags.some((t) =>
+                      adjTagsPool
+                        .filter((t) =>
+                          ["AVANT", "APRES"].some((e) => e == t.title)
+                        )
+                        .some((e) => e.id.toString() == t)
+                    )
+                  }
+                  title={
+                    t.title == "AVANT"
+                      ? "peut être positionné avant le nom?"
+                      : "peut être positionné après le nom?"
+                  }
+                  checked={form?.tags?.includes(t.id?.toString()) ?? false}
+                  handleChange={(e) =>
+                    handleCheckboxChange(e, "tags", form, setForm)
+                  }
+                />
+              )}
+              {t.title == "H_ASPIRE" && (
+                <>
+                  <Separator key={i} />
+                  <FormCheckboxField
+                    key={i}
+                    id={t.title}
+                    value={t.id}
+                    title={`commence par \"h aspiré\"?`}
+                    checked={form?.tags?.includes(t.id?.toString()) ?? false}
+                    handleChange={(e) =>
+                      handleCheckboxChange(e, "tags", form, setForm)
+                    }
+                  />
+                </>
+              )}
+            </>
           ))}
         </div>
       </div>
-      <div>
+      <div className="lg:mt-11">
+        <Separator />
         <FormCheckboxField
           id={"irregulier"}
           value={irregularId(tags)}
-          title={"Est-ce que le mot est irregulier?"}
+          title={"est irregulier?"}
           checked={form?.tags?.includes(irregularId(tags)?.toString()) ?? false}
           handleChange={(e) => {
             setIsIrregular((prev) => !prev);
