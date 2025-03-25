@@ -9,7 +9,7 @@
   top: 50%;
   display: block !important;
   width: 2rem !important;
-  height: 1.5rem !important;
+  height: 3rem !important;
   padding: 0;
   -webkit-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
@@ -23,12 +23,12 @@
 .slick-prev:before,
 .slick-next:before {
   font-family: "slick";
-  font-size: 1.5rem !important;
+  font-size: 2rem !important;
   line-height: 1.675rem !important;
   margin-left: auto !important;
   margin-right: auto !important;
   opacity: 0.75;
-  color: #1e646f !important;
+  color: white !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

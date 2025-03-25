@@ -34,7 +34,7 @@
     background: #75c33f;
   }
 }
-.positive {
+.affirmative {
   background: #38b000;
   border-color: #42c500;
   &:hover {
