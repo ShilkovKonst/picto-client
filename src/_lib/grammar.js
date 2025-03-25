@@ -1,20 +1,34 @@
-import { processAdjective } from "./adjectiveProcessing";
-import { processNom } from "./nounProcessing";
-import { processAuxVerb, processMainVerb } from "./verbProcessing";
+import { checkElision } from "./checkElision";
+import { processAdjective } from "./processing/adjectiveProcessing";
+import { processNom } from "./processing/nounProcessing";
+import { processAuxVerb, processMainVerb } from "./processing/verbProcessing";
 
-export const processPhrase = (phrase, setPhraseToShow, tense ="PRESENT", form = "AFFIRMATIVE") => {
+export const processPhrase = (
+  phrase,
+  setPhraseToShow,
+  tense = "PRESENT",
+  form = "AFFIRMATIVE"
+) => {
   const words = phrase?.words;
   for (let i = 0; i < words?.length - 1; i++) {
-    console.log("words[i]?.pictogram.type", words[i]?.pictogram.type);
     // first word
-    if (i == 0) {
+    if (i == 0 && words[i]) {
       if (
         words[i]?.pictogram.type == "PRONOM" ||
         words[i]?.pictogram.type == "DETERMINANT"
       ) {
-        words[i] && setPhraseToShow(words[i]?.pictogram.title.toLowerCase());
+        setPhraseToShow(
+          words[i + 1]
+            ? checkElision(
+                words[i]?.pictogram.title.toLowerCase(),
+                words[i + 1].pictogram,
+                tense,
+                form
+              )
+            : words[i]?.pictogram.title.toLowerCase()
+        );
       } else {
-        words[i] && setPhraseToShow(words[i]?.pictogram.title.toLowerCase() + "!");
+        setPhraseToShow(words[i]?.pictogram.title.toLowerCase() + "! ");
       }
     } else {
       switch (words[i]?.pictogram.type) {
@@ -39,14 +53,26 @@ export const processPhrase = (phrase, setPhraseToShow, tense ="PRESENT", form = 
             setPhraseToShow
           ) && processMainVerb(tense, form, words, i, 0, setPhraseToShow);
           break;
+        case "DETERMINANT":
+          setPhraseToShow(
+            (phrase) =>
+              phrase +
+              (words[i + 1]
+                ? checkElision(
+                    words[i]?.pictogram.title.toLowerCase(),
+                    words[i + 1].pictogram,
+                    tense,
+                    form
+                  )
+                : words[i]?.pictogram.title.toLowerCase())
+          );
+          break;
         default:
-          setPhraseToShow((phrase) => phrase + " " + words[i]?.pictogram.title.toLowerCase());
+          setPhraseToShow(
+            (phrase) => phrase + words[i]?.pictogram.title.toLowerCase()
+          );
           break;
       }
     }
   }
 };
-
-const checkElisionPhrase = (phrase, setPhraseToShow) => {
-
-}

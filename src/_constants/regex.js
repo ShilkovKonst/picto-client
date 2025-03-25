@@ -4,6 +4,6 @@ export const passwordRegex =
 export const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const elisionRegex =
-  /\b[aeiouAEIOUàâäéèêëîïôöùûüÿœAEIOUÀÂÄÉÈÊËÎÏÔÖÙÛÜŸŒ]\w*/;
+  /^[aeiouAEIOUàâäéèêëîïôöùûüÿœAEIOUÀÂÄÉÈÊËÎÏÔÖÙÛÜŸŒ]\w*/;
 
-export const hRegex = /\b[hH]\w*/;
+export const hRegex = /^[hH]\w*/;

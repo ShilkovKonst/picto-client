@@ -18,29 +18,29 @@ export const processNom = (word, prev, prevPrev, setPhraseToShow) => {
   switch (prev.pictogram.type) {
     case "DETERMINANT":
       if (!isNounConformed(word.pictogram, prev.pictogram)) {
-        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
         break;
       }
 
       setAccordKey(word.pictogram, prev.pictogram, accordKey);
       const lowerCased = word?.pictogram?.title?.toLowerCase();
       if (accordKey.number == "SINGULIER") {
-        setPhraseToShow((phrase) => phrase + " " + lowerCased);
+        setPhraseToShow((phrase) => phrase + lowerCased + " ");
         break;
       }
       if (accordKey.regular == "IRREGULIER") {
         setPhraseToShow(
-          (phrase) => phrase + " " + word?.pictogram?.irregular?.plurial
+          (phrase) => phrase + word?.pictogram?.irregular?.plurial + " "
         );
       } else {
         const lowerCasedSplitted = lowerCased.split(" ");
         const { regular } = accordKey;
         if (regular == "IMMUTABLE") {
-          setPhraseToShow((phrase) => phrase + " " + lowerCased);
+          setPhraseToShow((phrase) => phrase + lowerCased + " ");
           break;
         }
         setPhraseToShow(
-          (phrase) => phrase + " " + nouning(lowerCasedSplitted, regular)
+          (phrase) => phrase + nouning(lowerCasedSplitted, regular) + " "
         );
       }
       break;
@@ -48,11 +48,11 @@ export const processNom = (word, prev, prevPrev, setPhraseToShow) => {
       if (prevPrev && prevPrev?.pictogram.type == "DETERMINANT") {
         processNom(word, prevPrev, null, setPhraseToShow);
       } else {
-        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
       }
       break;
     default:
-      setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+      setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
       break;
   }
 };

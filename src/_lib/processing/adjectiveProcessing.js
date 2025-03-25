@@ -1,3 +1,4 @@
+import { adjEndingMap } from "@/_constants/adjMap";
 import { irregularId } from "@/_constants/types";
 
 /**
@@ -26,7 +27,7 @@ export const processAdjective = (
   switch (prev.pictogram.type) {
     case "DETERMINANT":
       if (!word.pictogram.tags.some((t) => t.title == "AVANT")) {
-        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
         break;
       }
       if (next && next.pictogram.type == "NOM") {
@@ -49,7 +50,7 @@ export const processAdjective = (
       break;
     case "NOM":
       if (!word.pictogram.tags.some((t) => t.title == "APRES")) {
-        setPhraseToShow((phrase) => phrase + " " + word.pictogram.title + "!");
+        setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
         break;
       }
       if (prevPrev && prevPrev.pictogram.type == "DETERMINANT") {
@@ -71,7 +72,7 @@ export const processAdjective = (
       }
       break;
     default:
-      setPhraseToShow(word.pictogram.title + "!");
+      setPhraseToShow((phrase) => phrase + word.pictogram.title + "! ");
       break;
   }
 };
@@ -93,7 +94,7 @@ const formPhrase = (
   setPhraseToShow
 ) => {
   setAccordKey(nounPicto, determPicto, accordKey);
-  setPhraseToShow((phrase) => phrase + " " + adjectiving(picto, accordKey));
+  setPhraseToShow((phrase) => phrase + adjectiving(picto, accordKey) + " ");
 };
 
 /**
@@ -133,15 +134,4 @@ const setAccordKey = (nounPicto, determPicto, accordKey) => {
   accordKey["number"] = determPicto?.tags?.some((t) => t.title == "PLURIEL")
     ? "PLURIEL"
     : "SINGULIER";
-};
-
-const adjEndingMap = {
-  MASCULIN: {
-    SINGULIER: "",
-    PLURIEL: "s",
-  },
-  FEMININ: {
-    SINGULIER: "e",
-    PLURIEL: "es",
-  },
 };

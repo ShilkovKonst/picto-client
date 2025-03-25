@@ -1,5 +1,8 @@
+import { adjEndingMap } from "@/_constants/adjMap";
 import { irregularId } from "@/_constants/types";
 import { auxMap, pronominalMap, verbEndingMap } from "@/_constants/verbMaps";
+import { checkElision, checkVerbElision } from "../checkElision";
+import { findTag } from "../findTag";
 
 /**
  * Processes an auxiliary verb in a sentence.
@@ -26,7 +29,7 @@ export const processAuxVerb = (
     case "VERBE":
       // check if determinant before nom before is in a row of un, une, le, la, les, des
       setPhraseToShow(
-        (phrase) => phrase + " " + word.pictogram.title.toLowerCase()
+        (phrase) => phrase + word.pictogram.title.toLowerCase() + " "
       );
       return true;
     case "PREPOSITION":
@@ -40,7 +43,7 @@ export const processAuxVerb = (
           prevPrevPrev.pictogram.type == "VERBE")
       ) {
         setPhraseToShow(
-          (phrase) => phrase + " " + word.pictogram.title.toLowerCase()
+          (phrase) => phrase + word.pictogram.title.toLowerCase() + " "
         );
         return true;
       }
@@ -63,36 +66,41 @@ export const processAuxVerb = (
  * @param {Function} setPhraseToShow - Function to update the phrase to show.
  */
 export const processMainVerb = (
-  tense,
-  form,
+  tense = "PRESENT",
+  form = "AFFIRMATIVE",
   words,
   index,
   j = 0,
   setPhraseToShow
 ) => {
   // if it is main verb - find subject and conjugate this verb
+  const wordPicto = words[index].pictogram;
   const accordKey = {
     form: form,
     tense: tense,
+    genre: "",
     number: "",
     person: "",
     regular: "",
     aux: "",
   };
-  setAccordKey(words[index].pictogram, accordKey, "aux", [
+  setAccordKey(wordPicto, accordKey, "aux", [
     "AUXILIAIRE_ETRE",
     "AUXILIAIRE_AVOIR",
   ]);
-  setAccordKey(words[index].pictogram, accordKey, "regular");
+  setAccordKey(wordPicto, accordKey, "regular");
   switch (words[j].pictogram.type) {
     case "PRONOM":
       //conjugate according to number and person of pronom and tense of question
       if (j != 0) {
-        setPhraseToShow(
-          (phrase) => phrase + " " + words[index].pictogram.title + "!"
-        );
+        setPhraseToShow((phrase) => phrase + wordPicto.title + "! ");
         break;
       }
+      setAccordKey(words[j].pictogram, accordKey, "genre", [
+        "MASCULIN",
+        "FEMININ",
+        "INDIFFERENT",
+      ]);
       formPhrase(accordKey, words, j, index, setPhraseToShow);
       break;
     case "NOM":
@@ -101,20 +109,24 @@ export const processMainVerb = (
         if (words[k].pictogram.type != "DETERMINANT") {
           continue;
         }
+        setAccordKey(words[k].pictogram, accordKey, "genre", [
+          "MASCULIN",
+          "FEMININ",
+          "INDIFFERENT",
+        ]);
         formPhrase(accordKey, words, k, index, setPhraseToShow);
         break;
       }
       break;
     default:
       if (j < index) {
-        processMainVerb(tense, words, index, ++j, setPhraseToShow);
+        processMainVerb(tense, form, words, index, ++j, setPhraseToShow);
         break;
       }
-      setPhraseToShow(
-        (phrase) => phrase + " " + words[index].pictogram.title + "!"
-      );
+      setPhraseToShow((phrase) => phrase + wordPicto.title + "! ");
       break;
   }
+  console.log(accordKey);
 };
 
 /**
@@ -138,7 +150,7 @@ const formPhrase = (accordKey, words, k, index, setPhraseToShow) => {
     "TROISIEME",
   ]);
   setPhraseToShow(
-    (phrase) => phrase + " " + formVerb(words[index].pictogram, accordKey)
+    (phrase) => phrase + formVerb(words[index].pictogram, accordKey) + " "
   );
 };
 
@@ -154,7 +166,7 @@ const formPhrase = (accordKey, words, k, index, setPhraseToShow) => {
  */
 const setAccordKey = (picto, accordKey, key, values) => {
   if (key == "regular") {
-    if (irregularId(picto.tags)) {
+    if (irregularId(picto?.tags)) {
       accordKey[key] = "IRREGULIER";
     } else {
       const verbArray = picto.title.split(/['\s]/);
@@ -165,7 +177,7 @@ const setAccordKey = (picto, accordKey, key, values) => {
     }
   } else {
     for (let i = 0; i < values.length; i++) {
-      if (picto.tags.some((t) => t.title == values[i]))
+      if (picto?.tags.some((t) => t.title == values[i]))
         accordKey[key] = values[i];
     }
   }
@@ -193,16 +205,18 @@ const isPronominal = (word) =>
  * @returns {string} - The conjugated verb.
  */
 const verbing = (word, picto, accordKey) => {
-  const { form, tense, person, number, regular, aux } = accordKey;
+  const { form, tense, genre, person, number, regular, aux } = accordKey;
   if (tense == "PASSE") {
     return regular == "IRREGULIER"
       ? auxMap[aux][number][person] +
           (form == "NEGATIVE" ? " pas " : " ") +
-          picto.irregular?.pastParticiple?.toLowerCase()
+          picto.irregular?.pastParticiple?.toLowerCase() +
+          (aux == "AUXILIAIRE_ETRE" ? adjEndingMap[genre][number] : "")
       : auxMap[aux][number][person] +
           (form == "NEGATIVE" ? " pas " : " ") +
           word.toLowerCase().slice(0, word.length - 2) +
-          verbEndingMap["PAST_PARTICIPLE"][regular];
+          verbEndingMap["PAST_PARTICIPLE"][regular] +
+          (aux == "AUXILIAIRE_ETRE" ? adjEndingMap[genre][number] : "");
   }
   return regular == "IRREGULIER"
     ? picto?.irregular?.conjugations[`${tense}_${number}_${person}`] +
@@ -221,24 +235,45 @@ const verbing = (word, picto, accordKey) => {
  * @returns {string} - The formed verb phrase.
  */
 const formVerb = (picto, accordKey) => {
-  const { form, person, number } = accordKey;
+  const { tense, form, person, number } = accordKey;
   const verbSplitted = picto.title?.split(/['\s]/);
-  return verbSplitted
+  const verbProcessed = verbSplitted
     ?.map((word, i) => {
       if (i == 0) {
         if (isPronominal(word)) {
           return (
-            (form == "NEGATIVE" ? "ne " : " ") + pronominalMap[number][person]
+            (form == "NEGATIVE" ? "ne " : "") + pronominalMap[number][person]
           );
         }
         return (
-          (form == "NEGATIVE" ? "ne " : " ") + verbing(word, picto, accordKey)
+          (form == "NEGATIVE" ? "ne " : "") + verbing(word, picto, accordKey)
         );
       }
       if (i == 1 && isPronominal(verbSplitted[0])) {
         return verbing(word, picto, accordKey);
       }
-      return (form == "NEGATIVE" ? "ne " : " ") + word;
+      return (form == "NEGATIVE" ? "ne " : "") + word;
     })
-    .join(" ");
+    .join(" ")
+    .trim()
+    .split(" ");
+  console.log(verbProcessed);
+  const verbElisioned =
+    verbProcessed.length > 1
+      ? verbProcessed
+          .map((e, i) =>
+            i < verbProcessed.length - 1
+              ? checkVerbElision(
+                  verbProcessed[i],
+                  verbProcessed[i + 1],
+                  picto.tags
+                )
+              : verbProcessed[i]
+          )
+          .join("")
+      : verbProcessed.join(" ");
+
+  console.log(verbElisioned);
+  for (let i = 0; i < verbProcessed.length - 1; i++) {}
+  return verbElisioned;
 };
