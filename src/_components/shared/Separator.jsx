@@ -1,7 +1,9 @@
-const Separator = ({ n }) => {
+const Separator = ({ border }) => {
   return (
     <div
-      className={`border-gray-300 border-t border-b my-[1px] py-[1px] w-full`}
+      className={` ${
+        border ? border : "border-gray-300"
+      }  border-t border-b my-[1px] py-[1px] w-full`}
     ></div>
   );
 };

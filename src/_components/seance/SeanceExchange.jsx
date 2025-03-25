@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ImageSlider from "./ImageSlider";
+import Separator from "../shared/Separator";
 
 const SeanceExchange = ({
   fetch,
@@ -68,6 +69,7 @@ const SeanceExchange = ({
           slideType={"category"}
         />
       )}
+      <Separator border={"border-gray-500"} />
       {selectedCategory && pictograms?.length > 0 && (
         <ImageSlider
           cursorClass="cursor-grab"
