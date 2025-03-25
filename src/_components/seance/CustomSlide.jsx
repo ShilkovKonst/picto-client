@@ -22,7 +22,7 @@ const CustomSlide = ({
             ? selectedItem?.id != slide?.id
               ? "border-primary border-2 h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem]"
               : "border-secondary border-8 h-[5rem] w-[5rem] md:h-[6rem] md:w-[6rem] lg:h-[7rem] lg:w-[7rem]"
-            : "border-primary border-2 "
+            : "border-pform border-2 "
         } transition-all duration-100 ease-in-out ${
           slideType == "category" ?
           selectedItem?.id != slide?.id &&

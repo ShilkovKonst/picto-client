@@ -35,8 +35,8 @@ const LayoutManagementItem = ({
       case "tense_future":
         setTense("FUTUR");
         break;
-      case "positive_form":
-        setForm("POSITIVE");
+      case "affirmative_form":
+        setForm("AFFIRMATIVE");
         break;
       case "negative_form":
         setForm("NEGATIVE");

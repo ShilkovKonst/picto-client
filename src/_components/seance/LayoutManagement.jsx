@@ -60,14 +60,14 @@ const LayoutManagement = ({ setIsOpen }) => {
         selected={tense == "FUTUR"}
       />
       <Separator />
-      {/* positive/negative form */}
+      {/* affirmative/negative form */}
       <LayoutManagementItem
         icon={<FaCirclePlus size={"2rem"} />}
-        textTooltip={"Mettre la phrase a la forme positive"}
-        usage={"positive_form"}
+        textTooltip={"Mettre la phrase a la forme affirmative"}
+        usage={"affirmative_form"}
         form={form}
         setForm={setForm}
-        selected={form == "POSITIVE"}
+        selected={form == "AFFIRMATIVE"}
       />
       <LayoutManagementItem
         icon={<FaCircleMinus size={"2rem"} />}
