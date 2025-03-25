@@ -69,7 +69,9 @@ const SeanceExchange = ({
           slideType={"category"}
         />
       )}
-      <Separator border={"border-gray-500"} />
+      {(pictograms?.length > 0 || subpictograms?.length > 0) && (
+        <Separator border={"border-gray-500"} />
+      )}
       {selectedCategory && pictograms?.length > 0 && (
         <ImageSlider
           cursorClass="cursor-grab"
