@@ -64,7 +64,6 @@ const Category = ({
             name: "pictograms",
             list: pictograms?.sort((a, b) => a.title.localeCompare(b.title)),
           },
-          { name: "questions", list: questions },
           {
             name: "categories",
             list: subcategories?.sort((a, b) => a.title.localeCompare(b.title)),
