@@ -20,8 +20,8 @@ const CustomSlide = ({
         className={`group flex justify-center items-center overflow-hidden mx-auto rounded-xl ${
           slideType == "category"
             ? selectedItem?.id != slide?.id
-              ? "border-primary border-2 h-[4.25rem] w-[4.25rem] md:h-[5.25rem] md:w-[5.25rem] lg:h-[6.25rem] lg:w-[6.25rem]"
-              : "border-secondary border-4 h-[5rem] w-[5rem] md:h-[6rem] md:w-[6rem] lg:h-[7rem] lg:w-[7rem]"
+              ? "border-primary border-4 h-[4.5rem] w-[4.5rem] md:h-[5.5rem] md:w-[5.5rem] lg:h-[6.5rem] lg:w-[6.5rem]"
+              : "border-secondary border-4 h-[4.5rem] w-[4.5rem] md:h-[5.5rem] md:w-[5.5rem] lg:h-[6.5rem] lg:w-[6.5rem]"
             : "border-pform border-2 "
         } transition-all duration-100 ease-in-out ${
           slideType == "category"
@@ -42,8 +42,9 @@ const CustomSlide = ({
                 onClick: () => handleClick(slide, setState, selectedItem),
               })}
           className={`${cursorClass} transition-all duration-100 ease-in-out h-[4rem] w-[4rem] md:h-[5rem] md:w-[5rem] lg:h-[6rem] lg:w-[6rem] ${
-            slideType == "category" && (selectedItem?.id != slide?.id
-              ? "group-hover:h-[4.75rem] group-hover:w-[4.75rem] group-hover:md:h-[5.75rem] group-hover:md:w-[5.75rem] group-hover:lg:h-[6.75rem] group-hover:lg:w-[6.75rem]"
+            slideType == "category" &&
+            (selectedItem?.id != slide?.id
+              ? "group-hover:h-[4.5rem] group-hover:w-[4.5rem] group-hover:md:h-[5.5rem] group-hover:md:w-[5.5rem] group-hover:lg:h-[6.5rem] group-hover:lg:w-[6.5rem]"
               : "h-[4.5rem] w-[4.5rem] md:h-[5.5rem] md:w-[5.5rem] lg:h-[6.5rem] lg:w-[6.5rem]")
           }`}
           src={`data:${slide?.media?.imageFileRes.type};base64,${slide?.media?.imageFileRes.imageBase64}`}

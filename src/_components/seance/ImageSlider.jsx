@@ -56,7 +56,7 @@ const ImageSlider = ({
   };
 
   return (
-    <div className={`slider-container bg-transparent px-8 py-2 mb-3 rounded-2xl `}>
+    <div className={`slider-container bg-transparent px-8 py-2 my-3 rounded-2xl `}>
       <Slider {...settings}>
         {slides.map((slide, i) => (
           <CustomSlide
