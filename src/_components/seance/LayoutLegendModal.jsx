@@ -1,4 +1,6 @@
 import {
+  FaCircleMinus,
+  FaCirclePlus,
   FaForwardStep,
   FaInfo,
   FaPlay,
@@ -7,8 +9,10 @@ import {
   FaTrashCan,
 } from "react-icons/fa6";
 import Separator from "../shared/Separator";
+import images from "@/_constants/images";
+import { ImageIcon } from "./LayoutManagement";
 
-const LayoutLegendModal = ({ isOpen, setIsOpen }) => {
+const LayoutLegendModal = ({ seanceType, isOpen, setIsOpen }) => {
   return (
     <>
       {isOpen && (
@@ -25,12 +29,36 @@ const LayoutLegendModal = ({ isOpen, setIsOpen }) => {
             </header>
             <Separator />
             <section className="py-3">
-              <h3 className="font-bold text-lg text-center">Dialogue</h3>
-              <p>La première ligne est la liste des questions.</p>
-              <p>
-                Il faut choisir l'une d'entre elles pour charger les
-                pictogrammes correspondants.
-              </p>
+              {seanceType == "dialogue" && (
+                <LegendDescription
+                  title={"Dialogue"}
+                  text={
+                    <>
+                      <p>La première ligne est la liste des questions.</p>
+                      <p>
+                        Il faut choisir l'une d'entre elles pour charger les
+                        pictogrammes correspondants.
+                      </p>
+                    </>
+                  }
+                />
+              )}
+              {seanceType == "exchange" && (
+                <LegendDescription
+                  title={"Echange"}
+                  text={
+                    <>
+                      <p>
+                        La première ligne correspond aux différentes catégories
+                      </p>
+                      <p>
+                        Appuyez dessus pour voir apparaître en dessous les
+                        pictogrammes qui lui sont associés.
+                      </p>
+                    </>
+                  }
+                />
+              )}
               <p>Cliquez sur un pictogramme pour entendre le mot.</p>
               <p>
                 Déplacez le pictogramme de votre choix à l'aide de la souris ou
@@ -51,17 +79,64 @@ const LayoutLegendModal = ({ isOpen, setIsOpen }) => {
               </p>
               <div className="flex flex-col gap-2">
                 <LegendItemButton
-                  icon={<FaPlay size={"1rem"} />}
+                  icon={<FaPlay size={20} />}
                   text={"Lire la phrase constituée"}
                   usage={"play"}
                 />
                 <LegendItemButton
-                  icon={<FaForwardStep size={"1rem"} />}
+                  icon={<FaForwardStep size={20} />}
                   text={"Lire la phrase constituée mot par mot"}
-                  usage={"play_step"}
+                  usage={"step_play"}
+                />
+                {seanceType == "exchange" && (
+                  <>
+                    <Separator />
+                    <LegendItemButton
+                      icon={
+                        <ImageIcon
+                          image={images.past.src}
+                          alt={images.past.alt}
+                        />
+                      }
+                      text={"Mettre la phrase au passé"}
+                      usage={"tense_past"}
+                    />
+                    <LegendItemButton
+                      icon={
+                        <ImageIcon
+                          image={images.present.src}
+                          alt={images.present.alt}
+                        />
+                      }
+                      text={"Mettre la phrase au présent"}
+                      usage={"tense_present"}
+                    />
+                    <LegendItemButton
+                      icon={
+                        <ImageIcon
+                          image={images.future.src}
+                          alt={images.future.alt}
+                        />
+                      }
+                      text={"Mettre la phrase au futur"}
+                      usage={"tense_future"}
+                    />
+                  </>
+                )}
+                <Separator />
+                <LegendItemButton
+                  icon={<FaCirclePlus size={20} />}
+                  text={"Mettre la phrase a la forme affirmative"}
+                  usage={"affirmative_form"}
                 />
                 <LegendItemButton
-                  icon={<FaTrashCan size={"1rem"} />}
+                  icon={<FaCircleMinus size={20} />}
+                  text={"Mettre la phrase a la forme négative"}
+                  usage={"negative_form"}
+                />
+                <Separator />
+                <LegendItemButton
+                  icon={<FaTrashCan size={20} />}
                   text={"Supprimer les mots et les pictogrammes sélectionnés"}
                   usage={"delete"}
                 />
@@ -84,6 +159,15 @@ const LayoutLegendModal = ({ isOpen, setIsOpen }) => {
 };
 
 export default LayoutLegendModal;
+
+const LegendDescription = ({ title, text }) => {
+  return (
+    <>
+      <h3 className="font-bold text-lg text-center">{title}</h3>
+      {text}
+    </>
+  );
+};
 
 const LegendItem = ({ icon, text, usage }) => {
   return (
@@ -108,7 +192,9 @@ const LegendItemButton = ({ icon, text, usage }) => {
   return (
     <div className="flex items-center gap-2">
       <span
-        className={`flex justify-center items-center text-white ${usage} w-6 h-6 border rounded-full`}
+        className={`flex justify-center items-center text-white ${
+          usage.split("_")[0]
+        } w-8 h-8 border rounded-full`}
       >
         {icon}
       </span>
