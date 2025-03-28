@@ -21,6 +21,8 @@ const SeanceBase = ({ questions, categories, seanceType }) => {
     setTense,
     form,
     setForm,
+    stepPlayId,
+    setSeanceType,
   } = useContext(SeanceContext);
 
   const fetch = async (entitytName, otherName, setState, id) => {
@@ -28,6 +30,7 @@ const SeanceBase = ({ questions, categories, seanceType }) => {
   };
 
   useEffect(() => {
+    setSeanceType(seanceType);
     setPhrase({
       text: "",
       words: Array(1).fill(null),
@@ -76,8 +79,22 @@ const SeanceBase = ({ questions, categories, seanceType }) => {
         setDraggedItem={setDraggedItem}
       />
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
-        <p className="flex text-xl justify-center items-center overflow-hidden h-8 xl:mx-auto rounded-xl">
-          {phraseToShow}
+        <p className="flex gap-2 text-xl justify-center items-center overflow-hidden h-8 xl:mx-auto rounded-xl">
+          {phraseToShow
+            .split(" ")
+            .filter((e) => e != "")
+            .map((w, i) => {
+              // console.log("stepPlayId from phrase", stepPlayId, "i", i, "w", w);
+              return (
+                <span
+                  key={i}
+                  id={`w-${i}`}
+                  className={`${stepPlayId == i ? "font-semibold" : ""}`}
+                >
+                  {w}
+                </span>
+              );
+            })}
         </p>
       </div>
       <div className="bg-pform flex flex-wrap justify-start px-8 py-2 mb-3 gap-3 xl:gap-0 rounded-2xl shadow-inset-5/5 border border-solid border-t-[#ffffff59] border-l-[#ffffff59] border-r-[#dedfe059] border-b-[#dedfe059]">
