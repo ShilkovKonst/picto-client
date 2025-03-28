@@ -69,7 +69,7 @@ export const processPhrase = (
           break;
         default:
           setPhraseToShow(
-            (phrase) => phrase + words[i]?.pictogram.title.toLowerCase()
+            (phrase) => phrase + words[i]?.pictogram.title.toLowerCase() + " "
           );
           break;
       }
