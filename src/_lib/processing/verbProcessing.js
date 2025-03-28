@@ -252,7 +252,7 @@ const formVerb = (picto, accordKey) => {
       if (i == 1 && isPronominal(verbSplitted[0])) {
         return verbing(word, picto, accordKey);
       }
-      return (form == "NEGATIVE" ? "ne " : "") + word;
+      return word;
     })
     .join(" ")
     .trim()
