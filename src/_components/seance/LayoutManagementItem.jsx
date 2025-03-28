@@ -1,5 +1,4 @@
-import { textToSpeech } from "@/_lib/textToSpeech";
-import { useState } from "react";
+import { textToSpeech, textToSpeechStep } from "@/_lib/textToSpeech";
 
 const LayoutManagementItem = ({
   icon,
@@ -10,21 +9,18 @@ const LayoutManagementItem = ({
   textTooltip,
   usage,
   setIsOpen,
-  selected
+  selected,
+  stepPlayId,
+  setStepPlayId,
 }) => {
-  const [stepNumber, setStepNumber] = useState(0);
+  const phraseSplitted = phrase?.split(" ")?.filter((e) => e != "");
   const handleClick = () => {
     switch (usage) {
       case "play":
         textToSpeech(phrase);
         break;
-      case "play_step":
-        let phraseSplit = phrase.split(" ");
-        if (stepNumber > phraseSplit.length) {
-          setStepNumber(0);
-        }
-        textToSpeech(phraseSplit[stepNumber]);
-        setStepNumber((prev) => ++prev);
+      case "step_play":
+        textToSpeechStep(phraseSplitted, stepPlayId, setStepPlayId);
         break;
       case "tense_past":
         setTense("PASSE");

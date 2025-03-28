@@ -10,13 +10,25 @@ import {
 import Separator from "../shared/Separator";
 import LayoutManagementItem from "./LayoutManagementItem";
 import { SeanceContext } from "@/_context/SeanceContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Image from "next/image";
 import images from "@/_constants/images";
 
-const LayoutManagement = ({ setIsOpen }) => {
-  const { phraseToShow, setPhrase, tense, setTense, form, setForm } =
-    useContext(SeanceContext);
+const LayoutManagement = ({
+  setIsOpen,
+  seanceType,
+  phraseToShow,
+  setPhrase,
+  tense,
+  setTense,
+  form,
+  setForm,
+  stepPlayId,
+  setStepPlayId,
+}) => {
+  useEffect(() => {
+    stepPlayId != 0 && setStepPlayId(0);
+  }, [phraseToShow]);
 
   return (
     <div className="flex flex-col justify-center items-center gap-3">
@@ -31,34 +43,44 @@ const LayoutManagement = ({ setIsOpen }) => {
         icon={<FaForwardStep size={"2rem"} />}
         textTooltip={"Lire la phrase constituée mot par mot"}
         phrase={phraseToShow}
+        stepPlayId={stepPlayId}
+        setStepPlayId={setStepPlayId}
         usage={"step_play"}
       />
-      <Separator />
       {/* tenses */}
-      <LayoutManagementItem
-        icon={<ImageIcon image={images.past.src} alt={images.past.alt} />}
-        textTooltip={"Mettre la phrase au passé"}
-        usage={"tense_past"}
-        tense={tense}
-        setTense={setTense}
-        selected={tense == "PASSE"}
-      />
-      <LayoutManagementItem
-        icon={<ImageIcon image={images.present.src} alt={images.present.alt} />}
-        textTooltip={"Mettre la phrase au présent"}
-        usage={"tense_present"}
-        tense={tense}
-        setTense={setTense}
-        selected={tense == "PRESENT"}
-      />
-      <LayoutManagementItem
-        icon={<ImageIcon image={images.future.src} alt={images.future.alt} />}
-        textTooltip={"Mettre la phrase au futur"}
-        usage={"tense_future"}
-        tense={tense}
-        setTense={setTense}
-        selected={tense == "FUTUR"}
-      />
+      {seanceType == "exchange" && (
+        <>
+          <Separator />
+          <LayoutManagementItem
+            icon={<ImageIcon image={images.past.src} alt={images.past.alt} />}
+            textTooltip={"Mettre la phrase au passé"}
+            usage={"tense_past"}
+            tense={tense}
+            setTense={setTense}
+            selected={tense == "PASSE"}
+          />
+          <LayoutManagementItem
+            icon={
+              <ImageIcon image={images.present.src} alt={images.present.alt} />
+            }
+            textTooltip={"Mettre la phrase au présent"}
+            usage={"tense_present"}
+            tense={tense}
+            setTense={setTense}
+            selected={tense == "PRESENT"}
+          />
+          <LayoutManagementItem
+            icon={
+              <ImageIcon image={images.future.src} alt={images.future.alt} />
+            }
+            textTooltip={"Mettre la phrase au futur"}
+            usage={"tense_future"}
+            tense={tense}
+            setTense={setTense}
+            selected={tense == "FUTUR"}
+          />
+        </>
+      )}
       <Separator />
       {/* affirmative/negative form */}
       <LayoutManagementItem
@@ -98,7 +120,7 @@ const LayoutManagement = ({ setIsOpen }) => {
 
 export default LayoutManagement;
 
-const ImageIcon = ({ image, alt }) => {
+export const ImageIcon = ({ image, alt }) => {
   return (
     <Image
       className="cursor-pointer"
